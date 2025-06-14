@@ -1,0 +1,9 @@
+build
+cmake-build-debug
+out
+obuild
+**/*.o
+**/*.obj
+.idea
+.vs
+CMakeLists.txt.user
