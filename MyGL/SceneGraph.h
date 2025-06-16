@@ -4,24 +4,26 @@
 #include "MyGL/ISceneGraph.h"
 
 namespace MyGL {
-    class IScene;
+	class IScene;
 
-    class IGraphicsObject;
+	class IGraphicsObject;
 
-    class SceneGraph : public ISceneGraph {
-    public:
-        SceneGraph(IScene *);
+	class SceneGraph : public ISceneGraph {
+	public:
+		SceneGraph(IScene*);
 
-        void updateCull();
+		void updateCull();
 
-        void endFrame();
+		void endFrame();
 
-        void addObjectEvent(IGraphicsObject *obj) override;
+		void addObjectEvent(IGraphicsObject* obj) override;
 
-        void delObjectEvent(IGraphicsObject *obj) override;
+		void delObjectEvent(IGraphicsObject* obj) override;
 
-        bool isObjectVisible(IGraphicsObject *obj) override;
-    };
+
+		// Í¨¹ý ISceneGraph ¼Ì³Ð
+		bool isObjectVisible(const IGraphicsObject* obj) const override;
+	};
 }
 
 

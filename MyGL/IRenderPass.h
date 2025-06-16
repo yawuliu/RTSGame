@@ -17,7 +17,9 @@ namespace MyGL {
 				Depth, // 深度通道
 				Color,// 颜色通道
 				AddBlend, // 叠加混合通道
-				Abstract// 抽象通道（可能用于扩展）
+				Abstract,// 抽象通道（可能用于扩展）
+				User,
+				VirtualTexturigPass
 			};
 		};
 

@@ -60,6 +60,8 @@ private:
 	void beginFrame(Mode);
 
 	void updateVisible(Mode m);
+
+
 };
 
 

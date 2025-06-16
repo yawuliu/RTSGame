@@ -5,12 +5,13 @@
 #include <MyGL/IUniform4f.h>
 
 namespace MyGL {
-    class IShader {
-    public:
-        MyGL::IUniform4f *uniform4f(const char *);
+	class IUniformSampler;
+	class IShader {
+	public:
+		MyGL::IUniform4f* uniform4f(const char*);
+		virtual IUniformSampler* getUniformSamplerByName(const char*) const = 0;
+	protected:
 
-    protected:
-        
-    };
+	};
 }
 

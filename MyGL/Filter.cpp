@@ -1,4 +1,6 @@
 #include "Filter.h"
+#include "IUniformSampler.h"
+#include "IShader.h"
 
 using namespace MyGL;
 

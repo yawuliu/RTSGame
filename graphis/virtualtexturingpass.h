@@ -12,7 +12,9 @@ namespace MyGL {
 class VirtualTexturingPass : public AbstractUserPass {
 public:
 	template<class T>
-	T drawObject(MyGL::ISceneGraph);
+	T drawObject(MyGL::ISceneGraph) {
+		return T();
+	}
 
 	VirtualTexturingPass();
 	VirtualTexturingPass(MyGL::IScene* s,
@@ -23,7 +25,7 @@ public:
 
 	void exec();
 
-	MyGL::Pass::Type type() const { return (MyGL::Pass::Type)UPass::VirtualTexturigPass; }
+	const MyGL::IRenderPass::Pass::Type& type() const;
 
 	static void setMapSize(int x, int y, int tw, int th);
 

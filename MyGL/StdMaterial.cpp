@@ -103,7 +103,7 @@ void StdMaterial::useDepthPass(bool enable) {
 void StdMaterial::useCullFace(bool enable) {
 	mUseCullFace = enable;
 	if (mState) {
-		mState->setCullFaceMode(enable ? IRenderState::CullMode::CullMode : IRenderState::CullMode(0));
+		mState->setCullFaceMode(enable ? IRenderState::CullMode::Cull : IRenderState::noCull);
 	}
 }
 

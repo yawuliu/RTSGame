@@ -255,7 +255,7 @@ getShadowShader(MyGL::GraphicsObject& obj,
 		macro.insert("PARTICLE");
 
 	if (SettingsWidget::settings.shadowQuality > 1 ||
-		obj.model()->cullInfo().radius() > 5)
+		obj.model()->cullInfo()->radius() > 5)
 		return Materials::instance().getShadowShader(macro); else
 		return 0;
 }
@@ -264,10 +264,10 @@ void GraphicsObject::setModelEvent(GameObject* obj) {
 	//model    = m;
 	//object[0].setModel( model );
 	if (object.model()) {
-		float sx = object.model()->cullInfo().maxX()
-			- object.model()->cullInfo().minX();
-		float sy = object.model()->cullInfo().maxY()
-			- object.model()->cullInfo().minY();
+		float sx = object.model()->cullInfo()->maxX()
+			- object.model()->cullInfo()->minX();
+		float sy = object.model()->cullInfo()->maxY()
+			- object.model()->cullInfo()->minY();
 
 		sx *= obj->getClass()->size[0];
 		sy *= obj->getClass()->size[1];

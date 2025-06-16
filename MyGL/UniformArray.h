@@ -1,4 +1,6 @@
 #pragma once
+#include <algorithm>
+#include <stdexcept>
 
 namespace MyGL {
 	template<typename T>

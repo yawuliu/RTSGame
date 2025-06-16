@@ -11,6 +11,7 @@ namespace MyGL {
 		void Bind(int textureUnit) override;
 		void Unbind() override;
 		const char* GetName() const override;
+		void setTexture(ITexture2d*) override;
 	};
 }
 

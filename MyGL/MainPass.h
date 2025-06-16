@@ -4,30 +4,30 @@
 #include "IRenderPass.h"
 
 namespace MyGL {
-    class IScene;
+	class IScene;
 
-    class IModel;
+	class IModel;
 
-    class Adapter;
+	class Adapter;
 
-    class IFrameBuffer;
+	class IFrameBuffer;
 
-    class MainPass : public IRenderPass {
-    public:
-        MainPass(IScene *s, const MyGL::Adapter *adapter, IModel *quad, int);
+	class MainPass : public IRenderPass {
+	public:
+		MainPass(IScene* s, const MyGL::Adapter* adapter, IModel* quad, int);
 
-        void makeAlgo(std::vector<IRenderPass *> &out,
-                      const MyGL::Adapter *adapter) override;
+		void makeAlgo(std::vector<IRenderPass*>& out,
+			const MyGL::Adapter* adapter);
 
-        void makeAlgo(const MyGL::Adapter *adapter) override;
+		void makeAlgo(const MyGL::Adapter* adapter);
 
-        IFrameBuffer *frameBuffer() override;
+		IFrameBuffer* frameBuffer();
 
-        const IRenderPass::Pass::Type &type() const override;
+		const IRenderPass::Pass::Type& type() const override;
 
-        IModel *quadModel();
+		IModel* quadModel();
 
-    protected:
-        IModel *mQuad;
-    };
+	protected:
+		IModel* mQuad;
+	};
 }

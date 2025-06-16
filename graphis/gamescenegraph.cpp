@@ -49,7 +49,7 @@ bool GameSceneGraph::isObjectVisible(const MyGL::IGraphicsObject* obj) const {
 	//        obj.y() < testRect[0][1] && obj.y() > testRect[1][1] )
 	//      return 1;
 
-	float d = obj->modelInfo().radius();
+	float d = obj->modelInfo()->radius();
 	if (obj->x() > testRect[0][0] - d && obj->x() < testRect[1][0] + d &&
 		obj->y() > testRect[0][1] - d && obj->y() < testRect[1][1] + d)
 		return 1;
@@ -132,6 +132,8 @@ void GameSceneGraph::updateVisible(Mode m) {
 	// visObj.resize( visObj.size()/2 );
 }
 
+
+
 bool GameSceneGraph::compare(const MyGL::IGraphicsObject* ag,
 	const MyGL::IGraphicsObject* bg) {
 	static const float k = 0.01;
@@ -151,11 +153,11 @@ bool GameSceneGraph::compareSh(const MyGL::IGraphicsObject* ag,
 }
 
 float GameSceneGraph::size(const MyGL::IGraphicsObject* ag) {
-	const MyGL::IModelInfo& a = ag->modelInfo();
+	const MyGL::IModelInfo* a = ag->modelInfo();
 
-	return (a.maxX() - a.minX()) *
-		(a.maxY() - a.minY()) *
-		(a.maxZ() - a.minZ());
+	return (a->maxX() - a->minX()) *
+		(a->maxY() - a->minY()) *
+		(a->maxZ() - a->minZ());
 
 }
 

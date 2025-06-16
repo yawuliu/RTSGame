@@ -102,7 +102,7 @@ private:
 	ShowHint hintObject;
 
 	MyGL::Camera* camera;
-	GameScene* scene;
+	GameScene* scene{ nullptr };
 	ScreenHudRender hudRender;
 	TextureFactory textureFactory;
 

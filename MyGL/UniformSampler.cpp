@@ -21,4 +21,8 @@ const char* UniformSampler::GetName() const {
 	return "UniformSampler";
 }
 
+void MyGL::UniformSampler::setTexture(ITexture2d*)
+{
+}
+
 

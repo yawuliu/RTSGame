@@ -19,11 +19,7 @@
 using namespace MyGL;
 
 
-template<class T>
-inline T VirtualTexturingPass::drawObject(MyGL::ISceneGraph)
-{
-	return T();
-}
+
 
 
 class VirtualTexturingPass::Data {
@@ -116,9 +112,9 @@ void VirtualTexturingPass::exec() {
 
 	MyGL::ISceneGraph::Visibles obj(scene()->graph());
 
-	for (int i = 0; i < obj.size(); ++i) {
-		drawObject<VirtualTexturingPass>(*obj[i]);
-	}
+	//for (int i = 0; i < obj.size(); ++i) {
+	//	drawObject<VirtualTexturingPass>(*obj[i]);
+	//}
 
 	scene()->render()->end();
 
@@ -175,4 +171,9 @@ void VirtualTexturingPass::paintLand() {/*
 void VirtualTexturingPass::setMapSize(int x, int y, int tw, int th) {
 	if (inst->data->scale)
 		inst->data->scale->set(x / 4.0, y / 4.0, tw, th);
+}
+
+
+const MyGL::IRenderPass::Pass::Type& VirtualTexturingPass::type() const {
+	return MyGL::IRenderPass::Pass::VirtualTexturigPass;
 }

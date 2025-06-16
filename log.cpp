@@ -2,16 +2,16 @@
 
 #include <iostream>
 
-std::fstream Log::fout("./log.txt", std::fstream::out);
+std::fstream* Log::fout = new std::fstream("./log.txt", std::fstream::out);
 
-Log::Log(){
+Log::Log() {
 
-  }
+}
 
-Log::~Log(){
-  fout << std::endl;
-  }
+Log::~Log() {
+	*fout << std::endl;
+}
 
-std::fstream& Log::outStream(){
-  return fout;
-  }
+std::fstream* Log::outStream() {
+	return fout;
+}

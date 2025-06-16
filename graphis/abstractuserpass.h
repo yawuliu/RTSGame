@@ -8,7 +8,7 @@ class AbstractUserPass : public MyGL::AbstractPass {
 public:
 	AbstractUserPass(MyGL::IScene* s);
 
-	virtual MyGL::Pass::Type type() const { return MyGL::Pass::User; }
+	const MyGL::IRenderPass::Pass::Type& type() const override;
 
 	MyGL::IScene* scene();
 
