@@ -1,38 +1,87 @@
 #pragma once
+#include <MyGL/Data.h>
+#include <MyGL/CGL.h>
 #include <MyGL/ICamera.h>
 
 namespace MyGL {
-	class Camera :public ICamera
-	{
+	class Camera : public ICamera {
 	public:
 		Camera();
 
-		void setPos(float x, float y, float z) override;
+		virtual ~Camera();
 
-		float x() const override;
+		Float distance();
 
-		float y() const override;
+		bool isPrespective();
 
-		float z() const override;
+		CGL::GLdouble* modelProjectiveMatrix();
 
-		float rotXY() const override;
+		void move(Float x, Float y);
 
-		float rotXZ() const override;
+		void normalization(CGL::GLdouble* const X,
+			CGL::GLdouble* const Y,
+			CGL::GLdouble* const Z,
+			CGL::GLdouble* const D);
 
-		float distance() const override;
+		Camera* operator=(const Camera& c);
 
-		void setAngles(float x, float y) override;
+		CGL::GLdouble po(CGL::GLdouble x,
+			CGL::GLdouble y,
+			CGL::GLdouble z,
+			CGL::GLdouble X,
+			CGL::GLdouble Y,
+			CGL::GLdouble Z,
+			CGL::GLdouble D);
 
-		void setDistance(float) override;
+		Float rotXY();
 
-		void move(float x, float y) override;
+		Float rotXZ();
+
+		void setAngles(Float rotXY, Float rotXZ, Float ani);
+
+		void setDistance(Float d, Float ani);
+
+		void setPos(
+
+			Float x1,
+			Float y1,
+			Float z1,
+			Float ani);
+
+		void setPrespective(bool perspective);
+
+		void setZoom(Float zoom);
+
+		void updateCull();
+
+		void updateGL();
+
+		Float x();
+
+		Float y();
+
+		Float z();
+
+		Float zoom();
+
 	protected:
-		float m_x;
-		float m_y;
-		float m_z;
-		float m_distance;
-		float m_rotXY;
-		float m_rotXZ;
+		Float px;
+		Float py;
+		Float pz;
+		Float vxy;
+		Float vxz;
+		Float zm;
+		Float dist;
+		bool usePrespective;
+		//00000041     // padding byte
+		//	00000042     // padding byte
+		//	00000043     // padding byte
+		//	00000044     // padding byte
+		//	00000045     // padding byte
+		//	00000046     // padding byte
+		//	00000047     // padding byte
+		double model_proj[16];
+		double cullM[6][4];
 	};
 }
 

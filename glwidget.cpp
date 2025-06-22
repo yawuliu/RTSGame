@@ -82,10 +82,10 @@ GLWidget::GLWidget(MainWindow* w, QWidget* parent) :
 		QGLFormat(QGL::SampleBuffers),
 #endif //DEBUG
 		parent),
-	hudRender(scene),
-	textureFactory(scene),
-	game(scene, 0),
-	materials(scene) {
+	hudRender(&scene),
+	textureFactory(&scene),
+	game(&scene, 0),
+	materials(&scene) {
 	inst = this;
 
 	shAngle = M_PI - M_PI / 4.0;
@@ -97,10 +97,10 @@ GLWidget::GLWidget(MainWindow* w, QWidget* parent) :
 	connect(timer, SIGNAL(timeout()),
 		this, SLOT(gameTick()));
 
-    // connect(paintTimer, SIGNAL(timeout()),
-    // 	this, SLOT(updateGL()));
+	// connect(paintTimer, SIGNAL(timeout()),
+	// 	this, SLOT(updateGL()));
 
-	scene->render()->gl()->errorCtrl()->setOutputStream(Log::outStream());
+	scene.render()->gl()->errorCtrl()->setOutputStream(Log::outStream());
 
 	currKey = 0;
 	isRotation = 0;
@@ -138,9 +138,9 @@ GLWidget::~GLWidget() {
 	delete timer;
 	delete paintTimer;
 
-	if (scene->render()->isActive()) {
+	if (scene.render()->isActive()) {
 		game.freeGPUData();
-		scene->finitGL();
+		scene.finitGL();
 	}
 }
 
@@ -161,11 +161,11 @@ void GLWidget::setLayCtrl(QLayout* l) {
 }
 
 void GLWidget::initializeGL() {
-	if (scene->render()->wasInit())
+	if (scene.render()->wasInit())
 		return;
 
 
-	if (!scene->initGL()) {
+	if (!scene.initGL()) {
 		QMessageBox m;
 		m.setText("OpenGL 2.1 need");
 		m.exec();
@@ -176,28 +176,28 @@ void GLWidget::initializeGL() {
 
 	setFocus();
 
-	scene->textureLoader()->setLoadFileCallBack(loadTexture);
-	scene->shaderLoader()->setEnvironment(&shaderEnv);
+	scene.textureLoader()->setLoadFileCallBack(loadTexture);
+	scene.shaderLoader()->setEnvironment(&shaderEnv);
 
 	MyGL::DataLoader::IAllocator<MyGL::IShader>* allocator =
 		new MyGL::DataLoader::Allocator<QtShader, MyGL::IShader>();
-	scene->loader()->setShaderAllocator(allocator);
+	scene.loader()->setShaderAllocator(allocator);
 
-	scene->render()->clearColor(MyGL::Color(0.0, 0.6, 0.8, 0.0));
+	scene.render()->clearColor(MyGL::Color(0.0, 0.6, 0.8, 0.0));
 
-	MyGL::MyGL_XmlData xml(scene);
+	MyGL::MyGL_XmlData xml(&scene);
 	// scene.shaderLoader().enviroment()->push("LIGHT_DEBUG", "");
 
 	xml.load("./data/data.xml");
-	scene->createRenderAlgo();
+	scene.createRenderAlgo();
 
 	game.initializeGL();
 	hudRender.initGl();
 	ShowHint::instance().background
 		= QPixmap::fromImage(*Pixmaps::get("infoPanel"));
 
-	scene->render()->setZRange(0.1, 500);
-	scene->render()->setCamera(camera);
+	scene.render()->setZRange(0.1, 500);
+	scene.render()->setCamera(camera);
 
 	camera->setPos(0, 0, 1);
 	camera->setAngles(-35, 180);
@@ -205,7 +205,7 @@ void GLWidget::initializeGL() {
 
 	camera->setDistance(20);
 
-	MyGL::Light* l = new MyGL::Light(scene->lights());
+	MyGL::Light* l = new MyGL::Light(scene.lights());
 	l->setShadowCast(1);
 	l->setDirection(1, 1, -3);
 
@@ -245,7 +245,7 @@ void GLWidget::paintGL() {
 	makeCurrent();
 	checkGL();
 
-	if (!scene->render()->wasInit())
+	if (!scene.render()->wasInit())
 		return;
 
 	setFocus();
@@ -259,15 +259,15 @@ void GLWidget::paintGL() {
 	ideEvents();
 
 	//scene.lights().at(0).setDirection( 0, 0, -2 );
-	scene->lights()[0]->setDirection(sin(shAngle), cos(shAngle), -2.0);
+	scene.lights()[0]->setDirection(sin(shAngle), cos(shAngle), -2.0);
 	//shAngle+=M_PI*2.0/180.0;
 
 	QElapsedTimer timer;
-	scene->render()->resetCounters();
+	scene.render()->resetCounters();
 	timer.start();
 
-	scene->render()->clear(MyGL::IRender::clearDepthBit);
-	scene->draw();
+	scene.render()->clear(MyGL::IRender::clearDepthBit);
+	scene.draw();
 
 	if (selRect.isStarted()) {
 		hudRender.drawSelRect(selRect.rect(mouseCoords2d),
@@ -285,9 +285,9 @@ void GLWidget::paintGL() {
 	swapBuffers();
 
 	//qDebug() << "dips = " << scene.render().dipCount();
-	displayDipCount(scene->render()->dipCount(),
+	displayDipCount(scene.render()->dipCount(),
 		timer.elapsed(),
-		scene->render()->batchCount());
+		scene.render()->batchCount());
 }
 
 void GLWidget::paint2d() {
@@ -384,15 +384,15 @@ void GLWidget::debugPaint() {
 }
 
 void GLWidget::resizeGL(int width, int height) {
-	scene->render()->setViewport(0, 0, width, height);
+	scene.render()->setViewport(0, 0, width, height);
 }
 
 void GLWidget::checkErrors() {
-	std::string lastError = scene->render()->getError();
+	std::string lastError = scene.render()->getError();
 
 	while (lastError.size()) {
 		qDebug() << "error: " << lastError.data();
-		lastError = scene->render()->getError();
+		lastError = scene.render()->getError();
 	}
 }
 
@@ -599,16 +599,16 @@ void GLWidget::moveCamera() {
 	if (camera->y() > game.map.heightf())
 		camera->setPos(camera->x(), game.map.heightf(), camera->z());
 
-	for (int i = 0; i < scene->lights().size(); ++i) {
-		scene->lights()[i]->setPosition(camera->x(), camera->y(), camera->z());
+	for (int i = 0; i < scene.lights().size(); ++i) {
+		scene.lights()[i]->setPosition(camera->x(), camera->y(), camera->z());
 	}
 
-	updateMouseCoords(0, 0, scene->getSceneGraph()->gameViewRect[0]);
-	updateMouseCoords(width(), 0, scene->getSceneGraph()->gameViewRect[1]);
+	updateMouseCoords(0, 0, scene.getSceneGraph()->gameViewRect[0]);
+	updateMouseCoords(width(), 0, scene.getSceneGraph()->gameViewRect[1]);
 	updateMouseCoords(width(), height(),
-		scene->getSceneGraph()->gameViewRect[2]);
+		scene.getSceneGraph()->gameViewRect[2]);
 	updateMouseCoords(0, height(),
-		scene->getSceneGraph()->gameViewRect[3]);
+		scene.getSceneGraph()->gameViewRect[3]);
 }
 
 void GLWidget::updateMouseCoords(int mx, int my, double* out) {
@@ -621,12 +621,12 @@ void GLWidget::updateMouseCoords(int mx, int my, double* out) {
 
 	{
 		MyGL::Float getM[16];
-		scene->render()->getModeViewlMatrix(getM);
+		scene.render()->getModeViewlMatrix(getM);
 		for (int i = 0; i < 16; ++i) {
 			mvMatrix[i] = getM[i];
 		}
 
-		scene->render()->getProjectionMatrix(getM);
+		scene.render()->getProjectionMatrix(getM);
 		for (int i = 0; i < 16; ++i) {
 			ProjMatrix[i] = getM[i];
 		}
@@ -688,7 +688,7 @@ GLObject* GLWidget::addObject(const std::string& s) {
 	delObject(GLObject::ideObject);
 
 	if (s.size()) {
-		GLObject::ideObject = new GLObject(scene, s);
+		GLObject::ideObject = new GLObject(&scene, s);
 		game.add(GLObject::ideObject);
 		GLObject::ideObject->setPlayler(curIdePl);
 
@@ -736,7 +736,7 @@ void glInit() {
 }
 
 void GLWidget::checkGL() {
-	if (scene->render()->wasInit())
+	if (scene.render()->wasInit())
 		return;
 	glInit();
 }

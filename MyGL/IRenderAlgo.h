@@ -1,23 +1,12 @@
 #pragma once
 
-#include "MyGL/IScene.h"
+#include "MyGL/IRenderPass.h"
 
 namespace MyGL {
-    class Adapter;
+	class IRenderAlgo : public IRenderPass {
+	public:
+		IRenderAlgo() = default;
 
-    class IRenderAlgo : public IScene {
-    public:
-        void makeAlgo(const MyGL::Adapter *adapter);
-
-        void setBloom(bool);
-
-        void setShadowPass(bool);
-
-        IScene *scene() const;
-
-    protected:
-        IScene *mScene;
-        bool mBloom;
-        bool mShadowPass;
-    };
+		virtual ~IRenderAlgo() = default;
+	};
 }

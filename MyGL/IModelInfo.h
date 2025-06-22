@@ -3,6 +3,10 @@
 namespace MyGL {
     class IModelInfo {
     public:
+        IModelInfo() = default;
+
+        virtual ~IModelInfo() = default;
+
         virtual float radius() const = 0;
 
         virtual float maxX() const = 0;

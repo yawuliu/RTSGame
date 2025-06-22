@@ -1,29 +1,51 @@
 #pragma once
 
 #include <vector>
-#include "MyGL/ISceneGraph.h"
+#include "IScene.h"
+#include "ISceneGraph.h"
+#include "IRenderPass.h"
+#include "IGraphicsObject.h"
+
 
 namespace MyGL {
-	class IScene;
+    class SceneGraph : public ISceneGraph {
+    public:
+        SceneGraph(IScene &s);
 
-	class IGraphicsObject;
+        virtual ~SceneGraph() = default;
 
-	class SceneGraph : public ISceneGraph {
-	public:
-		SceneGraph(IScene*);
+        void addObjectEvent(IGraphicsObject &a2);
 
-		void updateCull();
+        void beginFrame(IRenderPass &a2);
 
-		void endFrame();
+        void beginFrame();
 
-		void addObjectEvent(IGraphicsObject* obj) override;
+        void delObjectEvent(IGraphicsObject &a2);
 
-		void delObjectEvent(IGraphicsObject* obj) override;
+        void endFrame();
 
+        void getGl();
 
-		// Í¨¹ý ISceneGraph ¼Ì³Ð
-		bool isObjectVisible(const IGraphicsObject* obj) const override;
-	};
+        bool isObjectVisible(const IGraphicsObject &obj);
+
+        void normalization(double &X, double &Y, double &Z, double &D);
+
+        double po(double x, double y, double z, double X, double Y, double Z, double D);
+
+        void updateCull();
+
+        void updateVisible();
+
+        IGraphicsObject *visible(int num);
+
+        int visiblesCount();
+
+    protected:
+        double model_proj[16];
+        double cullM[6][4];
+        IScene &scene;
+        std::vector<IGraphicsObject *> visObj;
+    };
 }
 
 

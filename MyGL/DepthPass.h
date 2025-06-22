@@ -1,14 +1,22 @@
 #pragma once
 
-#include <MyGL/IRenderPass.h>
+#include <MyGL/AbstractPass.h>
 
 namespace MyGL {
-    class IScene;
+	class IScene;
 
-    class DepthPass : public IRenderPass {
-    public:
-        DepthPass(IScene *);
+	class IGraphicsObject;
 
-        const IRenderPass::Pass::Type &type() const override;
-    };
+	class DepthPass : public AbstractPass {
+	public:
+		DepthPass(IScene& s);
+
+		virtual ~DepthPass();
+
+		void exec();
+
+		bool isDrawable(IGraphicsObject& obj);
+
+		IRenderPass::Pass::Type type();
+	};
 }

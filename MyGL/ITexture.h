@@ -1,19 +1,74 @@
 #pragma once
 
+#include <MyGL/DisableCopy.h>
+
 namespace MyGL {
-	class ITexture {
-	public:
-		enum InputFormat {
-			RGBA8,
-			RGB8
-		};
-		enum FilterType {
-			Linear,
-			Nearest
-		};
-		enum Format {
-			RGBA_DXT5,
-			RGBA16
-		};
-	};
+    class ITexture : public DisableCopy {
+    public:
+        ITexture() = default;
+
+        virtual ~ITexture() = default;
+
+    public:
+        class InputFormat {
+        public:
+            enum Type {
+                Luminance8 = 0x0,
+                RGB8 = 0x1,
+                RGBA8 = 0x2,
+                Depth = 0x3,
+                Count = 0x4,
+            };
+        };
+
+        class ClampMode {
+        public:
+            enum Type {
+                Clamp = 0x0,
+                ClampToBorder = 0x1,
+                ClampToEdge = 0x2,
+                MirroredRepeat = 0x3,
+                Repeat = 0x4,
+                Count = 0x5,
+            };
+        };
+
+        class FilterType {
+        public:
+            enum Type {
+                Nearest = 0x0,
+                Linear = 0x1,
+                Count = 0x2,
+            };
+        };
+
+        class Format {
+        public:
+            enum Type {
+                Luminance = 0x0,
+                Luminance4 = 0x1,
+                Luminance8 = 0x2,
+                Luminance16 = 0x3,
+                RGB = 0x4,
+                RGB4 = 0x5,
+                RGB5 = 0x6,
+                RGB10 = 0x7,
+                RGB12 = 0x8,
+                RGB16 = 0x9,
+                RGBA = 0xA,
+                RGBA8 = 0xB,
+                RGB10_A2 = 0xC,
+                RGBA12 = 0xD,
+                RGBA16 = 0xE,
+                RGB_DXT1 = 0xF,
+                RGBA_DXT1 = 0x10,
+                RGBA_DXT3 = 0x11,
+                RGBA_DXT5 = 0x12,
+                Depth16 = 0x13,
+                Depth24 = 0x14,
+                Depth32 = 0x15,
+                Count = 0x16,
+            };
+        };
+    };
 }

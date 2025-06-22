@@ -1,14 +1,9 @@
 #include "abstractuserpass.h"
 
-using namespace MyGL;
+AbstractUserPass::AbstractUserPass(MyGL::IScene& s) : MyGL::AbstractPass(s) {}
 
-AbstractUserPass::AbstractUserPass(IScene* s) : AbstractPass(s) {}
-
-const MyGL::IRenderPass::Pass::Type& AbstractUserPass::type() const
+MyGL::IRenderPass::Pass::Type AbstractUserPass::type()
 {
 	return MyGL::IRenderPass::Pass::User;
 }
 
-MyGL::IScene* AbstractUserPass::scene() {
-	return nullptr;
-}

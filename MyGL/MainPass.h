@@ -1,33 +1,53 @@
 #pragma once
 
 #include <vector>
-#include "IRenderPass.h"
+#include <MyGL/IScene.h>
+#include <MyGL/IModel.h>
+#include <MyGL/IIOModel.h>
+#include <MyGL/IOModel.h>
+#include <MyGL/IRender.h>
+#include <MyGL/TextureRectangle.h>
+#include <MyGL/AbstractPass.h>
+#include <MyGL/FBO.h>
 
 namespace MyGL {
-	class IScene;
+    class Adapter;
 
-	class IModel;
+    class MainPass : public AbstractPass {
+    public:
+        MainPass(IScene &s, const Adapter &adapter, IModel *q, bool autoMake);
 
-	class Adapter;
+        virtual ~MainPass();
 
-	class IFrameBuffer;
+        void buildQuad(int w, int h);
 
-	class MainPass : public IRenderPass {
-	public:
-		MainPass(IScene* s, const MyGL::Adapter* adapter, IModel* quad, int);
+        ITextureRectangle *depthBuffer();
 
-		void makeAlgo(std::vector<IRenderPass*>& out,
-			const MyGL::Adapter* adapter);
+        void draw();
 
-		void makeAlgo(const MyGL::Adapter* adapter);
+        void exec();
 
-		IFrameBuffer* frameBuffer();
+        FBO *frameBuffer();
 
-		const IRenderPass::Pass::Type& type() const override;
+        void makeAlgo(const Adapter &adapter);
 
-		IModel* quadModel();
+        void makeAlgo(MainPass &mp, std::vector<IRenderPass *> &passes, const Adapter &adapter);
 
-	protected:
-		IModel* mQuad;
-	};
+        ITextureRectangle *output();
+
+        IModel *quadModel();
+
+        void resizeFrame();
+
+        void setPoint(float *p, float x, float y);
+
+        IRenderPass::Pass::Type type();
+
+    protected:
+        IModel *quad;
+        FBO *m_frameBuffer;
+        ITextureRectangle *frame;
+        ITextureRectangle *depth;
+        std::vector<IRenderPass *> passes;
+    };
 }

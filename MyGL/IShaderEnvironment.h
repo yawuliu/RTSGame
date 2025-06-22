@@ -1,10 +1,15 @@
 #pragma once
 
 #include <string>
+#include <MyGL/DisableCopy.h>
 
 namespace MyGL {
-    class IShaderEnvironment {
+    class IShaderEnvironment : public DisableCopy {
     public:
+        IShaderEnvironment() = default;
+
+        virtual ~IShaderEnvironment() = default;
+
         virtual void pop(const std::string &) = 0;
 
         virtual void push(const std::string &, const std::string &) = 0;

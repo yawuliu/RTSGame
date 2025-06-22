@@ -1,45 +1,105 @@
 #pragma once
 
-#include <MyGL/IScene.h>
-#include <QList>
 #include <map>
 #include <string>
+#include "IData.h"
+#include <MyGL/IScene.h>
+#include <MyGL/LightsCollection.h>
+#include <MyGL/IObjectCollection.h>
+#include <MyGL/ObjectCollection.h>
+#include <MyGL/IRenderAlgoSettings.h>
+
 
 namespace MyGL {
-	class CGL;
+    class CGL;
 
-	class Scene : public IScene {
-	public:
-		Scene(CGL*);
+    class Scene : public IScene {
+    public:
+        Scene(CGL *gl);
 
-		// Í¨¹ý IScene ¼Ì³Ð
-		IScene* dataControl() override;
-		ITexture2d* texture(const std::string& name) override;
-		IModel* model(const std::string& name) override;
-		IShader* shader(const std::string& name) override;
-		QList<Light*> lights() override;
-		IRender* render() override;
-		ITextureLoader* textureLoader() override;
-		IShaderLoader* shaderLoader() override;
-		IShader* addShader(const QString&, const QString&, const QString&) override;
-		void draw() override;
-		IShaderLoader* loader() override;
-		QList<IGraphicsObject*> objects() override;
-		void createRenderAlgo() override;
-		ISceneGraph* graph() override;
-		MyGL::ITexture2d* addTexture(std::string, MyGL::ITexture2d*) override;
-	private:
-		CGL* m_cgl;
-		QList<Light*> m_lights;
-		QList<IGraphicsObject*> m_objects;
-		IRender* m_render;
-		ITextureLoader* m_textureLoader;
-		IShaderLoader* m_shaderLoader;
-		ISceneGraph* m_graph;
-		std::map<std::string, ITexture2d*> m_textures;
-		std::map<std::string, IModel*> m_models;
-		std::map<std::string, IShader*> m_shaders;
-	};
+        Scene(IRender &r);
+
+        virtual ~Scene();
+
+        ILightsCollection *allocLightsCollection(Scene &s);
+
+        void allocLoaders();
+
+        IModelLoader *allocModelLoader();
+
+        IObjectCollection *allocObjectCollection(Scene &s);
+
+        IRenderAlgo *allocRenderAlgo(Scene &s);
+
+        ISceneGraph *allocSceneGraph(Scene &s);
+
+        IShaderLoader *allocShaderLoader();
+
+        ITextureLoader *allocTextureLoader();
+
+        void changeObject(IGraphicsObject &o, IMaterial &m);
+
+        void createRenderAlgo();
+
+        IData *dataControl();
+
+        void draw();
+
+        void finitGL();
+
+        ISceneGraph *graph();
+
+        void init();
+
+        bool initGL();
+
+        void initLightsCollection();
+
+        void insertObject(IGraphicsObject &o);
+
+        ILightsCollection *lights();
+
+        IDataLoader *loader();
+
+        IModelLoader *modelLoader();
+
+        IObjectCollection *objects();
+
+        void recreateRenderAlgo(Scene &s);
+
+        void removeObject(IGraphicsObject &o);
+
+        IRender *render();
+
+        IRenderAlgoSettings *settings();
+
+        IShaderLoader *shaderLoader();
+
+        ITextureLoader *textureLoader();
+
+        void upsetCameraEvent(IRender &a2);
+
+        void upsetLight();
+
+    protected:
+        ITextureLoader *texLoader;
+        IShaderLoader *shLoader;
+        IModelLoader *mLoader;
+        IRenderAlgo *renderAlgo;
+        ISceneGraph *sceneGraph;
+        IObjectCollection *obj;
+        ILightsCollection *light;
+        IRender *mrender;
+        bool auto_render;
+        //             // padding byte
+        //        0000004A     // padding byte
+        //        0000004B     // padding byte
+        //        0000004C     // padding byte
+        //        0000004D     // padding byte
+        //        0000004E     // padding byte
+        //        0000004F     // padding byte
+        IData *dataL;
+    };
 }
 
 

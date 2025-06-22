@@ -118,7 +118,6 @@ qt_add_executable(Game WIN32 MACOSX_BUNDLE
         MyGL/Color.cpp
         MyGL/ColorPass.cpp
         MyGL/IErrorControl.cpp
-        MyGL/IFrameBuffer.cpp
         MyGL/IGraphicsObject.cpp
         MyGL/DataLoader.cpp
         MyGL/DepthPass.cpp
@@ -150,7 +149,6 @@ qt_add_executable(Game WIN32 MACOSX_BUNDLE
         MyGL/ShaderEnvironment.cpp
         MyGL/ShaderLoader.cpp
         MyGL/ShadowPass.cpp
-        MyGL/SSAO.cpp
         MyGL/SSAOpass.cpp
         MyGL/StdMaterial.cpp
         MyGL/StdTechnique.cpp
@@ -177,6 +175,43 @@ qt_add_executable(Game WIN32 MACOSX_BUNDLE
         MyGL/DataStream.cpp
         MyGL/Data.cpp
         MyGL/IRenderAlgo.cpp
+        MyGL/DisableCopy.cpp
+        MyGL/ErrorControl.cpp
+        MyGL/privateGLSupportClass.cpp
+        MyGL/privateGLSupportClass.h
+        MyGL/Render.cpp
+        MyGL/IDataLoader.cpp
+        MyGL/IDataLoader.h
+        MyGL/AbstractMaterial.cpp
+        MyGL/AbstractMaterial.h
+        MyGL/IIOModel.cpp
+        MyGL/IIOModel.h
+        MyGL/IUniform.cpp
+        MyGL/IUniform.h
+        MyGL/IModelLoader.cpp
+        MyGL/LightsCollection.cpp
+        MyGL/IUniformArray.cpp
+        MyGL/IUniformArray.h
+        MyGL/ILight.cpp
+        MyGL/ILight.h
+        MyGL/IRenderAlgoSettings.cpp
+        MyGL/IRenderAlgoSettings.h
+        MyGL/IFBO.cpp
+        MyGL/IFBO.h
+        MyGL/ModelInfo.cpp
+        MyGL/ModelInfo.h
+        MyGL/RenderState.cpp
+        MyGL/RenderState.h
+        MyGL/ObjectCollection.cpp
+        MyGL/ObjectCollection.h
+        MyGL/AbstractTechnique.cpp
+        MyGL/AbstractTechnique.h
+        MyGL/BloomPass.cpp
+        MyGL/SmallLightsPass.cpp
+        MyGL/VolumetricLightScatteringPass.cpp
+        MyGL/VBO.cpp
+        MyGL/VBO.h
+        MyGL/LincPass.cpp
 )
 target_include_directories(Game PRIVATE
         .
@@ -208,10 +243,10 @@ install(TARGETS Game
 )
 
 set_target_properties(Game
-    PROPERTIES
-    ARCHIVE_OUTPUT_DIRECTORY "${CMAKE_SOURCE_DIR}/build/lib"
-    LIBRARY_OUTPUT_DIRECTORY "${CMAKE_SOURCE_DIR}/build/lib"
-    RUNTIME_OUTPUT_DIRECTORY "${CMAKE_SOURCE_DIR}/build/bin"
+        PROPERTIES
+        ARCHIVE_OUTPUT_DIRECTORY "${CMAKE_SOURCE_DIR}/build/lib"
+        LIBRARY_OUTPUT_DIRECTORY "${CMAKE_SOURCE_DIR}/build/lib"
+        RUNTIME_OUTPUT_DIRECTORY "${CMAKE_SOURCE_DIR}/build/bin"
 )
 
 set_target_properties(Game PROPERTIES
@@ -220,9 +255,9 @@ set_target_properties(Game PROPERTIES
 )
 
 qt_generate_deploy_app_script(
-    TARGET Game
-    OUTPUT_SCRIPT deploy_script
-    NO_UNSUPPORTED_PLATFORM_ERROR
+        TARGET Game
+        OUTPUT_SCRIPT deploy_script
+        NO_UNSUPPORTED_PLATFORM_ERROR
 )
 install(SCRIPT ${deploy_script})
 
@@ -238,6 +273,6 @@ find_program(WINDEPLOYQT_EXECUTABLE windeployqt HINTS "${QT_BIN_DIR}")
 
 # Run windeployqt immediately after build
 add_custom_command(TARGET Game
-    POST_BUILD
-    COMMAND "${WINDEPLOYQT_ENV_SETUP}" && "${WINDEPLOYQT_EXECUTABLE}" "$<TARGET_FILE:Game>"
+        POST_BUILD
+        COMMAND "${WINDEPLOYQT_ENV_SETUP}" && "${WINDEPLOYQT_EXECUTABLE}" "$<TARGET_FILE:Game>"
 )

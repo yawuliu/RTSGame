@@ -1,41 +1,71 @@
 #pragma once
 
-#include "MyGL/IModel.h"
+#include "ModelInfo.h"
+#include "IModel.h"
+#include "VBO.h"
+
 
 namespace MyGL {
     class IRender;
 
     class Model : public IModel {
     public:
-        Model(IRender *);
+        class DataContent {
+        public:
+            enum flags {
+                vertex = 0x1,
+                texture = 0x2,
+                normal = 0x4,
+                extraData = 0x8,
+            };
+        };
 
-        IVBO::PrimitiveType primitiveType() override;
+    public:
+        Model(IRender &r);
 
-        IModelInfo *cullInfo() override;
+        virtual ~Model();
 
-        void setPrimitivesType(IVBO::PrimitiveType) override;
+        void allocate(size_t s);
 
-        void allocate(size_t) override;
+        void bind();
+
+        Model::DataContent::flags content();
+
+        const IModelInfo *cullInfo();
+
+        void draw(bool binded);
+
+        void drawInstance(int Isize, CGL::GLint *fist, CGL::GLsizei *count, bool binded);
+
+        IVBO *extraBuffer();
+
+        void free();
+
+        void load(IIOModel &m);
+
+        IVBO *normalBuffer();
+
+        IVBO::PrimitiveType::Type primitiveType();
+
+        void setPrimitivesType(IVBO::PrimitiveType::Type t);
+
+        IVBO *textureBuffer();
+
+        void uBind();
 
         void unsetCullInfo();
 
-        MyGL::IVBO *vertexBuffer() const;
-
-        MyGL::IVBO *textureBuffer() const;
-
-        MyGL::IVBO *normalBuffer() const;
-
-        MyGL::IVBO *extraBuffer() const;
+        IVBO *vertexBuffer();
 
     protected:
-        IRender *mRender;
-        IModelInfo *mCullInfo;
-        IVBO::PrimitiveType mPrimitiveType;
-        MyGL::IVBO *mVertexBuffer;
-        MyGL::IVBO *mTextureBuffer;
-        MyGL::IVBO *mNormalBuffer;
-        MyGL::IVBO *mExtraBuffer;
-
+        IRender &render;
+        VBO vert;
+        VBO tex;
+        VBO norm;
+        VBO extra;
+        IVBO::PrimitiveType::Type type;
+        CGL::GLuint size;
+        ModelInfo *mCullInform;
     };
 }
 

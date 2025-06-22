@@ -1,21 +1,46 @@
 #pragma once
 
 #include <cstdint>
+#include <MyGL/DisableCopy.h>
 
 namespace MyGL {
-	class IVBO {
+	class IVBO : public DisableCopy {
 	public:
-		enum PrimitiveType {
-			Quads,
-			Triangles
-		};
-
 		class IPointer {
 		public:
-			float& operator[](size_t i);
+			IPointer() = default;
 
-			float data[0];
+			virtual ~IPointer() = default;
 		};
+
+	public:
+		IVBO() = default;
+
+		virtual ~IVBO() = default;
+
+	public:
+		class PrimitiveType {
+		public:
+			enum Type {
+				Triangles = 0x0,
+				TrianglesStrip = 0x1,
+				Quads = 0x2,
+				QuadsStrip = 0x3,
+				Count = 0x4,
+			};
+
+		};
+		class BindMode {
+		public:
+			enum Type {
+				Vertex = 0x0,
+				TexCoord = 0x1,
+				Normal = 0x2,
+				Color = 0x3,
+				Count = 0x4,
+			};
+		};
+
 
 		virtual IPointer* pointerToData() = 0;
 

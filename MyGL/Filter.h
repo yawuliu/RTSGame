@@ -1,6 +1,10 @@
 #pragma once
-
-#include <QScreen>
+#include <map>
+#include <string>
+#include "IScene.h"
+#include "AbstractPass.h"
+#include "IRenderPass.h"
+#include "RenderState.h"
 
 namespace MyGL {
 	class IModel;
@@ -8,35 +12,57 @@ namespace MyGL {
 	class IScene;
 
 	class IShader;
-
-	class ITexture2d;
+	class ITexture;
 
 	class IRenderState;
 
 	class IUniformSampler;
 
-	class Filter {
+	class Filter : public AbstractPass {
 	public:
-		Filter(IScene* scene);
+		class Data {
+		public:
+			typedef std::map<MyGL::IUniformSampler*, MyGL::ITexture*> Args;
+		public:
+			Data() = default;
 
-		void setShader(IShader*);
+			virtual ~Data() = default;
 
-		IShader* shader() const;
+		public:
+			MyGL::RenderState renderState;
+			MyGL::IModel* quad;
+			MyGL::IShader* shader;
+			Args args;
+		};
 
-		IRenderState* renderState() const;
+	public:
+		Filter(MyGL::IScene& s);
 
-		IUniformSampler* setInput(IUniformSampler*, ITexture2d*);
+		virtual ~Filter();
 
-		IUniformSampler* setInput(const char*, ITexture2d*);
+		MyGL::IUniformSampler* addArgs(MyGL::IUniformSampler* sm, MyGL::ITexture* u);
+
+		MyGL::IUniformSampler* addArgs(const std::string& const name, MyGL::ITexture* u);
 
 		void exec();
 
-		void setQuadModel(IModel*);
+		MyGL::IModel* quadModel();
+
+		MyGL::IRenderState* renderState();
+
+		MyGL::IUniformSampler* setInput(MyGL::IUniformSampler* name, MyGL::ITexture* arg);
+
+		MyGL::IUniformSampler* setInput(const std::string& const name, MyGL::ITexture* arg);
+
+		void setQuadModel(MyGL::IModel* m);
+
+		void setShader(MyGL::IShader* s);
+
+		MyGL::IShader* shader();
+
+		MyGL::IRenderPass::Pass::Type type();
 
 	private:
-		IScene* m_scene;
-		IShader* m_shader;
-		IRenderState* m_renderState;
-		IModel* m_quadModel;
+		Data* data;
 	};
 }

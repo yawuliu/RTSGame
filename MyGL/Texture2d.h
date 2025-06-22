@@ -1,26 +1,48 @@
 #pragma once
 
 #include "MyGL/ITexture2d.h"
+#include "MyGL/ITexture.h"
+#include "MyGL/Color.h"
+#include "MyGL/privateGLSupportClass.h"
 
 namespace MyGL {
 	class IRender;
 
 	class Texture2d : public ITexture2d {
 	public:
-		Texture2d(IRender*);
-
-		// Í¨¹ý ITexture2d ¼Ì³Ð
-		void loadMipMaps(unsigned char*, MyGL::ITexture::InputFormat, int, int, MyGL::ITexture::Format) override;
-		void bind(unsigned int unit) override;
-		void unbind() override;
-		int getWidth() const override;
-		int getHeight() const override;
-
+		Texture2d(IRender& r);
+		virtual ~Texture2d();
+		void bind();
+		void create();
+		void free();
+		const void* getHandle();
+		unsigned int height();
+		void load(const void* pixels, ITexture::InputFormat::Type imgColorSystem,
+			unsigned int pw, unsigned int ph, ITexture::Format::Type colorSystem);
+		void loadMipMaps(const void* pixels, ITexture::InputFormat::Type imgColorSystem,
+			unsigned int pw, unsigned int ph, ITexture::Format::Type colorSystem);
+		void setAnisotropy(Texture2d* const re, Float val);
+		void setBorderColor(const Color* const c);
+		void setClamping(Texture2d* const re, ITexture::ClampMode::Type s);
+		void setClamping(ITexture::ClampMode::Type s, ITexture::ClampMode::Type t, ITexture::ClampMode::Type r);
+		void setFiltration(ITexture::FilterType::Type mag, ITexture::FilterType::Type min);
+		void setFiltration(ITexture::FilterType::Type fmag,
+			ITexture::FilterType::Type fmin,
+			ITexture::FilterType::Type fmip);
+		const void* toGlColorSystem(ITexture::Format::Type colorSystem);
+		const void* toGlInputFormat(ITexture::InputFormat::Type imgColorSystem);
+		void updateSampler();
+		unsigned int width();
 	private:
-		IRender* mRender;
-		int mWidth;
-		int mHeight;
-		unsigned int mTextureId;
-		bool mHasMipMaps;
+		IRender& render;
+		int w;
+		int h;
+		int handle;
+		bool isForwardFormat;
+		ITexture::FilterType::Type  filterMin;
+		ITexture::FilterType::Type  filterMip;
+		ITexture::FilterType::Type filterMag;
+		Color border_cl;
+		ITexture::ClampMode::Type clamp[3];
 	};
 }

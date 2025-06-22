@@ -278,3 +278,4 @@ void GraphicsObject::setModelEvent(GameObject* obj) {
 		obj->setSelSize(0);
 	}
 }
+

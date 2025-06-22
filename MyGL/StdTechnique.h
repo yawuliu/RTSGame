@@ -1,36 +1,151 @@
 #pragma once
 
+#include "RenderState.h"
+#include "AbstractTechnique.h"
 
 namespace MyGL {
-	class IScene;
-	class IRenderState;
-	class IShader;
+    class IUniformMatrix4x4;
 
-	class StdTechnique {
-	public:
-		StdTechnique(IScene*);
+    class AddBlendPass;
 
-		void storeRenderState();
+    class ColorPass;
 
-		void restoreRenderState();
+    class DepthPass;
 
-		IShader* colorShader() const;
+    class GlowPass;
 
-		IRenderState* renderState() const;
+    class ShadowPass;
 
-		bool useDepthPass() const;
+    class TransparentPass;
 
-		IShader* currentShader() const;
+    class IScene;
 
-		void setCurrentShader(IShader*);
+    class IRenderState;
 
-	public:
-		IScene* m_scene;
-		IRenderState* m_renderState;
-		IShader* m_colorShader;
-		IShader* m_currentShader;
-		bool m_useDepthPass;
-	};
+    class IShader;
+
+    class StdTechnique : public AbstractTechnique {
+    public:
+        StdTechnique(StdTechnique &mtechnique, IScene &s);
+
+        virtual ~StdTechnique();
+
+        void bind();
+
+        const IShader *cmpShader();
+
+        IShader *colorShader();
+
+        void completeDraw(const AddBlendPass *a2);
+
+        void completeDraw(const ColorPass *a2);
+
+        void completeDraw(const DepthPass *a2);
+
+        void completeDraw(const GlowPass *a2);
+
+        void completeDraw(const ShadowPass *a2);
+
+        void completeDraw(const TransparentPass *a2);
+
+        const IShader *currentShader();
+
+        IShader *depthShader();
+
+        IUniformSampler *diffSampler(StdTechnique &mtechnique);
+
+        bool drawEvent(const IGraphicsObject &obj, const IMaterial &a3);
+
+        IUniformSampler *glowSampler(StdTechnique &mtechnique);
+
+        IShader *glowShader();
+
+        IUniformSampler *normalMapSampler(StdTechnique &mtechnique);
+
+        IUniformSampler *opacitySampler_toSM(StdTechnique &mtechnique);
+
+        bool passEvent(const AddBlendPass *a2);
+
+        bool passEvent(const ColorPass *a2);
+
+        bool passEvent(const DepthPass *a2);
+
+        bool passEvent(const GlowPass *a2);
+
+        bool passEvent(const ShadowPass *a2);
+
+        bool passEvent(const TransparentPass *pass);
+
+        IRenderState *renderState();
+
+        void restoreRenderState();
+
+        void setColorShader(StdTechnique &mtechnique, IShader *sh);
+
+        void setCurrentShader(IShader *s);
+
+        void setDepthShader(StdTechnique &mtechnique, IShader *sh);
+
+        void setGlowShader(StdTechnique &mtechnique, IShader *sh);
+
+        void setShadowShader(StdTechnique &mtechnique, IShader *sh);
+
+        void setUniforms();
+
+        IUniformSampler *shadowSampler(StdTechnique &mtechnique);
+
+        IShader *shadowShader();
+
+        IUniformSampler *specularSampler(StdTechnique &mtechnique);
+
+        void storeRenderState();
+
+        void uBind();
+
+        void useCullFace(StdTechnique &mtechnique, bool use);
+
+        void useCullFace(StdTechnique &mtechnique, bool use, IRenderState::CullMode::Type t);
+
+        void useDepthPass(StdTechnique &mtechnique, bool use);
+
+        bool useDepthPass();
+
+        void useGlow(StdTechnique &mtechnique, bool use);
+
+    public:
+        IRenderState *rstate;
+        IRenderState *pstate;
+        bool blendFactor;
+        bool useDepth;
+        bool useGlowM;
+        bool useCull;
+        //        00000024     // padding byte
+        //        00000025     // padding byte
+        //        00000026     // padding byte
+        //        00000027     // padding byte
+        IShader *sh;
+        IShader *mshader;
+        IShader *shadow;
+        IShader *depth;
+        IShader *glow;
+        IUniformSampler *mdiffSampler;
+        IUniformSampler *mshadowSampler;
+        IUniformSampler *mspecSampler;
+        IUniformSampler *gglowSampler;
+        IUniformSampler *normalSampler;
+        IUniformSampler *opacitySampler;
+        IUniformMatrix4x4 *lMat;
+        bool updateMat;
+        //        00000089     // padding byte
+        //        0000008A     // padding byte
+        //        0000008B     // padding byte
+        //        0000008C     // padding byte
+        //        0000008D     // padding byte
+        //        0000008E     // padding byte
+        //        0000008F     // padding byte
+        IUniform4f *lDir;
+        ObjectMatrix lMatrix;
+    };
 }
 
 

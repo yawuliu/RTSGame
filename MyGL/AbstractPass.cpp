@@ -1,10 +1,11 @@
 #include "MyGL/AbstractPass.h"
 
 
-MyGL::AbstractPass::AbstractPass(IScene *s) : IRenderPass(s) {
+MyGL::AbstractPass::AbstractPass(IScene &s) : mscene(s) {
 
 }
 
-const MyGL::IRenderPass::Pass::Type &MyGL::AbstractPass::type() const {
-    return IRenderPass::Pass::Abstract;
+
+MyGL::IScene &MyGL::AbstractPass::scene() {
+    return this->mscene;
 }

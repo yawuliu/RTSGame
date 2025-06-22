@@ -1,32 +1,15 @@
 #pragma once
 
-#include <MyGL/IRenderState.h>
-#include <QtOpenGL>
+#include "DisableCopy.h"
+#include "IRenderState.h"
 
 namespace MyGL {
-    class GameObject {
+    class IData : public DisableCopy {
     public:
-        GameObject();
+        IData() = default;
+
+        virtual ~IData() = default;
     };
-
-    class GameObjectClass {
-    public:
-        GameObjectClass();
-
-        class View {
-        public:
-            View();
-        };
-    };
-
-    class Float {
-    public:
-        operator GLdouble() const;
-
-    protected:
-        float mVal;
-    };
-
 }
 
 

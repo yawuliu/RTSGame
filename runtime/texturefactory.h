@@ -21,7 +21,7 @@ public:
 		const QColor& color);
 
 private:
-	typedef std::map< std::string, MyGL::ITexture2d* > Cash;
+	typedef std::map<std::string, MyGL::ITexture2d*> Cash;
 	Cash cash;
 	MyGL::IScene* scene;
 

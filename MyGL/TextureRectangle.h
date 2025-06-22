@@ -2,6 +2,7 @@
 
 #include "MyGL/ITextureRectangle.h"
 #include "MyGL/ITexture2d.h"
+#include "MyGL/privateGLSupportClass.h"
 
 
 namespace MyGL {
@@ -9,33 +10,28 @@ namespace MyGL {
 
 	class TextureRectangle : public ITextureRectangle {
 	public:
-		TextureRectangle(MyGL::IRender*);
+		TextureRectangle(IRender& r);
+		virtual ~TextureRectangle();
+		void bind();
+		void create();
+		void free();
+		const void* getHandle();
+		unsigned int height();
+		void load(const void* pixels, ITexture::InputFormat::Type imgColorSystem, unsigned int pw, unsigned int ph, ITexture::Format::Type colorSystem);
 
-		void setFiltration(MyGL::ITexture::FilterType, MyGL::ITexture::FilterType);
-
-		void load(unsigned char*, MyGL::ITexture::InputFormat, int, int, MyGL::ITexture::Format) override;
-
-		float width() const override;
-
-		float height() const override;
-
-
-		// Í¨¹ý ITextureRectangle ¼Ì³Ð
-		void loadMipMaps(unsigned char*, MyGL::ITexture::InputFormat, int, int, MyGL::ITexture::Format) override;
-
-		void bind(unsigned int unit) override;
-
-		void unbind() override;
-
-		int getWidth() const override;
-
-		int getHeight() const override;
+		void setFiltration(ITexture::FilterType::Type fmag, ITexture::FilterType::Type fmin);
+		const void* toGlColorSystem(ITexture::Format::Type colorSystem);
+		const void* toGlInputFormat(ITexture::InputFormat::Type imgColorSystem);
+		void updateSampler();
+		unsigned int width();
 	private:
-		MyGL::IRender* m_render;
-		int m_width;
-		int m_height;
-		MyGL::ITexture::FilterType m_minFilter;
-		MyGL::ITexture::FilterType m_magFilter;
+		int handle;
+		IRender& render;
+		ITexture::FilterType::Type filterMin;
+		ITexture::FilterType::Type  filterMag;
+		int w;
+		int h;
+		bool isForwardFormat;
 	};
 }
 

@@ -1,14 +1,21 @@
 #pragma once
 
+#include <MyGL/IScene.h>
+#include <MyGL/AbstractPass.h>
 #include <MyGL/IRenderPass.h>
+#include <MyGL/IGraphicsObject.h>
 
 namespace MyGL {
-    class IScene;
+	class ColorPass : public AbstractPass {
+	public:
+		ColorPass(IScene& s);
 
-    class ColorPass : public IRenderPass {
-    public:
-        ColorPass(IScene *);
+		virtual ~ColorPass();
 
-        const IRenderPass::Pass::Type &type() const override;
-    };
+		void exec();
+
+		bool isDrawable(IGraphicsObject& obj);
+
+		IRenderPass::Pass::Type type();
+	};
 }

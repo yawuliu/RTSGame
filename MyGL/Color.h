@@ -1,11 +1,45 @@
 #pragma once
 
 namespace MyGL {
+
 	class Color {
 	public:
-		Color(float x, float y, float z, float w);
+		typedef float ChanelType;
+	public:
+		Color(ChanelType c);
+
+		Color(ChanelType r,
+			ChanelType g,
+			ChanelType b,
+			ChanelType a);
+
+		Color();
+
+		ChanelType a();
+
+		ChanelType b();
+
+		const ChanelType* data();
+
+		ChanelType g();
+
+		void operator+(const Color& other);
+
+		void operator+=(const Color& other);
+
+		void operator-(const Color& other);
+
+		void operator-=(const Color& other);
+
+		void* operator=(const Color& other);
+
+		ChanelType r();
+
+		void set(ChanelType rgba);
+
+		void set(ChanelType r, ChanelType g, ChanelType b, ChanelType a);
 
 	protected:
-		float r, g, b, a;
+		ChanelType cdata[4];
 	};
 }

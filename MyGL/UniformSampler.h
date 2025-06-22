@@ -1,17 +1,25 @@
 #pragma once
 
 #include <MyGL/IUniformSampler.h>
-
+#include <MyGL/CGL.h>
 namespace MyGL {
+	class IUniform;
+	class IShader;
 	class UniformSampler : public IUniformSampler {
 	public:
-		UniformSampler();
+		UniformSampler(IShader* sh, CGL::ShaderHandle h);
+		virtual ~UniformSampler() = default;
 
-		// Í¨¹ý IUniformSampler ¼Ì³Ð
-		void Bind(int textureUnit) override;
-		void Unbind() override;
-		const char* GetName() const override;
-		void setTexture(ITexture2d*) override;
+		int get();
+		const void* handlePtr();
+		bool isEqual(IUniform* u);
+		IShader* owner();
+		void sendDataToGPU();
+		void set(int x);
+	protected:
+		CGL::ShaderHandle handle;
+		IShader* shader;
+		int dat;
 	};
 }
 

@@ -2,115 +2,104 @@
 
 #include <string>
 #include "MyGL/IGraphicsObject.h"
-#include "IData.h"
+#include "MyGL/IMaterial.h"
+#include "MyGL/ModelInfo.h"
+#include "MyGL/IData.h"
+#include "MyGL/ObjectMatrix.h"
+#include "MyGL/Data.h"
 
 namespace MyGL {
-	class IModel;
+    class IModel;
 
-	class IScene;
+    class IScene;
 
-	class IShader;
+    class IShader;
 
-	class StdMaterial;
+    class StdMaterial;
 
-	class ITexture2d;
+    class ITexture2d;
 
-	class GraphicsObject : public IGraphicsObject {
-	public:
-		GraphicsObject(MyGL::IScene* scene);
+    class GraphicsObject : public IGraphicsObject {
+    public:
+        GraphicsObject(IScene &s);
 
-		GraphicsObject(MyGL::IScene* scene, const std::string& src);
+        GraphicsObject(IScene *s);
 
-		~GraphicsObject();
+        virtual ~GraphicsObject();
 
-		MyGL::StdMaterial* material();
+        void init(IScene *s);
 
-		void setModel(MyGL::IModel*);
+        bool isAlvaysVisible();
 
-		void setMaterial(MyGL::StdMaterial*);
+        IMaterial *material();
 
-		void setPosition(float x, float y, float z);
+        IModel *model();
 
-		void setVisible(bool v);
+        const IModelInfo *modelInfo();
 
-		void setSize(float x, float y, float z);
+        const ObjectMatrix *objectMatrix();
 
-		void setAlvaysVisible(bool);
+        void setAlvaysVisible(bool isAVisible);
 
-		MyGL::IModel* model();
+        void setMaterial(IMaterial *m);
 
+        void setMatrix(ObjectMatrix &m);
 
-		GameObjectClass::View* getObject();
+        void setModel(IModel *model);
 
-		void setPositionF(float x, float y, float z);
+        void setPosition(Float x, Float y, Float z);
 
-		void setSize(float x, float y, float z, const double* base);
+        void setRotateY(Float angle);
 
-		void setRotate(float r);
+        void setRotateZ(Float angle);
 
-		void setRotateXY(float r);
+        void setSize(Float s);
 
-		float rotateAngle() const;
+        void setSize(Float x, Float y, Float z);
 
-		float x() const override;
+        void setVisible(bool isVisible);
 
-		float y() const override;
+        void updateModelInfo();
 
-		float z() const override;
+        void upsetMatrix();
 
-	protected:
-		MyGL::IShader* extractTextures(GameObject* obj);
+        bool visible();
 
-		MyGL::IShader* extractTextures(const GameObjectClass::View&,
-			GameObject* obj,
-			MyGL::StdMaterial* material,
-			MyGL::IModel* model);
+        Float x();
 
-		MyGL::ITexture2d* textureFromData(const std::string& view,
-			const char* postFix,
-			bool mode, GameObject* obj);
+        Float xSize();
 
-		void initFromSrc(MyGL::GraphicsObject&,
-			const GameObjectClass::View&,
-			GameObject* gameObj);
+        Float y();
 
-		void initFromSrc(GameObject* obj);
+        Float yRotation();
 
-		void setModelEvent(GameObject* obj);
+        Float ySize();
 
-		MyGL::IShader* getShadowShader(MyGL::GraphicsObject& obj,
-			const GameObjectClass::View&);
-	public:
-		// 新增成员变量
-		MyGL::IScene* m_scene = nullptr;
-		MyGL::IModel* m_model = nullptr;
-		MyGL::StdMaterial* m_material = nullptr;
-		float m_x = 0.0f;
-		float m_y = 0.0f;
-		float m_z = 0.0f;
-		float m_rotate = 0.0f;
-		float m_rotateXY = 0.0f;
-		bool m_visible = true;
-		bool m_alvaysVisible = false;
-		float m_sizeX = 1.0f;
-		float m_sizeY = 1.0f;
-		float m_sizeZ = 1.0f;
+        Float z();
 
-		// 通过 IGraphicsObject 继承
-		bool isAlvaysVisible() const override;
-		IModelInfo* modelInfo() const override;
-		void delObjectEvent(IGraphicsObject*) override;
-		void addObjectEvent(IGraphicsObject*) override;
-		float xSize() const override;
-		float ySize() const override;
-		float zSize() const override;
-		void setRotateX(float) override;
-		void setRotateY(float) override;
-		void setRotateZ(float) override;
-		float xRotation() override;
-		float yRotation() override;
-		float zRotation() override;
-	};
+        Float zRotation();
+
+        Float zSize();
+
+    protected:
+        IModel *gmodel;
+        ModelInfo *actualInfo;
+        IMaterial *gmaterial;
+        ObjectMatrix matrix;
+        IScene *scene;
+        Bool isVisible;
+        Bool isAVisible;
+        //        00000032     // padding byte
+        //        00000033     // padding byte
+        //        00000034     // padding byte
+        //        00000035     // padding byte
+        //        00000036     // padding byte
+        //        00000037     // padding byte
+        double pos[3];
+        double size[3];
+        double angles[3];
+
+    };
 }
 
 

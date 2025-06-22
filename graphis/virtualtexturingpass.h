@@ -2,46 +2,45 @@
 #define VIRTUALTEXTURINGPASS_H
 
 #include "graphis/abstractuserpass.h"
+#include "MyGL/ISceneGraph.h"
+#include "MyGL/ITextureRectangle.h"
+#include "MyGL/MainPass.h"
 
-namespace MyGL {
-	class ITextureRectangle;
-
-	class MainPass;
-}
 
 class VirtualTexturingPass : public AbstractUserPass {
 public:
-	template<class T>
-	T drawObject(MyGL::ISceneGraph) {
-		return T();
-	}
+    template<class T>
+    T drawObject(MyGL::ISceneGraph *) {
+        return T();
+    }
 
-	VirtualTexturingPass();
-	VirtualTexturingPass(MyGL::IScene* s,
-		MyGL::MainPass* mp,
-		MyGL::ITextureRectangle* mpb);
+    VirtualTexturingPass();
 
-	~VirtualTexturingPass();
+    VirtualTexturingPass(MyGL::IScene *s,
+                         MyGL::MainPass *mp,
+                         MyGL::ITextureRectangle *mpb);
 
-	void exec();
+    ~VirtualTexturingPass();
 
-	const MyGL::IRenderPass::Pass::Type& type() const;
+    void exec();
 
-	static void setMapSize(int x, int y, int tw, int th);
+    const MyGL::IRenderPass::Pass::Type &type() const;
+
+    static void setMapSize(int x, int y, int tw, int th);
 
 private:
-	MyGL::ITextureRectangle* screen, * preScreen, * mpassBuf;
-	MyGL::MainPass* mpass;
+    MyGL::ITextureRectangle *screen, *preScreen, *mpassBuf;
+    MyGL::MainPass *mpass;
 
-	void resizeFrame();
+    void resizeFrame();
 
-	class Data;
+    class Data;
 
-	Data* data;
+    Data *data;
 
-	void paintLand();
+    void paintLand();
 
-	static VirtualTexturingPass* inst;
+    static VirtualTexturingPass *inst;
 };
 
 #endif // VIRTUALTEXTURINGPASS_H
