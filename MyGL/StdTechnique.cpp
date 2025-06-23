@@ -66,32 +66,32 @@ namespace MyGL {
 
 	void StdTechnique::completeDraw(const AddBlendPass* a2)
 	{
-		StdTechnique::restoreRenderState(this);
+		this->restoreRenderState();
 	}
 
 	void StdTechnique::completeDraw(const ColorPass* a2)
 	{
-		StdTechnique::restoreRenderState(this);
+		this->restoreRenderState();
 	}
 
 	void StdTechnique::completeDraw(const DepthPass* a2)
 	{
-		StdTechnique::restoreRenderState(this);
+		this->restoreRenderState();
 	}
 
 	void StdTechnique::completeDraw(const GlowPass* a2)
 	{
-		StdTechnique::restoreRenderState(this);
+		this->restoreRenderState();
 	}
 
 	void StdTechnique::completeDraw(const ShadowPass* a2)
 	{
-		StdTechnique::restoreRenderState(this);
+		this->restoreRenderState();
 	}
 
 	void StdTechnique::completeDraw(const TransparentPass* a2)
 	{
-		StdTechnique::restoreRenderState(this);
+		this->restoreRenderState();
 	}
 
 	const IShader* StdTechnique::currentShader(const)

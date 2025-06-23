@@ -3,31 +3,22 @@
 #include "DisableCopy.h"
 
 namespace MyGL {
-	class IDataLoader : public DisableCopy {
-	public:
-		template<class T>
-		class IAllocator {
-		public:
-			IAllocator() {
+    class IDataLoader : public DisableCopy {
+    public:
+        template<class T>
+        class IAllocator {
+        public:
+            IAllocator() = default;
 
-			}
+            virtual ~IAllocator() = default;
+        };
 
-			virtual ~IAllocator() {
+    public:
+        IDataLoader() = default;
 
-			}
-		};
+        virtual  ~IDataLoader() = default;
 
-	public:
-		IDataLoader() {
-
-
-		}
-
-		virtual  ~IDataLoader() {
-
-		}
-
-	};
+    };
 }
 
 

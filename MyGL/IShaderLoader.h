@@ -1,10 +1,13 @@
 #pragma once
 
-#include "DisableCopy"
+#include "DisableCopy.h"
 #include "DataLoader.h"
 #include "IShader.h"
-#include "ShaderEnvironment.h"
+
+
 namespace MyGL {
+    class ShaderEnvironment;
+
     class IShaderLoader : public DisableCopy {
     public:
         IShaderLoader() = default;
@@ -13,8 +16,8 @@ namespace MyGL {
 
         virtual void setShaderAllocator(DataLoader::IAllocator<IShader> *) = 0;
 
-        virtual ShaderEnvironment& enviroment() = 0;
+        virtual ShaderEnvironment *enviroment() = 0;
 
-        virtual void setEnvironment(ShaderEnvironment&) = 0;
+        virtual void setEnvironment(ShaderEnvironment *) = 0;
     };
 }

@@ -1,4 +1,5 @@
 #pragma once
+
 #include <map>
 #include <string>
 #include "IScene.h"
@@ -7,62 +8,63 @@
 #include "RenderState.h"
 
 namespace MyGL {
-	class IModel;
+    class IModel;
 
-	class IScene;
+    class IScene;
 
-	class IShader;
-	class ITexture;
+    class IShader;
 
-	class IRenderState;
+    class ITexture;
 
-	class IUniformSampler;
+    class IRenderState;
 
-	class Filter : public AbstractPass {
-	public:
-		class Data {
-		public:
-			typedef std::map<IUniformSampler*, ITexture*> Args;
-		public:
-			Data() = default;
+    class IUniformSampler;
 
-			virtual ~Data() = default;
+    class Filter : public AbstractPass {
+    public:
+        class Data {
+        public:
+            typedef std::map<IUniformSampler *, ITexture *> Args;
+        public:
+            Data() = default;
 
-		public:
-			RenderState renderState;
-			IModel* quad;
-			IShader* shader;
-			Args args;
-		};
+            virtual ~Data() = default;
 
-	public:
-		Filter(IScene& s);
+        public:
+            RenderState renderState;
+            IModel *quad;
+            IShader *shader;
+            Args args;
+        };
 
-		virtual ~Filter();
+    public:
+        Filter(IScene &s);
 
-		IUniformSampler* addArgs(IUniformSampler* sm, ITexture* u);
+        virtual ~Filter();
 
-		IUniformSampler* addArgs(const std::string& const name, ITexture* u);
+        IUniformSampler *addArgs(IUniformSampler *sm, ITexture *u);
 
-		void exec();
+        IUniformSampler *addArgs(const std::string &name, ITexture *u);
 
-		IModel* quadModel();
+        void exec();
 
-		IRenderState* renderState();
+        IModel *quadModel();
 
-		IUniformSampler* setInput(IUniformSampler* name, ITexture* arg);
+        IRenderState *renderState();
 
-		IUniformSampler* setInput(const std::string& const name, ITexture* arg);
+        IUniformSampler *setInput(IUniformSampler *name, ITexture *arg);
 
-		void setQuadModel(IModel* m);
+        IUniformSampler *setInput(const std::string &name, ITexture *arg);
 
-		void setShader(IShader* s);
+        void setQuadModel(IModel *m);
 
-		IShader* shader();
+        void setShader(IShader *s);
 
-		IRenderPass::Pass::Type type();
+        IShader *shader();
 
-	private:
-		Data* data;
-	};
+        IRenderPass::Pass::Type type();
+
+    private:
+        Data *data;
+    };
 }

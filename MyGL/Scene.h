@@ -11,95 +11,107 @@
 
 
 namespace MyGL {
-	class CGL;
+    class CGL;
 
-	class Scene : public IScene {
-	public:
-		Scene(CGL* gl);
+    class IModelLoader;
 
-		Scene(IRender& r);
+    class IShaderLoader;
 
-		virtual ~Scene();
+    class ITextureLoader;
 
-		ILightsCollection* allocLightsCollection(Scene& s);
+    class IData;
 
-		void allocLoaders();
+    class ISceneGraph;
 
-		IModelLoader* allocModelLoader();
+    class IDataLoader;
 
-		IObjectCollection* allocObjectCollection(Scene& s);
+    class Scene : public IScene {
+    public:
+        Scene(CGL *gl);
 
-		IRenderAlgo* allocRenderAlgo(Scene& s);
+        Scene(IRender &r);
 
-		ISceneGraph* allocSceneGraph(Scene& s);
+        virtual ~Scene();
 
-		IShaderLoader* allocShaderLoader();
+        ILightsCollection *allocLightsCollection(Scene &s);
 
-		ITextureLoader* allocTextureLoader();
+        void allocLoaders();
 
-		void changeObject(IGraphicsObject& o, IMaterial& m);
+        IModelLoader *allocModelLoader();
 
-		void createRenderAlgo();
+        IObjectCollection *allocObjectCollection(Scene &s);
 
-		IData* dataControl();
+        IRenderAlgo *allocRenderAlgo(Scene &s);
 
-		void draw();
+        ISceneGraph *allocSceneGraph(Scene &s);
 
-		void finitGL();
+        IShaderLoader *allocShaderLoader();
 
-		ISceneGraph* graph();
+        ITextureLoader *allocTextureLoader();
 
-		void init();
+        void changeObject(IGraphicsObject &o, IMaterial &m);
 
-		bool initGL();
+        void createRenderAlgo();
 
-		void initLightsCollection();
+        IData *dataControl();
 
-		void insertObject(IGraphicsObject& o);
+        void draw();
 
-		ILightsCollection* lights();
+        void finitGL();
 
-		IDataLoader* loader();
+        ISceneGraph *graph();
 
-		IModelLoader* modelLoader();
+        void init();
 
-		IObjectCollection* objects();
+        bool initGL();
 
-		void recreateRenderAlgo(Scene& s);
+        void initLightsCollection();
 
-		void removeObject(IGraphicsObject& o);
+        void insertObject(IGraphicsObject &o);
 
-		IRender* render();
+        ILightsCollection *lights();
 
-		IRenderAlgoSettings* settings();
+        IDataLoader *loader();
 
-		IShaderLoader* shaderLoader();
+        IModelLoader *modelLoader();
 
-		ITextureLoader* textureLoader();
+        IObjectCollection *objects();
 
-		void upsetCameraEvent(IRender& a2);
+        void recreateRenderAlgo(Scene &s);
 
-		void upsetLight();
+        void removeObject(IGraphicsObject &o);
 
-	protected:
-		ITextureLoader* texLoader;
-		IShaderLoader* shLoader;
-		IModelLoader* mLoader;
-		IRenderAlgo* renderAlgo;
-		ISceneGraph* sceneGraph;
-		IObjectCollection* obj;
-		ILightsCollection* light;
-		IRender* mrender;
-		bool auto_render;
-		//             // padding byte
-		//        0000004A     // padding byte
-		//        0000004B     // padding byte
-		//        0000004C     // padding byte
-		//        0000004D     // padding byte
-		//        0000004E     // padding byte
-		//        0000004F     // padding byte
-		IData* dataL;
-	};
+        IRender *render();
+
+        IRenderAlgoSettings *settings();
+
+        IShaderLoader *shaderLoader();
+
+        ITextureLoader *textureLoader();
+
+        void upsetCameraEvent(IRender &a2);
+
+        void upsetLight();
+
+    protected:
+        ITextureLoader *texLoader;
+        IShaderLoader *shLoader;
+        IModelLoader *mLoader;
+        IRenderAlgo *renderAlgo;
+        ISceneGraph *sceneGraph;
+        IObjectCollection *obj;
+        ILightsCollection *light;
+        IRender *mrender;
+        bool auto_render;
+        //             // padding byte
+        //        0000004A     // padding byte
+        //        0000004B     // padding byte
+        //        0000004C     // padding byte
+        //        0000004D     // padding byte
+        //        0000004E     // padding byte
+        //        0000004F     // padding byte
+        IData *dataL;
+    };
 }
 
 

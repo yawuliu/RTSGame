@@ -58,7 +58,7 @@ namespace MyGL {
 	}
 
 	bool GlowPass::validate() {
-		return BloomPass::validate(this->data->blur);
+		return this->data->blur->validate();
 	}
 
 	bool GlowPass::isDrawable(IGraphicsObject& obj) {

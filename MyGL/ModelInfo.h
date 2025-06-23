@@ -6,43 +6,38 @@
 
 namespace MyGL {
 
-	class ModelInfo : public IModelInfo {
-	public:
-		ModelInfo();
+    class ModelInfo : public IModelInfo {
+    public:
+        ModelInfo();
 
-		ModelInfo(IIOModel& m);
+        ModelInfo(IIOModel &m);
 
-		virtual ~ModelInfo();
+        virtual ~ModelInfo();
 
-		IModelInfo* operator=(IModelInfo const& m);
+        IModelInfo *operator=(IModelInfo const &m);
 
-		double minX();
+        double minX();
 
-		double minY();
+        double minY();
 
-		double minZ();
+        double minZ();
 
-		double maxX();
+        double maxX();
 
-		double maxY();
+        double maxY();
 
-		double maxZ();
+        double maxZ();
 
-		double radius();
+        double radius();
 
-		void updateFrom(IIOModel const& m);
+        void updateFrom(IIOModel const &m);
 
-		void setBox(float x,
-			float y,
-			float z,
-			float X,
-			float Y,
-			float Z);
+        void setBox(float x, float y, float z, float X, float Y, float Z);
 
-	protected:
-		double minD[3];
-		double maxD[3];
-		double r;
-	};
+    protected:
+        double minD[3];
+        double maxD[3];
+        double r;
+    };
 
 }

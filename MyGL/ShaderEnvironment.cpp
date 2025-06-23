@@ -39,7 +39,7 @@ namespace MyGL {
 		}
 	}
 
-	const std::string* ShaderEnvironment::getPrecompileSource()
+	const std::string& ShaderEnvironment::getPrecompileSource()
 	{
 		std::map<std::string, ShaderEnvironment::pimpl::def>::iterator i;
 		std::_Rb_tree_iterator<std::pair<const std::string, ShaderEnvironment::pimpl::def> >::_Self __x;

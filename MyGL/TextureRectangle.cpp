@@ -1,4 +1,7 @@
+#include <QOpenGLContext>
 #include "TextureRectangle.h"
+
+
 namespace MyGL {
 	TextureRectangle::TextureRectangle(IRender& r) :render(r) {
 		this->handle = 0;

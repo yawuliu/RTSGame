@@ -40,7 +40,7 @@ namespace MyGL {
 		privateGLSupportClass* v2;
 
 		v1 = (CGL*)(*((__int64(__fastcall**)(IShader*))this->shader->_vptr_IShader + 12))(this->shader);
-		v2 = CGL::ext(v1);
+		v2 = v1->ext();
 		v2->glUniform1fARB(this->handle, this->dat);
 	}
 

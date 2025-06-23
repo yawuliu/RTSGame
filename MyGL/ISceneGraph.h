@@ -1,35 +1,35 @@
 #pragma once
 
 #include <cstdint>
-#include "IGraphicsObject"
+#include "IGraphicsObject.h"
 
 namespace MyGL {
-	class IGraphicsObject;
+    class IGraphicsObject;
 
-	class ISceneGraph {
-	public:
-		ISceneGraph() = default;
+    class ISceneGraph {
+    public:
+        ISceneGraph() = default;
 
-		virtual ~ISceneGraph() = default;
+        virtual ~ISceneGraph() = default;
 
-		class Visibles {
-		public:
-			Visibles(ISceneGraph&);
+        class Visibles {
+        public:
+            Visibles(ISceneGraph &);
 
-			ISceneGraph* operator[](size_t i);
+            ISceneGraph *operator[](size_t i);
 
-			size_t size();
+            size_t size();
 
-		protected:
-			ISceneGraph& graph;
-			size_t count;
-		};
+        protected:
+            ISceneGraph &graph;
+            size_t count;
+        };
 
-		virtual void addObjectEvent(IGraphicsObject& obj) = 0;
+        virtual void addObjectEvent(IGraphicsObject &obj) = 0;
 
-		virtual void delObjectEvent(IGraphicsObject& obj) = 0;
+        virtual void delObjectEvent(IGraphicsObject &obj) = 0;
 
-		virtual bool isObjectVisible(const IGraphicsObject& obj) const = 0;
+        virtual bool isObjectVisible(const IGraphicsObject &obj) const = 0;
 
-	};
+    };
 }

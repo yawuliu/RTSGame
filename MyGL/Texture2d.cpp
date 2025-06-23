@@ -1,5 +1,7 @@
 #include "Texture2d.h"
 #include <stdexcept>
+#include <QOpenGLContext>
+
 namespace MyGL {
 	Texture2d::Texture2d(IRender& r) :render(r)
 	{

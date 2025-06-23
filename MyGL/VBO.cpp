@@ -8,7 +8,7 @@ namespace MyGL {
 		_vptr_IPointer->vbo = buf;
 		VBO::addRef((VBO* const)_vptr_IPointer->vbo);
 	}
-	VBO::Pointer::Pointer(const void* const p)
+	VBO::Pointer::Pointer(const Pointer& p)
 	{
 		IVBO::IPointer::IPointer(_vptr_IPointer);
 
@@ -22,18 +22,18 @@ namespace MyGL {
 		VBO::delRef((VBO* const)this->vbo);
 		IVBO::IPointer::~IPointer(this);
 	}
-	GLfloat* VBO::Pointer::operator[](VBO::Pointer* const this, VBO::Pointer::operator[]::size_type id)
+	GLfloat* VBO::Pointer::operator[](size_type id)
 	{
 		return (GLfloat*)(4LL * id + *((_QWORD*)this->vbo + 4));
 	}
-	unsigned int VBO::Pointer::size(VBO::Pointer* const this)
+	unsigned int VBO::Pointer::size()
 	{
 		return *((_DWORD*)this->vbo + 3);
 	}
 	VBO::VBO(IRender& r)
 	{
 		IVBO::IVBO(p_vert);
-		p_vert->_vptr_IVBO = (int (**)(...))(&`vtable for'VBO + 2);
+
 			p_vert->render = r;
 		p_vert->vertices = 0;
 		p_vert->_size = 0;
@@ -41,9 +41,9 @@ namespace MyGL {
 	}
 	VBO::~VBO()
 	{
-		this->_vptr_IVBO = (int (**)(...))(&`vtable for'VBO + 2);
-			VBO::free(this);
-		IVBO::~IVBO(this);
+
+        this->free();
+
 	}
 	void VBO::free()
 	{
@@ -67,11 +67,11 @@ namespace MyGL {
 		v5 = CGL::ext(v4);
 		v5->glBufferSubDataARB(34962LL, offset, size, data);
 	}
-	void VBO::allocate(VBO* const p_vert, CGL::GLsizei size)
+	void VBO::allocate(CGL::GLsizei size)
 	{
 		(*((void(__fastcall**)(VBO* const, _QWORD, _QWORD))p_vert->_vptr_IVBO + 5))(p_vert, 0LL, (unsigned int)size);
 	}
-	void VBO::loadData(VBO* const p_vert, const CGL::GLfloat* data, CGL::GLsizei s)
+	void VBO::loadData(const CGL::GLfloat* data, CGL::GLsizei s)
 	{
 		CGL* v3;
 		privateGLSupportClass* v4;
@@ -152,16 +152,16 @@ namespace MyGL {
 	{
 		return p_extra->_size;
 	}
-	VBO::Pointer VBO::data(VBO* const _vptr_IPointer)
+	VBO::Pointer VBO::data()
 	{
 		void* buf;
 		VBO::Pointer result;
 
-		VBO::Pointer::Pointer((VBO::Pointer* const)_vptr_IPointer, buf);
-		result._vptr_IPointer = (int (**)(...))_vptr_IPointer;
+		VBO::Pointer::Pointer((VBO::Pointer* const)this, buf);
+		result.this = (int (**)(...))this;
 		return result;
 	}
-	IVBO::IPointer* VBO::pointerToData(VBO* const buf)
+	IVBO::IPointer* VBO::pointerToData()
 	{
 		VBO::Pointer* _vptr_IPointer;
 

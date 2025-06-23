@@ -97,10 +97,10 @@ namespace MyGL {
 		if (this->active)
 		{
 			SSAOpass::resizeFrame(this);
-			v1 = MainPass::frameBuffer(this->mpass);
+			v1 = Mthis->mpass->frameBuffer();
 			(*((void(__fastcall**)(FBO*, ITextureRectangle*))v1->_vptr_IFBO + 13))(v1, this->depth);
 			Filter::exec(&this->data->ssao);
-			v2 = MainPass::frameBuffer(this->mpass);
+			v2 = Mthis->mpass->frameBuffer();
 			v3 = (void(__fastcall*)(FBO*, ITextureRectangle*)) * ((_QWORD*)v2->_vptr_IFBO + 13);
 			v4 = MainPass::depthBuffer(this->mpass);
 			v3(v2, v4);
@@ -138,22 +138,22 @@ namespace MyGL {
 		unsigned int v15;
 
 		v1 = (*((__int64(__fastcall**)(ITextureRectangle*))this->out->_vptr_ITexture + 8))(this->out);
-		v2 = MainPass::frameBuffer(this->mpass);
+		v2 = Mthis->mpass->frameBuffer();
 		if (v1 != (*((unsigned int(__fastcall**)(FBO*))v2->_vptr_IFBO + 2))(v2)
 			|| (v3 = (*((__int64(__fastcall**)(ITextureRectangle*))this->out->_vptr_ITexture + 9))(this->out),
-				v4 = MainPass::frameBuffer(this->mpass),
+				v4 = Mthis->mpass->frameBuffer(),
 				v3 != (*((unsigned int(__fastcall**)(FBO*))v4->_vptr_IFBO + 3))(v4)))
 		{
 			v6 = (void(__fastcall*)(ITextureRectangle*, _QWORD, __int64, _QWORD, _QWORD, __int64)) * ((_QWORD*)this->out->_vptr_ITexture + 7);
-			v7 = MainPass::frameBuffer(this->mpass);
+			v7 = Mthis->mpass->frameBuffer();
 			v8 = (*((__int64(__fastcall**)(FBO*))v7->_vptr_IFBO + 3))(v7);
-			v9 = MainPass::frameBuffer(this->mpass);
+			v9 = Mthis->mpass->frameBuffer();
 			v10 = (*((__int64(__fastcall**)(FBO*))v9->_vptr_IFBO + 2))(v9);
 			v6(this->out, 0LL, 1LL, v10, v8, 3LL);
 			v11 = (void(__fastcall*)(ITextureRectangle*, _QWORD, __int64, _QWORD, _QWORD, __int64)) * ((_QWORD*)this->depth->_vptr_ITexture + 7);
-			v12 = MainPass::frameBuffer(this->mpass);
+			v12 = Mthis->mpass->frameBuffer();
 			v13 = (*((__int64(__fastcall**)(FBO*))v12->_vptr_IFBO + 3))(v12);
-			v14 = MainPass::frameBuffer(this->mpass);
+			v14 = Mthis->mpass->frameBuffer();
 			v15 = (*((__int64(__fastcall**)(FBO*))v14->_vptr_IFBO + 2))(v14);
 			v11(this->depth, 0LL, 3LL, v15, v13, 21LL);
 		}

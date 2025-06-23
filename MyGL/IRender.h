@@ -3,7 +3,7 @@
 #include <string>
 #include "Data.h"
 #include "Color.h"
-#include "DisableCopy"
+#include "DisableCopy.h"
 #include "IRenderAlgo.h"
 #include "ICamera.h"
 
@@ -45,21 +45,21 @@ namespace MyGL {
 
         virtual std::string getError() = 0;
 
-        virtual CGL& gl() = 0;
+        virtual CGL &gl() = 0;
 
         virtual void end() = 0;
 
-        virtual void drawModel(IModel&) = 0;
+        virtual void drawModel(IModel &) = 0;
 
-        virtual void useShader(IShader&) = 0;
+        virtual void useShader(IShader &) = 0;
 
         virtual void begin() = 0;
 
-        virtual IRenderState& renderState() = 0;
+        virtual IRenderState &renderState() = 0;
 
-        virtual ICamera& camera() = 0;
+        virtual ICamera &camera() = 0;
 
-        virtual void setCamera(ICamera&) = 0;
+        virtual void setCamera(ICamera &) = 0;
 
         virtual bool isActive() = 0;
 
@@ -67,7 +67,7 @@ namespace MyGL {
 
         virtual void clearColor(Color) = 0;
 
-        virtual IRenderAlgo& createRenderAlgo() = 0;
+        virtual IRenderAlgo &createRenderAlgo() = 0;
     };
 }
 

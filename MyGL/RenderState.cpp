@@ -15,7 +15,7 @@ namespace MyGL {
 		this->setCullFaceMode(CullMode::Type::noCull);
 	}
 
-	AlphaTestMode::Type RenderState::alphaTestMode()
+    RenderState::AlphaTestMode::Type RenderState::alphaTestMode()
 	{
 		return this->atestType;
 	}
@@ -46,12 +46,12 @@ namespace MyGL {
 		return this;
 	}
 
-	CullMode::Type RenderState::cullFaceMode()
+    RenderState::CullMode::Type RenderState::cullFaceMode()
 	{
 		return this->cullMode;
 	}
 
-	AlphaBlendMode::Type RenderState::getBlendDFactor()
+    RenderState::AlphaBlendMode::Type RenderState::getBlendDFactor()
 	{
 		return this->dfactor;
 	}
@@ -62,7 +62,7 @@ namespace MyGL {
 		*out_dfactor = this->dfactor;
 	}
 
-	AlphaBlendMode::Type RenderState::getBlendSFactor()
+    RenderState::AlphaBlendMode::Type RenderState::getBlendSFactor()
 	{
 		return this->sfactor;
 	}
@@ -75,7 +75,7 @@ namespace MyGL {
 		*a = this->clMask[3];
 	}
 
-	ZTestMode::Type RenderState::getZTestMode()
+    RenderState::ZTestMode::Type RenderState::getZTestMode()
 	{
 		return this->zTestType;
 	}

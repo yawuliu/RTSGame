@@ -1,3 +1,4 @@
+#include <cstring>
 #include "IOModel.h"
 namespace MyGL {
 	IOModel::IOModel()
@@ -252,7 +253,7 @@ namespace MyGL {
 		this->extra = 0LL;
 	}
 
-	IIOModel::Point4* IOModel::exPoint(IIOModel::Point4* __return_ptr retstr, int i)
+	IIOModel::Point4* IOModel::exPoint(int i)
 	{
 		IIOModel::Point4::Point4(retstr, &this->extra[4 * i]);
 		return retstr;
