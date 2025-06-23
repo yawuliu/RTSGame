@@ -1,178 +1,179 @@
 #include "StdMaterial.h"
 #include "StdTechnique.h"
 #include "IRenderState.h"
-
- MyGL::StdMaterial::StdMaterial(IScene& s, StdTechnique* technique) :AbstractMaterial(s)
-{
-	this->diff = 0LL;
-	if (technique)
+namespace MyGL {
+	StdMaterial::StdMaterial(IScene& s, StdTechnique* technique) :AbstractMaterial(s)
 	{
-		this->mtechnique = technique;
-	}
-	else
-	{
-		this->mtechnique = new StdTechnique();
-	}
-	this->setShader(0LL);
-	this->setShadowShader(0LL);
-	this->setDiffuseTexture(0LL);
-	this->setShadowTexture(0LL);
-	this->setSpecularTexture(0LL);
-	this->setGlowTexture(0LL);
-	this->setNormalTexture(0LL);
-	this->curShader = 0LL;
-}
-
- MyGL::StdMaterial::~StdMaterial()
-{
-	if (this->mtechnique)
-		(*((void(__fastcall**)(StdTechnique*))this->mtechnique->_vptr_ITechnique + 1))(this->mtechnique);
-}
-
- void MyGL::StdMaterial::bind()
-{
-	__int64 v1;
-	__int64 v2;
-	const IShader* curShader;
-	__int64 v4;
-	__int64 v5;
-	IRender* v6;
-	void(__fastcall * v7)(IRender*, __int64);
-	__int64 v8;
-
-	v1 = (*((__int64(__fastcall**)(StdMaterial* const))this->_vptr_IMaterial + 5))(this);
-	(*(void(__fastcall**)(__int64))(*(_QWORD*)v1 + 16LL))(v1);
-	v2 = (*((__int64(__fastcall**)(StdMaterial* const))this->_vptr_IMaterial + 5))(this);
-	(*(void(__fastcall**)(__int64))(*(_QWORD*)v2 + 24LL))(v2);
-	curShader = this->curShader;
-	v4 = (*((__int64(__fastcall**)(StdMaterial* const))this->_vptr_IMaterial + 5))(this);
-	if (curShader != (const IShader*)(*(__int64(__fastcall**)(__int64))(*(_QWORD*)v4 + 40LL))(v4))
-		StdMaterial::bindTextures(this);
-	v5 = (*((__int64(__fastcall**)(StdMaterial* const))this->_vptr_IMaterial + 5))(this);
-	this->curShader = (const IShader*)(*(__int64(__fastcall**)(__int64))(*(_QWORD*)v5 + 40LL))(v5);
-	v6 = AbstractMaterial::render(this);
-	v7 = (void(__fastcall*)(IRender*, __int64)) * ((_QWORD*)v6->_vptr_IRender + 34);
-	v8 = (*((__int64(__fastcall**)(StdMaterial* const))this->_vptr_IMaterial + 11))(this);
-	v7(v6, v8);
-}
-
- void MyGL::StdMaterial::bindTextures()
-{
-	__int64 v1;
-	__int64 v2;
-	__int64 v3;
-	IUniformSampler* v4;
-	IRender* v6;
-	void(__fastcall * v7)(IRender*, IUniformSampler*, ITexture2d*);
-	ITexture2d* glow;
-	IUniformSampler* v9;
-	__int64 v10;
-	__int64 v11;
-	__int64 v12;
-	IUniformSampler* v13;
-	IRender* v15;
-	void(__fastcall * v16)(IRender*, IUniformSampler*, ITexture2d*);
-	ITexture2d* diff;
-	IUniformSampler* v18;
-
-	if (!this->useMainTextures())
-	{
-		v1 = (*((__int64(__fastcall**)(StdMaterial* const))this->_vptr_IMaterial + 5))(this);
-		if ((*(__int64(__fastcall**)(__int64))(*(_QWORD*)v1 + 40LL))(v1)
-			&& StdTechnique::glowSampler(this->mtechnique)
-			&& (v2 = (*((__int64(__fastcall**)(StdMaterial* const))this->_vptr_IMaterial + 5))(this),
-				v3 = (*(__int64(__fastcall**)(__int64))(*(_QWORD*)v2 + 40LL))(v2),
-				v4 = StdTechnique::glowSampler(this->mtechnique),
-				v3 == (*((__int64(__fastcall**)(IUniformSampler*))v4->_vptr_IUniform + 5))(v4))
-			&& this->glow)
+		this->diff = 0LL;
+		if (technique)
 		{
-			v6 = AbstractMaterial::render(this);
-			v7 = (void(__fastcall*)(IRender*, IUniformSampler*, ITexture2d*)) * ((_QWORD*)v6->_vptr_IRender
-				+ 16);
-			glow = this->glow;
-			v9 = StdTechnique::glowSampler(this->mtechnique);
-			v7(v6, v9, glow);
+			this->mtechnique = technique;
 		}
 		else
 		{
-			v10 = (*((__int64(__fastcall**)(StdMaterial* const))this->_vptr_IMaterial + 5))(this);
-			if ((*(__int64(__fastcall**)(__int64))(*(_QWORD*)v10 + 40LL))(v10))
+			this->mtechnique = new StdTechnique();
+		}
+		this->setShader(0LL);
+		this->setShadowShader(0LL);
+		this->setDiffuseTexture(0LL);
+		this->setShadowTexture(0LL);
+		this->setSpecularTexture(0LL);
+		this->setGlowTexture(0LL);
+		this->setNormalTexture(0LL);
+		this->curShader = 0LL;
+	}
+
+	StdMaterial::~StdMaterial()
+	{
+		if (this->mtechnique)
+			(*((void(__fastcall**)(StdTechnique*))this->mtechnique->_vptr_ITechnique + 1))(this->mtechnique);
+	}
+
+	void StdMaterial::bind()
+	{
+		__int64 v1;
+		__int64 v2;
+		const IShader* curShader;
+		__int64 v4;
+		__int64 v5;
+		IRender* v6;
+		void(__fastcall * v7)(IRender*, __int64);
+		__int64 v8;
+
+		v1 = (*((__int64(__fastcall**)(StdMaterial* const))this->_vptr_IMaterial + 5))(this);
+		(*(void(__fastcall**)(__int64))(*(_QWORD*)v1 + 16LL))(v1);
+		v2 = (*((__int64(__fastcall**)(StdMaterial* const))this->_vptr_IMaterial + 5))(this);
+		(*(void(__fastcall**)(__int64))(*(_QWORD*)v2 + 24LL))(v2);
+		curShader = this->curShader;
+		v4 = (*((__int64(__fastcall**)(StdMaterial* const))this->_vptr_IMaterial + 5))(this);
+		if (curShader != (const IShader*)(*(__int64(__fastcall**)(__int64))(*(_QWORD*)v4 + 40LL))(v4))
+			StdMaterial::bindTextures(this);
+		v5 = (*((__int64(__fastcall**)(StdMaterial* const))this->_vptr_IMaterial + 5))(this);
+		this->curShader = (const IShader*)(*(__int64(__fastcall**)(__int64))(*(_QWORD*)v5 + 40LL))(v5);
+		v6 = AbstractMaterial::render(this);
+		v7 = (void(__fastcall*)(IRender*, __int64)) * ((_QWORD*)v6->_vptr_IRender + 34);
+		v8 = (*((__int64(__fastcall**)(StdMaterial* const))this->_vptr_IMaterial + 11))(this);
+		v7(v6, v8);
+	}
+
+	void StdMaterial::bindTextures()
+	{
+		__int64 v1;
+		__int64 v2;
+		__int64 v3;
+		IUniformSampler* v4;
+		IRender* v6;
+		void(__fastcall * v7)(IRender*, IUniformSampler*, ITexture2d*);
+		ITexture2d* glow;
+		IUniformSampler* v9;
+		__int64 v10;
+		__int64 v11;
+		__int64 v12;
+		IUniformSampler* v13;
+		IRender* v15;
+		void(__fastcall * v16)(IRender*, IUniformSampler*, ITexture2d*);
+		ITexture2d* diff;
+		IUniformSampler* v18;
+
+		if (!this->useMainTextures())
+		{
+			v1 = (*((__int64(__fastcall**)(StdMaterial* const))this->_vptr_IMaterial + 5))(this);
+			if ((*(__int64(__fastcall**)(__int64))(*(_QWORD*)v1 + 40LL))(v1)
+				&& StdTechnique::glowSampler(this->mtechnique)
+				&& (v2 = (*((__int64(__fastcall**)(StdMaterial* const))this->_vptr_IMaterial + 5))(this),
+					v3 = (*(__int64(__fastcall**)(__int64))(*(_QWORD*)v2 + 40LL))(v2),
+					v4 = StdTechnique::glowSampler(this->mtechnique),
+					v3 == (*((__int64(__fastcall**)(IUniformSampler*))v4->_vptr_IUniform + 5))(v4))
+				&& this->glow)
 			{
-				if (this->mtechnique->opacitySampler_toSM())
+				v6 = AbstractMaterial::render(this);
+				v7 = (void(__fastcall*)(IRender*, IUniformSampler*, ITexture2d*)) * ((_QWORD*)v6->_vptr_IRender
+					+ 16);
+				glow = this->glow;
+				v9 = StdTechnique::glowSampler(this->mtechnique);
+				v7(v6, v9, glow);
+			}
+			else
+			{
+				v10 = (*((__int64(__fastcall**)(StdMaterial* const))this->_vptr_IMaterial + 5))(this);
+				if ((*(__int64(__fastcall**)(__int64))(*(_QWORD*)v10 + 40LL))(v10))
 				{
-					v11 = (*((__int64(__fastcall**)(StdMaterial* const))this->_vptr_IMaterial + 5))(this);
-					v12 = (*(__int64(__fastcall**)(__int64))(*(_QWORD*)v11 + 40LL))(v11);
-					v13 = StdTechnique::opacitySampler_toSM(this->mtechnique);
-					if (v12 == (*((__int64(__fastcall**)(IUniformSampler*))v13->_vptr_IUniform + 5))(v13))
+					if (this->mtechnique->opacitySampler_toSM())
 					{
-						if (this->diff)
+						v11 = (*((__int64(__fastcall**)(StdMaterial* const))this->_vptr_IMaterial + 5))(this);
+						v12 = (*(__int64(__fastcall**)(__int64))(*(_QWORD*)v11 + 40LL))(v11);
+						v13 = StdTechnique::opacitySampler_toSM(this->mtechnique);
+						if (v12 == (*((__int64(__fastcall**)(IUniformSampler*))v13->_vptr_IUniform + 5))(v13))
 						{
-							v15 = AbstractMaterial::render(this);
-							v16 = (void(__fastcall*)(IRender*, IUniformSampler*, ITexture2d*)) * ((_QWORD*)v15->_vptr_IRender + 16);
-							diff = this->diff;
-							v18 = StdTechnique::opacitySampler_toSM(this->mtechnique);
-							v16(v15, v18, diff);
+							if (this->diff)
+							{
+								v15 = AbstractMaterial::render(this);
+								v16 = (void(__fastcall*)(IRender*, IUniformSampler*, ITexture2d*)) * ((_QWORD*)v15->_vptr_IRender + 16);
+								diff = this->diff;
+								v18 = StdTechnique::opacitySampler_toSM(this->mtechnique);
+								v16(v15, v18, diff);
+							}
 						}
 					}
 				}
 			}
 		}
 	}
-}
 
- bool MyGL::StdMaterial::checkSampler(IUniformSampler* s)
-{
-	__int64 v2;
-	__int64 v3;
-	__int64 v4;
-	bool result;
-
-	v2 = (*((__int64(__fastcall**)(StdMaterial* const))this->_vptr_IMaterial + 5))(this);
-	result = 0;
-	if ((*(__int64(__fastcall**)(__int64))(*(_QWORD*)v2 + 40LL))(v2))
+	bool StdMaterial::checkSampler(IUniformSampler* s)
 	{
-		if (s)
+		__int64 v2;
+		__int64 v3;
+		__int64 v4;
+		bool result;
+
+		v2 = (*((__int64(__fastcall**)(StdMaterial* const))this->_vptr_IMaterial + 5))(this);
+		result = 0;
+		if ((*(__int64(__fastcall**)(__int64))(*(_QWORD*)v2 + 40LL))(v2))
 		{
-			v3 = (*((__int64(__fastcall**)(StdMaterial* const))this->_vptr_IMaterial + 5))(this);
-			v4 = (*(__int64(__fastcall**)(__int64))(*(_QWORD*)v3 + 40LL))(v3);
-			if (v4 == (*((__int64(__fastcall**)(IUniformSampler*))s->_vptr_IUniform + 5))(s))
-				return 1;
+			if (s)
+			{
+				v3 = (*((__int64(__fastcall**)(StdMaterial* const))this->_vptr_IMaterial + 5))(this);
+				v4 = (*(__int64(__fastcall**)(__int64))(*(_QWORD*)v3 + 40LL))(v3);
+				if (v4 == (*((__int64(__fastcall**)(IUniformSampler*))s->_vptr_IUniform + 5))(s))
+					return 1;
+			}
 		}
+		return result;
 	}
-	return result;
-}
 
- bool MyGL::StdMaterial::drawEvent(const IGraphicsObject* const obj)
-{
-	__int64 v2;
-
-	v2 = (*((__int64(__fastcall**)(StdMaterial* const))this->_vptr_IMaterial + 5))(this);
-	return (*(__int64(__fastcall**)(__int64, const IGraphicsObject* const, StdMaterial* const))(*(_QWORD*)v2 + 72LL))(
-		v2,
-		obj,
-		this);
-}
-
- const ITexture* MyGL::StdMaterial::getTexture(const unsigned int id)
-{
-	if (id)
-		return 0LL;
-	else
-		return this->diff;
-}
-
- const std::string& MyGL::StdMaterial::name()
-{
-	_BYTE v2[17];
-
-	if (!(_BYTE)`guard variable for'StdMaterial::name(void)::mat_name
-		&& __cxa_guard_acquire(&`guard variable for'StdMaterial::name(void)::mat_name) )
+	bool StdMaterial::drawEvent(const IGraphicsObject* const obj)
 	{
-		std::allocator<char>::allocator(v2);
-		std::string::string(&StdMaterial::name(void)const::mat_name, "FFPMaterial", v2);
-		__cxa_guard_release(&`guard variable for'StdMaterial::name(void)::mat_name);
-			__cxa_atexit((void (*)(void*)) & std::string::~string, &StdMaterial::name(void)const::mat_name, &_dso_handle);
-		std::allocator<char>::~allocator(v2);
+		__int64 v2;
+
+		v2 = (*((__int64(__fastcall**)(StdMaterial* const))this->_vptr_IMaterial + 5))(this);
+		return (*(__int64(__fastcall**)(__int64, const IGraphicsObject* const, StdMaterial* const))(*(_QWORD*)v2 + 72LL))(
+			v2,
+			obj,
+			this);
 	}
-	return &StdMaterial::name(void)const::mat_name;
+
+	const ITexture* StdMaterial::getTexture(const unsigned int id)
+	{
+		if (id)
+			return 0LL;
+		else
+			return this->diff;
+	}
+
+	const std::string& StdMaterial::name()
+	{
+		_BYTE v2[17];
+
+		if (!(_BYTE)`guard variable for'StdMaterial::name(void)::mat_name
+			&& __cxa_guard_acquire(&`guard variable for'StdMaterial::name(void)::mat_name) )
+		{
+			std::allocator<char>::allocator(v2);
+			std::string::string(&StdMaterial::name(void)const::mat_name, "FFPMaterial", v2);
+			__cxa_guard_release(&`guard variable for'StdMaterial::name(void)::mat_name);
+				__cxa_atexit((void (*)(void*)) & std::string::~string, &StdMaterial::name(void)const::mat_name, &_dso_handle);
+			std::allocator<char>::~allocator(v2);
+		}
+		return &StdMaterial::name(void)const::mat_name;
+	}
 }

@@ -1,9 +1,9 @@
 #pragma once
 
-#include "MyGL/ITexture2d.h"
-#include "MyGL/ITexture.h"
-#include "MyGL/Color.h"
-#include "MyGL/privateGLSupportClass.h"
+#include "ITexture2d.h"
+#include "ITexture.h"
+#include "Color.h"
+#include "privateGLSupportClass.h"
 
 namespace MyGL {
 	class IRender;

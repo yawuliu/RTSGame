@@ -29,13 +29,13 @@ namespace MyGL {
 
         virtual void fail(bool t, const char *text) = 0;
 
-        virtual void loadError(MyGL::IShader *a2, const char *msg) = 0;
+        virtual void loadError(IShader *a2, const char *msg) = 0;
 
-        virtual void loadError(MyGL::ITexture2d *a2, const char *msg) = 0;
+        virtual void loadError(ITexture2d *a2, const char *msg) = 0;
 
-        virtual void loadError(MyGL::IModel *a2, MyGL::IIOModel *a3, const char *msg) = 0;
+        virtual void loadError(IModel *a2, IIOModel *a3, const char *msg) = 0;
 
-        virtual void compileError(MyGL::IShader *a2, const char *msg) = 0;
+        virtual void compileError(IShader *a2, const char *msg) = 0;
     };
 }
 

@@ -1,12 +1,12 @@
 #pragma once
 
 #include <string>
-#include "MyGL/IGraphicsObject.h"
-#include "MyGL/IMaterial.h"
-#include "MyGL/ModelInfo.h"
-#include "MyGL/IData.h"
-#include "MyGL/ObjectMatrix.h"
-#include "MyGL/Data.h"
+#include "IGraphicsObject.h"
+#include "IMaterial.h"
+#include "ModelInfo.h"
+#include "IData.h"
+#include "ObjectMatrix.h"
+#include "Data.h"
 
 namespace MyGL {
     class IModel;

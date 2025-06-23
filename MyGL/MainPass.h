@@ -1,53 +1,53 @@
 #pragma once
 
 #include <vector>
-#include <MyGL/IScene.h>
-#include <MyGL/IModel.h>
-#include <MyGL/IIOModel.h>
-#include <MyGL/IOModel.h>
-#include <MyGL/IRender.h>
-#include <MyGL/TextureRectangle.h>
-#include <MyGL/AbstractPass.h>
-#include <MyGL/FBO.h>
+#include "IScene.h"
+#include "IModel.h"
+#include "IIOModel.h"
+#include "IOModel.h"
+#include "IRender.h"
+#include "TextureRectangle.h"
+#include "AbstractPass.h"
+#include "FBO.h"
 
 namespace MyGL {
-    class Adapter;
+	class Adapter;
 
-    class MainPass : public AbstractPass {
-    public:
-        MainPass(IScene &s, const Adapter &adapter, IModel *q, bool autoMake);
+	class MainPass : public AbstractPass {
+	public:
+		MainPass(IScene& s, const Adapter& adapter, IModel* q, bool autoMake);
 
-        virtual ~MainPass();
+		virtual ~MainPass();
 
-        void buildQuad(int w, int h);
+		void buildQuad(int w, int h);
 
-        ITextureRectangle *depthBuffer();
+		ITextureRectangle* depthBuffer();
 
-        void draw();
+		void draw();
 
-        void exec();
+		void exec();
 
-        FBO *frameBuffer();
+		FBO* frameBuffer();
 
-        void makeAlgo(const Adapter &adapter);
+		void makeAlgo(const Adapter& adapter);
 
-        void makeAlgo(MainPass &mp, std::vector<IRenderPass *> &passes, const Adapter &adapter);
+		void makeAlgo(MainPass& mp, std::vector<IRenderPass*>& passes, const Adapter& adapter);
 
-        ITextureRectangle *output();
+		ITextureRectangle* output();
 
-        IModel *quadModel();
+		IModel* quadModel();
 
-        void resizeFrame();
+		void resizeFrame();
 
-        void setPoint(float *p, float x, float y);
+		void setPoint(float* p, float x, float y);
 
-        IRenderPass::Pass::Type type();
+		IRenderPass::Pass::Type type();
 
-    protected:
-        IModel *quad;
-        FBO *m_frameBuffer;
-        ITextureRectangle *frame;
-        ITextureRectangle *depth;
-        std::vector<IRenderPass *> passes;
-    };
+	protected:
+		IModel* quad;
+		FBO* m_frameBuffer;
+		ITextureRectangle* frame;
+		ITextureRectangle* depth;
+		std::vector<IRenderPass*> passes;
+	};
 }

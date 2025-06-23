@@ -1,8 +1,8 @@
 #pragma once
 #include <string>
-#include "MyGL/IAdapter.h"
-#include <MyGL/IScene.h>
-#include <MyGL/IShader.h>
+#include "IAdapter.h"
+#include "IScene.h"
+#include "IShader.h"
 
 namespace MyGL {
 	class Adapter {
@@ -29,7 +29,7 @@ namespace MyGL {
 
 		IShader& getVolumetricLightScatteringShader();
 
-		IShader& returnShader(const std::string* const d);
+		IShader& returnShader(const std::string& d);
 
 		IScene& scene();
 

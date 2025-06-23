@@ -1,6 +1,6 @@
 #pragma once
 #include <string>
-#include <MyGL/IFBO.h>
+#include "IFBO.h"
 
 
 namespace MyGL {

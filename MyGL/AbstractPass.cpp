@@ -1,11 +1,12 @@
-#include "MyGL/AbstractPass.h"
+#include "AbstractPass.h"
+
+namespace MyGL {
+	AbstractPass::AbstractPass(IScene& s) : mscene(s) {
+
+	}
 
 
-MyGL::AbstractPass::AbstractPass(IScene &s) : mscene(s) {
-
-}
-
-
-MyGL::IScene &MyGL::AbstractPass::scene() {
-    return this->mscene;
+	IScene& AbstractPass::scene() {
+		return this->mscene;
+	}
 }

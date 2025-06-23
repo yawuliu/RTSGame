@@ -1,14 +1,14 @@
 #pragma once
 #include <glm/glm.hpp>
-#include <MyGL/IRender.h>
-#include <MyGL/IShader.h >
-#include <MyGL/IErrorControl.h>
-#include <MyGL/privateGLSupportClass.h>
-#include <MyGL/Color.h >
-#include <MyGL/IScene.h>
-#include <MyGL/CGL.h >
-#include <MyGL/IMaterial.h >
-#include <MyGL/IVBO.h >
+#include "IRender.h"
+#include "IShader.h"
+#include "IErrorControl.h"
+#include "privateGLSupportClass.h"
+#include "Color.h"
+#include "IScene.h"
+#include "CGL.h.h"
+#include "IMaterial.h"
+#include "IVBO.h"
 
 namespace MyGL {
 	class RenderState;

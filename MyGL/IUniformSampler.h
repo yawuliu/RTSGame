@@ -1,6 +1,6 @@
 #pragma once
 
-#include <MyGL/IUniform.h>
+#include "IUniform.h"
 
 namespace MyGL {
 	class ITexture2d;

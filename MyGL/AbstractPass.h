@@ -1,7 +1,7 @@
 #pragma once
 
-#include <MyGL/IRenderPass.h>
-#include <MyGL/IGraphicsObject.h>
+#include "IRenderPass.h"
+#include "IGraphicsObject.h"
 
 namespace MyGL {
 	class IScene;
@@ -38,14 +38,6 @@ namespace MyGL {
 
 	protected:
 		IScene& mscene;
-	};
-
-
-	class Pass {
-	public:
-		enum Type {
-			User
-		};
 	};
 }
 

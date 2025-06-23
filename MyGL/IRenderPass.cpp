@@ -1,2 +1,2 @@
-#include "MyGL/IRenderPass.h"
+#include "IRenderPass.h"
 

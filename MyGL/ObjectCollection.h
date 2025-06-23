@@ -1,93 +1,93 @@
 #pragma once
 
 #include <vector>
-#include <MyGL/IGraphicsObject.h>
-#include <MyGL/IObjectCollection.h>
+#include "IGraphicsObject.h"
+#include "IObjectCollection.h"
 
 namespace MyGL {
 
-    class ObjectCollection : public IObjectCollection {
-    public:
-        class pimpl {
-        public:
-            typedef std::vector<IGraphicsObject *> ObjMap;
-        public:
-            pimpl() = default;
+	class ObjectCollection : public IObjectCollection {
+	public:
+		class pimpl {
+		public:
+			typedef std::vector<IGraphicsObject*> ObjMap;
+		public:
+			pimpl() = default;
 
-            virtual ~pimpl() = default;
+			virtual ~pimpl() = default;
 
-        public:
-            ObjectCollection::pimpl::ObjMap items;
-            std::vector<IGraphicsObject *>::iterator endI;
-            std::vector<IGraphicsObject *>::iterator beginI;
-        };
+		public:
+			ObjectCollection::pimpl::ObjMap items;
+			std::vector<IGraphicsObject*>::iterator endI;
+			std::vector<IGraphicsObject*>::iterator beginI;
+		};
 
-        class Iterator {
-        public:
-            class pimpl {
-            public:
-                pimpl() = default;
+		class Iterator {
+		public:
+			class pimpl {
+			public:
+				pimpl() = default;
 
-            public:
-                std::vector<IGraphicsObject *>::iterator it;
-            };
+			public:
+				std::vector<IGraphicsObject*>::iterator it;
+			};
 
-        public:
-            Iterator(void &c);
+		public:
+			Iterator(void& c);
 
-            Iterator(void &i);
+			Iterator(void& i);
 
-            virtual ~Iterator();
+			virtual ~Iterator();
 
-            void dec();
+			void dec();
 
-            IGraphicsObject *get();
+			IGraphicsObject* get();
 
-            bool hasNext();
+			bool hasNext();
 
-            bool hasPrevious();
+			bool hasPrevious();
 
-            void inc();
+			void inc();
 
-            void operator++();
+			void operator++();
 
-            void operator--();
+			void operator--();
 
-            void setBegin();
+			void setBegin();
 
-            void setEnd();
+			void setEnd();
 
-        public:
-            ObjectCollection::Iterator::pimpl *data;
-            void *owner;
-        };
+		public:
+			ObjectCollection::Iterator::pimpl* data;
+			void* owner;
+		};
 
-    public:
-        ObjectCollection(IScene &s);
+	public:
+		ObjectCollection(IScene& s);
 
-        virtual ~ObjectCollection();
+		virtual ~ObjectCollection();
 
-        void addObject(IGraphicsObject &it);
+		void addObject(IGraphicsObject& it);
 
-        IObjectCollection::IIterator *begin(ObjectCollection &c);
+		IObjectCollection::IIterator* begin(ObjectCollection& c);
 
-        void delObject(IGraphicsObject &it);
+		void delObject(IGraphicsObject& it);
 
-        IObjectCollection::IIterator *end(ObjectCollection &c);
+		IObjectCollection::IIterator* end(ObjectCollection& c);
 
-        bool less(IGraphicsObject *obj1, IGraphicsObject *obj2);
+		bool less(IGraphicsObject* obj1, IGraphicsObject* obj2);
 
-        void onChangeMaterialObject(IGraphicsObject &obj, IMaterial &a3);
+		void onChangeMaterialObject(IGraphicsObject& obj, IMaterial& a3);
 
-        IGraphicsObject *operator[](size_t i);
+		IGraphicsObject* operator[](size_t i);
 
-        void refresh();
+		void refresh();
 
-        size_t size();
+		size_t size();
 
-    protected:
-        IScene &scene;
-        pimpl *data;
-    };
+	protected:
+		IScene& scene;
+		pimpl* data;
+	};
 
 }

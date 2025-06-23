@@ -1,12 +1,12 @@
 #pragma once
 
 #include <QList>
-#include <MyGL/IScene.h>
-#include <MyGL/Light.h>
-#include <MyGL/ITechnique.h>
-#include <MyGL/GraphicsObject.h>
-#include <MyGL/AbstractMaterial.h>
-#include <MyGL/ObjectMatrix.h>
+#include "IScene.h"
+#include "Light.h"
+#include "ITechnique.h"
+#include "GraphicsObject.h"
+#include "AbstractMaterial.h"
+#include "ObjectMatrix.h"
 
 namespace MyGL {
 	class Light {

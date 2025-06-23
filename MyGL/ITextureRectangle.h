@@ -1,6 +1,6 @@
 #pragma once
 
-#include "MyGL/ITexture2d.h"
+#include "ITexture2d.h"
 
 namespace MyGL {
     class ITextureRectangle : public ITexture {

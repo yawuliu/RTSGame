@@ -1,33 +1,33 @@
 #pragma once
 
-#include <MyGL/DisableCopy.h>
+#include "DisableCopy.h"
 
 namespace MyGL {
-    class IDataLoader : public DisableCopy {
-    public:
-        template<class T>
-        class IAllocator {
-        public:
-            IAllocator() {
+	class IDataLoader : public DisableCopy {
+	public:
+		template<class T>
+		class IAllocator {
+		public:
+			IAllocator() {
 
-            }
+			}
 
-            virtual ~IAllocator() {
+			virtual ~IAllocator() {
 
-            }
-        };
+			}
+		};
 
-    public:
-        IDataLoader() {
+	public:
+		IDataLoader() {
 
 
-        }
+		}
 
-        virtual  ~IDataLoader() {
+		virtual  ~IDataLoader() {
 
-        }
+		}
 
-    };
+	};
 }
 
 

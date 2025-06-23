@@ -1,9 +1,9 @@
 #pragma once
 #include <vector>
-#include <MyGL/IScene.h>
-#include <MyGL/IRenderAlgo.h>
-#include <MyGL/Adapter.h>
-#include <MyGL/IRenderPass.h >
+#include "IScene.h"
+#include "IRenderAlgo.h"
+#include "Adapter.h"
+#include "IRenderPass.h.h"
 
 
 

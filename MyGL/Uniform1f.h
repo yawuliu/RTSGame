@@ -1,9 +1,9 @@
 #pragma once
-#include <MyGL/CGL.h>
-#include <MyGL/IShader.h>
-#include <MyGL/IUniform1f.h>
-#include <MyGL/privateGLSupportClass.h>
-#include <MyGL/Data.h>
+#include "CGL.h"
+#include "IShader.h"
+#include "IUniform1f.h"
+#include "privateGLSupportClass.h"
+#include "Data.h"
 
 
 namespace MyGL {

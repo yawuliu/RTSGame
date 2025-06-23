@@ -2,8 +2,8 @@
 #include <cstdint>
 #include <fstream>
 #include <ostream>
-#include <MyGL/IIOModel.h>
-#include <MyGL/CGL.h>
+#include "IIOModel.h"
+#include "CGL.h"
 
 namespace MyGL {
 	class IOModel :public IIOModel {

@@ -1,36 +1,36 @@
 #pragma once
 
-#include <MyGL/IScene.h>
-#include <MyGL/Adapter.h>
-#include <MyGL/ITextureRectangle.h>
-#include <MyGL/AbstractPass.h>
+#include "IScene.h"
+#include "Adapter.h"
+#include "ITextureRectangle.h"
+#include "AbstractPass.h"
 
 namespace MyGL {
-    class IModel;
+	class IModel;
 
-    class Filter;
+	class Filter;
 
-    class LincPass : public AbstractPass {
-    public:
-        LincPass(IScene &s, const Adapter &adapter, IModel *quad, ITextureRectangle &f, ITextureRectangle &g,
-                 ITextureRectangle &b, ITextureRectangle &d);
+	class LincPass : public AbstractPass {
+	public:
+		LincPass(IScene& s, const Adapter& adapter, IModel* quad, ITextureRectangle& f, ITextureRectangle& g,
+			ITextureRectangle& b, ITextureRectangle& d);
 
-        virtual ~LincPass();
+		virtual ~LincPass();
 
-        void exec();
+		void exec();
 
-        void setShader(IShader *shader);
+		void setShader(IShader* shader);
 
-        IRenderPass::Pass::Type type();
+		IRenderPass::Pass::Type type();
 
-        bool validate();
+		bool validate();
 
-    protected:
-        ITextureRectangle &frame;
-        ITextureRectangle &glow;
-        ITextureRectangle &bloom;
-        ITextureRectangle &depth;
-        Filter *filter;
-    };
+	protected:
+		ITextureRectangle& frame;
+		ITextureRectangle& glow;
+		ITextureRectangle& bloom;
+		ITextureRectangle& depth;
+		Filter* filter;
+	};
 
 }

@@ -1,11 +1,11 @@
 #pragma once
 
 #include <string>
-#include <MyGL/IModelLoader.h>
-#include <MyGL/IRender.h>
-#include <MyGL/IModel.h>
-#include <MyGL/IOModel.h>
-#include <MyGL/IErrorControl.h>
+#include "IModelLoader.h"
+#include "IRender.h"
+#include "IModel.h"
+#include "IOModel.h"
+#include "IErrorControl.h"
 
 namespace MyGL {
 	class ModelLoader : public IModelLoader {

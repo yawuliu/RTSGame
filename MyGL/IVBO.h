@@ -1,7 +1,7 @@
 #pragma once
 
 #include <cstdint>
-#include <MyGL/DisableCopy.h>
+#include "DisableCopy.h"
 
 namespace MyGL {
 	class IVBO : public DisableCopy {

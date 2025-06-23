@@ -1,9 +1,9 @@
 #pragma once
 
 #include <string>
-#include "MyGL/DisableCopy.h"
-#include "MyGL/ITexture2d.h"
-#include "MyGL/ShaderEnvironment.h"
+#include "DisableCopy.h"
+#include "ITexture2d.h"
+#include "ShaderEnvironment.h"
 
 namespace MyGL {
     class ITextureLoader : public DisableCopy {

@@ -2,8 +2,8 @@
 
 #include <cstdint>
 
-#include <MyGL/DisableCopy.h>
-#include <MyGL/Data.h>
+#include "DisableCopy.h"
+#include "Data.h"
 
 namespace MyGL {
 	class IErrorControl;

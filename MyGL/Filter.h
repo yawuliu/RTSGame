@@ -22,45 +22,45 @@ namespace MyGL {
 	public:
 		class Data {
 		public:
-			typedef std::map<MyGL::IUniformSampler*, MyGL::ITexture*> Args;
+			typedef std::map<IUniformSampler*, ITexture*> Args;
 		public:
 			Data() = default;
 
 			virtual ~Data() = default;
 
 		public:
-			MyGL::RenderState renderState;
-			MyGL::IModel* quad;
-			MyGL::IShader* shader;
+			RenderState renderState;
+			IModel* quad;
+			IShader* shader;
 			Args args;
 		};
 
 	public:
-		Filter(MyGL::IScene& s);
+		Filter(IScene& s);
 
 		virtual ~Filter();
 
-		MyGL::IUniformSampler* addArgs(MyGL::IUniformSampler* sm, MyGL::ITexture* u);
+		IUniformSampler* addArgs(IUniformSampler* sm, ITexture* u);
 
-		MyGL::IUniformSampler* addArgs(const std::string& const name, MyGL::ITexture* u);
+		IUniformSampler* addArgs(const std::string& const name, ITexture* u);
 
 		void exec();
 
-		MyGL::IModel* quadModel();
+		IModel* quadModel();
 
-		MyGL::IRenderState* renderState();
+		IRenderState* renderState();
 
-		MyGL::IUniformSampler* setInput(MyGL::IUniformSampler* name, MyGL::ITexture* arg);
+		IUniformSampler* setInput(IUniformSampler* name, ITexture* arg);
 
-		MyGL::IUniformSampler* setInput(const std::string& const name, MyGL::ITexture* arg);
+		IUniformSampler* setInput(const std::string& const name, ITexture* arg);
 
-		void setQuadModel(MyGL::IModel* m);
+		void setQuadModel(IModel* m);
 
-		void setShader(MyGL::IShader* s);
+		void setShader(IShader* s);
 
-		MyGL::IShader* shader();
+		IShader* shader();
 
-		MyGL::IRenderPass::Pass::Type type();
+		IRenderPass::Pass::Type type();
 
 	private:
 		Data* data;

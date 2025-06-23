@@ -1,29 +1,29 @@
 #pragma once
 
 #include <iostream>
-#include <MyGL/IRender.h>
-#include <MyGL/IShaderLoader.h>
+#include "IRender.h"
+#include "IShaderLoader.h"
 
 namespace MyGL {
-    class IShaderEnvironment;
+	class IShaderEnvironment;
 
-    class ShaderLoader : public IShaderLoader {
-    public:
-        ShaderLoader(IRender &r);
+	class ShaderLoader : public IShaderLoader {
+	public:
+		ShaderLoader(IRender& r);
 
-        virtual ~ShaderLoader() = default;
+		virtual ~ShaderLoader() = default;
 
-        IShaderEnvironment *enviroment();
+		IShaderEnvironment* enviroment();
 
-        IShader *load(IShader &taget, const char *vs, const char *fs_0, bool *ok);
+		IShader* load(IShader& taget, const char* vs, const char* fs_0, bool* ok);
 
-        void setEnvironment(IShaderEnvironment *env);
+		void setEnvironment(IShaderEnvironment* env);
 
-        char *srcFrom(const char *file, bool *ok);
+		char* srcFrom(const char* file, bool* ok);
 
-    protected:
-        IRender &render;
-        IShaderEnvironment *shEnv;
-    };
+	protected:
+		IRender& render;
+		IShaderEnvironment* shEnv;
+	};
 }
 

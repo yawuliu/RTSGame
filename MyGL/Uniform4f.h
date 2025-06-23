@@ -1,10 +1,10 @@
 #pragma once
 
-#include <MyGL/IShader.h>
-#include <MyGL/CGL.h>
-#include <MyGL/IUniform4f.h>
-#include <MyGL/Color.h>
-#include "Data.h"
+#include "IShader.h"
+#include "CGL.h"
+#include "IUniform4f.h"
+#include "Color.h"
+#include "Data.h.h"
 
 namespace MyGL {
 	class IUniform;

@@ -1,8 +1,8 @@
 #pragma once
 
-#include "MyGL/ITextureRectangle.h"
-#include "MyGL/ITexture2d.h"
-#include "MyGL/privateGLSupportClass.h"
+#include "ITextureRectangle.h"
+#include "ITexture2d.h"
+#include "privateGLSupportClass.h"
 
 
 namespace MyGL {

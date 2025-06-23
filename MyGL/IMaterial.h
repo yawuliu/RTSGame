@@ -1,7 +1,7 @@
 #pragma once
-#include <MyGL/ITexture2d.h>
-#include <MyGL/IShader.h>
-#include <MyGL/IRenderState.h>
+#include "ITexture2d.h"
+#include "IShader.h"
+#include "IRenderState.h"
 
 
 namespace MyGL {

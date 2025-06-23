@@ -1,19 +1,19 @@
 #pragma once
 #include <string>
-#include <MyGL/Adapter.h>
-#include <MyGL/IRender.h>
-#include <MyGL/Model.h>
-#include <MyGL/FBO.h>
-#include <MyGL/Texture2d.h>
-#include <MyGL/ITexture2d.h>
-#include <MyGL/IShader.h>
-#include <MyGL/AbstractPass.h>
-#include <MyGL/IGraphicsObject.h>
-#include <MyGL/IOModel.h>
-#include <MyGL/Filter.h>
-#include <MyGL/ObjectMatrix.h>
-#include <MyGL/Camera.h>
-#include <MyGL/ILight.h>
+#include "Adapter.h"
+#include "IRender.h"
+#include "Model.h"
+#include "FBO.h"
+#include "Texture2d.h"
+#include "ITexture2d.h"
+#include "IShader.h"
+#include "AbstractPass.h"
+#include "IGraphicsObject.h"
+#include "IOModel.h"
+#include "Filter.h"
+#include "ObjectMatrix.h"
+#include "Camera.h"
+#include "ILight.h"
 
 namespace MyGL {
 	class ShadowPass : public AbstractPass {

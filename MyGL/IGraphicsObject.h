@@ -1,7 +1,7 @@
 #pragma once
 
-#include "MyGL/DisableCopy.h"
-#include "MyGL/IModelInfo.h"
+#include "DisableCopy.h"
+#include "IModelInfo.h"
 
 namespace MyGL {
     class IGraphicsObject : public DisableCopy {

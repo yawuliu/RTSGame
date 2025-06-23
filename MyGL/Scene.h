@@ -3,103 +3,103 @@
 #include <map>
 #include <string>
 #include "IData.h"
-#include <MyGL/IScene.h>
-#include <MyGL/LightsCollection.h>
-#include <MyGL/IObjectCollection.h>
-#include <MyGL/ObjectCollection.h>
-#include <MyGL/IRenderAlgoSettings.h>
+#include "IScene.h"
+#include "LightsCollection.h"
+#include "IObjectCollection.h"
+#include "ObjectCollection.h"
+#include "IRenderAlgoSettings.h"
 
 
 namespace MyGL {
-    class CGL;
+	class CGL;
 
-    class Scene : public IScene {
-    public:
-        Scene(CGL *gl);
+	class Scene : public IScene {
+	public:
+		Scene(CGL* gl);
 
-        Scene(IRender &r);
+		Scene(IRender& r);
 
-        virtual ~Scene();
+		virtual ~Scene();
 
-        ILightsCollection *allocLightsCollection(Scene &s);
+		ILightsCollection* allocLightsCollection(Scene& s);
 
-        void allocLoaders();
+		void allocLoaders();
 
-        IModelLoader *allocModelLoader();
+		IModelLoader* allocModelLoader();
 
-        IObjectCollection *allocObjectCollection(Scene &s);
+		IObjectCollection* allocObjectCollection(Scene& s);
 
-        IRenderAlgo *allocRenderAlgo(Scene &s);
+		IRenderAlgo* allocRenderAlgo(Scene& s);
 
-        ISceneGraph *allocSceneGraph(Scene &s);
+		ISceneGraph* allocSceneGraph(Scene& s);
 
-        IShaderLoader *allocShaderLoader();
+		IShaderLoader* allocShaderLoader();
 
-        ITextureLoader *allocTextureLoader();
+		ITextureLoader* allocTextureLoader();
 
-        void changeObject(IGraphicsObject &o, IMaterial &m);
+		void changeObject(IGraphicsObject& o, IMaterial& m);
 
-        void createRenderAlgo();
+		void createRenderAlgo();
 
-        IData *dataControl();
+		IData* dataControl();
 
-        void draw();
+		void draw();
 
-        void finitGL();
+		void finitGL();
 
-        ISceneGraph *graph();
+		ISceneGraph* graph();
 
-        void init();
+		void init();
 
-        bool initGL();
+		bool initGL();
 
-        void initLightsCollection();
+		void initLightsCollection();
 
-        void insertObject(IGraphicsObject &o);
+		void insertObject(IGraphicsObject& o);
 
-        ILightsCollection *lights();
+		ILightsCollection* lights();
 
-        IDataLoader *loader();
+		IDataLoader* loader();
 
-        IModelLoader *modelLoader();
+		IModelLoader* modelLoader();
 
-        IObjectCollection *objects();
+		IObjectCollection* objects();
 
-        void recreateRenderAlgo(Scene &s);
+		void recreateRenderAlgo(Scene& s);
 
-        void removeObject(IGraphicsObject &o);
+		void removeObject(IGraphicsObject& o);
 
-        IRender *render();
+		IRender* render();
 
-        IRenderAlgoSettings *settings();
+		IRenderAlgoSettings* settings();
 
-        IShaderLoader *shaderLoader();
+		IShaderLoader* shaderLoader();
 
-        ITextureLoader *textureLoader();
+		ITextureLoader* textureLoader();
 
-        void upsetCameraEvent(IRender &a2);
+		void upsetCameraEvent(IRender& a2);
 
-        void upsetLight();
+		void upsetLight();
 
-    protected:
-        ITextureLoader *texLoader;
-        IShaderLoader *shLoader;
-        IModelLoader *mLoader;
-        IRenderAlgo *renderAlgo;
-        ISceneGraph *sceneGraph;
-        IObjectCollection *obj;
-        ILightsCollection *light;
-        IRender *mrender;
-        bool auto_render;
-        //             // padding byte
-        //        0000004A     // padding byte
-        //        0000004B     // padding byte
-        //        0000004C     // padding byte
-        //        0000004D     // padding byte
-        //        0000004E     // padding byte
-        //        0000004F     // padding byte
-        IData *dataL;
-    };
+	protected:
+		ITextureLoader* texLoader;
+		IShaderLoader* shLoader;
+		IModelLoader* mLoader;
+		IRenderAlgo* renderAlgo;
+		ISceneGraph* sceneGraph;
+		IObjectCollection* obj;
+		ILightsCollection* light;
+		IRender* mrender;
+		bool auto_render;
+		//             // padding byte
+		//        0000004A     // padding byte
+		//        0000004B     // padding byte
+		//        0000004C     // padding byte
+		//        0000004D     // padding byte
+		//        0000004E     // padding byte
+		//        0000004F     // padding byte
+		IData* dataL;
+	};
 }
 
 

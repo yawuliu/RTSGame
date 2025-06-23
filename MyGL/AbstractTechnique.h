@@ -1,10 +1,17 @@
 #pragma once
 
-#include <MyGL/IScene.h>
-#include <MyGL/ITechnique.h>
+#include "IScene.h"
+#include "ITechnique.h"
 
 namespace MyGL {
-
+	class IMaterial;
+	class AddBlendPass;
+	class ColorPass;
+	class DepthPass;
+	class GlowPass;
+	class IRenderPass;
+	class ShadowPass;
+	class TransparentPass;
 	class AbstractTechnique : public ITechnique {
 	public:
 		AbstractTechnique(IScene& s);
@@ -23,12 +30,9 @@ namespace MyGL {
 
 		void completeDraw(const ShadowPass* a2);
 
-		void completeDraw(
-			const TransparentPass* a2);
+		void completeDraw(const TransparentPass* a2);
 
-		bool drawEvent(
-			const IGraphicsObject* const a2,
-			const IMaterial* const a3);
+		bool drawEvent(const IGraphicsObject& a2, const IMaterial& a3);
 
 		bool passEvent(const AddBlendPass* a2);
 

@@ -1,7 +1,7 @@
 #pragma once
 
 #include <cstdint>
-#include <MyGL/IGraphicsObject.h>
+#include "IGraphicsObject"
 
 namespace MyGL {
 	class IGraphicsObject;

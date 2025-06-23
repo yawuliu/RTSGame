@@ -1,14 +1,14 @@
 #pragma once
 
-#include <MyGL/DisableCopy.h>
+#include "DisableCopy.h"
 
 namespace MyGL {
-    class IUniform : public DisableCopy {
-    public:
-        IUniform() = default;
+	class IUniform : public DisableCopy {
+	public:
+		IUniform() = default;
 
-        virtual ~IUniform() = default;
-    };
+		virtual ~IUniform() = default;
+	};
 }
 
 

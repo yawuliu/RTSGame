@@ -1,7 +1,7 @@
 #pragma once
 
-#include <MyGL/IUniformSampler.h>
-#include <MyGL/CGL.h>
+#include "IUniformSampler.h"
+#include "CGL.h"
 namespace MyGL {
 	class IUniform;
 	class IShader;

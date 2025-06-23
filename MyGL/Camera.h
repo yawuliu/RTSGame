@@ -1,7 +1,7 @@
 #pragma once
-#include <MyGL/Data.h>
-#include <MyGL/CGL.h>
-#include <MyGL/ICamera.h>
+#include "Data.h"
+#include "CGL.h"
+#include "ICamera.h"
 
 namespace MyGL {
 	class Camera : public ICamera {

@@ -1,10 +1,10 @@
 #pragma once
 
-#include <MyGL/IMaterial.h>
-#include <MyGL/IScene.h>
-#include <MyGL/ITechnique.h>
-#include <MyGL/IGraphicsObject.h>
-#include <MyGL/ITexture.h>
+#include "IMaterial"
+#include "IScene"
+#include "ITechnique"
+#include "IGraphicsObject"
+#include "ITexture"
 
 
 namespace MyGL {
@@ -14,32 +14,13 @@ namespace MyGL {
 
 		virtual ~AbstractMaterial();
 
-		bool drawEvent(const IGraphicsObject& o) {
-			__int64 v2;
+		bool drawEvent(const IGraphicsObject& o);
 
-			v2 = (*((__int64(__fastcall**)(AbstractMaterial* const)) this->_vptr_IMaterial + 5))(this);
-			return (*(__int64(__fastcall**)(__int64, const IGraphicsObject* const,
-				AbstractMaterial* const)) (*(_QWORD*)v2 + 72LL))(
-					v2,
-					o,
-					this);
-		}
+		ITexture& getTexture(unsigned int a2);
 
-		const ITexture* getTexture(unsigned int a2);
+		bool greater(const ITechnique& t, const ITechnique& t2);
 
-		bool greater(const ITechnique const& t, const ITechnique& t2) {
-			unsigned __int64 v2;
-
-			v2 = (*((__int64(__fastcall**)(const ITechnique* const)) t->_vptr_ITechnique + 6))(t);
-			return v2 > (*((__int64(__fastcall**)(const ITechnique* const)) t2->_vptr_ITechnique + 6))(t2);
-		}
-
-		bool less(const ITechnique const& t, const ITechnique const& t2) {
-			unsigned __int64 v2;
-
-			v2 = (*((__int64(__fastcall**)(const ITechnique* const)) t->_vptr_ITechnique + 6))(t);
-			return v2 < (*((__int64(__fastcall**)(const ITechnique* const)) t2->_vptr_ITechnique + 6))(t2);
-		}
+		bool less(const ITechnique& t, const ITechnique& t2);
 
 		bool operator<(const IMaterial& other) {
 			const ITechnique* t2_1;
@@ -88,19 +69,8 @@ namespace MyGL {
 			return 0;
 		}
 
-		bool operator>(const IMaterial& other) {
-			if (!(*((__int64(__fastcall**)(const AbstractMaterial* const)) other_1->_vptr_IMaterial + 6))(
-				other_1))
-				return 0;
-			if ((*(__int64(__fastcall**)(const void* const)) (*(_QWORD*)other + 48LL))(other))
-				return other_1 > other;
-			return 1;
-		}
 
-		IRender* render() {
-			return (IRender*)(*((__int64(__fastcall**)(IScene* const)) this->mscene->_vptr_IScene + 3))(
-				this->mscene);
-		}
+		IRender* render();
 
 		IScene& scene();
 

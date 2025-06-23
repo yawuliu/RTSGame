@@ -2,15 +2,15 @@
 #pragma once
 
 #include <string>
-#include <MyGL/AbstractPass.h>
-#include <MyGL/Filter.h>
-#include <MyGL/TextureRectangle.h>
-#include <MyGL/ITextureRectangle.h>
-#include <MyGL/FBO.h>
-#include <MyGL/MainPass.h>
-#include <MyGL/Adapter.h>
-#include <MyGL/ITexture.h>
-#include <MyGL/IRender.h>
+#include "AbstractPass.h"
+#include "Filter.h"
+#include "TextureRectangle.h"
+#include "ITextureRectangle.h"
+#include "FBO.h"
+#include "MainPass.h"
+#include "Adapter.h"
+#include "ITexture.h"
+#include "IRender.h"
 
 namespace MyGL {
 	class IScene;

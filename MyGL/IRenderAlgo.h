@@ -1,6 +1,6 @@
 #pragma once
 
-#include "MyGL/IRenderPass.h"
+#include "IRenderPass.h"
 
 namespace MyGL {
 	class IRenderAlgo : public IRenderPass {

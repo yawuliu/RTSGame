@@ -1,7 +1,7 @@
 #pragma once
 
-#include "MyGL/AbstractPass.h"
-#include "MyGL/ISceneGraph.h"
+#include "AbstractPass.h"
+#include "ISceneGraph.h"
 
 namespace MyGL {
 	class IScene;

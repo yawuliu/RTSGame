@@ -1,8 +1,8 @@
 #pragma once
 
 #include <vector>
-#include <MyGL/ILightsCollection.h>
-#include <MyGL/ILight.h>
+#include "ILightsCollection.h"
+#include "ILight.h"
 
 namespace MyGL {
 	class  LightsCollection :public ILightsCollection {

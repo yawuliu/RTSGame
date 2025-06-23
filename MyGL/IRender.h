@@ -1,11 +1,11 @@
 #pragma once
 
 #include <string>
-#include "MyGL/Data.h"
-#include "MyGL/Color.h"
-#include <MyGL/DisableCopy.h>
-#include "MyGL/IRenderAlgo.h"
-#include "MyGL/ICamera.h"
+#include "Data.h"
+#include "Color.h"
+#include "DisableCopy"
+#include "IRenderAlgo.h"
+#include "ICamera.h"
 
 
 namespace MyGL {

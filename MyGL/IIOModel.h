@@ -1,6 +1,6 @@
 #pragma once
 
-#include <MyGL/CGL.h>
+#include "CGL"
 
 namespace MyGL {
 	class IIOModel {

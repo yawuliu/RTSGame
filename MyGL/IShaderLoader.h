@@ -1,9 +1,9 @@
 #pragma once
 
-#include <MyGL/DisableCopy.h>
-#include "MyGL/DataLoader.h"
-#include "MyGL/IShader.h"
-#include "MyGL/ShaderEnvironment.h"
+#include "DisableCopy"
+#include "DataLoader.h"
+#include "IShader.h"
+#include "ShaderEnvironment.h"
 namespace MyGL {
     class IShaderLoader : public DisableCopy {
     public:

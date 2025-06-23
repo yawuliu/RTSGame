@@ -1,12 +1,12 @@
 #pragma once
 
-#include <MyGL/DisableCopy.h>
+#include "DisableCopy.h"
 
 namespace MyGL {
-    class IModelLoader : public DisableCopy {
-    public:
-        IModelLoader() = default;
+	class IModelLoader : public DisableCopy {
+	public:
+		IModelLoader() = default;
 
-        virtual ~IModelLoader() = default;
-    };
+		virtual ~IModelLoader() = default;
+	};
 }

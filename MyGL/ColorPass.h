@@ -1,9 +1,9 @@
 #pragma once
 
-#include <MyGL/IScene.h>
-#include <MyGL/AbstractPass.h>
-#include <MyGL/IRenderPass.h>
-#include <MyGL/IGraphicsObject.h>
+#include "IScene.h"
+#include "AbstractPass.h"
+#include "IRenderPass.h"
+#include "IGraphicsObject.h"
 
 namespace MyGL {
 	class ColorPass : public AbstractPass {

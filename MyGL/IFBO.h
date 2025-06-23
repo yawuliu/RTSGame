@@ -1,14 +1,14 @@
 #pragma once
 
-#include <MyGL/DisableCopy.h>
+#include "DisableCopy.h"
 
 namespace MyGL {
 
-    class IFBO : public DisableCopy {
-    public:
-        IFBO() = default;
+	class IFBO : public DisableCopy {
+	public:
+		IFBO() = default;
 
-        virtual ~IFBO() = default;
-    };
+		virtual ~IFBO() = default;
+	};
 
 }

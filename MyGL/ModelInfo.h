@@ -1,7 +1,7 @@
 #pragma once
 
-#include <MyGL/IModelInfo.h>
-#include <MyGL/IIOModel.h>
+#include "IModelInfo.h"
+#include "IIOModel.h"
 
 
 namespace MyGL {

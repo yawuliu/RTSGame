@@ -1,11 +1,11 @@
 #pragma once
 #include <algorithm>
 #include <stdexcept>
-#include <MyGL/CGL.h>
-#include <MyGL/IShader.h>
-#include <MyGL/UniformMatrix4x4.h>
+#include "CGL.h"
+#include "IShader.h"
+#include "UniformMatrix4x4.h"
 #include "AbstractShader.h"
-#include <MyGL/IUniformArray.h>
+#include "IUniformArray.h"
 
 
 namespace MyGL {
@@ -104,7 +104,7 @@ namespace MyGL {
 		return (UniformArray<T> *)AbstractShader::registerUniform(sh, u);
 	}
 	template<typename T>
-	inline UniformArray<T>::Data::Data(IShader* sh, CGL::ShaderHandle _handle, int s)
+	 UniformArray<T>::Data::Data(IShader* sh, CGL::ShaderHandle _handle, int s)
 	{
 		this->size = s;
 		this->data = new CGL::GLfloat[64LL * s];
@@ -116,7 +116,7 @@ namespace MyGL {
 		}
 	}
 	template<typename T>
-	inline UniformArray<T>::Data::~Data()
+	 UniformArray<T>::Data::~Data()
 	{
 		for (int i = 0; this->size > i; ++i)
 		{
