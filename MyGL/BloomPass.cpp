@@ -75,13 +75,13 @@ namespace MyGL {
 		this->data->w = -1;
 		this->data->h = -1;
 		v18 = Filter::renderState(&this->data->gausH);
-		(*((void(__fastcall**)(IRenderState*, __int64))v18->_vptr_IRenderState + 18))(v18, 1LL);
+		v18->setBlend(1LL);
 		v19 = Filter::renderState(&this->data->gausH);
-		(*((void(__fastcall**)(IRenderState*, __int64, __int64))v19->_vptr_IRenderState + 24))(v19, 1LL, 1LL);
+		v19->setBlendMode(1LL, 1LL);
 		v20 = Filter::renderState(&this->data->gausH);
-		(*((void(__fastcall**)(IRenderState*, __int64))v20->_vptr_IRenderState + 5))(v20, 1LL);
+		v20->setAlphaTestMode(1LL);
 		v21 = Filter::renderState(&this->data->gausH);
-		(*((void(__fastcall**)(IRenderState*, double))v21->_vptr_IRenderState + 3))(v21, 0.0);
+		v21->setAlphaTestRef(0.0);
 		this->setDownSamplesCount(3);
 		this->initShaders(adapter);
 	}

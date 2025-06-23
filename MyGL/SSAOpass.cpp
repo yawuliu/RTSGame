@@ -53,9 +53,9 @@ namespace MyGL {
 		std::string::~string(&name__1);
 		std::allocator<char>::~allocator(v26);
 		v11 = Filter::renderState(&__x_->data->ssao);
-		(*((void(__fastcall**)(IRenderState*, __int64))v11->_vptr_IRenderState + 18))(v11, 1LL);
+		v11->setBlend(1LL);
 		v12 = Filter::renderState(&__x_->data->ssao);
-		(*((void(__fastcall**)(IRenderState*, __int64, _QWORD))v12->_vptr_IRenderState + 24))(v12, 8LL, 0LL);
+		v12->setBlendMode( 8LL, 0LL);
 		v13 = AbstractPass::scene(__x_);
 		r = (IRender*)(*((__int64(__fastcall**)(IScene*))v13->_vptr_IScene + 3))(v13);
 		out = (TextureRectangle*)operator new(0x28uLL);

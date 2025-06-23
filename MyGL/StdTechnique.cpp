@@ -1,16 +1,13 @@
 #include "StdTechnique.h"
 namespace MyGL {
-	StdTechnique::StdTechnique(IScene& s)
+	StdTechnique::StdTechnique(IScene& s):AbstractTechnique(s)
 	{
 		RenderState* rstate;
 		RenderState* pstate;
-
-		AbstractTechnique::AbstractTechnique(this, s);
-		ObjectMatrix::ObjectMatrix(&this->lMatrix);
-		StdTechnique::setColorShader(this, 0LL);
-		StdTechnique::setShadowShader(this, 0LL);
-		StdTechnique::setDepthShader(this, 0LL);
-		StdTechnique::setGlowShader(this, 0LL);
+        this->setColorShader(0LL);
+        this->setShadowShader(0LL);
+        this->setDepthShader( 0LL);
+        this->setGlowShader( 0LL);
 		this->opacitySampler = 0LL;
 		rstate = (RenderState*)operator new(0x30uLL);
 		RenderState::RenderState(rstate);
@@ -18,29 +15,21 @@ namespace MyGL {
 		pstate = (RenderState*)operator new(0x30uLL);
 		RenderState::RenderState(pstate);
 		this->pstate = pstate;
-		(*((void(__fastcall**)(IRenderState*, double))this->rstate->_vptr_IRenderState + 3))(
-			this->rstate,
-			0.5);
-		(*((void(__fastcall**)(IRenderState*, __int64))this->rstate->_vptr_IRenderState + 5))(
-			this->rstate,
-			1LL);
-		(*((void(__fastcall**)(IRenderState*, __int64))this->rstate->_vptr_IRenderState + 20))(
-			this->rstate,
-			1LL);
-		StdTechnique::useDepthPass(this, 1);
-		StdTechnique::useGlow(this, 1);
-		StdTechnique::useCullFace(this, 1);
+		this->rstate->setAlphaTestRef(0.5);
+        this->rstate->setAlphaTestMode(1LL);
+        this->rstate->setAlphaCoverage(1LL);
+        this->useDepthPass(1);
+        this->useGlow( 1);
+        this->useCullFace(1);
 		this->updateMat = 0;
 	}
 
 	StdTechnique::~StdTechnique()
 	{
 		if (this->rstate)
-			(*((void(__fastcall**)(IRenderState*))this->rstate->_vptr_IRenderState + 1))(this->rstate);
+            delete this->rstate;
 		if (this->pstate)
-			(*((void(__fastcall**)(IRenderState*))this->pstate->_vptr_IRenderState + 1))(this->pstate);
-		ObjectMatrix::~ObjectMatrix(&this->lMatrix);
-		AbstractTechnique::~AbstractTechnique(this);
+            delete this->pstate;
 	}
 
 	void StdTechnique::bind()
@@ -49,7 +38,7 @@ namespace MyGL {
 
 		if (this->sh)
 		{
-			v1 = AbstractTechnique::render(this);
+			v1 = this->render();
 			(*((void(__fastcall**)(IRender*, IShader*))v1->_vptr_IRender + 13))(v1, this->sh);
 		}
 	}
@@ -161,9 +150,9 @@ namespace MyGL {
 		if (this->sh)
 		{
 			StdTechnique::storeRenderState(this);
-			(*((void(__fastcall**)(IRenderState*, __int64))this->rstate->_vptr_IRenderState + 12))(this->rstate, 1LL);
-			(*((void(__fastcall**)(IRenderState*, _QWORD))this->rstate->_vptr_IRenderState + 10))(this->rstate, 0LL);
-			(*((void(__fastcall**)(IRenderState*, __int64))this->rstate->_vptr_IRenderState + 16))(this->rstate, 2LL);
+			this->rstate->setZTest(1LL);
+			this->rstate->setZWriting(0LL);
+			this->rstate->setZTestMode(2LL);
 		}
 		return this->sh != 0LL;
 	}
@@ -197,12 +186,11 @@ namespace MyGL {
 	{
 		if (!this->useDepth)
 			return 0;
-		StdTechnique::storeRenderState(this);
+        this->storeRenderState();
 		this->sh = this->depth;
-		(*((void(__fastcall**)(IRenderState*, __int64))this->rstate->_vptr_IRenderState + 12))(this->rstate, 1LL);
-		(*((void(__fastcall**)(IRenderState*, __int64))this->rstate->_vptr_IRenderState + 16))(this->rstate, 2LL);
-		(*((void(__fastcall**)(IRenderState*, _QWORD, _QWORD, _QWORD, _QWORD))this->rstate->_vptr_IRenderState + 7))(
-			this->rstate,
+		this->rstate->setZTest(1LL);
+		this->rstate->setZTestMode(2LL);
+			this->rstate->setColorMask(
 			0LL,
 			0LL,
 			0LL,
@@ -214,14 +202,14 @@ namespace MyGL {
 	{
 		if (!this->useGlowM)
 			return 0;
-		StdTechnique::storeRenderState(this);
+        this->storeRenderState();
 		this->sh = this->glow;
 		if (this->sh)
 		{
-			(*((void(__fastcall**)(IRenderState*, _QWORD))this->rstate->_vptr_IRenderState + 18))(this->rstate, 0LL);
-			(*((void(__fastcall**)(IRenderState*, __int64))this->rstate->_vptr_IRenderState + 12))(this->rstate, 1LL);
-			(*((void(__fastcall**)(IRenderState*, __int64))this->rstate->_vptr_IRenderState + 16))(this->rstate, 3LL);
-			(*((void(__fastcall**)(IRenderState*, _QWORD))this->rstate->_vptr_IRenderState + 10))(this->rstate, 0LL);
+			this->rstate->setBlend(0LL);
+			this->rstate->setZTest(1LL);
+			this->rstate->setZTestMode(3LL);
+			this->rstate->setZWriting( 0LL);
 		}
 		return this->sh != 0LL;
 	}
@@ -231,25 +219,23 @@ namespace MyGL {
 		this->sh = this->shadow;
 		if (this->sh)
 		{
-			StdTechnique::storeRenderState(this);
+            this->storeRenderState();
 			this->updateMat = 1;
-			(*((void(__fastcall**)(IRenderState*, __int64))this->rstate->_vptr_IRenderState + 12))(this->rstate, 1LL);
-			(*((void(__fastcall**)(IRenderState*, __int64))this->rstate->_vptr_IRenderState + 16))(this->rstate, 2LL);
-			(*((void(__fastcall**)(IRenderState*, __int64, __int64, __int64, __int64))this->rstate->_vptr_IRenderState
-				+ 7))(
-					this->rstate,
+			this->rstate->setZTest(1LL);
+			this->rstate->setZTestMode(2LL);
+					this->rstate>setColorMask(
 					1LL,
 					1LL,
 					1LL,
 					1LL);
-			(*((void(__fastcall**)(IRenderState*, _QWORD))this->rstate->_vptr_IRenderState + 18))(this->rstate, 0LL);
-			if ((*((unsigned int(__fastcall**)(IRenderState*))this->rstate->_vptr_IRenderState + 13))(this->rstate) == 2)
+			this->rstate->setBlend(0LL);
+			if (this->rstate->cullFaceMode() == 2)
 			{
-				(*((void(__fastcall**)(IRenderState*, __int64))this->rstate->_vptr_IRenderState + 14))(this->rstate, 1LL);
+				this->rstate->setCullFaceMode(1LL);
 			}
-			else if ((*((unsigned int(__fastcall**)(IRenderState*))this->rstate->_vptr_IRenderState + 13))(this->rstate) == 1)
+			else if (this->rstate->cullFaceMode() == 1)
 			{
-				(*((void(__fastcall**)(IRenderState*, __int64))this->rstate->_vptr_IRenderState + 14))(this->rstate, 2LL);
+				this->rstate->setCullFaceMode(2LL);
 			}
 		}
 		return this->sh != 0LL;
@@ -263,29 +249,27 @@ namespace MyGL {
 			this->sh = this->mshader;
 			if (this->depth)
 				this->sh = this->depth;
-			(*((void(__fastcall**)(IRenderState*, __int64))this->rstate->_vptr_IRenderState + 12))(this->rstate, 1LL);
-			(*((void(__fastcall**)(IRenderState*, __int64))this->rstate->_vptr_IRenderState + 16))(this->rstate, 2LL);
-			(*((void(__fastcall**)(IRenderState*, _QWORD, _QWORD, _QWORD, _QWORD))this->rstate->_vptr_IRenderState + 7))(
-				this->rstate,
+			this->rstate->setZTest(1LL);
+			this->rstate->setZTestMode(2LL);
+
+				this->rstate->setColorMask(
 				0LL,
 				0LL,
 				0LL,
 				0LL);
-			(*((void(__fastcall**)(IRenderState*, _QWORD))this->rstate->_vptr_IRenderState + 18))(this->rstate, 0LL);
+			this->rstate->setBlend(0LL);
 		}
-		if (TransparentPass::isColorPass(pass))
+		if (pass->isColorPass())
 		{
 			this->sh = this->mshader;
-			(*((void(__fastcall**)(IRenderState*, __int64))this->rstate->_vptr_IRenderState + 12))(this->rstate, 1LL);
-			(*((void(__fastcall**)(IRenderState*, __int64))this->rstate->_vptr_IRenderState + 16))(this->rstate, 6LL);
-			(*((void(__fastcall**)(IRenderState*, __int64, __int64, __int64, __int64))this->rstate->_vptr_IRenderState
-				+ 7))(
-					this->rstate,
+			this->rstate->setZTest(1LL);
+			this->rstate->setZTestMode(6LL);
+			this->rstate->setColorMask(
 					1LL,
 					1LL,
 					1LL,
 					1LL);
-			(*((void(__fastcall**)(IRenderState*, __int64))this->rstate->_vptr_IRenderState + 18))(this->rstate, 1LL);
+			this->rstate->setBlend(1LL);
 		}
 		return this->sh != 0LL;
 	}
@@ -297,9 +281,8 @@ namespace MyGL {
 
 	void StdTechnique::restoreRenderState()
 	{
-		(*((void(__fastcall**)(IRenderState*, IRenderState*))this->rstate->_vptr_IRenderState + 4))(
-			this->rstate,
-			this->pstate);
+
+			this->rstate->copy(this->pstate);
 	}
 
 	void StdTechnique::setColorShader(StdTechnique& mtechnique, IShader* sh)
@@ -460,9 +443,7 @@ namespace MyGL {
 
 	void StdTechnique::storeRenderState()
 	{
-		(*((void(__fastcall**)(IRenderState*, IRenderState*))this->pstate->_vptr_IRenderState + 4))(
-			this->pstate,
-			this->rstate);
+			this->pstate->copy(this->rstate);
 	}
 
 	void StdTechnique::uBind()
@@ -479,13 +460,9 @@ namespace MyGL {
 	{
 		mtechnique->useCull = use;
 		if (!mtechnique->useCull)
-			(*((void(__fastcall**)(IRenderState*, _QWORD))mtechnique->rstate->_vptr_IRenderState + 14))(
-				mtechnique->rstate,
-				0LL);
+				mtechnique->rstate->setCullFaceMode(0LL);
 		else
-			(*((void(__fastcall**)(IRenderState*, _QWORD))mtechnique->rstate->_vptr_IRenderState + 14))(
-				mtechnique->rstate,
-				(unsigned int)t);
+				mtechnique->rstate->setCullFaceMode((unsigned int)t);
 	}
 
 	void StdTechnique::useDepthPass(StdTechnique& mtechnique, bool use)

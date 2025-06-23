@@ -2,7 +2,6 @@
 namespace MyGL {
 	Render::Render(CGL& glDevice)
 	{
-		Color::Color(&this->clrColor);
 		this->glDev = glDevice;
 		this->autoDel = 0;
 		this->init();
@@ -10,7 +9,6 @@ namespace MyGL {
 
 	Render::Render(CGL* glDevice)
 	{
-		Color::Color(&this->clrColor);
 		this->glDev = glDevice;
 		this->autoDel = 1;
 		this->init();
@@ -18,23 +16,17 @@ namespace MyGL {
 
 	Render::~Render()
 	{
-		CGL* glDev;
-
-
 		if (this->autoDel)
 		{
-			glDev = this->glDev;
-			if (glDev)
+			if (this->glDev)
 			{
-				CGL::~CGL(this->glDev);
-				operator delete(glDev);
+				delete this->glDev;
 			}
 		}
 		if (this->defState)
-			(*((void(__fastcall**)(IRenderState*))this->defState->_vptr_IRenderState + 1))(this->defState);
+			delete this->defState;
 		if (this->state)
-			(*((void(__fastcall**)(IRenderState*))this->state->_vptr_IRenderState + 1))(this->state);
-		IRender::~IRender(this);
+            delete this->state;
 	}
 
 	unsigned int Render::batchCount()
@@ -630,9 +622,8 @@ namespace MyGL {
 
 	void Render::resetRenderState()
 	{
-		(*((void(__fastcall**)(IRenderState*, IRenderState*))this->state->_vptr_IRenderState + 4))(
-			this->state,
-			this->defState);
+
+			this->state->copy(this->defState);
 	}
 
 	void Render::setCamera(ICamera* const c)
@@ -643,11 +634,9 @@ namespace MyGL {
 
 	void Render::setRenderState(IRenderState* r)
 	{
-		(*((void(__fastcall**)(IRenderState*, IRenderState*))this->state->_vptr_IRenderState + 4))(
-			this->state,
-			r);
+		this->state->copy(r);
 		if (this->isWork)
-			upsetRState(this);
+            this->upsetRState();
 	}
 
 	void Render::setScene(IScene* const s)
