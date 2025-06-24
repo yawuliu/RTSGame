@@ -22,7 +22,7 @@ namespace MyGL {
 		Camera::Camera(&this->lview);
 		ObjectMatrix::ObjectMatrix(&this->lMat);
 		v3 = AbstractPass::scene(this);
-		r = (IRender*)(*((__int64(__fastcall**)(IScene*))v3->_vptr_IScene + 3))(v3);
+		r = v3->render();
 		quad = (Model*)operator new(0xC0uLL);
 		Model::Model(quad, r);
 		this->quad = quad;
@@ -30,7 +30,7 @@ namespace MyGL {
 		in = (ITexture2d*)(*((__int64(__fastcall**)(const Adapter* const))adapter->_vptr_Adapter + 9))(adapter);
 		this->tmpFrame = ShadowPass::createFrame(this, in);
 		v7 = AbstractPass::scene(this);
-		r_1 = (IRender*)(*((__int64(__fastcall**)(IScene*))v7->_vptr_IScene + 3))(v7);
+		r_1 = v7->render();
 		theWidth = (*((__int64(__fastcall**)(ITexture2d*))this->frame->_vptr_ITexture + 14))(this->frame);
 		theHeight = (*((__int64(__fastcall**)(ITexture2d*))this->frame->_vptr_ITexture + 15))(this->frame);
 		frameBuffer = (FBO*)operator new(0x28uLL);
@@ -60,7 +60,7 @@ namespace MyGL {
 		if (this->frameBuffer)
 			(*((void(__fastcall**)(FBO*))this->frameBuffer->_vptr_IFBO + 1))(this->frameBuffer);
 		if (this->blur)
-			(*((void(__fastcall**)(Filter*))this->blur->_vptr_IRenderPass + 1))(this->blur);
+			delete this->blur;
 		if (this->frame)
 			(*((void(__fastcall**)(ITexture2d*))this->frame->_vptr_ITexture + 1))(this->frame);
 		if (this->quad)
@@ -166,7 +166,7 @@ namespace MyGL {
 		if (!in)
 		{
 			v2 = AbstractPass::scene(this);
-			r = (IRender*)(*((__int64(__fastcall**)(IScene*))v2->_vptr_IScene + 3))(v2);
+			r = v2->render();
 			re = (Texture2d*)operator new(0x50uLL);
 			Texture2d::Texture2d(re, r);
 			frame = re;
@@ -229,33 +229,33 @@ namespace MyGL {
 		int i;
 
 		v1 = AbstractPass::scene(this);
-		v2 = (*((__int64(__fastcall**)(IScene*))v1->_vptr_IScene + 3))(v1);
+		v2 = v1->render();
 		(*(void(__fastcall**)(__int64, Camera*))(*(_QWORD*)v2 + 240LL))(v2, &this->lview);
 		v3 = AbstractPass::scene(this);
-		v4 = (*((__int64(__fastcall**)(IScene*))v3->_vptr_IScene + 3))(v3);
+		v4 = v3->render();
 		v5 = *(void(__fastcall**)(__int64, _QWORD, _QWORD, _QWORD, _QWORD))(*(_QWORD*)v4 + 88LL);
 		v6 = (*((__int64(__fastcall**)(FBO*))this->frameBuffer->_vptr_IFBO + 3))(this->frameBuffer);
 		v7 = (*((__int64(__fastcall**)(FBO*))this->frameBuffer->_vptr_IFBO + 2))(this->frameBuffer);
 		v5(v4, 0LL, 0LL, v7, v6);
 		v8 = AbstractPass::scene(this);
-		v9 = (*((__int64(__fastcall**)(IScene*))v8->_vptr_IScene + 3))(v8);
+		v9 = v8->render();
 		v10 = *(void(__fastcall**)(__int64, double, double))(*(_QWORD*)v9 + 16LL);
 		Color::Color(&v30, 1.0, 1.0, 1.0, 0.0);
 		v10(v9, *(double*)v30.cdata, *(double*)&v30.cdata[2]);
 		v11 = AbstractPass::scene(this);
-		v12 = (*((__int64(__fastcall**)(IScene*))v11->_vptr_IScene + 3))(v11);
+		v12 = v11->render();
 		(*(void(__fastcall**)(__int64, __int64))(*(_QWORD*)v12 + 32LL))(v12, 3LL);
 		v13 = AbstractPass::scene(this);
-		v14 = (*((__int64(__fastcall**)(IScene*))v13->_vptr_IScene + 3))(v13);
+		v14 = v13->render();
 		(*(void(__fastcall**)(__int64))(*(_QWORD*)v14 + 248LL))(v14);
 		v15 = AbstractPass::scene(this);
-		v16 = (*((__int64(__fastcall**)(IScene*))v15->_vptr_IScene + 8))(v15);
+		v16 = v15->graph();
 		(*(void(__fastcall**)(__int64, ShadowPass* const))(*(_QWORD*)v16 + 40LL))(v16, this);
 		v17 = AbstractPass::scene(this);
-		s = (void*)(*((__int64(__fastcall**)(IScene*))v17->_vptr_IScene + 8))(v17);
+		s = v17->graph();
 		ISceneGraph::Visibles::Visibles(&obj, s);
 		v19 = AbstractPass::scene(this);
-		v20 = (*((__int64(__fastcall**)(IScene*))v19->_vptr_IScene + 3))(v19);
+		v20 = v19->render();
 		(*(void(__fastcall**)(__int64))(*(_QWORD*)v20 + 296LL))(v20);
 		for (i = 0; ; ++i)
 		{
@@ -270,10 +270,10 @@ namespace MyGL {
 			}
 		}
 		v24 = AbstractPass::scene(this);
-		v25 = (*((__int64(__fastcall**)(IScene*))v24->_vptr_IScene + 3))(v24);
+		v25 = v24->render();
 		(*(void(__fastcall**)(__int64))(*(_QWORD*)v25 + 312LL))(v25);
 		v26 = AbstractPass::scene(this);
-		v27 = (*((__int64(__fastcall**)(IScene*))v26->_vptr_IScene + 8))(v26);
+		v27 = v26->graph();
 		(*(void(__fastcall**)(__int64))(*(_QWORD*)v27 + 48LL))(v27);
 	}
 
@@ -303,7 +303,7 @@ namespace MyGL {
 		if (this->nUpdate)
 		{
 			v2 = AbstractPass::scene(this);
-			v3 = (*((__int64(__fastcall**)(IScene*))v2->_vptr_IScene + 21))(v2);
+			v3 = v2->lights();
 			if ((*(unsigned int(__fastcall**)(__int64))(*(_QWORD*)v3 + 40LL))(v3))
 			{
 				ShadowPass::initLight(this, 0);
@@ -313,14 +313,14 @@ namespace MyGL {
 					this->frame,
 					0LL);
 				v4 = AbstractPass::scene(this);
-				v5 = (*((__int64(__fastcall**)(IScene*))v4->_vptr_IScene + 3))(v4);
+				v5 = v4->render();
 				c = (ICamera*)(*(__int64(__fastcall**)(__int64))(*(_QWORD*)v5 + 256LL))(v5);
 				v6 = AbstractPass::scene(this);
-				v7 = (*((__int64(__fastcall**)(IScene*))v6->_vptr_IScene + 3))(v6);
+				v7 = v6->render();
 				*(_QWORD*)cl_0.cdata = (*(double(__fastcall**)(__int64))(*(_QWORD*)v7 + 24LL))(v7);
 				*(_QWORD*)&cl_0.cdata[2] = v1;
 				v8 = AbstractPass::scene(this);
-				v9 = (*((__int64(__fastcall**)(IScene*))v8->_vptr_IScene + 3))(v8);
+				v9 = v8->render();
 				(*(void(__fastcall**)(__int64, int*, int*, int*, int*))(*(_QWORD*)v9 + 96LL))(
 					v9,
 					view,
@@ -328,20 +328,20 @@ namespace MyGL {
 					&view[2],
 					&view[3]);
 				v10 = AbstractPass::scene(this);
-				v11 = (*((__int64(__fastcall**)(IScene*))v10->_vptr_IScene + 3))(v10);
+				v11 = v10->render();
 				(*(void(__fastcall**)(__int64, ObjectMatrix*))(*(_QWORD*)v11 + 336LL))(v11, &this->lMat);
 				ShadowPass::draw(this);
 				(*((void(__fastcall**)(FBO*, ITexture2d*, _QWORD))this->frameBuffer->_vptr_IFBO + 10))(
 					this->frameBuffer,
 					this->tmpFrame,
 					0LL);
-				(*((void(__fastcall**)(Filter*))this->blur->_vptr_IRenderPass + 2))(this->blur);
+				this->blur->clearColor();
 				(*((void(__fastcall**)(FBO*))this->frameBuffer->_vptr_IFBO + 9))(this->frameBuffer);
 				v12 = AbstractPass::scene(this);
-				v13 = (*((__int64(__fastcall**)(IScene*))v12->_vptr_IScene + 3))(v12);
+				v13 = v12->render();
 				(*(void(__fastcall**)(__int64, ICamera*))(*(_QWORD*)v13 + 240LL))(v13, c);
 				v14 = AbstractPass::scene(this);
-				v15 = (*((__int64(__fastcall**)(IScene*))v14->_vptr_IScene + 3))(v14);
+				v15 = v14->render();
 				(*(void(__fastcall**)(__int64, _QWORD, _QWORD, _QWORD, _QWORD))(*(_QWORD*)v15 + 88LL))(
 					v15,
 					(unsigned int)view[0],
@@ -349,7 +349,7 @@ namespace MyGL {
 					(unsigned int)view[2],
 					(unsigned int)view[3]);
 				v16 = AbstractPass::scene(this);
-				v17 = (*((__int64(__fastcall**)(IScene*))v16->_vptr_IScene + 3))(v16);
+				v17 = v16->render();
 				(*(void(__fastcall**)(__int64, double, double))(*(_QWORD*)v17 + 16LL))(
 					v17,
 					*(double*)cl_0.cdata,
@@ -387,18 +387,18 @@ namespace MyGL {
 		float ax_0;
 
 		v2 = AbstractPass::scene(this);
-		v3 = (*((__int64(__fastcall**)(IScene*))v2->_vptr_IScene + 21))(v2);
+		v3 = v2->lights();
 		light = (ILight*)(*(__int64(__fastcall**)(__int64, _QWORD))(*(_QWORD*)v3 + 48LL))(v3, (unsigned int)id);
-		z1 = (*((double(__fastcall**)(ILight*))light->_vptr_ILight + 5))(light);
-		y1 = (*((double(__fastcall**)(ILight*))light->_vptr_ILight + 4))(light);
-		x1 = (*((double(__fastcall**)(ILight*))light->_vptr_ILight + 3))(light);
+		z1 = light->z();
+		y1 = light->y();
+		x1 = light->x();
 		Camera::setPos(&this->lview, x1, y1, z1, 1.0);
 		v5 = (__m128d)0xBFE0000000000000LL;
 		Camera::setDistance(&this->lview, -0.5, 1.0);
-		v18 = (*((double(__fastcall**)(ILight*))light->_vptr_ILight + 9))(light);
-		v17 = v18 * (*((double(__fastcall**)(ILight*))light->_vptr_ILight + 9))(light);
-		v16 = (*((double(__fastcall**)(ILight*))light->_vptr_ILight + 10))(light);
-		v5.m128d_f64[0] = (*((double(__fastcall**)(ILight*))light->_vptr_ILight + 10))(light);
+		v18 = light->dirX();
+		v17 = v18 * light->dirX();
+		v16 = light->dirY();
+		v5.m128d_f64[0] = light->dirY();
 		v5.m128d_f64[0] = sqrt(v5.m128d_f64[0] * v16 + v17);
 		*(float*)v5.m128d_f64 = _mm_unpacklo_pd(v5, v5).m128d_f64[0];
 		l = *(float*)v5.m128d_f64;
@@ -408,20 +408,20 @@ namespace MyGL {
 		}
 		else
 		{
-			v6 = (*((double(__fastcall**)(ILight*))light->_vptr_ILight + 9))(light);
+			v6 = light->dirX();
 			v7 = _mm_cvtps_pd((__m128)LODWORD(l));
 			x = v6 / v7.m128d_f64[0];
-			v7.m128d_f64[0] = (*((double(__fastcall**)(ILight*))light->_vptr_ILight + 10))(light);
+			v7.m128d_f64[0] = light->dirY();
 			v8 = _mm_xor_pd((__m128d)0x8000000000000000LL, v7);
 			v8.m128d_f64[0] = atan2(v8.m128d_f64[0] / l, x);
 			ax_0 = _mm_unpacklo_pd(v8, v8).m128d_f64[0];
 		}
-		v14 = (*((double(__fastcall**)(ILight*))light->_vptr_ILight + 11))(light);
-		v9 = (*((double(__fastcall**)(ILight*))light->_vptr_ILight + 11))(light);
+		v14 = light->dirZ();
+		v9 = light->dirZ();
 		v10.m128d_f64[1] = (float)(l * l);
 		v10.m128d_f64[0] = sqrt(v10.m128d_f64[1] + v14 * v9);
 		l2 = _mm_unpacklo_pd(v10, v10).m128d_f64[0];
-		v10.m128d_f64[0] = (*((double(__fastcall**)(ILight*))light->_vptr_ILight + 11))(light);
+		v10.m128d_f64[0] = light->dirZ();
 		v10.m128d_f64[1] = (float)(l / l2);
 		v10.m128d_f64[0] = atan2(v10.m128d_f64[1], v10.m128d_f64[0] / l2);
 		*(float*)v10.m128d_f64 = _mm_unpacklo_pd(v10, v10).m128d_f64[0];
@@ -431,7 +431,7 @@ namespace MyGL {
 			ax_0 * 180.0 / 3.141592653589793 + 90.0,
 			1.0);
 		v11 = AbstractPass::scene(this);
-		v12 = (*((__int64(__fastcall**)(IScene*))v11->_vptr_IScene + 3))(v11);
+		v12 = v11->render();
 		v13 = (*(__int64(__fastcall**)(__int64))(*(_QWORD*)v12 + 256LL))(v12);
 		v10.m128d_f64[0] = (*(double(__fastcall**)(__int64))(*(_QWORD*)v13 + 80LL))(v13);
 		v10.m128d_f64[0] = sqrt(v10.m128d_f64[0]);
@@ -440,7 +440,7 @@ namespace MyGL {
 
 	bool ShadowPass::isDrawable(IGraphicsObject& obj)
 	{
-		return (*((unsigned __int8(__fastcall**)(IGraphicsObject* const))obj->_vptr_IGraphicsObject + 9))(obj) == 1;
+		return obj->visible() == 1;
 	}
 
 	void ShadowPass::setPoint(float* p, float x, float y)

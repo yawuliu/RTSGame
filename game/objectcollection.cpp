@@ -612,7 +612,7 @@ inline void MyGL::ObjectCollection::addObject(MyGL::IGraphicsObject& it)
 	bool mv;
 	int i;
 
-	if ((*((__int64(__fastcall**)(MyGL::IGraphicsObject* const))it->_vptr_IGraphicsObject + 3))(it))
+	if (it->material())
 	{
 		__x = it;
 		std::vector<MyGL::IGraphicsObject*>::push_back((std::vector<MyGL::IGraphicsObject*>_0* const)this->data, &__x);
@@ -722,22 +722,22 @@ inline bool MyGL::ObjectCollection::less(MyGL::IGraphicsObject* obj1, MyGL::IGra
 	__int64 v9;
 	unsigned __int64 v10;
 
-	if (!(*((__int64(__fastcall**)(MyGL::IGraphicsObject*))obj1->_vptr_IGraphicsObject + 3))(obj1))
+	if (!obj1->material())
 		return 0;
-	if (!(*((__int64(__fastcall**)(MyGL::IGraphicsObject*))obj2->_vptr_IGraphicsObject + 3))(obj2))
+	if (!obj2->material())
 		return 1;
-	v4 = (*((__int64(__fastcall**)(MyGL::IGraphicsObject*))obj1->_vptr_IGraphicsObject + 3))(obj1);
+	v4 = obj1->material();
 	v5 = *(unsigned __int8(__fastcall**)(__int64, __int64))(*(_QWORD*)v4 + 56LL);
-	v6 = (*((__int64(__fastcall**)(MyGL::IGraphicsObject*))obj2->_vptr_IGraphicsObject + 3))(obj2);
+	v6 = obj2->material();
 	if (v5(v4, v6))
 		return 1;
-	v7 = (*((__int64(__fastcall**)(MyGL::IGraphicsObject*))obj2->_vptr_IGraphicsObject + 3))(obj2);
+	v7 = obj2->material();
 	v8 = *(unsigned __int8(__fastcall**)(__int64, __int64))(*(_QWORD*)v7 + 56LL);
-	v9 = (*((__int64(__fastcall**)(MyGL::IGraphicsObject*))obj1->_vptr_IGraphicsObject + 3))(obj1);
+	v9 = obj1->material();
 	if (v8(v7, v9))
 		return 0;
-	v10 = (*((__int64(__fastcall**)(MyGL::IGraphicsObject*))obj1->_vptr_IGraphicsObject + 7))(obj1);
-	return v10 < (*((__int64(__fastcall**)(MyGL::IGraphicsObject*))obj2->_vptr_IGraphicsObject + 7))(obj2);
+	v10 = obj1->model();
+	return v10 < obj2->model();
 }
 
 inline void MyGL::ObjectCollection::onChangeMaterialObject(MyGL::IGraphicsObject& obj, MyGL::IMaterial* const a3)

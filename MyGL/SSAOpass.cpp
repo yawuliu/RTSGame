@@ -34,7 +34,7 @@ namespace MyGL {
 		Filter::setShader(&__x_->data->ssao, s_2);
 		m = MainPass::quadModel(mp);
 		Filter::setQuadModel(&__x_->data->ssao, m);
-		arg = (ITexture*)(*((__int64(__fastcall**)(MainPass*))mp->_vptr_IRenderPass + 4))(mp);
+		arg = mp->output();
 		std::allocator<char>::allocator(&v22);
 		std::string::string(&name, "mainPass", &v22);
 		Filter::setInput(&__x_->data->ssao, &name, arg);
@@ -57,12 +57,12 @@ namespace MyGL {
 		v12 = Filter::renderState(&__x_->data->ssao);
 		v12->setBlendMode( 8LL, 0LL);
 		v13 = AbstractPass::scene(__x_);
-		r = (IRender*)(*((__int64(__fastcall**)(IScene*))v13->_vptr_IScene + 3))(v13);
+		r = v13->render();
 		out = (TextureRectangle*)operator new(0x28uLL);
 		TextureRectangle::TextureRectangle(out, r);
 		__x_->out = out;
 		v16 = AbstractPass::scene(__x_);
-		r_1 = (IRender*)(*((__int64(__fastcall**)(IScene*))v16->_vptr_IScene + 3))(v16);
+		r_1 = v16->render();
 		depth = (TextureRectangle*)operator new(0x28uLL);
 		TextureRectangle::TextureRectangle(depth, r_1);
 		__x_->depth = depth;
@@ -117,7 +117,7 @@ namespace MyGL {
 		if (this->active)
 			return this->out;
 		else
-			return (ITextureRectangle*)(*((__int64(__fastcall**)(MainPass*))this->mpass->_vptr_IRenderPass + 4))(this->mpass);
+			return this->mpass->output();
 	}
 
 	void SSAOpass::resizeFrame()

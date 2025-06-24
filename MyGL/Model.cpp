@@ -33,24 +33,23 @@ namespace MyGL {
     void Model::bind() {
         if (VBO::size(&this->extra)) {
             glEnableClientState(32886LL);
-            (*((void (__fastcall **)(IRender *const, VBO *, __int64)) this->render->_vptr_IRender +
-               19))(
-                    this->render,
+
+            this->render > bindVBO(
                     &this->extra,
                     3LL);
         } else {
             glDisableClientState(32886LL);
         }
-        (*((void (__fastcall **)(IRender *const, VBO *, __int64)) this->render->_vptr_IRender + 19))(
-                this->render,
+
+        this->render->bindVBO(
                 &this->norm,
                 2LL);
-        (*((void (__fastcall **)(IRender *const, VBO *, __int64)) this->render->_vptr_IRender + 19))(
-                this->render,
+
+        this->render->bindVBO(
                 &this->tex,
                 1LL);
-        (*((void (__fastcall **)(IRender *const, VBO *, _QWORD)) this->render->_vptr_IRender + 19))(
-                this->render,
+
+        this->render->bindVBO(
                 &this->vert,
                 0LL);
     }
@@ -72,8 +71,8 @@ namespace MyGL {
     void Model::draw(bool binded) {
         if (!binded)
             (*((void (__fastcall **)(Model *const)) this->_vptr_IModel + 2))(this);
-        (*((void (__fastcall **)(IRender *const, _QWORD, _QWORD)) this->render->_vptr_IRender + 21))(
-                this->render,
+
+        this->render->drawVBO(
                 (unsigned int) this->type,
                 this->size);
     }
@@ -88,9 +87,8 @@ namespace MyGL {
             if (Isize <= 1) {
                 glDrawArrays((unsigned int) this->type, (unsigned int) *fist, (unsigned int) *count);
             } else {
-                v5 = (CGL *) (*((__int64 (__fastcall **)(IRender *const)) this->render->_vptr_IRender +
-                                9))(this->render);
-                v6 = CGL::ext(v5);
+                v5 = this->render->gl();
+                v6 = v5->ext();
                 v6->glMultiDrawArraysEXT(this->type, fist, count, Isize);
             }
         } else {
@@ -165,17 +163,17 @@ namespace MyGL {
 
     void Model::uBind() {
         if (VBO::size(&this->extra))
-            (*((void (__fastcall **)(IRender *const, VBO *)) this->render->_vptr_IRender + 20))(
-                    this->render,
+
+            this->render->ubindVBO(
                     &this->extra);
-        (*((void (__fastcall **)(IRender *const, VBO *)) this->render->_vptr_IRender + 20))(
-                this->render,
+
+        this->render->ubindVBO(
                 &this->norm);
-        (*((void (__fastcall **)(IRender *const, VBO *)) this->render->_vptr_IRender + 20))(
-                this->render,
+
+        this->render->ubindVBO(
                 &this->tex);
-        (*((void (__fastcall **)(IRender *const, VBO *)) this->render->_vptr_IRender + 20))(
-                this->render,
+
+        this->render->ubindVBO(
                 &this->vert);
         glDisableClientState(32886LL);
     }

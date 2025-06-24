@@ -46,7 +46,7 @@ namespace MyGL {
             return sma;
         } else {
             v6 = AbstractPass::scene(thisa);
-            v7 = (*((__int64 (__fastcall **)(IScene *)) v6->_vptr_IScene + 3))(v6);
+            v7 = v6->render();
             v8 = (CGL *) (*(__int64 (__fastcall **)(__int64)) (*(_QWORD *) v7 + 72LL))(v7);
             v9 = CGL::errorCtrl(v8);
             (*((void (__fastcall **)(IErrorControl *, _QWORD, const char *)) v9->_vptr_IErrorControl + 4))(
@@ -74,7 +74,7 @@ namespace MyGL {
             return Filter::addArgs(thisa, sm, u);
         } else {
             v7 = AbstractPass::scene(thisa);
-            v8 = (*((__int64 (__fastcall **)(IScene *)) v7->_vptr_IScene + 3))(v7);
+            v8 = v7->render();
             v9 = (CGL *) (*(__int64 (__fastcall **)(__int64)) (*(_QWORD *) v8 + 72LL))(v8);
             v10 = CGL::errorCtrl(v9);
             (*((void (__fastcall **)(IErrorControl *, _QWORD, const char *)) v10->_vptr_IErrorControl + 4))(
@@ -110,13 +110,13 @@ namespace MyGL {
 
         if (this->data->shader && this->data->quad && this->data->shader) {
             v5 = AbstractPass::scene(this);
-            v6 = (*((__int64 (__fastcall **)(IScene *)) v5->_vptr_IScene + 3))(v5);
+            v6 = v5->render();
             (*(void (__fastcall **)(__int64, Filter::Data *)) (*(_QWORD *) v6 + 272LL))(v6, this->data);
             v7 = AbstractPass::scene(this);
-            v8 = (*((__int64 (__fastcall **)(IScene *)) v7->_vptr_IScene + 3))(v7);
+            v8 = v7->render();
             (*(void (__fastcall **)(__int64)) (*(_QWORD *) v8 + 296LL))(v8);
             v9 = AbstractPass::scene(this);
-            v10 = (*((__int64 (__fastcall **)(IScene *)) v9->_vptr_IScene + 3))(v9);
+            v10 = v9->render();
             (*(void (__fastcall **)(__int64, IShader *)) (*(_QWORD *) v10 + 104LL))(v10, this->data->shader);
             for (i._M_node = std::map<IUniformSampler *, ITexture *>::begin(&this->data->args)._M_node;;
                  std::_Rb_tree_iterator<std::pair<IUniformSampler *const, ITexture *>>::operator++(
@@ -126,7 +126,7 @@ namespace MyGL {
                         &i, &__x))
                     break;
                 v11 = AbstractPass::scene(this);
-                v12 = (*((__int64 (__fastcall **)(IScene *)) v11->_vptr_IScene + 3))(v11);
+                v12 = v11->render();
                 v13 = *(void (__fastcall **)(__int64, IUniformSampler *const, ITexture *)) (
                         *(_QWORD *) v12 + 128LL);
                 second = std::_Rb_tree_iterator<std::pair<IUniformSampler *const, ITexture *>>::operator->(
@@ -136,14 +136,14 @@ namespace MyGL {
                 v13(v12, v15->first, second);
             }
             v16 = AbstractPass::scene(this);
-            v17 = (*((__int64 (__fastcall **)(IScene *)) v16->_vptr_IScene + 3))(v16);
+            v17 = v16->render();
             (*(void (__fastcall **)(__int64, IModel *)) (*(_QWORD *) v17 + 192LL))(v17, this->data->quad);
             v18 = AbstractPass::scene(this);
-            v19 = (*((__int64 (__fastcall **)(IScene *)) v18->_vptr_IScene + 3))(v18);
+            v19 = v18->render();
             (*(void (__fastcall **)(__int64)) (*(_QWORD *) v19 + 312LL))(v19);
         } else {
             v1 = AbstractPass::scene(this);
-            v2 = (*((__int64 (__fastcall **)(IScene *)) v1->_vptr_IScene + 3))(v1);
+            v2 = v1->render();
             v3 = (CGL *) (*(__int64 (__fastcall **)(__int64)) (*(_QWORD *) v2 + 72LL))(v2);
             v4 = CGL::errorCtrl(v3);
             (*((void (__fastcall **)(IErrorControl *, _QWORD, const char *)) v4->_vptr_IErrorControl + 4))(

@@ -16,8 +16,8 @@ namespace MyGL {
 	{
 		__int64 v2;
 
-		this->data = (IData*)(*((__int64(__fastcall**)(IScene*))s->_vptr_IScene + 2))(s);
-		v2 = (*((__int64(__fastcall**)(IScene*))s->_vptr_IScene + 6))(s);
+		this->data = s->dataControl();
+		v2 = s->shaderLoader();
 		this->env = (IShaderEnvironment*)(*(__int64(__fastcall**)(__int64))(*(_QWORD*)v2 + 32LL))(v2);
 	}
 
@@ -25,10 +25,8 @@ namespace MyGL {
 	{
 		void(__fastcall * v3)(IData*, __int64, IModel*);
 		__int64 v4;
-
-		v3 = (void(__fastcall*)(IData*, __int64, IModel*)) * ((_QWORD*)this->data->_vptr_IData + 8);
 		v4 = std::string::data((std::string&)name);
-		v3(this->data, v4, model);
+        this->data->addModel(v4, model);
 		return this;
 	}
 
@@ -36,10 +34,8 @@ namespace MyGL {
 	{
 		void(__fastcall * v3)(IData*, __int64, IShader*);
 		__int64 v4;
-
-		v3 = (void(__fastcall*)(IData*, __int64, IShader*)) * ((_QWORD*)this->data->_vptr_IData + 13);
 		v4 = std::string::data((std::string&)name);
-		v3(this->data, v4, sh);
+        this->data->addShader(v4, sh);
 		return this;
 	}
 
@@ -47,10 +43,8 @@ namespace MyGL {
 	{
 		void(__fastcall * v3)(IData*, __int64, ITexture2d*);
 		__int64 v4;
-
-		v3 = (void(__fastcall*)(IData*, __int64, ITexture2d*)) * ((_QWORD*)this->data->_vptr_IData + 4);
 		v4 = std::string::data((std::string&)name);
-		v3(this->data, v4, texture);
+        this->data->addTexture(v4, texture);
 		return this;
 	}
 
@@ -59,11 +53,9 @@ namespace MyGL {
 		void(__fastcall * v3)(IData*, __int64, __int64);
 		__int64 v4;
 		__int64 v5;
-
-		v3 = (void(__fastcall*)(IData*, __int64, __int64)) * ((_QWORD*)this->data->_vptr_IData + 9);
 		v4 = std::string::data((std::string&)file);
 		v5 = std::string::data((std::string&)name);
-		v3(this->data, v5, v4);
+        this->data->addModel(v5, v4);
 		return this;
 	}
 
@@ -72,11 +64,9 @@ namespace MyGL {
 		void(__fastcall * v3)(IData*, __int64, __int64);
 		__int64 v4;
 		__int64 v5;
-
-		v3 = (void(__fastcall*)(IData*, __int64, __int64)) * ((_QWORD*)this->data->_vptr_IData + 10);
 		v4 = std::string::data((std::string&)file);
 		v5 = std::string::data((std::string&)name);
-		v3(this->data, v5, v4);
+        this->data->addModelBin_v0(, v5, v4);
 		return this;
 	}
 
@@ -86,12 +76,10 @@ namespace MyGL {
 		__int64 v5;
 		__int64 v6;
 		__int64 v7;
-
-		v4 = (void(__fastcall*)(IData*, __int64, __int64, __int64, __int64)) * ((_QWORD*)this->data->_vptr_IData + 14);
 		v5 = std::string::data((std::string&)fs_0);
 		v6 = std::string::data((std::string&)vs);
 		v7 = std::string::data((std::string&)name);
-		v4(this->data, v7, v6, v5, 1LL);
+        this->data->addShader(v7, v6, v5, 1LL);
 		return this;
 	}
 
@@ -100,11 +88,9 @@ namespace MyGL {
 		void(__fastcall * v3)(IData*, __int64, __int64);
 		__int64 v4;
 		__int64 v5;
-
-		v3 = (void(__fastcall*)(IData*, __int64, __int64)) * ((_QWORD*)this->data->_vptr_IData + 5);
 		v4 = std::string::data((std::string&)file);
 		v5 = std::string::data((std::string&)name);
-		v3(this->data, v5, v4);
+        this->data->addTexture(v5, v4);
 		return this;
 	}
 
@@ -140,8 +126,8 @@ namespace MyGL {
 	{
 		__int64 v2;
 
-		this->data = (IData*)(*((__int64(__fastcall**)(IScene* const))s->_vptr_IScene + 2))(s);
-		v2 = (*((__int64(__fastcall**)(IScene* const))s->_vptr_IScene + 6))(s);
+		this->data = s->dataControl();
+		v2 = s->shaderLoader();
 		this->env = (IShaderEnvironment*)(*(__int64(__fastcall**)(__int64))(*(_QWORD*)v2 + 32LL))(v2);
 	}
 }

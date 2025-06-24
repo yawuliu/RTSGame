@@ -39,7 +39,7 @@ namespace MyGL {
 		if (this->sh)
 		{
 			v1 = this->render();
-			(*((void(__fastcall**)(IRender*, IShader*))v1->_vptr_IRender + 13))(v1, this->sh);
+			v1->useShader( this->sh);
 		}
 	}
 
@@ -111,13 +111,13 @@ namespace MyGL {
 		this->updateMat = 0;
 		ObjectMatrix::ObjectMatrix(&m);
 		ObjectMatrix::identity(&this->lMatrix);
-		v4 = AbstractTechnique::render(this);
-		(*((void(__fastcall**)(IRender*, ObjectMatrix*))v4->_vptr_IRender + 41))(v4, &m);
+		v4 = this->render();
+		v4->getProjectionMatrix(&m);
 		ObjectMatrix::mul(&this->lMatrix, &m);
-		v5 = AbstractTechnique::render(this);
-		(*((void(__fastcall**)(IRender*, ObjectMatrix*))v5->_vptr_IRender + 40))(v5, &m);
+		v5 = this->render();
+		v5->getModeViewlMatrix(&m);
 		ObjectMatrix::mul(&this->lMatrix, &m);
-		other = (const void*)(*((__int64(__fastcall**)(const IGraphicsObject&))obj->_vptr_IGraphicsObject + 5))(obj);
+		other = obj->objectMatrix();
 		ObjectMatrix::mul(&this->lMatrix, other);
 		v3 = this->sh != 0LL;
 		ObjectMatrix::~ObjectMatrix(&m);
@@ -407,11 +407,11 @@ namespace MyGL {
 			if (this->lDir)
 			{
 				v3 = AbstractTechnique::scene(this);
-				v4 = (*((__int64(__fastcall**)(IScene*))v3->_vptr_IScene + 21))(v3);
+				v4 = v3->lights();
 				if ((*(unsigned int(__fastcall**)(__int64))(*(_QWORD*)v4 + 40LL))(v4))
 				{
 					v6 = AbstractTechnique::scene(this);
-					v7 = (*((__int64(__fastcall**)(IScene*))v6->_vptr_IScene + 21))(v6);
+					v7 = v6->lights();
 					v8 = (*(__int64(__fastcall**)(__int64, _QWORD))(*(_QWORD*)v7 + 48LL))(v7, 0LL);
 					l = (Float*)(*(__int64(__fastcall**)(__int64))(*(_QWORD*)v8 + 104LL))(v8);
 					(*((void(__fastcall**)(IUniform4f*, Float, Float, Float, double))this->lDir->_vptr_IUniform

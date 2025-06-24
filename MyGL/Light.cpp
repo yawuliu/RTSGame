@@ -47,10 +47,9 @@ namespace MyGL {
 		(*(void(__fastcall**)(__int64))(*(_QWORD*)v1 + 16LL))(v1);
 		v2 = (*((__int64(__fastcall**)(Light::Material* const))this->_vptr_IMaterial + 5))(this);
 		(*(void(__fastcall**)(__int64))(*(_QWORD*)v2 + 24LL))(v2);
-		v3 = AbstractMaterial::render(this);
-		v4 = (void(__fastcall*)(IRender*, __int64)) * ((_QWORD*)v3->_vptr_IRender + 34);
+		v3 = this->render();
 		v5 = (*((__int64(__fastcall**)(Light::Material* const))this->_vptr_IMaterial + 11))(this);
-		v4(v3, v5);
+        v3->setRenderState(v5);
 	}
 
 	IRenderState* Light::Material::renderState()
@@ -117,7 +116,7 @@ namespace MyGL {
 
 	bool Light::Technicue::passEvent(const IRenderPass* pass)
 	{
-		return (*((unsigned int(__fastcall**)(const IRenderPass*))pass->_vptr_IRenderPass + 3))(pass) == 10
+		return pass->type() == 10
 			&& Light::Technicue::lPass(this, (const SmallLightsPass*)pass);
 	}
 
@@ -139,7 +138,7 @@ namespace MyGL {
 	Light::Light(ILightsCollection& c)
 	{
 		ILight::ILight(this);
-		this->_vptr_ILight = (int (**)(...))(&`vtable for'Light + 2);
+
 			this->collect = c;
 		(*((void(__fastcall**)(ILightsCollection* const, Light* const))this->collect->_vptr_ILightsCollection + 2))(
 			this->collect,
@@ -154,18 +153,13 @@ namespace MyGL {
 	Light::~Light()
 	{
 		Light::Data* data;
-
-		this->_vptr_ILight = (int (**)(...))(&`vtable for'Light + 2);
 			(*((void(__fastcall**)(ILightsCollection* const, Light* const))this->collect->_vptr_ILightsCollection + 4))(
 				this->collect,
 				this);
-		data = this->data;
-		if (data)
+		if (this->data)
 		{
-			Light::Data::~Data(this->data);
-			operator delete(data);
+			delete this->data;
 		}
-		ILight::~ILight(this);
 	}
 
 	Float* Light::dirTransform()

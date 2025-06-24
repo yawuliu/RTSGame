@@ -7,7 +7,7 @@
 #include "privateGLSupportClass.h"
 #include "Color.h"
 #include "IScene.h"
-#include "CGL.h.h"
+#include "CGL.h"
 #include "IMaterial.h"
 #include "IVBO.h"
 

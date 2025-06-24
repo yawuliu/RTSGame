@@ -50,10 +50,9 @@ namespace MyGL {
 			StdMaterial::bindTextures(this);
 		v5 = (*((__int64(__fastcall**)(StdMaterial* const))this->_vptr_IMaterial + 5))(this);
 		this->curShader = (const IShader*)(*(__int64(__fastcall**)(__int64))(*(_QWORD*)v5 + 40LL))(v5);
-		v6 = AbstractMaterial::render(this);
-		v7 = (void(__fastcall*)(IRender*, __int64)) * ((_QWORD*)v6->_vptr_IRender + 34);
+		v6 = this->render();
 		v8 = (*((__int64(__fastcall**)(StdMaterial* const))this->_vptr_IMaterial + 11))(this);
-		v7(v6, v8);
+        v6->setRenderState(v8);
 	}
 
 	void StdMaterial::bindTextures()
@@ -86,12 +85,10 @@ namespace MyGL {
 					v3 == (*((__int64(__fastcall**)(IUniformSampler*))v4->_vptr_IUniform + 5))(v4))
 				&& this->glow)
 			{
-				v6 = AbstractMaterial::render(this);
-				v7 = (void(__fastcall*)(IRender*, IUniformSampler*, ITexture2d*)) * ((_QWORD*)v6->_vptr_IRender
-					+ 16);
+				v6 = this->render();
 				glow = this->glow;
 				v9 = StdTechnique::glowSampler(this->mtechnique);
-				v7(v6, v9, glow);
+                v6->bindTexture(v9, glow);
 			}
 			else
 			{
@@ -107,11 +104,10 @@ namespace MyGL {
 						{
 							if (this->diff)
 							{
-								v15 = AbstractMaterial::render(this);
-								v16 = (void(__fastcall*)(IRender*, IUniformSampler*, ITexture2d*)) * ((_QWORD*)v15->_vptr_IRender + 16);
+								v15 = this->render();
 								diff = this->diff;
 								v18 = StdTechnique::opacitySampler_toSM(this->mtechnique);
-								v16(v15, v18, diff);
+                                v15->bindTexture(v18, diff);
 							}
 						}
 					}
@@ -251,42 +247,34 @@ namespace MyGL {
 			ok = 0;
 			s = this->mtechnique->diffSampler();
 			if (StdMaterial::checkSampler(this, s) && this->diff) {
-				v3 = AbstractMaterial::render(this);
-				v4 = (void(__fastcall*)(IRender*, IUniformSampler*, ITexture2d*)) * ((_QWORD*)v3->_vptr_IRender
-					+ 16);
+				v3 = this->render();
 				diff = this->diff;
 				v6 = this->mtechnique->diffSampler();
-				v4(v3, v6, diff);
+                v3->bindTexture(v6, diff);
 				ok = 1;
 			}
 			s_1 = this->mtechnique->shadowSampler();
 			if (StdMaterial::checkSampler(this, s_1) && this->shadowMap) {
-				v9 = AbstractMaterial::render(this);
-				v10 = (void(__fastcall*)(IRender*, IUniformSampler*, ITexture2d*)) * ((_QWORD*)v9->_vptr_IRender
-					+ 16);
+				v9 = this->render();
 				shadowMap = this->shadowMap;
 				v12 = this->mtechnique->shadowSampler();
-				v10(v9, v12, shadowMap);
+                v9->bindTexture(v12, shadowMap);
 				ok = 1;
 			}
 			s_2 = this->mtechnique->specularSampler();
 			if (StdMaterial::checkSampler(this, s_2) && this->spec) {
-				v15 = AbstractMaterial::render(this);
-				v16 = (void(__fastcall*)(IRender*, IUniformSampler*, ITexture2d*)) * ((_QWORD*)v15->_vptr_IRender
-					+ 16);
+				v15 = this->render();
 				spec = this->spec;
 				v18 = this->mtechnique->specularSampler();
-				v16(v15, v18, spec);
+                v15->bindTexture(v18, spec);
 				ok = 1;
 			}
 			s_3 = this->mtechnique->normalMapSampler();
 			if (StdMaterial::checkSampler(this, s_3) && this->normal) {
-				v21 = AbstractMaterial::render(this);
-				v22 = (void(__fastcall*)(IRender*, IUniformSampler*, ITexture2d*)) * ((_QWORD*)v21->_vptr_IRender
-					+ 16);
+				v21 = this->render();
 				normal = this->normal;
 				v24 = this->mtechnique->normalMapSampler();
-				v22(v21, v24, normal);
+                v21->bindTexture(v24, normal);
 				return 1;
 			}
 			return ok;

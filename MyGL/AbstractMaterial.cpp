@@ -50,8 +50,7 @@ namespace MyGL {
     }
 
     IRender *AbstractMaterial::render() {
-        return (IRender *) (*((__int64 (__fastcall **)(IScene *const)) this->mscene->_vptr_IScene + 3))(
-                this->mscene);
+        return this->mscene->render();
     }
 
     IScene &AbstractMaterial::scene() {

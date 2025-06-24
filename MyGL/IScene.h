@@ -20,63 +20,37 @@ namespace MyGL {
     public:
         IScene() = default;
 
-        virtual ~IScene() = default;
-
-        virtual IData &dataControl() = 0;
-
-        virtual IRender &render() = 0;
-
-        virtual ITextureLoader &textureLoader() = 0;
-
-        virtual IShaderLoader &shaderLoader() = 0;
-
-        virtual IModelLoader &modelLoader() = 0;
-
-        virtual ISceneGraph &graph() = 0;
-
-        virtual IObjectCollection &objects() = 0;
-
-        virtual void insertObject(IGraphicsObject &) = 0;
-
-        virtual void removeObject(IGraphicsObject &) = 0;
-
-        virtual void changeObject(IGraphicsObject &, IMaterial &) = 0;
-
-        virtual ITexture2d &texture(const std::string &name) = 0;
-
-        virtual const IRenderAlgoSettings &settings() = 0;
-
-        virtual void draw() = 0;
-
-        virtual bool initGL() = 0;
-
-        virtual void finitGL() = 0;
-
-        virtual void createRenderAlgo() = 0;
-
-        virtual void recreateRenderAlgo() = 0;
-
-        virtual IDataLoader &loader() = 0;
-
-        virtual ILightsCollection &lights() = 0;
-
-        virtual void upsetCameraEvent(IRender &);
-
-        virtual ITextureLoader &allocTextureLoader(void) = 0;
-
-        virtual IShaderLoader &allocShaderLoader(void) = 0;
-
-        virtual IModelLoader &allocModelLoader(void) = 0;
-
-        virtual IObjectCollection &allocObjectCollection(void) = 0;
-
-        virtual ILightsCollection &allocLightsCollection(void) = 0;
-
-        virtual ISceneGraph &allocSceneGraph(void) = 0;
-
-        virtual void initLightsCollection(void) = 0;
-
-        virtual IRenderAlgo &allocRenderAlgo(void) = 0;
+        virtual ~IScene() = default; // 0
+        // virtual void ~IScene() = 0; // 1
+        virtual void dataControl() = 0; // 2
+        virtual void render() = 0; // 3
+        // virtual void render() = 0; // 4
+        virtual void textureLoader() = 0;//5
+        virtual void shaderLoader() = 0; //6
+        virtual void modelLoader() = 0;//7
+        virtual void graph() = 0;//8
+        virtual void objects() = 0;//9
+        virtual void insertObject(MyGL::IGraphicsObject &) = 0;//10
+        virtual void removeObject(MyGL::IGraphicsObject &) = 0;//11
+        virtual void changeObject(MyGL::IGraphicsObject &, MyGL::IMaterial &) = 0;//12
+        virtual void settings() = 0;//13
+        //virtual void settings() = 0;//14
+        virtual void draw() = 0;//15
+        virtual void initGL() = 0;//16
+        virtual void finitGL() = 0;//17
+        virtual void createRenderAlgo() = 0;//18
+        virtual void recreateRenderAlgo() = 0;//19
+        virtual void loader() = 0;//20
+        virtual void lights() = 0;//21
+        virtual void upsetCameraEvent(MyGL::IRender &) = 0;//22
+        virtual void allocTextureLoader() = 0;//23
+        virtual void allocShaderLoader() = 0;//24
+        virtual void allocModelLoader() = 0;//25
+        virtual void allocObjectCollection() = 0;//26
+        virtual void allocLightsCollection() = 0;//27
+        virtual void allocSceneGraph() = 0;//28
+        virtual void initLightsCollection() = 0;//29
+        virtual void allocRenderAlgo() = 0;//30
     };
 }
 

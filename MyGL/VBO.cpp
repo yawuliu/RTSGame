@@ -52,7 +52,7 @@ namespace MyGL {
 
 		if (this->vertices)
 		{
-			v1 = (CGL*)(*((__int64(__fastcall**)(IRender* const))this->render->_vptr_IRender + 9))(this->render);
+			v1 = this->render->gl();
 			v2 = CGL::ext(v1);
 			v2->glDeleteBuffersARB(1LL, &this->vertices);
 			this->vertices = 0;
@@ -63,7 +63,7 @@ namespace MyGL {
 		CGL* v4;
 		privateGLSupportClass* v5;
 
-		v4 = (CGL*)(*((__int64(__fastcall**)(IRender* const))this->render->_vptr_IRender + 9))(this->render);
+		v4 = this->render->gl();
 		v5 = CGL::ext(v4);
 		v5->glBufferSubDataARB(34962LL, offset, size, data);
 	}
@@ -82,15 +82,15 @@ namespace MyGL {
 
 		if (!p_vert->vertices)
 		{
-			v3 = (CGL*)(*((__int64(__fastcall**)(IRender* const))p_vert->render->_vptr_IRender + 9))(p_vert->render);
+			v3 = p_vert->render->gl();
 			v4 = CGL::ext(v3);
 			v4->glGenBuffersARB(1LL, &p_vert->vertices);
 		}
 		p_vert->_size = s;
-		v5 = (CGL*)(*((__int64(__fastcall**)(IRender* const))p_vert->render->_vptr_IRender + 9))(p_vert->render);
+		v5 = p_vert->render->gl();
 		v6 = CGL::ext(v5);
 		v6->glBindBufferARB(34962LL, p_vert->vertices);
-		v7 = (CGL*)(*((__int64(__fastcall**)(IRender* const))p_vert->render->_vptr_IRender + 9))(p_vert->render);
+		v7 = p_vert->render->gl();
 		v8 = CGL::ext(v7);
 		v8->glBufferDataARB(34962LL, 4LL * p_vert->_size, data, 35044LL);
 	}
@@ -103,14 +103,14 @@ namespace MyGL {
 
 		if (this->refCount)
 		{
-			v2 = (CGL*)(*((__int64(__fastcall**)(IRender* const))this->render->_vptr_IRender + 9))(this->render);
+			v2 = this->render->gl();
 			v3 = CGL::errorCtrl(v2);
 			(*((void(__fastcall**)(IErrorControl*, _QWORD, const char*))v3->_vptr_IErrorControl + 6))(
 				v3,
 				0LL,
 				"[error]VBO::bind : buffer is already mapped!");
 		}
-		v4 = (CGL*)(*((__int64(__fastcall**)(IRender* const))this->render->_vptr_IRender + 9))(this->render);
+		v4 = this->render->gl();
 		v5 = CGL::ext(v4);
 		v5->glBindBufferARB(34962LL, this->vertices);
 		if (mode)
@@ -144,7 +144,7 @@ namespace MyGL {
 		CGL* v1;
 		privateGLSupportClass* v2;
 
-		v1 = (CGL*)(*((__int64(__fastcall**)(IRender* const))this->render->_vptr_IRender + 9))(this->render);
+		v1 = this->render->gl();
 		v2 = CGL::ext(v1);
 		v2->glBindBufferARB(34962LL, 0LL);
 	}
@@ -178,10 +178,10 @@ namespace MyGL {
 
 		if (++this->refCount == 1)
 		{
-			v1 = (CGL*)(*((__int64(__fastcall**)(IRender* const))this->render->_vptr_IRender + 9))(this->render);
+			v1 = this->render->gl();
 			v2 = CGL::ext(v1);
 			v2->glBindBufferARB(34962LL, this->vertices);
-			v3 = (CGL*)(*((__int64(__fastcall**)(IRender* const))this->render->_vptr_IRender + 9))(this->render);
+			v3 = this->render->gl();
 			v4 = CGL::ext(v3);
 			this->map = v4->glMapBufferARB(34962LL, 35002LL);
 		}
@@ -195,11 +195,11 @@ namespace MyGL {
 
 		if (!--this->refCount)
 		{
-			v1 = (CGL*)(*((__int64(__fastcall**)(IRender* const))this->render->_vptr_IRender + 9))(this->render);
+			v1 = this->render->gl();
 			v2 = CGL::ext(v1);
 			v2->glBindBufferARB(34962LL, this->vertices);
 			this->map = 0LL;
-			v3 = (CGL*)(*((__int64(__fastcall**)(IRender* const))this->render->_vptr_IRender + 9))(this->render);
+			v3 = this->render->gl();
 			v4 = CGL::ext(v3);
 			v4->glUnmapBufferARB(34962LL);
 		}

@@ -16,7 +16,7 @@ namespace MyGL {
 		this->mscene = s;
 		std::vector<IRenderPass*>::vector(&this->passes);
 		v4 = ForwardRenderAlgo::scene(this);
-		r = (IRender*)(*((__int64(__fastcall**)(IScene*))v4->_vptr_IScene + 3))(v4);
+		r = v4->render();
 		quad = (Model*)operator new(0xC0uLL);
 		Model::Model(quad, r);
 		this->quad = quad;
@@ -104,17 +104,17 @@ namespace MyGL {
 	void ForwardRenderAlgo::exec()
 	{
 		if (this->isShadowPass())
-			(*((void(__fastcall**)(ShadowPass*))this->shadowPass->_vptr_IRenderPass + 2))(this->shadowPass);
+			this->shadowPass->exec();
 		if (LincPass::validate(this->lincPass))
-			(*((void(__fastcall**)(MainPass*))this->mainPass->_vptr_IRenderPass + 2))(this->mainPass);
+			this->mainPass->exec();
 		if (this->vlsPass)
-			(*((void(__fastcall**)(VolumetricLightScatteringPass*))this->vlsPass->_vptr_IRenderPass + 2))(this->vlsPass);
+			this->vlsPass->exec();
 		if (BloomPass::validate(this->bloomPass) && ForwardRenderAlgo::isBloom(this))
-			(*((void(__fastcall**)(BloomPass*))this->bloomPass->_vptr_IRenderPass + 2))(this->bloomPass);
+			this->bloomPass->exec();
 		if (GlowPass::validate(this->glowPass))
-			(*((void(__fastcall**)(GlowPass*))this->glowPass->_vptr_IRenderPass + 2))(this->glowPass);
+			this->glowPass->exec();
 		if (LincPass::validate(this->lincPass))
-			(*((void(__fastcall**)(LincPass*))this->lincPass->_vptr_IRenderPass + 2))(this->lincPass);
+			this->lincPass->exec();
 	}
 
 	void ForwardRenderAlgo::freeAlgo()
@@ -126,7 +126,7 @@ namespace MyGL {
 		{
 			v1 = *std::vector<IRenderPass*>::operator[](&this->passes, i);
 			if (v1)
-				(*((void(__fastcall**)(IRenderPass*))v1->_vptr_IRenderPass + 1))(v1);
+                delete v1;
 		}
 		std::vector<IRenderPass*>::clear(&this->passes);
 	}
@@ -173,10 +173,7 @@ namespace MyGL {
 		shadowPass = (ShadowPass*)operator new(0x1D0uLL);
 		ShadowPass::ShadowPass(shadowPass, s, adapter);
 		this->shadowPass = shadowPass;
-		this->mainPass = (MainPass*)(*((__int64(__fastcall**)(ForwardRenderAlgo&, const Adapter&))this->_vptr_IRenderPass
-			+ 7))(
-				this,
-				adapter);
+		this->mainPass =this->allockMainPass( adapter);
 		this->vlsPass = 0LL;
 		s_1 = ForwardRenderAlgo::scene(this);
 		depth = MainPass::depthBuffer(this->mainPass);
@@ -184,7 +181,7 @@ namespace MyGL {
 		GlowPass::GlowPass(glowPass_1, s_1, adapter, depth);
 		this->glowPass = glowPass_1;
 		s_2 = ForwardRenderAlgo::scene(this);
-		in = (ITextureRectangle*)(*((__int64(__fastcall**)(MainPass*))this->mainPass->_vptr_IRenderPass + 4))(this->mainPass);
+		in = this->mainPass->output();
 		bloomPass_1 = (BloomPass*)operator new(0x78uLL);
 		BloomPass::BloomPass(bloomPass_1, s_2, adapter, in);
 		this->bloomPass = bloomPass_1;
@@ -201,7 +198,7 @@ namespace MyGL {
 		else
 		{
 			s_4 = ForwardRenderAlgo::scene(this);
-			f_1 = (ITextureRectangle*)(*((__int64(__fastcall**)(MainPass*))this->mainPass->_vptr_IRenderPass + 4))(this->mainPass);
+			f_1 = this->mainPass->output();
 			g_1 = GlowPass::output(this->glowPass);
 			b_1 = BloomPass::output(this->bloomPass);
 			d_1 = MainPass::depthBuffer(this->mainPass);

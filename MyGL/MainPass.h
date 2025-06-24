@@ -11,43 +11,44 @@
 #include "FBO.h"
 
 namespace MyGL {
-	class Adapter;
+    class Adapter;
 
-	class MainPass : public AbstractPass {
-	public:
-		MainPass(IScene& s, const Adapter& adapter, IModel* q, bool autoMake);
+    class MainPass : public AbstractPass {
+    public:
+        MainPass(IScene &s, const Adapter &adapter, IModel *q, bool autoMake);
 
-		virtual ~MainPass();
+        virtual ~MainPass();//0
+        //1
+        virtual void exec();//2
 
-		void buildQuad(int w, int h);
+        virtual IRenderPass::Pass::Type type();//3
+        virtual ITextureRectangle *output();//4
+        virtual void makeAlgo(MainPass &mp, std::vector<IRenderPass *> &passes, const Adapter &adapter);//5
 
-		ITextureRectangle* depthBuffer();
+        void buildQuad(int w, int h);
 
-		void draw();
+        ITextureRectangle *depthBuffer();
 
-		void exec();
+        void draw();
 
-		FBO* frameBuffer();
 
-		void makeAlgo(const Adapter& adapter);
+        FBO *frameBuffer();
 
-		void makeAlgo(MainPass& mp, std::vector<IRenderPass*>& passes, const Adapter& adapter);
+        void makeAlgo(const Adapter &adapter);
 
-		ITextureRectangle* output();
 
-		IModel* quadModel();
+        IModel *quadModel();
 
-		void resizeFrame();
+        void resizeFrame();
 
-		void setPoint(float* p, float x, float y);
+        void setPoint(float *p, float x, float y);
 
-		IRenderPass::Pass::Type type();
 
-	protected:
-		IModel* quad;
-		FBO* m_frameBuffer;
-		ITextureRectangle* frame;
-		ITextureRectangle* depth;
-		std::vector<IRenderPass*> passes;
-	};
+    protected:
+        IModel *quad;
+        FBO *m_frameBuffer;
+        ITextureRectangle *frame;
+        ITextureRectangle *depth;
+        std::vector<IRenderPass *> passes;
+    };
 }

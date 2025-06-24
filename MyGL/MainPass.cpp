@@ -9,12 +9,12 @@ namespace MyGL {
 		IRender* r_1;
 		TextureRectangle* depth;
 		v5 = AbstractPass::scene(this);
-		r = (IRender*)(*((__int64(__fastcall**)(IScene*)) v5->_vptr_IScene + 3))(v5);
+		r = v5->render();
 		frame = (TextureRectangle*) operator new(0x28uLL);
 		TextureRectangle::TextureRectangle(frame, r);
 		this->frame = frame;
 		v8 = AbstractPass::scene(this);
-		r_1 = (IRender*)(*((__int64(__fastcall**)(IScene*)) v8->_vptr_IScene + 3))(v8);
+		r_1 = v8->render();
 		depth = (TextureRectangle*) operator new(0x28uLL);
 		TextureRectangle::TextureRectangle(depth, r_1);
 		this->depth = depth;
@@ -37,7 +37,7 @@ namespace MyGL {
 		for (i = 0; i < std::vector<IRenderPass*>::size(&this->passes); ++i) {
 			v1 = *std::vector<IRenderPass*>::operator[](&this->passes, i);
 			if (v1)
-				(*((void(__fastcall**)(IRenderPass*)) v1->_vptr_IRenderPass + 1))(v1);
+				delete v1;
 		}
 	}
 
@@ -106,17 +106,17 @@ namespace MyGL {
 		unsigned int i;
 
 		v1 = AbstractPass::scene(this);
-		v2 = (*((__int64(__fastcall**)(IScene*)) v1->_vptr_IScene + 3))(v1);
+		v2 = v1->render();
 		(*(void(__fastcall**)(__int64)) (*(_QWORD*)v2 + 248LL))(v2);
 		v3 = AbstractPass::scene(this);
-		v4 = (*((__int64(__fastcall**)(IScene*)) v3->_vptr_IScene + 8))(v3);
+		v4 = v3->graph();
 		(*(void(__fastcall**)(__int64, MainPass* const)) (*(_QWORD*)v4 + 40LL))(v4, this);
 		for (i = 0; i < std::vector<IRenderPass*>::size(&this->passes); ++i) {
 			v5 = std::vector<IRenderPass*>::operator[](&this->passes, i);
-			(*((void(__fastcall**)(IRenderPass*)) (*v5)->_vptr_IRenderPass + 2))(*v5);
+			v5->exec();
 		}
 		v6 = AbstractPass::scene(this);
-		v7 = (*((__int64(__fastcall**)(IScene*)) v6->_vptr_IScene + 8))(v6);
+		v7 = v6->graph();
 		(*(void(__fastcall**)(__int64)) (*(_QWORD*)v7 + 48LL))(v7);
 	}
 
@@ -134,7 +134,7 @@ namespace MyGL {
 		int v[8];
 
 		v1 = AbstractPass::scene(this);
-		v2 = (*((__int64(__fastcall**)(IScene*)) v1->_vptr_IScene + 3))(v1);
+		v2 = v1->render();
 		(*(void(__fastcall**)(__int64, int*, int*, int*, int*)) (*(_QWORD*)v2 + 96LL))(v2, v, &v[1], &v[2],
 			&v[3]);
 		v3 = v[2];
@@ -155,7 +155,7 @@ namespace MyGL {
 		v8 = this->rameBuffer();
 		(*((void(__fastcall**)(FBO*, ITextureRectangle*)) v8->_vptr_IFBO + 13))(v8, this->depth);
 		v9 = AbstractPass::scene(this);
-		v10 = (*((__int64(__fastcall**)(IScene*)) v9->_vptr_IScene + 3))(v9);
+		v10 = v9->render();
 		(*(void(__fastcall**)(__int64, __int64)) (*(_QWORD*)v10 + 32LL))(v10, 3LL);
 		MainPass::draw(this);
 		v11 = this->frameBuffer();
@@ -167,10 +167,7 @@ namespace MyGL {
 	}
 
 	void MainPass::makeAlgo(const Adapter& adapter) {
-		(*((void(__fastcall**)(MainPass* const, std::vector<IRenderPass*> *,
-			const Adapter* const)) this->_vptr_IRenderPass
-			+ 5))(
-				this,
+		this->makeAlgo(
 				&this->passes,
 				adapter);
 	}
@@ -239,7 +236,7 @@ namespace MyGL {
 		int v[12];
 
 		v1 = this->scene();
-		v2 = (*((__int64(__fastcall**)(IScene*)) v1->_vptr_IScene + 3))(v1);
+		v2 = v1->render();
 		(*(void(__fastcall**)(__int64, int*, int*, int*, int*)) (*(_QWORD*)v2 + 96LL))(v2, v, &v[1], &v[2],
 			&v[3]);
 		(*((void(__fastcall**)(ITextureRectangle*, _QWORD, __int64, _QWORD, _QWORD,
@@ -263,7 +260,7 @@ namespace MyGL {
 		if (this->m_frameBuffer)
 			(*((void(__fastcall**)(FBO*)) this->m_frameBuffer->_vptr_IFBO + 1))(this->m_frameBuffer);
 		v3 = AbstractPass::scene(this);
-		r = (IRender*)(*((__int64(__fastcall**)(IScene*)) v3->_vptr_IScene + 3))(v3);
+		r = v3->render();
 		theWidth = (*((__int64(__fastcall**)(ITextureRectangle*)) this->frame->_vptr_ITexture + 8))(
 			this->frame);
 		theHeight = (*((__int64(__fastcall**)(ITextureRectangle*)) this->frame->_vptr_ITexture + 9))(

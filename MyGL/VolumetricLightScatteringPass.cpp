@@ -30,7 +30,7 @@ namespace MyGL {
         Filter::Filter(filter, s_1);
         this->filter = filter;
         v8 = AbstractPass::scene(this);
-        r = (IRender *) (*((__int64 (__fastcall **)(IScene *)) v8->_vptr_IScene + 3))(v8);
+        r = v8->render();
         frame = (TextureRectangle *) operator new(0x28uLL);
         TextureRectangle::TextureRectangle(frame, r);
         this->frame = frame;
@@ -78,7 +78,7 @@ namespace MyGL {
         int v[12];
 
         v1 = AbstractPass::scene(this);
-        v2 = (*((__int64 (__fastcall **)(IScene *)) v1->_vptr_IScene + 3))(v1);
+        v2 = v1->render();
         (*(void (__fastcall **)(__int64, int *, int *, int *, int *)) (*(_QWORD *) v2 + 96LL))(v2, v, &v[1], &v[2],
                                                                                                &v[3]);
         (*((void (__fastcall **)(ITextureRectangle *, _QWORD, __int64, _QWORD, _QWORD,
@@ -93,7 +93,7 @@ namespace MyGL {
         if (this->frameBuffer)
             (*((void (__fastcall **)(FBO *)) this->frameBuffer->_vptr_IFBO + 1))(this->frameBuffer);
         v3 = AbstractPass::scene(this);
-        r = (IRender *) (*((__int64 (__fastcall **)(IScene *)) v3->_vptr_IScene + 3))(v3);
+        r = v3->render();
         theWidth = (*((__int64 (__fastcall **)(ITextureRectangle *)) this->frame->_vptr_ITexture + 8))(this->frame);
         theHeight = (*((__int64 (__fastcall **)(ITextureRectangle *)) this->frame->_vptr_ITexture + 9))(this->frame);
         frameBuffer = (FBO *) operator new(0x28uLL);
@@ -111,11 +111,11 @@ namespace MyGL {
         int v[8];
 
         v1 = AbstractPass::scene(this);
-        v2 = (*((__int64 (__fastcall **)(IScene *)) v1->_vptr_IScene + 3))(v1);
+        v2 = v1->render();
         (*(void (__fastcall **)(__int64, int *, int *, int *, int *)) (*(_QWORD *) v2 + 96LL))(v2, v, &v[1], &v[2],
                                                                                                &v[3]);
         v3 = AbstractPass::scene(this);
-        v4 = (*((__int64 (__fastcall **)(IScene *)) v3->_vptr_IScene + 3))(v3);
+        v4 = v3->render();
         (*(void (__fastcall **)(__int64)) (*(_QWORD *) v4 + 24LL))(v4);
         v5 = v[2];
         if (v5 != (*((unsigned int (__fastcall **)(ITextureRectangle *)) this->frame->_vptr_ITexture + 8))(this->frame)
@@ -129,7 +129,7 @@ namespace MyGL {
                 this->frameBuffer,
                 this->frame,
                 0LL);
-        (*((void (__fastcall **)(Filter *)) this->filter->_vptr_IRenderPass + 2))(this->filter);
+        this->filter->clearColor();
         (*((void (__fastcall **)(FBO *)) this->frameBuffer->_vptr_IFBO + 9))(this->frameBuffer);
     }
 

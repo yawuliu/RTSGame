@@ -12,7 +12,7 @@ namespace MyGL {
 	{
 		CGL* v2;
 
-		v2 = (CGL*)(*((__int64(__fastcall**)(IRender*))render->_vptr_IRender + 9))(render);
+		v2 = render->gl();
 		if (CGL::isDXTFormatSupported(v2)
 			&& (colorSystem == ITexture::Format::Type::RGB_DXT1
 				|| colorSystem == ITexture::Format::Type::RGBA_DXT1

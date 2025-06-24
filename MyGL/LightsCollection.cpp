@@ -23,7 +23,7 @@ namespace MyGL {
 			{
 				v1 = *std::vector<ILight*>::operator[](&this->data->lights, i);
 				if (v1)
-					(*((void(__fastcall**)(ILight*))v1->_vptr_ILight + 1))(v1);
+					delete v1;
 			}
 		data = this->data;
 		if (data)
@@ -55,7 +55,7 @@ namespace MyGL {
 				*v2 = *std::vector<ILight*>::back(&this->data->lights);
 				std::vector<ILight*>::pop_back(&this->data->lights);
 				if (l)
-					(*((void(__fastcall**)(ILight* const))l->_vptr_ILight + 1))(l);
+                    delete l;
 				return;
 			}
 		}

@@ -32,12 +32,12 @@ namespace MyGL {
 		this->input = in;
 		this->m_downSamplesCount = -1;
 		v4 = this->scene();
-		r = (IRender*)(*((__int64(__fastcall**)(IScene*))v4->_vptr_IScene + 3))(v4);
+		r = v4->render();
 		frame = (TextureRectangle*)operator new(0x28uLL);
 		TextureRectangle::TextureRectangle(frame, r);
 		this->frame = frame;
 		v7 = this->scene();
-		r_1 = (IRender*)(*((__int64(__fastcall**)(IScene*))v7->_vptr_IScene + 3))(v7);
+		r_1 = v7->render();
 		subFrame = (TextureRectangle*)operator new(0x28uLL);
 		TextureRectangle::TextureRectangle(subFrame, r_1);
 		this->subFrame = subFrame;
@@ -52,7 +52,7 @@ namespace MyGL {
 		for (i_0 = 0; i_0 <= 1; ++i_0)
 		{
 			v10 = this->scene();
-			r_2 = (IRender*)(*((__int64(__fastcall**)(IScene*))v10->_vptr_IScene + 3))(v10);
+			r_2 = v10->render();
 			v12 = (TextureRectangle*)operator new(0x28uLL);
 			TextureRectangle::TextureRectangle(v12, r_2);
 			(&this->input)[i_0 + 1] = v12;
@@ -63,7 +63,7 @@ namespace MyGL {
 		for (i = 0; i <= 2; ++i)
 		{
 			v13 = this->scene();
-			r_3 = (IRender*)(*((__int64(__fastcall**)(IScene*))v13->_vptr_IScene + 3))(v13);
+			r_3 = v13->render();
 			v15 = (Model*)operator new(0xC0uLL);
 			Model::Model(v15, r_3);
 			this->quad[i] = v15;
@@ -273,7 +273,7 @@ namespace MyGL {
 		int i;
 
 		v1 = AbstractPass::scene(this);
-		v2 = (*((__int64(__fastcall**)(IScene*))v1->_vptr_IScene + 3))(v1);
+		v2 = v1->render();
 		(*(void(__fastcall**)(__int64, int*, int*, int*, int*))(*(_QWORD*)v2 + 96LL))(v2, v, &v[1], &v[2], &v[3]);
 		this->data->w = v[2];
 		this->data->h = v[3];
@@ -316,7 +316,7 @@ namespace MyGL {
 			if ((&this->subFrame)[i + 1])
 				(*((void(__fastcall**)(ITextureRectangle*))(&this->subFrame)[i + 1]->_vptr_ITexture + 1))((&this->subFrame)[i + 1]);
 			v3 = AbstractPass::scene(this);
-			r = (IRender*)(*((__int64(__fastcall**)(IScene*))v3->_vptr_IScene + 3))(v3);
+			r = v3->render();
 			v5 = (FBO*)operator new(0x28uLL);
 			FBO::FBO(v5, r, v[2] / 2, v[3] / 2, 8);
 			(&this->subFrame)[i + 1] = (ITextureRectangle*)v5;
@@ -335,7 +335,7 @@ namespace MyGL {
 		__int64 v7;
 
 		v2 = AbstractPass::scene(this);
-		v3 = (*((__int64(__fastcall**)(IScene*))v2->_vptr_IScene + 3))(v2);
+		v3 = v2->render();
 		v4 = (CGL*)(*(__int64(__fastcall**)(__int64))(*(_QWORD*)v3 + 72LL))(v3);
 		v5 = CGL::errorCtrl(v4);
 		v6 = (void(__fastcall*)(IErrorControl*, _QWORD, __int64)) * ((_QWORD*)v5->_vptr_IErrorControl + 4);
@@ -429,7 +429,7 @@ namespace MyGL {
 		unsigned int v[8];
 
 		v1 = AbstractPass::scene(this);
-		v2 = (*((__int64(__fastcall**)(IScene*))v1->_vptr_IScene + 3))(v1);
+		v2 = v1->render();
 		(*(void(__fastcall**)(__int64, unsigned int*, unsigned int*, unsigned int*, unsigned int*))(*(_QWORD*)v2 + 96LL))(
 			v2,
 			v,
@@ -437,7 +437,7 @@ namespace MyGL {
 			&v[2],
 			&v[3]);
 		v3 = AbstractPass::scene(this);
-		v4 = (*((__int64(__fastcall**)(IScene*))v3->_vptr_IScene + 3))(v3);
+		v4 = v3->render();
 		cl_0 = (*(double(__fastcall**)(__int64))(*(_QWORD*)v4 + 24LL))(v4);
 		if (v[2] != this->data->w || v[3] != this->data->h)
 			BloomPass::resizeFrame(this);
@@ -452,10 +452,10 @@ namespace MyGL {
 		v5 = BloomPass::downSamplesCount(this);
 		BloomPass::postProcess(this, (FBO*)(&this->subFrame)[v5]);
 		v6 = AbstractPass::scene(this);
-		v7 = (*((__int64(__fastcall**)(IScene*))v6->_vptr_IScene + 3))(v6);
+		v7 = v6->render();
 		(*(void(__fastcall**)(__int64, _QWORD, _QWORD, _QWORD, _QWORD))(*(_QWORD*)v7 + 88LL))(v7, v[0], v[1], v[2], v[3]);
 		v8 = AbstractPass::scene(this);
-		v9 = (*((__int64(__fastcall**)(IScene*))v8->_vptr_IScene + 3))(v8);
+		v9 = v8->render();
 		(*(void(__fastcall**)(__int64, double))(*(_QWORD*)v9 + 16LL))(v9, cl_0);
 	}
 
@@ -471,7 +471,7 @@ namespace MyGL {
 
 		(*((void(__fastcall**)(FBO*))frameBuffer->_vptr_IFBO + 8))(frameBuffer);
 		v5 = AbstractPass::scene(this);
-		v6 = (*((__int64(__fastcall**)(IScene*))v5->_vptr_IScene + 3))(v5);
+		v6 = v5->render();
 		v7 = *(void(__fastcall**)(__int64, _QWORD, _QWORD, _QWORD, _QWORD))(*(_QWORD*)v6 + 88LL);
 		v8 = (*((__int64(__fastcall**)(ITextureRectangle*))output->_vptr_ITexture + 9))(output);
 		v9 = (*((__int64(__fastcall**)(ITextureRectangle*))output->_vptr_ITexture + 8))(output);
@@ -481,7 +481,7 @@ namespace MyGL {
 			output,
 			0LL);
 		v10 = AbstractPass::scene(this);
-		v11 = (*((__int64(__fastcall**)(IScene*))v10->_vptr_IScene + 3))(v10);
+		v11 = v10->render();
 		(*(void(__fastcall**)(__int64, IUniformSampler*, ITexture*))(*(_QWORD*)v11 + 128LL))(
 			v11,
 			this->data->textureIn,

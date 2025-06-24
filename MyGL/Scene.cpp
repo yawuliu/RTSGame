@@ -18,10 +18,9 @@ namespace MyGL {
 
 	Scene::~Scene() {
 		if (this->renderAlgo)
-			(*((void(__fastcall**)(IRenderAlgo*)) this->renderAlgo->_vptr_IRenderPass + 1))(
-				this->renderAlgo);
+				delete this->renderAlgo;
 		if (this->dataL)
-			(*((void(__fastcall**)(IData*)) this->dataL->_vptr_IData + 1))(this->dataL);
+			delete this->dataL;
 		if (this->texLoader)
 			(*((void(__fastcall**)(ITextureLoader*)) this->texLoader->_vptr_ITextureLoader + 1))(
 				this->texLoader);
@@ -37,10 +36,9 @@ namespace MyGL {
 			(*((void(__fastcall**)(ILightsCollection*)) this->light->_vptr_ILightsCollection + 1))(
 				this->light);
 		if (this->sceneGraph)
-			(*((void(__fastcall**)(ISceneGraph*)) this->sceneGraph->_vptr_ISceneGraph + 1))(
-				this->sceneGraph);
+            delete this->sceneGraph;
 		if (this->mrender)
-			(*((void(__fastcall**)(IRender*)) this->mrender->_vptr_IRender + 1))(this->mrender);
+			delete this->mrender;
 	}
 
 	ILightsCollection* Scene::allocLightsCollection(Scene& s) {
@@ -53,21 +51,18 @@ namespace MyGL {
 
 	void Scene::allocLoaders() {
 		if (!this->texLoader)
-			this->texLoader = (ITextureLoader*)(*(
-				(__int64(__fastcall**)(Scene&)) this->_vptr_IScene + 23))(this);
+			this->texLoader = this->allocTextureLoader();
 		if (!this->shLoader)
-			this->shLoader = (IShaderLoader*)(*(
-				(__int64(__fastcall**)(Scene&)) this->_vptr_IScene + 24))(this);
+			this->shLoader = this->allocShaderLoader();
 		if (!this->mLoader)
-			this->mLoader = (IModelLoader*)(*(
-				(__int64(__fastcall**)(Scene&)) this->_vptr_IScene + 25))(this);
+			this->mLoader = this->allocModelLoader();
 	}
 
 	IModelLoader* Scene::allocModelLoader() {
 		IRender* r;
 		ModelLoader* v2;
 
-		r = (IRender*)(*((__int64(__fastcall**)(Scene&)) this->_vptr_IScene + 3))(this);
+		r = this->render();
 		v2 = (ModelLoader*) operator new(0x10uLL);
 		ModelLoader::ModelLoader(v2, r);
 		return v2;
@@ -103,7 +98,7 @@ namespace MyGL {
 		IRender* r;
 		ShaderLoader* v2;
 
-		r = (IRender*)(*((__int64(__fastcall**)(Scene&)) this->_vptr_IScene + 3))(this);
+		r = this->render();
 		v2 = (ShaderLoader*) operator new(0x18uLL);
 		ShaderLoader::ShaderLoader(v2, r);
 		return v2;
@@ -113,7 +108,7 @@ namespace MyGL {
 		IRender* r;
 		TextureLoader* v2;
 
-		r = (IRender*)(*((__int64(__fastcall**)(Scene&)) this->_vptr_IScene + 3))(this);
+		r = this->render();
 		v2 = (TextureLoader*) operator new(0x18uLL);
 		TextureLoader::TextureLoader(v2, r);
 		return v2;
@@ -130,8 +125,7 @@ namespace MyGL {
 
 	void Scene::createRenderAlgo() {
 		if (!this->renderAlgo)
-			this->renderAlgo = (IRenderAlgo*)(*(
-				(__int64(__fastcall**)(Scene&)) this->_vptr_IScene + 30))(this);
+			this->renderAlgo = this->allocRenderAlgo();
 	}
 
 	IData* Scene::dataControl() {
@@ -139,17 +133,17 @@ namespace MyGL {
 	}
 
 	void Scene::draw() {
-		(*((void(__fastcall**)(Scene&)) this->_vptr_IScene + 18))(this);
-		(*((void(__fastcall**)(IRender*, Scene&)) this->mrender->_vptr_IRender + 52))(
-			this->mrender, this);
-		Scene::upsetLight(this);
-		(*((void(__fastcall**)(IRenderAlgo*)) this->renderAlgo->_vptr_IRenderPass + 2))(this->renderAlgo);
+		this->createRenderAlgo() ;
+
+			this->mrender->setScene( this);
+        this->upsetLight();
+		this->renderAlgo->clearColor();
 	}
 
 	void Scene::finitGL() {
 		__int64 v1;
 
-		v1 = (*((__int64(__fastcall**)(Scene&)) this->_vptr_IScene + 3))(this);
+		v1 = this->render();
 		(*(void(__fastcall**)(__int64)) (*(_QWORD*)v1 + 64LL))(v1);
 	}
 
@@ -170,8 +164,8 @@ namespace MyGL {
 		this->light = 0LL;
 		this->sceneGraph = 0LL;
 		this->renderAlgo = 0LL;
-		(*((void(__fastcall**)(IRender*, Scene&)) this->mrender->_vptr_IRender + 52))(
-			this->mrender, this);
+
+			this->mrender->setScene(this);
 	}
 
 	bool Scene::initGL() {
@@ -189,31 +183,28 @@ namespace MyGL {
 		void(__fastcall * v12)(__int64, __int64);
 		__int64 v13;
 
-		v1 = (*((__int64(__fastcall**)(Scene&)) this->_vptr_IScene + 3))(this);
+		v1 = this->render();
 		if (!(*(unsigned __int8(__fastcall**)(__int64)) (*(_QWORD*)v1 + 48LL))(v1))
 			return 0;
-		this->obj = (IObjectCollection*)(*(
-			(__int64(__fastcall**)(Scene&)) this->_vptr_IScene + 26))(this);
-		this->light = (ILightsCollection*)(*(
-			(__int64(__fastcall**)(Scene&)) this->_vptr_IScene + 27))(this);
-		this->sceneGraph = (ISceneGraph*)(*(
-			(__int64(__fastcall**)(Scene&)) this->_vptr_IScene + 28))(this);
-		(*((void(__fastcall**)(Scene&)) this->_vptr_IScene + 29))(this);
-		Scene::allocLoaders(this);
-		v2 = (*((__int64(__fastcall**)(Scene&)) this->_vptr_IScene + 2))(this);
+		this->obj =this->allocObjectCollection();
+		this->light = this->allocLightsCollection();
+		this->sceneGraph = this->allocSceneGraph();
+		this->initLightsCollection();
+        this->allocLoaders();
+		v2 = this->dataControl();
 		v3 = (*(__int64(__fastcall**)(__int64)) (*(_QWORD*)v2 + 24LL))(v2);
 		v4 = *(void(__fastcall**)(__int64, __int64)) (*(_QWORD*)v3 + 16LL);
-		v5 = (*((__int64(__fastcall**)(Scene&)) this->_vptr_IScene + 5))(this);
+		v5 = this->textureLoader();
 		v4(v3, v5);
-		v6 = (*((__int64(__fastcall**)(Scene&)) this->_vptr_IScene + 2))(this);
+		v6 = this->dataControl();
 		v7 = (*(__int64(__fastcall**)(__int64)) (*(_QWORD*)v6 + 24LL))(v6);
 		v8 = *(void(__fastcall**)(__int64, __int64)) (*(_QWORD*)v7 + 56LL);
-		v9 = (*((__int64(__fastcall**)(Scene&)) this->_vptr_IScene + 7))(this);
+		v9 = this->modelLoader();
 		v8(v7, v9);
-		v10 = (*((__int64(__fastcall**)(Scene&)) this->_vptr_IScene + 2))(this);
+		v10 = this->dataControl();
 		v11 = (*(__int64(__fastcall**)(__int64)) (*(_QWORD*)v10 + 24LL))(v10);
 		v12 = *(void(__fastcall**)(__int64, __int64)) (*(_QWORD*)v11 + 112LL);
-		v13 = (*((__int64(__fastcall**)(Scene&)) this->_vptr_IScene + 6))(this);
+		v13 = this->shaderLoader();
 		v12(v11, v13);
 		return 1;
 	}
@@ -222,11 +213,10 @@ namespace MyGL {
 		ILightsCollection* c;
 		Light* v2;
 
-		c = (ILightsCollection*)(*((__int64(__fastcall**)(Scene&)) this->_vptr_IScene + 21))(
-			this);
+		c = this->lights();
 		v2 = (Light*) operator new(0x68uLL);
 		Light::Light(v2, c);
-		(*((void(__fastcall**)(Light*, __int64)) v2->_vptr_ILight + 6))(v2, 1LL);
+		v2->setShadowCast(1LL);
 	}
 
 	void Scene::insertObject(IGraphicsObject* const o) {
@@ -237,7 +227,7 @@ namespace MyGL {
 			+ 2))(
 				this->obj,
 				o);
-		v2 = (*((__int64(__fastcall**)(Scene&)) this->_vptr_IScene + 8))(this);
+		v2 = this->graph();
 		(*(void(__fastcall**)(__int64, IGraphicsObject* const)) (*(_QWORD*)v2 + 16LL))(v2, o);
 	}
 
@@ -248,7 +238,7 @@ namespace MyGL {
 	IDataLoader* Scene::loader() {
 		__int64 v1;
 
-		v1 = (*((__int64(__fastcall**)(Scene&)) this->_vptr_IScene + 2))(this);
+		v1 = this->dataControl();
 		return (IDataLoader*)(*(__int64(__fastcall**)(__int64)) (*(_QWORD*)v1 + 24LL))(v1);
 	}
 
@@ -264,11 +254,9 @@ namespace MyGL {
 		void(__fastcall * v1)(IRenderAlgo*, Adapter*);
 		Adapter adapter;
 
-		(*((void(__fastcall**)(Scene&)) s->_vptr_IScene + 18))(s);
-		v1 = (void(__fastcall*)(IRenderAlgo*, Adapter*)) * (
-			(_QWORD*)s->renderAlgo->_vptr_IRenderPass + 6);
+	    s->createRenderAlgo() ;
 		Adapter::Adapter(&adapter, s);
-		v1(s->renderAlgo, &adapter);
+        s->renderAlgo->recreateAlgo(&adapter);
 	}
 
 	void Scene::removeObject(IGraphicsObject* const o) {
@@ -279,7 +267,7 @@ namespace MyGL {
 			+ 3))(
 				this->obj,
 				o);
-		v2 = (*((__int64(__fastcall**)(Scene&)) this->_vptr_IScene + 8))(this);
+		v2 = this->graph();
 		(*(void(__fastcall**)(__int64, IGraphicsObject* const)) (*(_QWORD*)v2 + 24LL))(v2, o);
 	}
 
@@ -288,11 +276,9 @@ namespace MyGL {
 	}
 
 	IRenderAlgoSettings* Scene::settings() {
-		(*((void(__fastcall**)(Scene&)) this->_vptr_IScene + 18))(this);
+		this->createRenderAlgo() ;
 		if (this->renderAlgo)
-			return (IRenderAlgoSettings*)(*(
-				(__int64(__fastcall**)(IRenderAlgo*)) this->renderAlgo->_vptr_IRenderPass
-				+ 4))(this->renderAlgo);
+			return this->renderAlgo->output();
 		else
 			return 0LL;
 	}
@@ -316,10 +302,10 @@ namespace MyGL {
 		int i;
 
 		for (i = 0;; ++i) {
-			v3 = (*((__int64(__fastcall**)(Scene&)) this->_vptr_IScene + 21))(this);
+			v3 = this->lights();
 			if ((*(int(__fastcall**)(__int64)) (*(_QWORD*)v3 + 40LL))(v3) <= i)
 				break;
-			v1 = (*((__int64(__fastcall**)(Scene&)) this->_vptr_IScene + 21))(this);
+			v1 = this->lights();
 			v2 = (*(__int64(__fastcall**)(__int64, _QWORD)) (*(_QWORD*)v1 + 48LL))(v1, (unsigned int)i);
 			(*(void(__fastcall**)(__int64)) (*(_QWORD*)v2 + 96LL))(v2);
 		}

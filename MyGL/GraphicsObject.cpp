@@ -11,9 +11,7 @@ namespace MyGL {
 
     GraphicsObject::~GraphicsObject() {
         if (this->scene)
-            (*((void (__fastcall **)(IScene *, GraphicsObject *const)) this->scene->_vptr_IScene + 11))(
-                    this->scene,
-                    this);
+            this->scene->removeObject(this);
         if (this->actualInfo)
             (*((void (__fastcall **)(ModelInfo *)) this->actualInfo->_vptr_IModelInfo + 1))(this->actualInfo);
     }
@@ -26,8 +24,7 @@ namespace MyGL {
         this->gmodel = 0LL;
         this->gmaterial = 0LL;
         this->isVisible = 1;
-        (*((void (__fastcall **)(GraphicsObject *const, _QWORD)) this->_vptr_IGraphicsObject + 10))(
-                this, 0LL);
+        this->setAlvaysVisible(0LL);
         for (i = 0; i <= 2; ++i) {
             this->pos[i] = 0.0;
             this->angles[i] = 0.0;
@@ -35,10 +32,7 @@ namespace MyGL {
         }
         this->upsetMatrix();
         if (this->scene)
-            (*((void (__fastcall **)(IScene *, GraphicsObject *const)) this->scene->_vptr_IScene +
-               10))(
-                    this->scene,
-                    this);
+            this->scene->insertObject(this);
         this->actualInfo = newModelInfo::ModelInfo();
     }
 
@@ -73,17 +67,9 @@ namespace MyGL {
         p_object->gmaterial = m;
         if (p_object->scene) {
             if (old)
-                (*((void (__fastcall **)(IScene *, GraphicsObject *const,
-                                         IMaterial *)) p_object->scene->_vptr_IScene
-                   + 12))(
-                        p_object->scene,
-                        p_object,
-                        old);
+                p_object->scene->changeObject(p_object, old);
             else
-                (*((void (__fastcall **)(IScene *,
-                                         GraphicsObject *const)) p_object->scene->_vptr_IScene + 10))(
-                        p_object->scene,
-                        p_object);
+                p_object->scene->insertObject(p_object);
         }
     }
 
@@ -116,13 +102,7 @@ namespace MyGL {
     }
 
     void GraphicsObject::setSize(Float s) {
-        (*((void (__fastcall **)(GraphicsObject *const, Float, Float,
-                                 Float)) this->_vptr_IGraphicsObject
-           + 16))(
-                this,
-                s,
-                s,
-                s);
+        this->setSize(s, s, s);
         this->upsetMatrix();
     }
 
@@ -201,10 +181,7 @@ namespace MyGL {
     }
 
     bool GraphicsObject::visible() {
-        return this->isVisible
-               ||
-               (*((unsigned __int8 (__fastcall **)(const GraphicsObject *const)) this->_vptr_IGraphicsObject +
-                  11))(this);
+        return this->isVisible || this->isAlvaysVisible();
     }
 
     Float GraphicsObject::x() {

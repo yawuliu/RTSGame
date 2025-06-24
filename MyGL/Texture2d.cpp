@@ -101,7 +101,7 @@ namespace MyGL {
 	{
 		CGL* v2;
 
-		v2 = (CGL*)(*((__int64(__fastcall**)(IRender*))re->render->_vptr_IRender + 9))(re->render);
+		v2 = re->render->gl();
 		re->anisLevel = CGL::maxAnisotropyLevel(v2) * val;
 		re->isForwardFormat = 1;
 	}
@@ -180,7 +180,7 @@ namespace MyGL {
 			{
 				glTexParameteri(3553LL, 10241LL, Texture2d::updateSampler(void)::filter_mipN[this->filterMin]);
 			}
-			v1 = (CGL*)(*((__int64(__fastcall**)(IRender*))this->render->_vptr_IRender + 9))(this->render);
+			v1 = this->render->gl();
 			if (CGL::isAnisotropySupported(v1))
 				glTexParameterf(
 					3553LL,

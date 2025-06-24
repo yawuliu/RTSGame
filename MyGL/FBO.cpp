@@ -4,7 +4,7 @@
 namespace MyGL {
 	FBO::FBO(IRender& r, unsigned int theWidth, unsigned int theHeight, FBO::Flags::BitMap f)
 	{
-		v5 = (CGL*)(*((__int64(__fastcall**)(IRender* const))r->_vptr_IRender + 9))(r);
+		v5 = r.gl();
 		this->ext = new CGL::ext();
 		this->w = theWidth;
 		this->h = theHeight;

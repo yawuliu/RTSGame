@@ -39,15 +39,15 @@ namespace MyGL {
 		CGL* v1;
 		IErrorControl* v2;
 
-		v1 = (CGL*)(*((__int64(__fastcall**)(Render* const))this->_vptr_IRender + 9))(this);
+		v1 = this->gl();
 		v2 = CGL::errorCtrl(v1);
 		(*((void(__fastcall**)(IErrorControl*, bool, const char*))v2->_vptr_IErrorControl + 4))(
 			v2,
 			!this->isWork,
 			"Render is already activated");
 		this->isWork = 1;
-		(*((void(__fastcall**)(Render* const))this->_vptr_IRender + 31))(this);
-		upsetRState(this);
+		this->bindCamera();
+        this->upsetRState();
 	}
 
 	void Render::bindCamera()
@@ -104,7 +104,7 @@ namespace MyGL {
 		{
 			glMatrixMode(5889LL);
 			glm::detail::tmat4x4<double>::tmat4x4(&proj);
-			v1 = (*((__int64(__fastcall**)(Render* const))this->_vptr_IRender + 32))(this);
+			v1 = this->camera();
 			if ((*(unsigned __int8(__fastcall**)(__int64))(*(_QWORD*)v1 + 112LL))(v1))
 			{
 				glGetIntegerv(2978LL, vp);
@@ -123,14 +123,14 @@ namespace MyGL {
 			memcpy(this->projectionMat, src, sizeof(this->projectionMat));
 			glMatrixMode(5888LL);
 			glm::detail::tmat4x4<double>::tmat4x4(&mview);
-			v6 = (*((__int64(__fastcall**)(Render* const))this->_vptr_IRender + 32))(this);
+			v6 = this->camera();
 			z = -(*(double(__fastcall**)(__int64))(*(_QWORD*)v6 + 80LL))(v6);
 			y = 0;
 			x = 0;
 			glm::detail::tvec3<double>::tvec3<int, int, double>(&v, &x, &y, &z);
 			glm::gtc::matrix_transform::translate<double>(&retstr_, &mview, &v);
 			glm::detail::tmat4x4<double>::operator=(&mview, &retstr_);
-			v7 = (*((__int64(__fastcall**)(Render* const))this->_vptr_IRender + 32))(this);
+			v7 = this->camera();
 			s = (*(double(__fastcall**)(__int64))(*(_QWORD*)v7 + 88LL))(v7);
 			glm::detail::tvec3<double>::tvec3(&v29, &s);
 			glm::gtc::matrix_transform::scale<double>(&retstr__1, &mview, &v29);
@@ -139,7 +139,7 @@ namespace MyGL {
 			y_ = 0;
 			x_ = 1;
 			glm::detail::tvec3<double>::tvec3<int, int, int>(&v32, &x_, &y_, &z_);
-			v8 = (*((__int64(__fastcall**)(Render* const))this->_vptr_IRender + 32))(this);
+			v8 = this->camera();
 			angle = (*(double(__fastcall**)(__int64))(*(_QWORD*)v8 + 96LL))(v8);
 			glm::gtc::matrix_transform::rotate<double>(&retstr__2, &mview, &angle, &v32);
 			glm::detail::tmat4x4<double>::operator=(&mview, &retstr__2);
@@ -147,15 +147,15 @@ namespace MyGL {
 			y__1 = 0;
 			x__1 = 0;
 			glm::detail::tvec3<double>::tvec3<int, int, int>(&v38, &x__1, &y__1, &z__1);
-			v9 = (*((__int64(__fastcall**)(Render* const))this->_vptr_IRender + 32))(this);
+			v9 = this->camera();
 			angle_ = (*(double(__fastcall**)(__int64))(*(_QWORD*)v9 + 104LL))(v9);
 			glm::gtc::matrix_transform::rotate<double>(&retstr__3, &mview, &angle_, &v38);
 			glm::detail::tmat4x4<double>::operator=(&mview, &retstr__3);
-			v10 = (*((__int64(__fastcall**)(Render* const))this->_vptr_IRender + 32))(this);
+			v10 = this->camera();
 			s2 = -(*(double(__fastcall**)(__int64))(*(_QWORD*)v10 + 72LL))(v10);
-			v11 = (*((__int64(__fastcall**)(Render* const))this->_vptr_IRender + 32))(this);
+			v11 = this->camera();
 			s1 = -(*(double(__fastcall**)(__int64))(*(_QWORD*)v11 + 64LL))(v11);
-			v12 = (*((__int64(__fastcall**)(Render* const))this->_vptr_IRender + 32))(this);
+			v12 = this->camera();
 			s0[0] = -(*(double(__fastcall**)(__int64))(*(_QWORD*)v12 + 56LL))(v12);
 			glm::detail::tvec3<double>::tvec3(&v44, s0, &s1, &s2);
 			glm::gtc::matrix_transform::translate<double>(&retstr__4, &mview, &v44);
@@ -165,7 +165,7 @@ namespace MyGL {
 			src_1 = glm::gtc::type_ptr::value_ptr<double>(&mview);
 			memcpy(this->modelView, src_1, sizeof(this->modelView));
 			if (this->scene)
-				(*((void(__fastcall**)(IScene*, Render* const))this->scene->_vptr_IScene + 22))(this->scene, this);
+				this->scene->upsetCameraEvent(this);
 		}
 	}
 
@@ -177,7 +177,7 @@ namespace MyGL {
 		}
 		else
 		{
-			(*((void(__fastcall**)(Render* const))this->_vptr_IRender + 28))(this);
+			this->ubindMaterial();
 			this->currMaterial = material;
 			(*((void(__fastcall**)(IMaterial*))material->_vptr_IMaterial + 2))(material);
 		}
@@ -187,7 +187,7 @@ namespace MyGL {
 	{
 		if (this->currModel != m)
 		{
-			(*((void(__fastcall**)(Render* const))this->_vptr_IRender + 23))(this);
+			this->ubindModel();
 			this->currModel = m;
 			(*((void(__fastcall**)(IModel*))m->_vptr_IModel + 2))(m);
 			++this->batchCount_val;
@@ -198,10 +198,8 @@ namespace MyGL {
 	{
 		void(__fastcall * v3)(Render* const, _QWORD, ITexture*);
 		unsigned int v4;
-
-		v3 = (void(__fastcall*)(Render* const, _QWORD, ITexture*)) * ((_QWORD*)this->_vptr_IRender + 15);
 		v4 = (*((__int64(__fastcall**)(IUniformSampler*))sampler->_vptr_IUniform + 7))(sampler);
-		v3(this, v4, tex);
+        this->bindTexture(v4, tex);
 	}
 
 	void Render::bindTexture(CGL::TextureUnitHandle tx_unit, ITexture* tex)
@@ -209,7 +207,7 @@ namespace MyGL {
 		CGL* v3;
 		privateGLSupportClass* v4;
 
-		v3 = (CGL*)(*((__int64(__fastcall**)(Render* const))this->_vptr_IRender + 9))(this);
+		v3 = this->gl();
 		v4 = CGL::ext(v3);
 		v4->glActiveTextureARB(tx_unit + 33984);
 		(*((void(__fastcall**)(ITexture*))tex->_vptr_ITexture + 3))(tex);
@@ -231,14 +229,12 @@ namespace MyGL {
 		double tmp;
 
 		ca = *(double*)c.cdata;
-		tmp = (*((double(__fastcall**)(Render* const))this->_vptr_IRender + 3))(this);
-		(*((void(__fastcall**)(Render* const, double, double))this->_vptr_IRender + 2))(
-			this,
+		tmp = this->clearColor();
+			this->clearColor(
 			ca,
 			*(double*)&c.cdata[2]);
-		(*((void(__fastcall**)(Render* const, _QWORD))this->_vptr_IRender + 4))(this, (unsigned int)mode);
-		(*((void(__fastcall**)(Render* const, double, double))this->_vptr_IRender + 2))(
-			this,
+		this->clear((unsigned int)mode);
+			this->clearColor(
 			tmp,
 			*(double*)&c.cdata[2]);
 	}
@@ -308,25 +304,23 @@ namespace MyGL {
 		__int64 v6;
 		__int64 v7;
 
-		if ((*((unsigned __int8(__fastcall**)(IGraphicsObject* const))obj->_vptr_IGraphicsObject + 9))(obj))
+		if (obj->visible())
 		{
-			v2 = (*((__int64(__fastcall**)(IGraphicsObject* const))obj->_vptr_IGraphicsObject + 3))(obj);
+			v2 = obj->material();
 			if ((*(unsigned __int8(__fastcall**)(__int64, IGraphicsObject* const))(*(_QWORD*)v2 + 96LL))(v2, obj))
 			{
-				v3 = (void(__fastcall*)(Render* const, __int64)) * ((_QWORD*)this->_vptr_IRender + 27);
-				v4 = (*((__int64(__fastcall**)(IGraphicsObject* const))obj->_vptr_IGraphicsObject + 3))(obj);
-				v3(this, v4);
-				v5 = (void(__fastcall*)(Render* const, __int64, __int64)) * ((_QWORD*)this->_vptr_IRender + 25);
-				v6 = (*((__int64(__fastcall**)(IGraphicsObject* const))obj->_vptr_IGraphicsObject + 5))(obj);
-				v7 = (*((__int64(__fastcall**)(IGraphicsObject* const))obj->_vptr_IGraphicsObject + 7))(obj);
-				v5(this, v7, v6);
+				v4 = obj->material();
+                this->bindMaterial(v4);
+				v6 = obj->objectMatrix();
+				v7 = obj->model();
+                this->drawModel(v7, v6);
 			}
 		}
 	}
 
 	void Render::drawModel(IModel* m)
 	{
-		(*((void(__fastcall**)(Render* const, IModel*))this->_vptr_IRender + 22))(this, m);
+		this->bindModel(m);
 		(*((void(__fastcall**)(IModel*, __int64))m->_vptr_IModel + 6))(m, 1LL);
 	}
 
@@ -336,7 +330,7 @@ namespace MyGL {
 
 		x = ObjectMatrix::data(objMatrix);
 		glMultMatrix(this, x);
-		(*((void(__fastcall**)(Render* const, IModel*))this->_vptr_IRender + 24))(this, m);
+		this->drawModel(m);
 		glLoadMatrix(this, this->modelView);
 	}
 
@@ -366,17 +360,17 @@ namespace MyGL {
 		CGL* v1;
 		IErrorControl* v2;
 
-		v1 = (CGL*)(*((__int64(__fastcall**)(Render* const))this->_vptr_IRender + 9))(this);
+		v1 = this->gl();
 		v2 = CGL::errorCtrl(v1);
 		(*((void(__fastcall**)(IErrorControl*, bool, const char*))v2->_vptr_IErrorControl + 4))(
 			v2,
 			this->isWork,
 			"Render is not activated");
-		(*((void(__fastcall**)(Render* const))this->_vptr_IRender + 28))(this);
-		(*((void(__fastcall**)(Render* const, _QWORD))this->_vptr_IRender + 13))(this, 0LL);
-		(*((void(__fastcall**)(Render* const))this->_vptr_IRender + 23))(this);
+		this->ubindMaterial();
+		this->useShader( 0LL);
+		this->ubindModel();
 		this->isWork = 0;
-		(*((void(__fastcall**)(Render* const))this->_vptr_IRender + 36))(this);
+		this->resetRenderState();
 	}
 
 	void Render::finitGL()
@@ -475,8 +469,8 @@ namespace MyGL {
 
 		ObjectMatrix::ObjectMatrix(&mv);
 		ObjectMatrix::ObjectMatrix(&pm);
-		(*((void(__fastcall**)(Render* const, ObjectMatrix*))this->_vptr_IRender + 40))(this, &mv);
-		(*((void(__fastcall**)(Render* const, ObjectMatrix*))this->_vptr_IRender + 41))(this, &pm);
+		this->getModeViewlMatrix(&mv);
+		this->getProjectionMatrix( &pm);
 		ObjectMatrix::mul(&mv, &pm);
 		data = ObjectMatrix::data(&mv);
 		ObjectMatrix::setData(out, data);
@@ -530,7 +524,7 @@ namespace MyGL {
 		this->currShader = 0LL;
 		this->currMaterial = 0LL;
 		this->currModel = 0LL;
-		(*((void(__fastcall**)(Render* const, double, double))this->_vptr_IRender + 29))(this, 0.0, 1.0);
+		this->setZRange(0.0, 1.0);
 		this->cam = 0LL;
 		defState = (RenderState*)operator new(0x30uLL);
 		RenderState::RenderState(defState);
@@ -540,7 +534,7 @@ namespace MyGL {
 		this->state = state;
 		this->scene = 0LL;
 		this->isGL_ARB_multisampleEnable = 0;
-		(*((void(__fastcall**)(Render* const))this->_vptr_IRender + 51))(this);
+		this->resetCounters();
 	}
 
 	bool Render::initGL()
@@ -553,21 +547,21 @@ namespace MyGL {
 		CGL* v7;
 		privateGLSupportClass* v8;
 
-		glD = (CGL*)(*((__int64(__fastcall**)(Render* const))this->_vptr_IRender + 9))(this);
+		glD = this->gl();
 		CGL::createExtObject(glD);
-		v2 = (CGL*)(*((__int64(__fastcall**)(Render* const))this->_vptr_IRender + 9))(this);
+		v2 = this->gl();
 		if (!CGL::initShaderAPI(v2))
 			return 0;
-		v4 = (CGL*)(*((__int64(__fastcall**)(Render* const))this->_vptr_IRender + 9))(this);
+		v4 = this->gl();
 		if (!CGL::initTextureAPI(v4))
 			return 0;
-		v5 = (CGL*)(*((__int64(__fastcall**)(Render* const))this->_vptr_IRender + 9))(this);
+		v5 = this->gl();
 		if (!CGL::initVBO_API(v5))
 			return 0;
-		v6 = (CGL*)(*((__int64(__fastcall**)(Render* const))this->_vptr_IRender + 9))(this);
+		v6 = this->gl();
 		if (!CGL::initFBO_API(v6))
 			return 0;
-		v7 = (CGL*)(*((__int64(__fastcall**)(Render* const))this->_vptr_IRender + 9))(this);
+		v7 = this->gl();
 		v8 = CGL::ext(v7);
 		v8->glGenerateMipmapEXT(3553LL);
 		glEnableClientState(32884LL);
@@ -605,9 +599,9 @@ namespace MyGL {
 
 	void Render::resetCounters()
 	{
-		(*((void(__fastcall**)(Render* const))this->_vptr_IRender + 46))(this);
-		(*((void(__fastcall**)(Render* const))this->_vptr_IRender + 48))(this);
-		(*((void(__fastcall**)(Render* const))this->_vptr_IRender + 50))(this);
+		this->resetPolyCount();
+		this->resetBatchCount();
+		this->resetDipCount();
 	}
 
 	void Render::resetDipCount()
@@ -629,7 +623,7 @@ namespace MyGL {
 	void Render::setCamera(ICamera* const c)
 	{
 		this->cam = c;
-		(*((void(__fastcall**)(Render* const))this->_vptr_IRender + 31))(this);
+		this->bindCamera();
 	}
 
 	void Render::setRenderState(IRenderState* r)
@@ -675,10 +669,8 @@ namespace MyGL {
 	{
 		void(__fastcall * v2)(Render* const, _QWORD);
 		unsigned int v3;
-
-		v2 = (void(__fastcall*)(Render* const, _QWORD)) * ((_QWORD*)this->_vptr_IRender + 17);
 		v3 = (*((__int64(__fastcall**)(IUniformSampler*))sampler->_vptr_IUniform + 7))(sampler);
-		v2(this, v3);
+        this->ubindTexture(v3);
 	}
 
 	void Render::ubindTexture(CGL::TextureUnitHandle tx_unit)
@@ -686,7 +678,7 @@ namespace MyGL {
 		CGL* v2;
 		privateGLSupportClass* v3;
 
-		v2 = (CGL*)(*((__int64(__fastcall**)(Render* const))this->_vptr_IRender + 9))(this);
+		v2 = this->gl();
 		v3 = CGL::ext(v2);
 		v3->glActiveTextureARB(tx_unit + 33984);
 		glBindTexture(3553LL, 0LL);
@@ -723,30 +715,30 @@ namespace MyGL {
 		unsigned __int8 clMask[32];
 
 		glEnable(3008LL);
-		v2 = (*((__int64(__fastcall**)(Render* const))this->_vptr_IRender + 35))(this);
+		v2 = this->renderState();
 		v1.m128d_f64[0] = (*(double(__fastcall**)(__int64))(*(_QWORD*)v2 + 16LL))(v2);
 		v21 = _mm_unpacklo_pd(v1, v1).m128d_f64[0];
-		v3 = (*((__int64(__fastcall**)(Render* const))this->_vptr_IRender + 35))(this);
+		v3 = this->renderState();
 		v4 = (*(__int64(__fastcall**)(__int64))(*(_QWORD*)v3 + 48LL))(v3);
 		glAlphaFunc(upsetRState(void)::testMode[v4], v21);
-		v5 = (*((__int64(__fastcall**)(Render* const))this->_vptr_IRender + 35))(this);
+		v5 = this->renderState();
 		v6 = (*(__int64(__fastcall**)(__int64))(*(_QWORD*)v5 + 120LL))(v5);
 		glDepthFunc(upsetRState(void)::testMode[v6]);
-		v7 = (*((__int64(__fastcall**)(Render* const))this->_vptr_IRender + 35))(this);
+		v7 = this->renderState();
 		v8 = (*(__int64(__fastcall**)(__int64))(*(_QWORD*)v7 + 72LL))(v7);
 		glDepthMask(v8);
-		v9 = (*((__int64(__fastcall**)(Render* const))this->_vptr_IRender + 35))(this);
+		v9 = this->renderState();
 		if ((*(unsigned __int8(__fastcall**)(__int64))(*(_QWORD*)v9 + 88LL))(v9))
 			glEnable(2929LL);
 		else
 			glDisable(2929LL);
-		v10 = (*((__int64(__fastcall**)(Render* const))this->_vptr_IRender + 35))(this);
+		v10 = this->renderState();
 		if ((*(unsigned __int8(__fastcall**)(__int64))(*(_QWORD*)v10 + 136LL))(v10))
 		{
 			glEnable(3042LL);
-			v11 = (*((__int64(__fastcall**)(Render* const))this->_vptr_IRender + 35))(this);
+			v11 = this->renderState();
 			v12 = upsetRState(void)::abMode[(*(int(__fastcall**)(__int64))(*(_QWORD*)v11 + 176LL))(v11)];
-			v13 = (*((__int64(__fastcall**)(Render* const))this->_vptr_IRender + 35))(this);
+			v13 = this->renderState();
 			v14 = (*(__int64(__fastcall**)(__int64))(*(_QWORD*)v13 + 168LL))(v13);
 			glBlendFunc(upsetRState(void)::abMode[v14], v12);
 		}
@@ -754,12 +746,12 @@ namespace MyGL {
 		{
 			glDisable(3042LL);
 		}
-		v15 = (*((__int64(__fastcall**)(Render* const))this->_vptr_IRender + 35))(this);
+		v15 = this->renderState();
 		if ((*(unsigned __int8(__fastcall**)(__int64))(*(_QWORD*)v15 + 152LL))(v15) && this->isGL_ARB_multisampleEnable)
 			glEnable(32926LL);
 		else
 			glDisable(32926LL);
-		v17 = (*((__int64(__fastcall**)(Render* const))this->_vptr_IRender + 35))(this);
+		v17 = this->renderState();
 		(*(void(__fastcall**)(__int64, unsigned __int8*, unsigned __int8*, unsigned __int8*, unsigned __int8*))(*(_QWORD*)v17 + 64LL))(
 			v17,
 			clMask,
@@ -770,11 +762,11 @@ namespace MyGL {
 		cullMode[0] = 0;
 		cullMode[1] = 1028;
 		cullMode[2] = 1029;
-		v18 = (*((__int64(__fastcall**)(Render* const))this->_vptr_IRender + 35))(this);
+		v18 = this->renderState();
 		if ((*(unsigned int(__fastcall**)(__int64))(*(_QWORD*)v18 + 104LL))(v18))
 		{
 			glEnable(2884LL);
-			v19 = (*((__int64(__fastcall**)(Render* const))this->_vptr_IRender + 35))(this);
+			v19 = this->renderState();
 			v20 = (*(__int64(__fastcall**)(__int64))(*(_QWORD*)v19 + 104LL))(v19);
 			glCullFace(cullMode[v20]);
 		}
