@@ -7,6 +7,7 @@
 #include "GraphicsObject.h"
 #include "AbstractMaterial.h"
 #include "ObjectMatrix.h"
+#include "ILightsCollection.h"
 
 namespace MyGL {
     class SmallLightsPass;
@@ -20,7 +21,7 @@ namespace MyGL {
             virtual ~Data();
 
         protected:
-            GraphicsObject *object;
+            GraphicsObject object;
         };
 
         class Material : public AbstractMaterial {
@@ -40,6 +41,9 @@ namespace MyGL {
             ITechnique *technique();
 
             void uBind();
+
+        protected:
+            ITechnique *tech;
         };
 
         class Technicue {
@@ -105,10 +109,19 @@ namespace MyGL {
         Float z();
 
     private:
-        int m_shadowCast;
-        float m_direction[3];
-        float m_position[3];
-        QList<Light *> m_lights;
+        ILightsCollection &collect;
+        double pos[3];
+        double dir[3];
+        double tDir[3];
+        bool sh;
+        bool ds;
+        // padding byte
+        // padding byte
+        // padding byte
+        // padding byte
+        // padding byte
+        // padding byte
+        Data *data;
     };
 }
 

@@ -82,9 +82,9 @@ namespace MyGL {
 			operator delete(data);
 		}
 		if (this->out)
-			(*((void(__fastcall**)(ITextureRectangle*))this->out->_vptr_ITexture + 1))(this->out);
+            delete this->out;
 		if (this->depth)
-			(*((void(__fastcall**)(ITextureRectangle*))this->depth->_vptr_ITexture + 1))(this->depth);
+            delete this->depth;
 	}
 
 	void SSAOpass::exec()
@@ -137,25 +137,25 @@ namespace MyGL {
 		FBO* v14;
 		unsigned int v15;
 
-		v1 = (*((__int64(__fastcall**)(ITextureRectangle*))this->out->_vptr_ITexture + 8))(this->out);
+		v1 = this->out->setClamping();
 		v2 = Mthis->mpass->frameBuffer();
 		if (v1 != (*((unsigned int(__fastcall**)(FBO*))v2->_vptr_IFBO + 2))(v2)
-			|| (v3 = (*((__int64(__fastcall**)(ITextureRectangle*))this->out->_vptr_ITexture + 9))(this->out),
-				v4 = Mthis->mpass->frameBuffer(),
+			|| (v3 = this->out->setClamping(),
+				v4 = this->mpass->frameBuffer(),
 				v3 != (*((unsigned int(__fastcall**)(FBO*))v4->_vptr_IFBO + 3))(v4)))
 		{
-			v6 = (void(__fastcall*)(ITextureRectangle*, _QWORD, __int64, _QWORD, _QWORD, __int64)) * ((_QWORD*)this->out->_vptr_ITexture + 7);
+
 			v7 = Mthis->mpass->frameBuffer();
 			v8 = (*((__int64(__fastcall**)(FBO*))v7->_vptr_IFBO + 3))(v7);
 			v9 = Mthis->mpass->frameBuffer();
 			v10 = (*((__int64(__fastcall**)(FBO*))v9->_vptr_IFBO + 2))(v9);
-			v6(this->out, 0LL, 1LL, v10, v8, 3LL);
-			v11 = (void(__fastcall*)(ITextureRectangle*, _QWORD, __int64, _QWORD, _QWORD, __int64)) * ((_QWORD*)this->depth->_vptr_ITexture + 7);
+            this->out->setFiltration((0LL, 1LL, v10, v8, 3LL);
+
 			v12 = Mthis->mpass->frameBuffer();
 			v13 = (*((__int64(__fastcall**)(FBO*))v12->_vptr_IFBO + 3))(v12);
 			v14 = Mthis->mpass->frameBuffer();
 			v15 = (*((__int64(__fastcall**)(FBO*))v14->_vptr_IFBO + 2))(v14);
-			v11(this->depth, 0LL, 3LL, v15, v13, 21LL);
+            this->depth->setFiltration( 0LL, 3LL, v15, v13, 21LL);
 		}
 	}
 

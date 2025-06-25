@@ -40,18 +40,18 @@ namespace MyGL {
 		void(__fastcall * v7)(IRender*, __int64);
 		__int64 v8;
 
-		v1 = (*((__int64(__fastcall**)(StdMaterial* const))this->_vptr_IMaterial + 5))(this);
+		v1 = this->technique();
 		(*(void(__fastcall**)(__int64))(*(_QWORD*)v1 + 16LL))(v1);
-		v2 = (*((__int64(__fastcall**)(StdMaterial* const))this->_vptr_IMaterial + 5))(this);
+		v2 = this->technique();
 		(*(void(__fastcall**)(__int64))(*(_QWORD*)v2 + 24LL))(v2);
 		curShader = this->curShader;
-		v4 = (*((__int64(__fastcall**)(StdMaterial* const))this->_vptr_IMaterial + 5))(this);
+		v4 = this->technique();
 		if (curShader != (const IShader*)(*(__int64(__fastcall**)(__int64))(*(_QWORD*)v4 + 40LL))(v4))
 			StdMaterial::bindTextures(this);
-		v5 = (*((__int64(__fastcall**)(StdMaterial* const))this->_vptr_IMaterial + 5))(this);
+		v5 = this->technique();
 		this->curShader = (const IShader*)(*(__int64(__fastcall**)(__int64))(*(_QWORD*)v5 + 40LL))(v5);
 		v6 = this->render();
-		v8 = (*((__int64(__fastcall**)(StdMaterial* const))this->_vptr_IMaterial + 11))(this);
+		v8 = this->renderState();
         v6->setRenderState(v8);
 	}
 
@@ -76,10 +76,10 @@ namespace MyGL {
 
 		if (!this->useMainTextures())
 		{
-			v1 = (*((__int64(__fastcall**)(StdMaterial* const))this->_vptr_IMaterial + 5))(this);
+			v1 = this->technique();
 			if ((*(__int64(__fastcall**)(__int64))(*(_QWORD*)v1 + 40LL))(v1)
 				&& StdTechnique::glowSampler(this->mtechnique)
-				&& (v2 = (*((__int64(__fastcall**)(StdMaterial* const))this->_vptr_IMaterial + 5))(this),
+				&& (v2 = this->technique(),
 					v3 = (*(__int64(__fastcall**)(__int64))(*(_QWORD*)v2 + 40LL))(v2),
 					v4 = StdTechnique::glowSampler(this->mtechnique),
 					v3 == (*((__int64(__fastcall**)(IUniformSampler*))v4->_vptr_IUniform + 5))(v4))
@@ -92,12 +92,12 @@ namespace MyGL {
 			}
 			else
 			{
-				v10 = (*((__int64(__fastcall**)(StdMaterial* const))this->_vptr_IMaterial + 5))(this);
+				v10 = this->technique();
 				if ((*(__int64(__fastcall**)(__int64))(*(_QWORD*)v10 + 40LL))(v10))
 				{
 					if (this->mtechnique->opacitySampler_toSM())
 					{
-						v11 = (*((__int64(__fastcall**)(StdMaterial* const))this->_vptr_IMaterial + 5))(this);
+						v11 = this->technique();
 						v12 = (*(__int64(__fastcall**)(__int64))(*(_QWORD*)v11 + 40LL))(v11);
 						v13 = StdTechnique::opacitySampler_toSM(this->mtechnique);
 						if (v12 == (*((__int64(__fastcall**)(IUniformSampler*))v13->_vptr_IUniform + 5))(v13))
@@ -123,13 +123,13 @@ namespace MyGL {
 		__int64 v4;
 		bool result;
 
-		v2 = (*((__int64(__fastcall**)(StdMaterial* const))this->_vptr_IMaterial + 5))(this);
+		v2 = this->technique();
 		result = 0;
 		if ((*(__int64(__fastcall**)(__int64))(*(_QWORD*)v2 + 40LL))(v2))
 		{
 			if (s)
 			{
-				v3 = (*((__int64(__fastcall**)(StdMaterial* const))this->_vptr_IMaterial + 5))(this);
+				v3 = this->technique();
 				v4 = (*(__int64(__fastcall**)(__int64))(*(_QWORD*)v3 + 40LL))(v3);
 				if (v4 == (*((__int64(__fastcall**)(IUniformSampler*))s->_vptr_IUniform + 5))(s))
 					return 1;
@@ -142,7 +142,7 @@ namespace MyGL {
 	{
 		__int64 v2;
 
-		v2 = (*((__int64(__fastcall**)(StdMaterial* const))this->_vptr_IMaterial + 5))(this);
+		v2 = this->technique();;
 		return (*(__int64(__fastcall**)(__int64, const IGraphicsObject* const, StdMaterial* const))(*(_QWORD*)v2 + 72LL))(
 			v2,
 			obj,
@@ -173,7 +173,7 @@ namespace MyGL {
 		inline const IRenderState* StdMaterial::renderState() {
 			__int64 v1;
 
-			v1 = (*((__int64(__fastcall**)(const StdMaterial* const)) this->_vptr_IMaterial + 6))(this);
+			v1 = this->technique();
 			return (const IRenderState*)(*(__int64(__fastcall**)(__int64)) (*(_QWORD*)v1 + 64LL))(v1);
 		}
 		inline void StdMaterial::setDepthShader(IShader * sh) {
@@ -204,7 +204,7 @@ namespace MyGL {
 			this->spec = sh;
 		}
 		inline void StdMaterial::setUniforms() {
-			(*((void(__fastcall**)(StdMaterial* const)) this->_vptr_IMaterial + 2))(this);
+			this->bind();
 		}
 		inline ITechnique* StdMaterial::technique() {
 			return this->mtechnique;

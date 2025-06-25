@@ -63,7 +63,7 @@ namespace MyGL {
         if (this->frameBuffer)
             (*((void (__fastcall **)(FBO *)) this->frameBuffer->_vptr_IFBO + 1))(this->frameBuffer);
         if (this->frame)
-            (*((void (__fastcall **)(ITextureRectangle *)) this->frame->_vptr_ITexture + 1))(this->frame);
+            delete this->frame;
 
     }
 
@@ -81,10 +81,8 @@ namespace MyGL {
         v2 = v1->render();
         (*(void (__fastcall **)(__int64, int *, int *, int *, int *)) (*(_QWORD *) v2 + 96LL))(v2, v, &v[1], &v[2],
                                                                                                &v[3]);
-        (*((void (__fastcall **)(ITextureRectangle *, _QWORD, __int64, _QWORD, _QWORD,
-                                 __int64)) this->frame->_vptr_ITexture
-           + 7))(
-                this->frame,
+
+        this->frame->load(
                 0LL,
                 1LL,
                 (unsigned int) v[2],
@@ -94,8 +92,8 @@ namespace MyGL {
             (*((void (__fastcall **)(FBO *)) this->frameBuffer->_vptr_IFBO + 1))(this->frameBuffer);
         v3 = AbstractPass::scene(this);
         r = v3->render();
-        theWidth = (*((__int64 (__fastcall **)(ITextureRectangle *)) this->frame->_vptr_ITexture + 8))(this->frame);
-        theHeight = (*((__int64 (__fastcall **)(ITextureRectangle *)) this->frame->_vptr_ITexture + 9))(this->frame);
+        theWidth = this->frame->width();
+        theHeight = this->frame->height();
         frameBuffer = (FBO *) operator new(0x28uLL);
         FBO::FBO(frameBuffer, r, theWidth, theHeight, 8);
         this->frameBuffer = frameBuffer;
@@ -118,10 +116,9 @@ namespace MyGL {
         v4 = v3->render();
         (*(void (__fastcall **)(__int64)) (*(_QWORD *) v4 + 24LL))(v4);
         v5 = v[2];
-        if (v5 != (*((unsigned int (__fastcall **)(ITextureRectangle *)) this->frame->_vptr_ITexture + 8))(this->frame)
+        if (v5 != this->frame->width()
             || (v6 = v[3],
-                v6 != (*((unsigned int (__fastcall **)(ITextureRectangle *)) this->frame->_vptr_ITexture + 9))(
-                        this->frame))) {
+                v6 != this->frame->height())) {
             VolumetricLightScatteringPass::resizeFrame(this);
         }
         (*((void (__fastcall **)(FBO *)) this->frameBuffer->_vptr_IFBO + 8))(this->frameBuffer);

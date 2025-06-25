@@ -33,8 +33,7 @@ namespace MyGL {
 			(*((void(__fastcall**)(IObjectCollection*)) this->obj->_vptr_IObjectCollection + 1))(
 				this->obj);
 		if (this->light)
-			(*((void(__fastcall**)(ILightsCollection*)) this->light->_vptr_ILightsCollection + 1))(
-				this->light);
+			delete this->light;
 		if (this->sceneGraph)
             delete this->sceneGraph;
 		if (this->mrender)

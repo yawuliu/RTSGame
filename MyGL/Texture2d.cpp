@@ -62,8 +62,8 @@ namespace MyGL {
 
 		this->w = pw;
 		this->h = ph;
-		(*((void(__fastcall**)(Texture2d* const))this->_vptr_ITexture + 4))(this);
-		(*((void(__fastcall**)(Texture2d* const))this->_vptr_ITexture + 2))(this);
+		this->free();
+		this->create();
 		glBindTexture(3553LL, this->handle);
 		this->isForwardFormat = 1;
 		v6 = *(_DWORD*)Texture2d::toGlInputFormat(this, imgColorSystem);
@@ -84,8 +84,8 @@ namespace MyGL {
 
 		this->w = pw;
 		this->h = ph;
-		(*((void(__fastcall**)(Texture2d* const))this->_vptr_ITexture + 4))(this);
-		(*((void(__fastcall**)(Texture2d* const))this->_vptr_ITexture + 2))(this);
+		this->free();
+		this->create();
 		glBindTexture(3553LL, this->handle);
 		this->isForwardFormat = 1;
 		v6 = *(_DWORD*)Texture2d::toGlInputFormat(this, imgColorSystem);
@@ -114,8 +114,7 @@ namespace MyGL {
 
 	void Texture2d::setClamping(Texture2d* const re, ITexture::ClampMode::Type s)
 	{
-		(*((void(__fastcall**)(Texture2d* const, _QWORD, _QWORD, _QWORD))re->_vptr_ITexture + 8))(
-			re,
+		re->setClamping(
 			(unsigned int)s,
 			(unsigned int)s,
 			(unsigned int)s);
@@ -131,8 +130,7 @@ namespace MyGL {
 
 	void Texture2d::setFiltration(ITexture::FilterType::Type mag, ITexture::FilterType::Type min)
 	{
-		(*((void(__fastcall**)(Texture2d* const, _QWORD, _QWORD, __int64))this->_vptr_ITexture + 6))(
-			this,
+		this->setFiltration(
 			(unsigned int)mag,
 			(unsigned int)min,
 			2LL);

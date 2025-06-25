@@ -160,7 +160,7 @@ namespace MyGL {
 		if (!this->frameBuffer)
 			return 0;
 		glFramebufferTexture2DEXT = this->ext->glFramebufferTexture2DEXT;
-		v5 = (GLuint*)(*((__int64(__fastcall**)(ITexture2d*))target->_vptr_ITexture + 5))(target);
+		v5 = target->getHandle();
 		glFramebufferTexture2DEXT(36160LL, no + 36064, 3553LL, *v5, 0LL);
 		return 1;
 	}
@@ -173,7 +173,7 @@ namespace MyGL {
 		if (!this->frameBuffer)
 			return 0;
 		glFramebufferTexture2DEXT = this->ext->glFramebufferTexture2DEXT;
-		v4 = (GLuint*)(*((__int64(__fastcall**)(ITexture2d*))target->_vptr_ITexture + 5))(target);
+		v4 = target->getHandle();
 		glFramebufferTexture2DEXT(36160LL, 36096LL, 3553LL, *v4, 0LL);
 		return 1;
 	}
@@ -186,7 +186,7 @@ namespace MyGL {
 		if (!this->frameBuffer)
 			return 0;
 		glFramebufferTexture2DEXT = this->ext->glFramebufferTexture2DEXT;
-		v5 = (GLuint*)(*((__int64(__fastcall**)(ITextureRectangle*))target->_vptr_ITexture + 5))(target);
+		v5 = target->getHandle();
 		glFramebufferTexture2DEXT(36160LL, no + 36064, 34037LL, *v5, 0LL);
 		return 1;
 	}
@@ -199,7 +199,7 @@ namespace MyGL {
 		if (!this->frameBuffer)
 			return 0;
 		glFramebufferTexture2DEXT = this->ext->glFramebufferTexture2DEXT;
-		v4 = (GLuint*)(*((__int64(__fastcall**)(ITextureRectangle*))target->_vptr_ITexture + 5))(target);
+		v4 = target->getHandle();
 		glFramebufferTexture2DEXT(36160LL, 36096LL, 34037LL, *v4, 0LL);
 		return 1;
 	}

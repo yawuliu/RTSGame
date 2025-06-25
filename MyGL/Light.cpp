@@ -1,4 +1,6 @@
 #include "Light.h"
+
+
 namespace MyGL {
 	Light::Data::Data(IScene& s) :object(s)
 	{
@@ -15,12 +17,9 @@ namespace MyGL {
 
 	Light::Data::~Data()
 	{
-		IMaterial* v1;
-
-		v1 = GraphicsObject::material(&this->object);
-		if (v1)
-			(*((void(__fastcall**)(IMaterial*))v1->_vptr_IMaterial + 1))(v1);
-		GraphicsObject::~GraphicsObject(&this->object);
+		if (this->object->material())
+			delete this->object->material();
+		delete this->object;
 	}
 
 	Light::Material::Material(Light::Material* const m, IScene& s, ITechnique* t) :AbstractMaterial(s)
@@ -32,7 +31,6 @@ namespace MyGL {
 	{
 		if (this->tech)
 			(*((void(__fastcall**)(ITechnique*))this->tech->_vptr_ITechnique + 1))(this->tech);
-		AbstractMaterial::~AbstractMaterial(this);
 	}
 
 	void Light::Material::bind()
@@ -43,13 +41,11 @@ namespace MyGL {
 		void(__fastcall * v4)(IRender*, __int64);
 		__int64 v5;
 
-		v1 = (*((__int64(__fastcall**)(Light::Material* const))this->_vptr_IMaterial + 5))(this);
+		v1 = this->technique();
 		(*(void(__fastcall**)(__int64))(*(_QWORD*)v1 + 16LL))(v1);
-		v2 = (*((__int64(__fastcall**)(Light::Material* const))this->_vptr_IMaterial + 5))(this);
+		v2 = this->technique();
 		(*(void(__fastcall**)(__int64))(*(_QWORD*)v2 + 24LL))(v2);
-		v3 = this->render();
-		v5 = (*((__int64(__fastcall**)(Light::Material* const))this->_vptr_IMaterial + 11))(this);
-        v3->setRenderState(v5);
+        this->render()->setRenderState(this->renderState());
 	}
 
 	IRenderState* Light::Material::renderState()
@@ -59,7 +55,7 @@ namespace MyGL {
 
 	void Light::Material::setUniforms()
 	{
-		(*((void(__fastcall**)(Light::Material* const))this->_vptr_IMaterial + 2))(this);
+		this->bind();
 	}
 
 	ITechnique* Light::Material::technique()
@@ -137,12 +133,8 @@ namespace MyGL {
 
 	Light::Light(ILightsCollection& c)
 	{
-		ILight::ILight(this);
-
-			this->collect = c;
-		(*((void(__fastcall**)(ILightsCollection* const, Light* const))this->collect->_vptr_ILightsCollection + 2))(
-			this->collect,
-			this);
+		this->collect = c;
+		this->collect->add(this);
 		Light::setPosition(this, 0.0, 0.0, 0.0);
 		this->sh = 0;
 		this->data = 0LL;
@@ -152,10 +144,7 @@ namespace MyGL {
 
 	Light::~Light()
 	{
-		Light::Data* data;
-			(*((void(__fastcall**)(ILightsCollection* const, Light* const))this->collect->_vptr_ILightsCollection + 4))(
-				this->collect,
-				this);
+		this->collect->remove(this);
 		if (this->data)
 		{
 			delete this->data;
@@ -217,8 +206,7 @@ namespace MyGL {
 		}
 		if (this->ds)
 		{
-			s = (IScene*)(*((__int64(__fastcall**)(ILightsCollection* const))this->collect->_vptr_ILightsCollection
-				+ 7))(this->collect);
+			s = this->collect->scene();
 			data_1 = (Light::Data*)operator new(0x80uLL);
 			Light::Data::Data(data_1, s);
 			this->data = data_1;
@@ -264,7 +252,7 @@ namespace MyGL {
 		int i_0;
 
 		ObjectMatrix::ObjectMatrix(&m);
-		v1 = (*((__int64(__fastcall**)(ILightsCollection* const))this->collect->_vptr_ILightsCollection + 7))(this->collect);
+		v1 = this->collect->scene();
 		v2 = (*(__int64(__fastcall**)(__int64))(*(_QWORD*)v1 + 24LL))(v1);
 		(*(void(__fastcall**)(__int64, ObjectMatrix*))(*(_QWORD*)v2 + 320LL))(v2, &m);
 		for (i_0 = 0; i_0 <= 2; ++i_0)

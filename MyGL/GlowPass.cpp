@@ -19,8 +19,7 @@ namespace MyGL {
         TextureRectangle::TextureRectangle(frame, r);
         this->frame = frame;
         this->depthBuf = depth;
-        (*((void (__fastcall **)(ITextureRectangle *, __int64, __int64)) glowPass->frame->_vptr_ITexture + 6))(
-                this->frame,
+        this->frame->setFiltration(
                 1LL,
                 1LL);
         this->frameBuffer = 0LL;
@@ -51,7 +50,7 @@ namespace MyGL {
             delete this->data->blur;
         operator delete(this->data);
         if (this->frame)
-            (*((void (__fastcall **)(ITextureRectangle *)) this->frame->_vptr_ITexture + 1))(this->frame);
+            delete this->frame;
         if (this->frameBuffer)
             (*((void (__fastcall **)(FBO *)) this->frameBuffer->_vptr_IFBO + 1))(this->frameBuffer);
 
@@ -79,10 +78,8 @@ namespace MyGL {
         v2 = v1->render();
         (*(void (__fastcall **)(__int64, int *, int *, int *, int *)) (*(_QWORD *) v2 + 96LL))(v2, v, &v[1], &v[2],
                                                                                                &v[3]);
-        (*((void (__fastcall **)(ITextureRectangle *, _QWORD, __int64, _QWORD, _QWORD,
-                                 __int64)) glowPass->frame->_vptr_ITexture
-           + 7))(
-                this->frame,
+
+        this->frame->setFiltration(
                 0LL,
                 1LL,
                 (unsigned int) (v[2] / this->fakeLv),
@@ -92,10 +89,8 @@ namespace MyGL {
             (*((void (__fastcall **)(FBO *)) glowPass->frameBuffer->_vptr_IFBO + 1))(this->frameBuffer);
         v3 = this->scene();
         r = v3->render();
-        theWidth = (*((__int64 (__fastcall **)(ITextureRectangle *)) this->frame->_vptr_ITexture + 8))(
-                this->frame);
-        theHeight = (*((__int64 (__fastcall **)(ITextureRectangle *)) this->frame->_vptr_ITexture + 9))(
-                this->frame);
+        theWidth = this->frame->setClamping();
+        theHeight = this->frame->setClamping();
         frameBuffer = (FBO *) operator new(0x28uLL);
         FBO::FBO(frameBuffer, r, theWidth, theHeight, 4);
         this->frameBuffer = frameBuffer;
@@ -132,11 +127,9 @@ namespace MyGL {
         (*(void (__fastcall **)(__int64, int *, int *, int *, int *)) (*(_QWORD *) v2 + 96LL))(v2, v, &v[1], &v[2],
                                                                                                &v[3]);
         v3 = v[2] / this->fakeLv;
-        if (v3 != (*((unsigned int (__fastcall **)(ITextureRectangle *)) this->frame->_vptr_ITexture + 8))(
-                this->frame)
+        if (v3 !=  this->frame->setClamping())
             || (v4 = v[3] / this->fakeLv,
-                v4 != (*((unsigned int (__fastcall **)(ITextureRectangle *)) this->frame->_vptr_ITexture + 9))(
-                        this->frame))) {
+                v4 !=  this->frame->setClamping())) {
             GlowPass::resizeFrame(this);
         }
         v6 = this->scene();

@@ -173,13 +173,13 @@ namespace MyGL {
 	{
 		if (this->currMaterial == material)
 		{
-			(*((void(__fastcall**)(IMaterial*))material->_vptr_IMaterial + 3))(material);
+			material->setUniforms();
 		}
 		else
 		{
 			this->ubindMaterial();
 			this->currMaterial = material;
-			(*((void(__fastcall**)(IMaterial*))material->_vptr_IMaterial + 2))(material);
+			material->bind();
 		}
 	}
 
@@ -210,7 +210,7 @@ namespace MyGL {
 		v3 = this->gl();
 		v4 = CGL::ext(v3);
 		v4->glActiveTextureARB(tx_unit + 33984);
-		(*((void(__fastcall**)(ITexture*))tex->_vptr_ITexture + 3))(tex);
+		tex->bind();
 	}
 
 	void Render::bindVBO(IVBO* vbo, IVBO::BindMode::Type mode)
@@ -652,7 +652,7 @@ namespace MyGL {
 	void Render::ubindMaterial()
 	{
 		if (this->currMaterial)
-			(*((void(__fastcall**)(IMaterial*))this->currMaterial->_vptr_IMaterial + 4))(this->currMaterial);
+			this->currMaterial->uBind();
 		this->currMaterial = 0LL;
 	}
 

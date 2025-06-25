@@ -31,8 +31,8 @@ namespace MyGL {
 		this->tmpFrame = ShadowPass::createFrame(this, in);
 		v7 = AbstractPass::scene(this);
 		r_1 = v7->render();
-		theWidth = (*((__int64(__fastcall**)(ITexture2d*))this->frame->_vptr_ITexture + 14))(this->frame);
-		theHeight = (*((__int64(__fastcall**)(ITexture2d*))this->frame->_vptr_ITexture + 15))(this->frame);
+		theWidth = this->frame->width();
+		theHeight = this->frame->height();
 		frameBuffer = (FBO*)operator new(0x28uLL);
 		FBO::FBO(frameBuffer, r_1, theWidth, theHeight, 8);
 		this->frameBuffer = frameBuffer;
@@ -62,7 +62,7 @@ namespace MyGL {
 		if (this->blur)
 			delete this->blur;
 		if (this->frame)
-			(*((void(__fastcall**)(ITexture2d*))this->frame->_vptr_ITexture + 1))(this->frame);
+            delete this->frame;
 		if (this->quad)
 			(*((void(__fastcall**)(IModel*))this->quad->_vptr_IModel + 1))(this->quad);
 
@@ -171,22 +171,20 @@ namespace MyGL {
 			Texture2d::Texture2d(re, r);
 			frame = re;
 		}
-		(*((void(__fastcall**)(ITexture2d*, _QWORD, __int64, __int64, __int64, __int64, ITexture2d*))frame->_vptr_ITexture
-			+ 11))(
-				frame,
+
+		frame->load(
 				0LL,
 				1LL,
 				1024LL,
 				1024LL,
 				12LL,
 				in);
-		(*((void(__fastcall**)(ITexture2d*, __int64, __int64))frame->_vptr_ITexture + 7))(frame, 1LL, 1LL);
-		(*((void(__fastcall**)(ITexture2d*, double))frame->_vptr_ITexture + 13))(frame, 0.0);
-		(*((void(__fastcall**)(ITexture2d*, __int64))frame->_vptr_ITexture + 9))(frame, 1LL);
-		v5 = (void(__fastcall*)(ITexture2d*, Color*)) * ((_QWORD*)frame->_vptr_ITexture + 10);
+		frame->setFiltration( 1LL, 1LL);
+		frame->setAnisotropy(0.0);
+		frame->setClamping( 1LL);
 		Color::Color(&v7, 1.0);
-		v5(frame, &v7);
-		ShadowPass::buildQuad(this, 1024, 1024);
+        frame->setBorderColor(&v7);
+        this->buildQuad(1024, 1024);
 		return frame;
 	}
 

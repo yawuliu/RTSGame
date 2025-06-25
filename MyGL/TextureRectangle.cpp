@@ -55,8 +55,8 @@ namespace MyGL {
 
 		this->w = pw;
 		this->h = ph;
-		(*((void(__fastcall**)(TextureRectangle* const))this->_vptr_ITexture + 4))(this);
-		(*((void(__fastcall**)(TextureRectangle* const))this->_vptr_ITexture + 2))(this);
+		this->free();
+		this->create();
 		glBindTexture(34037LL, this->handle);
 		this->isForwardFormat = 1;
 		v6 = *(_DWORD*)this->toGlInputFormat(imgColorSystem);

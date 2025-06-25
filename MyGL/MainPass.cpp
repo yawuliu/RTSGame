@@ -29,9 +29,9 @@ namespace MyGL {
 		IRenderPass* v1;
 		unsigned int i;
 		if (this->frame)
-			(*((void(__fastcall**)(ITextureRectangle*)) this->frame->_vptr_ITexture + 1))(this->frame);
+            delete this->frame;
 		if (this->depth)
-			(*((void(__fastcall**)(ITextureRectangle*)) this->depth->_vptr_ITexture + 1))(this->depth);
+            delete this->depth;
 		if (this->m_frameBuffer)
 			(*((void(__fastcall**)(FBO*)) this->m_frameBuffer->_vptr_IFBO + 1))(this->m_frameBuffer);
 		for (i = 0; i < std::vector<IRenderPass*>::size(&this->passes); ++i) {
@@ -133,18 +133,15 @@ namespace MyGL {
 		FBO* v11;
 		int v[8];
 
-		v1 = AbstractPass::scene(this);
+		v1 = this->scene();
 		v2 = v1->render();
 		(*(void(__fastcall**)(__int64, int*, int*, int*, int*)) (*(_QWORD*)v2 + 96LL))(v2, v, &v[1], &v[2],
 			&v[3]);
 		v3 = v[2];
-		if (v3 != (*((unsigned int(__fastcall**)(ITextureRectangle*)) this->frame->_vptr_ITexture + 8))(
-			this->frame)
+		if (v3 != this->frame->width()
 			|| (v4 = v[3],
-				v4 !=
-				(*((unsigned int(__fastcall**)(ITextureRectangle*)) this->frame->_vptr_ITexture + 9))(
-					this->frame))) {
-			MainPass::resizeFrame(this);
+				v4 != this->frame->height())) {
+            this-》resizeFrame();
 		}
 		v6 = this->frameBuffer();
 		(*((void(__fastcall**)(FBO*)) v6->_vptr_IFBO + 8))(v6);
@@ -239,19 +236,14 @@ namespace MyGL {
 		v2 = v1->render();
 		(*(void(__fastcall**)(__int64, int*, int*, int*, int*)) (*(_QWORD*)v2 + 96LL))(v2, v, &v[1], &v[2],
 			&v[3]);
-		(*((void(__fastcall**)(ITextureRectangle*, _QWORD, __int64, _QWORD, _QWORD,
-			__int64)) this->frame->_vptr_ITexture
-			+ 7))(
-				this->frame,
+
+		this->frame->setFiltration(
 				0LL,
 				1LL,
 				(unsigned int)v[2],
 				(unsigned int)v[3],
 				4LL);
-		(*((void(__fastcall**)(ITextureRectangle*, _QWORD, __int64, _QWORD, _QWORD,
-			__int64)) this->depth->_vptr_ITexture
-			+ 7))(
-				this->depth,
+		this->depth->setFiltration(
 				0LL,
 				3LL,
 				(unsigned int)v[2],
@@ -261,10 +253,8 @@ namespace MyGL {
 			(*((void(__fastcall**)(FBO*)) this->m_frameBuffer->_vptr_IFBO + 1))(this->m_frameBuffer);
 		v3 = AbstractPass::scene(this);
 		r = v3->render();
-		theWidth = (*((__int64(__fastcall**)(ITextureRectangle*)) this->frame->_vptr_ITexture + 8))(
-			this->frame);
-		theHeight = (*((__int64(__fastcall**)(ITextureRectangle*)) this->frame->_vptr_ITexture + 9))(
-			this->frame);
+		theWidth = this->frame->setClamping();
+		theHeight = this->frame->setClamping();
 		m_frameBuffer = (FBO*) operator new(0x28uLL);
 		FBO::FBO(m_frameBuffer, r, theWidth, theHeight, 4);
 		this->m_frameBuffer = m_frameBuffer;
