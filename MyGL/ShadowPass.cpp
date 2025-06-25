@@ -64,7 +64,7 @@ namespace MyGL {
 		if (this->frame)
             delete this->frame;
 		if (this->quad)
-			(*((void(__fastcall**)(IModel*))this->quad->_vptr_IModel + 1))(this->quad);
+            delete this->quad;
 
 	}
 
@@ -146,8 +146,8 @@ namespace MyGL {
 		IOModel::normal(&retstr__11, &m, 3);
 		p_11 = IIOModel::Point::data(&retstr__11);
 		ShadowPass::setPoint(this, p_11, nx, ny);
-		(*((void(__fastcall**)(IModel*, IOModel*))this->quad->_vptr_IModel + 8))(this->quad, &m);
-		(*((void(__fastcall**)(IModel*, __int64))this->quad->_vptr_IModel + 4))(this->quad, 2LL);
+		this->quad->load(&m);
+		this->quad->setPrimitivesType(2LL);
 		IOModel::~IOModel(&m);
 	}
 

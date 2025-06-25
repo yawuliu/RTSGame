@@ -59,8 +59,7 @@ namespace MyGL {
                 v12(v11, this, &model, v13);
                 std::string::~string(&str);
             }
-            (*((void (__fastcall **)(IModel *const, IOModel *)) this->_vptr_IModel + 8))(this,
-                                                                                         &model);
+            this->load(&model);
             taget_1 = this;
         }
         IOModel::~IOModel(&model);
@@ -123,8 +122,7 @@ namespace MyGL {
                 v12(v11, this, &model, v13);
                 std::string::~string(&str);
             }
-            (*((void (__fastcall **)(IModel *const, IOModel *)) this->_vptr_IModel + 8))(this,
-                                                                                         &model);
+            this->load(&model);
             taget_1 = this;
         }
         IOModel::~IOModel(&model);

@@ -34,7 +34,7 @@ namespace MyGL {
 	{
 		this->freeAlgo();
 		if (this->quad)
-			(*((void(__fastcall**)(IModel*))this->quad->_vptr_IModel + 1))(this->quad);
+            delete this->quad;
 		if (this->m_settings)
 			(*((void(__fastcall**)(IRenderAlgoSettings*))this->m_settings->_vptr_IRenderAlgoSettings + 1))(this->m_settings);
 	}
@@ -96,8 +96,8 @@ namespace MyGL {
 		IOModel::texCoord(&retstr__7, &m, 3);
 		p_7 = IIOModel::TexCoord::data(&retstr__7);
 		ForwardRenderAlgo::setPoint(p_7, 0.0, (float)h);
-		(*((void(__fastcall**)(IModel*, IOModel*))this->quad->_vptr_IModel + 8))(this->quad, &m);
-		(*((void(__fastcall**)(IModel*, __int64))this->quad->_vptr_IModel + 4))(this->quad, 2LL);
+		this->quad->load(&m);
+		this->quad->setPrimitivesType(2LL);
 		IOModel::~IOModel(&m);
 	}
 

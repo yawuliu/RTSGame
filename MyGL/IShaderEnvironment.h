@@ -1,7 +1,7 @@
 #pragma once
 
 #include <string>
-#include "DisableCopy"
+#include "DisableCopy.h"
 
 namespace MyGL {
     class IShaderEnvironment : public DisableCopy {

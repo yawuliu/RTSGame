@@ -189,7 +189,7 @@ namespace MyGL {
 		{
 			this->ubindModel();
 			this->currModel = m;
-			(*((void(__fastcall**)(IModel*))m->_vptr_IModel + 2))(m);
+			m->bind();
 			++this->batchCount_val;
 		}
 	}
@@ -321,7 +321,7 @@ namespace MyGL {
 	void Render::drawModel(IModel* m)
 	{
 		this->bindModel(m);
-		(*((void(__fastcall**)(IModel*, __int64))m->_vptr_IModel + 6))(m, 1LL);
+		m->draw(1LL);
 	}
 
 	void Render::drawModel(IModel* m, const ObjectMatrix* const objMatrix)
@@ -660,7 +660,7 @@ namespace MyGL {
 	{
 		if (this->currModel)
 		{
-			(*((void(__fastcall**)(IModel*))this->currModel->_vptr_IModel + 3))(this->currModel);
+			this->currModel->uBind();
 			this->currModel = 0LL;
 		}
 	}

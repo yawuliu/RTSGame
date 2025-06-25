@@ -86,8 +86,8 @@ namespace MyGL {
 		IOModel::texCoord(&retstr__7, &m, 3);
 		p_7 = IIOModel::TexCoord::data(&retstr__7);
 		MainPass::setPoint(p_7, 0.0, (float)h);
-		(*((void(__fastcall**)(IModel*, IOModel*)) this->quad->_vptr_IModel + 8))(this->quad, &m);
-		(*((void(__fastcall**)(IModel*, __int64)) this->quad->_vptr_IModel + 4))(this->quad, 2LL);
+		this->quad->load(&m);
+		this->quad->setPrimitivesType(2LL);
 		IOModel::~IOModel(&m);
 	}
 

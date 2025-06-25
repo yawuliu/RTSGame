@@ -108,7 +108,6 @@ qt_add_executable(Game WIN32 MACOSX_BUNDLE
         widgets/startffawidget.cpp widgets/startffawidget.h widgets/startffawidget.ui
         widgets/unitbutton.cpp widgets/unitbutton.h
         widgets/unitsgroup.cpp widgets/unitsgroup.h widgets/unitsgroup.ui
-        MyGL/IRenderPass.cpp
         MyGL/AbstractPass.cpp
         MyGL/AbstractShader.cpp
         MyGL/Adapter.cpp
@@ -117,30 +116,16 @@ qt_add_executable(Game WIN32 MACOSX_BUNDLE
         MyGL/CGL.cpp
         MyGL/Color.cpp
         MyGL/ColorPass.cpp
-        MyGL/IErrorControl.cpp
-        MyGL/IGraphicsObject.cpp
         MyGL/DataLoader.cpp
         MyGL/DepthPass.cpp
         MyGL/Filter.cpp
         MyGL/ForwardRenderAlgo.cpp
-        MyGL/IAdapter.cpp
-        MyGL/ICamera.cpp
-        MyGL/IData.cpp
-        MyGL/IScene.cpp
         MyGL/UniformSampler.cpp
         MyGL/UniformMatrix4x4.cpp
-        MyGL/UniformArray.cpp
         MyGL/Uniform1f.cpp
         MyGL/Uniform4f.cpp
         MyGL/TransparentPass.cpp
         MyGL/TextureRectangle.cpp
-        MyGL/ITextureLoader.cpp
-        MyGL/ITextureRectangle.cpp
-        MyGL/IUniform1f.cpp
-        MyGL/IUniform4f.cpp
-        MyGL/IUniformMatrix4x4.cpp
-        MyGL/IUniformSampler.cpp
-        MyGL/IVBO.cpp
         MyGL/Light.cpp
         MyGL/MainPass.cpp
         MyGL/Model.cpp
@@ -155,62 +140,24 @@ qt_add_executable(Game WIN32 MACOSX_BUNDLE
         MyGL/Texture2d.cpp
         MyGL/ObjectMatrix.cpp
         MyGL/ModelLoader.cpp
-        MyGL/ITexture2d.cpp
-        MyGL/ITexture.cpp
-        MyGL/ITexture.h
-        MyGL/IShaderLoader.cpp
-        MyGL/IShaderEnvironment.cpp
-        MyGL/IShader.cpp
         MyGL/ISceneGraph.cpp
-        MyGL/IRenderState.cpp
         MyGL/IOModel.cpp
-        MyGL/IRender.cpp
-        MyGL/IObjectCollection.cpp
-        MyGL/IModelInfo.cpp
-        MyGL/IModel.cpp
-        MyGL/IMaterial.cpp
-        MyGL/ILightsCollection.cpp
         MyGL/GraphicsObject.cpp
         MyGL/FBO.cpp
         MyGL/DataStream.cpp
-        MyGL/Data.cpp
-        MyGL/IRenderAlgo.cpp
-        MyGL/DisableCopy.cpp
         MyGL/ErrorControl.cpp
         MyGL/privateGLSupportClass.cpp
-        MyGL/privateGLSupportClass.h
         MyGL/Render.cpp
-        MyGL/IDataLoader.cpp
-        MyGL/IDataLoader.h
         MyGL/AbstractMaterial.cpp
-        MyGL/AbstractMaterial.h
-        MyGL/IIOModel.cpp
-        MyGL/IIOModel.h
-        MyGL/IUniform.cpp
-        MyGL/IUniform.h
-        MyGL/IModelLoader.cpp
         MyGL/LightsCollection.cpp
-        MyGL/IUniformArray.cpp
-        MyGL/IUniformArray.h
-        MyGL/ILight.cpp
-        MyGL/ILight.h
-        MyGL/IRenderAlgoSettings.cpp
-        MyGL/IRenderAlgoSettings.h
-        MyGL/IFBO.cpp
-        MyGL/IFBO.h
         MyGL/ModelInfo.cpp
-        MyGL/ModelInfo.h
         MyGL/RenderState.cpp
-        MyGL/RenderState.h
         MyGL/ObjectCollection.cpp
-        MyGL/ObjectCollection.h
         MyGL/AbstractTechnique.cpp
-        MyGL/AbstractTechnique.h
         MyGL/BloomPass.cpp
         MyGL/SmallLightsPass.cpp
         MyGL/VolumetricLightScatteringPass.cpp
         MyGL/VBO.cpp
-        MyGL/VBO.h
         MyGL/LincPass.cpp
 )
 target_include_directories(Game PRIVATE

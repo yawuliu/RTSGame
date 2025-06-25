@@ -70,7 +70,7 @@ namespace MyGL {
 
     void Model::draw(bool binded) {
         if (!binded)
-            (*((void (__fastcall **)(Model *const)) this->_vptr_IModel + 2))(this);
+            this->bind();
 
         this->render->drawVBO(
                 (unsigned int) this->type,
@@ -83,7 +83,7 @@ namespace MyGL {
 
         if (Isize >= 0) {
             if (!binded)
-                (*((void (__fastcall **)(Model *const)) this->_vptr_IModel + 2))(this);
+                this->bind();
             if (Isize <= 1) {
                 glDrawArrays((unsigned int) this->type, (unsigned int) *fist, (unsigned int) *count);
             } else {
@@ -92,7 +92,7 @@ namespace MyGL {
                 v6->glMultiDrawArraysEXT(this->type, fist, count, Isize);
             }
         } else {
-            (*((void (__fastcall **)(Model *const, bool)) this->_vptr_IModel + 6))(this, binded);
+            this->draw(binded);
         }
     }
 

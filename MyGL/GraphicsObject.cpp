@@ -138,8 +138,7 @@ namespace MyGL {
         const IModelInfo *m;
 
         if (this->gmodel) {
-            m = (const IModelInfo *) (*((__int64 (__fastcall **)(IModel *)) this->gmodel->_vptr_IModel +
-                                        10))(this->gmodel);
+            m = this->gmodel->cullInfo();
             v1 = (*((double (__fastcall **)(const IModelInfo *)) m->_vptr_IModelInfo + 7))(m);
             v2 = (__m128d) *(unsigned __int64 *) &this->size[2];
             v2.m128d_f64[0] = v2.m128d_f64[0] * v1;

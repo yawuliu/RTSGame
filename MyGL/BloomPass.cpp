@@ -101,7 +101,7 @@ namespace MyGL {
             delete this->subFrame;
         for (i_0 = 0; i_0 <= 2; ++i_0) {
             if (this->quad[i_0])
-                (*((void (__fastcall **)(IModel *)) this->quad[i_0]->_vptr_IModel + 1))(this->quad[i_0]);
+                delete this->quad[i_0];
             if ((&this->subFrame)[i_0 + 1])
                 delete (&this->subFrame)[i_0 + 1];
         }
@@ -234,8 +234,8 @@ namespace MyGL {
             BloomPass::setPoint(p_11, 0.0, (float) h);
             w /= 2;
             h /= 2;
-            (*((void (__fastcall **)(IModel *, IOModel *)) this->quad[i]->_vptr_IModel + 8))(this->quad[i], &m);
-            (*((void (__fastcall **)(IModel *, __int64)) this->quad[i]->_vptr_IModel + 4))(this->quad[i], 2LL);
+            this->quad[i]->load(&m);
+            this->quad[i]->setPrimitivesType(2LL);
         }
         IOModel::~IOModel(&m);
     }
