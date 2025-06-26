@@ -38,7 +38,7 @@ namespace MyGL {
             std::allocator<char>::~allocator(&v22);
             std::string::append(&str_0, fileName);
             v5 = this->render->gl();
-            v6 = CGL::errorCtrl(v5);
+            v6 = v5->errorCtrl();
             v7 = (void (__fastcall *)(IErrorControl *, IModel *const, IOModel *, __int64)) *(
                     (_QWORD *) v6->_vptr_IErrorControl + 9);
             v8 = std::string::data(&str_0);
@@ -46,13 +46,13 @@ namespace MyGL {
             taget_1 = this;
             std::string::~string(&str_0);
         } else {
-            if (!IOModel::size(&model)) {
+            if (!model.size()) {
                 std::allocator<char>::allocator(v23);
                 std::string::string(&str, "[Warning]:IOModel is NULL: \n", v23);
                 std::allocator<char>::~allocator(v23);
                 std::string::append(&str, fileName);
                 v10 = this->render->gl();
-                v11 = CGL::errorCtrl(v10);
+                v11 = v10->errorCtrl();
                 v12 = (void (__fastcall *)(IErrorControl *, IModel *const, IOModel *, __int64)) *(
                         (_QWORD *) v11->_vptr_IErrorControl + 9);
                 v13 = std::string::data(&str);
@@ -109,7 +109,7 @@ namespace MyGL {
         } else {
             if (ok)
                 *ok = 1;
-            if (!IOModel::size(&model)) {
+            if (!model.size()) {
                 std::allocator<char>::allocator(v23);
                 std::string::string(&str, "[Warning]:IOModel is NULL: \n", v23);
                 std::allocator<char>::~allocator(v23);

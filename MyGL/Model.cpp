@@ -121,20 +121,20 @@ namespace MyGL {
             s = 3 * (*((__int64 (__fastcall **)(IIOModel *const)) m->_vptr_IIOModel + 18))(m);
             data = (const CGL::GLfloat *) (*(
                     (__int64 (__fastcall **)(IIOModel *const)) m->_vptr_IIOModel + 8))(m);
-            VBO::loadData(&this->vert, data, s);
+            this->vert->loadData(data, s);
             s_1 = 2 * (*((__int64 (__fastcall **)(IIOModel *const)) m->_vptr_IIOModel + 18))(m);
             data_1 = (const CGL::GLfloat *) (*(
                     (__int64 (__fastcall **)(IIOModel *const)) m->_vptr_IIOModel + 9))(m);
-            VBO::loadData(&this->tex, data_1, s_1);
+            this->tex->loadData(data_1, s_1);
             s_2 = 3 * (*((__int64 (__fastcall **)(IIOModel *const)) m->_vptr_IIOModel + 18))(m);
             data_2 = (const CGL::GLfloat *) (*(
                     (__int64 (__fastcall **)(IIOModel *const)) m->_vptr_IIOModel + 10))(m);
-            VBO::loadData(&this->norm, data_2, s_2);
+            this->norm->loadData(data_2, s_2);
             if ((*((__int64 (__fastcall **)(IIOModel *const)) m->_vptr_IIOModel + 11))(m)) {
                 s_3 = 4 * (*((__int64 (__fastcall **)(IIOModel *const)) m->_vptr_IIOModel + 18))(m);
                 data_3 = (const CGL::GLfloat *) (*(
                         (__int64 (__fastcall **)(IIOModel *const)) m->_vptr_IIOModel + 11))(m);
-                VBO::loadData(&this->extra, data_3, s_3);
+                this->extra->loadData(data_3, s_3);
             }
             this->type = IVBO::PrimitiveType::Type::Triangles;
             this->size = (*((__int64 (__fastcall **)(IIOModel *const)) m->_vptr_IIOModel + 18))(m);

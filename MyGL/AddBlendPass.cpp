@@ -25,10 +25,10 @@ namespace MyGL {
         ISceneGraph::Visibles obj;
         int i;
 
-        v1 = AbstractPass::scene(this);
+        v1 = this->scene();
         s = v1->graph();
         ISceneGraph::Visibles::Visibles(&obj, s);
-        v3 = AbstractPass::scene(this);
+        v3 = this->scene();
         v4 = v3->render();
         (*(void (__fastcall **)(__int64)) (*(_QWORD *) v4 + 296LL))(v4);
         for (i = 0;; ++i) {
@@ -36,12 +36,12 @@ namespace MyGL {
             if (i_1 <= i)
                 break;
             obj_2 = ISceneGraph::Visibles::operator[](&obj, i);
-            if (AddBlendPass::isDrawable(this, obj_2)) {
+            if (this->isDrawable(obj_2)) {
                 obj_1 = ISceneGraph::Visibles::operator[](&obj, i);
-                AbstractPass::drawObject<AddBlendPass>(this, obj_1);
+                this->drawObject<AddBlendPass>(obj_1);
             }
         }
-        v8 = AbstractPass::scene(this);
+        v8 = this->scene();
         v9 = v8->render();
         (*(void (__fastcall **)(__int64)) (*(_QWORD *) v9 + 312LL))(v9);
     }

@@ -7,10 +7,8 @@ namespace MyGL {
 
 
     AbstractShader::~AbstractShader() {
-        IUniform *v1;
-        std::vector<IUniform *>::size_type i;
-        for (i = 0LL; std::vector<IUniform *>::size(&this->unif) > i; ++i) {
-            v1 = *std::vector<IUniform *>::operator[](&this->unif, i);
+        for (size_t i = 0LL; this->unif.size() > i; ++i) {
+            v1 = this->unif[i];
             if (v1)
                 delete v1;
         }
@@ -35,13 +33,13 @@ namespace MyGL {
         rep = 0LL;
         for (i = 0LL;; ++i) {
             v5 = this->uniforms();
-            if (std::vector<IUniform *>::size(v5) <= i)
+            if (v5.size() <= i)
                 break;
             v2 = this->uniforms();
-            v3 = std::vector<IUniform *>::operator[](v2, i);
+            v3 = v2[i];
             if (v3->isEqual(ua)) {
                 v4 = this->uniforms();
-                rep = *std::vector<IUniform *>::operator[](v4, i);
+                rep = v4[i];
             }
         }
         if (rep) {
@@ -49,7 +47,7 @@ namespace MyGL {
                 delete ua;
             return rep;
         } else {
-            std::vector<IUniform *>::push_back(&thisa->unif, &ua);
+            thisa->unif.push_back(&ua);
         }
         return ua;
     }
@@ -66,10 +64,10 @@ namespace MyGL {
 
         for (i = 0LL;; ++i) {
             v3 = this->uniforms();
-            if (std::vector<IUniform *>::size(v3) <= i)
+            if (v3.size() <= i)
                 break;
             v1 = this->uniforms();
-            v2 = std::vector<IUniform *>::operator[](v1, i);
+            v2 = v1[i];
             v2->sendDataToGPU();
         }
     }

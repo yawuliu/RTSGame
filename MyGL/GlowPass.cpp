@@ -204,7 +204,7 @@ namespace MyGL {
             obj_2 = ISceneGraph::Visibles::operator[](&obj, i);
             if (GlowPass::isDrawable(this, obj_2)) {
                 obj_1 = ISceneGraph::Visibles::operator[](&obj, i);
-                AbstractPass::drawObject<GlowPass>(this, obj_1);
+                this->drawObject<GlowPass>(obj_1);
                 this->used = 1;
             }
         }
@@ -218,7 +218,7 @@ namespace MyGL {
     }
 
     ITextureRectangle *GlowPass::output() {
-        return BloomPass::output(this->data->blur);
+        return this->data->blur->output();
     }
 
     IRenderPass::Pass::Type GlowPass::type() {

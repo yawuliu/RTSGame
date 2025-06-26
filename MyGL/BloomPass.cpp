@@ -72,13 +72,13 @@ namespace MyGL {
         this->data = data;
         this->data->w = -1;
         this->data->h = -1;
-        v18 = Filter::renderState(&this->data->gausH);
+        v18 = this->data->gausH->renderState();
         v18->setBlend(1LL);
-        v19 = Filter::renderState(&this->data->gausH);
+        v19 = this->data->gausH->renderState();
         v19->setBlendMode(1LL, 1LL);
-        v20 = Filter::renderState(&this->data->gausH);
+        v20 = this->data->gausH->renderState();
         v20->setAlphaTestMode(1LL);
-        v21 = Filter::renderState(&this->data->gausH);
+        v21 = this->data->gausH->renderState();
         v21->setAlphaTestRef(0.0);
         this->setDownSamplesCount(3);
         this->initShaders(adapter);
@@ -269,7 +269,7 @@ namespace MyGL {
                 (unsigned int) (v[2] / 4),
                 (unsigned int) (v[3] / 4),
                 4LL);
-        dw = 1 << BloomPass::downSamplesCount(this);
+        dw = 1 << this->downSamplesCount();
 
         this->frame->setFiltration(
                 0LL,

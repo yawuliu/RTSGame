@@ -15,16 +15,16 @@ namespace MyGL {
 		RenderAlgoSettings<ForwardRenderAlgo>* m_settings;
 		this->mscene = s;
 		std::vector<IRenderPass*>::vector(&this->passes);
-		v4 = ForwardRenderAlgo::scene(this);
+		v4 = this->scene();
 		r = v4->render();
 		quad = (Model*)operator new(0xC0uLL);
 		Model::Model(quad, r);
 		this->quad = quad;
-		ForwardRenderAlgo::buildQuad(this, 0, 0);
-		ForwardRenderAlgo::setBloom(this, 1);
-		ForwardRenderAlgo::setShadowPass(this, 1);
+        this->buildQuad( 0, 0);
+        this->setBloom( 1);
+        this->setShadowPass( 1);
 		if (autoMake)
-			ForwardRenderAlgo::makeAlgo(this, adapter);
+            this->makeAlgo(adapter);
 		m_settings = (RenderAlgoSettings<ForwardRenderAlgo> *)operator new(0x10uLL);
 		RenderAlgoSettings<ForwardRenderAlgo>::RenderAlgoSettings(m_settings, this);
 		this->m_settings = m_settings;
@@ -36,7 +36,7 @@ namespace MyGL {
 		if (this->quad)
             delete this->quad;
 		if (this->m_settings)
-			(*((void(__fastcall**)(IRenderAlgoSettings*))this->m_settings->_vptr_IRenderAlgoSettings + 1))(this->m_settings);
+            delete this->m_settings;
 	}
 
 	MainPass* ForwardRenderAlgo::allockMainPass(const Adapter& adapter)
@@ -44,7 +44,7 @@ namespace MyGL {
 		IScene* s;
 		MainPass* v3;
 
-		s = ForwardRenderAlgo::scene(this);
+		s = this->scene();
 		v3 = (MainPass*)operator new(0x48uLL);
 		MainPass::MainPass(v3, s, adapter, this->quad, 1);
 		return v3;
@@ -105,30 +105,27 @@ namespace MyGL {
 	{
 		if (this->isShadowPass())
 			this->shadowPass->exec();
-		if (LincPass::validate(this->lincPass))
+		if (this->lincPass->validate())
 			this->mainPass->exec();
 		if (this->vlsPass)
 			this->vlsPass->exec();
-		if (BloomPass::validate(this->bloomPass) && ForwardRenderAlgo::isBloom(this))
+		if (this->bloomPass->validate() && this->isBloom())
 			this->bloomPass->exec();
-		if (GlowPass::validate(this->glowPass))
+		if (this->glowPass->validate())
 			this->glowPass->exec();
-		if (LincPass::validate(this->lincPass))
+		if (this->lincPass->validate())
 			this->lincPass->exec();
 	}
 
 	void ForwardRenderAlgo::freeAlgo()
 	{
-		IRenderPass* v1;
-		unsigned int i;
-
-		for (i = 0; i < std::vector<IRenderPass*>::size(&this->passes); ++i)
+		for (size_t i = 0; i < this->passes.size(); ++i)
 		{
-			v1 = *std::vector<IRenderPass*>::operator[](&this->passes, i);
+			auto& v1 = this->passes[i];
 			if (v1)
                 delete v1;
 		}
-		std::vector<IRenderPass*>::clear(&this->passes);
+        this->passes.clear();
 	}
 
 	bool ForwardRenderAlgo::isBloom()
@@ -187,7 +184,7 @@ namespace MyGL {
 		this->bloomPass = bloomPass_1;
 		if (this->vlsPass)
 		{
-			s_3 = ForwardRenderAlgo::scene(this);
+			s_3 =this->scene();
 			f = VolumetricLightScatteringPass::output(this->vlsPass);
 			g = GlowPass::output(this->glowPass);
 			b = BloomPass::output(this->bloomPass);
@@ -197,36 +194,36 @@ namespace MyGL {
 		}
 		else
 		{
-			s_4 = ForwardRenderAlgo::scene(this);
+			s_4 = this->scene();
 			f_1 = this->mainPass->output();
 			g_1 = GlowPass::output(this->glowPass);
 			b_1 = BloomPass::output(this->bloomPass);
-			d_1 = MainPass::depthBuffer(this->mainPass);
+			d_1 = this->mainPass->depthBuffer();
 			lincPass_1 = (LincPass*)operator new(0x38uLL);
 			LincPass::LincPass(lincPass_1, s_4, adapter, this->quad, f_1, g_1, b_1, d_1);
 		}
 		this->lincPass = lincPass_1;
 		__x = this->shadowPass;
-		std::vector<IRenderPass*>::push_back(&this->passes, &__x);
+        this->passes.push_back(&__x);
 		mainPass = this->mainPass;
-		std::vector<IRenderPass*>::push_back(&this->passes, &mainPass);
+        this->passes.push_back(&mainPass);
 		if (this->vlsPass)
 		{
 			vlsPass = this->vlsPass;
-			std::vector<IRenderPass*>::push_back(&this->passes, &vlsPass);
+            this->passes.push_back( &vlsPass);
 		}
 		bloomPass = this->bloomPass;
-		std::vector<IRenderPass*>::push_back(&this->passes, &bloomPass);
+        this->passes.push_back( &bloomPass);
 		glowPass = this->glowPass;
-		std::vector<IRenderPass*>::push_back(&this->passes, &glowPass);
+        this->passes.push_back(&glowPass);
 		lincPass = this->lincPass;
-		std::vector<IRenderPass*>::push_back(&this->passes, &lincPass);
+        this->passes.push_back(&lincPass);
 	}
 
 	void ForwardRenderAlgo::recreateAlgo(const Adapter& adapter)
 	{
-		ForwardRenderAlgo::freeAlgo(this);
-		ForwardRenderAlgo::makeAlgo(this, adapter);
+        this->freeAlgo();
+        this->makeAlgo(adapter);
 	}
 
 	IScene* ForwardRenderAlgo::scene()

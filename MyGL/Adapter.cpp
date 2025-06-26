@@ -6,81 +6,27 @@ namespace MyGL {
     }
 
     IShader *Adapter::getBloomDownSampleShader() {
-        IShader *v1;
-        std::string d;
-        _BYTE v4[17];
-
-        std::allocator<char>::allocator(v4);
-        std::string::string(&d, "BloomDownSample", v4);
-        v1 = Adapter::returnShader(this, &d);
-        std::string::~string(&d);
-        std::allocator<char>::~allocator(v4);
-        return v1;
+        return this->returnShader("BloomDownSample");
     }
 
     IShader *Adapter::getBlurShadowShader() {
-        IShader *v1;
-        std::string d;
-        _BYTE v4[17];
-
-        std::allocator<char>::allocator(v4);
-        std::string::string(&d, "BlurShadowShader", v4);
-        v1 = Adapter::returnShader(this, &d);
-        std::string::~string(&d);
-        std::allocator<char>::~allocator(v4);
-        return v1;
+        return this->returnShader("BlurShadowShader");
     }
 
     IShader *Adapter::getGausHorizontalShader() {
-        IShader *v1;
-        std::string d;
-        _BYTE v4[17];
-
-        std::allocator<char>::allocator(v4);
-        std::string::string(&d, "HorizontalShader", v4);
-        v1 = Adapter::returnShader(this, &d);
-        std::string::~string(&d);
-        std::allocator<char>::~allocator(v4);
-        return v1;
+        return this->returnShader("HorizontalShader");
     }
 
     IShader *Adapter::getGausVerticalShader() {
-        IShader *v1;
-        std::string d;
-        _BYTE v4[17];
-
-        std::allocator<char>::allocator(v4);
-        std::string::string(&d, "GausVerticalShader", v4);
-        v1 = Adapter::returnShader(this, &d);
-        std::string::~string(&d);
-        std::allocator<char>::~allocator(v4);
-        return v1;
+        return this->returnShader("GausVerticalShader");
     }
 
     IShader *Adapter::getGlowDownSampleShader() {
-        IShader *v1;
-        std::string d;
-        _BYTE v4[17];
-
-        std::allocator<char>::allocator(v4);
-        std::string::string(&d, "GlowDownSample", v4);
-        v1 = Adapter::returnShader(this, &d);
-        std::string::~string(&d);
-        std::allocator<char>::~allocator(v4);
-        return v1;
+        return this->returnShader("GlowDownSample");
     }
 
     IShader *Adapter::getLincShader() {
-        IShader *v1;
-        std::string d;
-        _BYTE v4[17];
-
-        std::allocator<char>::allocator(v4);
-        std::string::string(&d, "LincShader", v4);
-        v1 = Adapter::returnShader(this, &d);
-        std::string::~string(&d);
-        std::allocator<char>::~allocator(v4);
-        return v1;
+        return this->returnShader("LincShader");
     }
 
     ITexture2d *Adapter::getRandTexture() {
@@ -92,12 +38,12 @@ namespace MyGL {
         IErrorControl *v6;
         ITexture2d *re;
 
-        v1 = Adapter::scene(this);
+        v1 = this->scene();
         v2 = v1->dataControl();
         re = (ITexture2d *) (*(__int64 (__fastcall **)(__int64, const char *)) (*(_QWORD *) v2 + 48LL))(
                 v2,
                 "rand4x4");
-        v3 = Adapter::scene(this);
+        v3 = this->scene();
         v4 = v3->render();
         v5 = (CGL *) (*(__int64 (__fastcall **)(__int64)) (*(_QWORD *) v4 + 72LL))(v4);
         v6 = CGL::errorCtrl(v5);
@@ -109,16 +55,7 @@ namespace MyGL {
     }
 
     IShader *Adapter::getSSAOShader() {
-        IShader *v1;
-        std::string d;
-        _BYTE v4[17];
-
-        std::allocator<char>::allocator(v4);
-        std::string::string(&d, "SSAOShader", v4);
-        v1 = Adapter::returnShader(this, &d);
-        std::string::~string(&d);
-        std::allocator<char>::~allocator(v4);
-        return v1;
+        return this->returnShader("SSAOShader");
     }
 
     ITexture2d *Adapter::getShadowMapTexture() {
@@ -131,13 +68,13 @@ namespace MyGL {
         __int64 v7;
         ITexture2d *re;
 
-        v1 = Adapter::scene(this);
+        v1 = this->scene();
         v2 = v1->dataControl();
         re = (ITexture2d *) (*(__int64 (__fastcall **)(__int64, const char *)) (*(_QWORD *) v2 + 48LL))(
                 v2,
                 "shadow_map_texture");
         if (!re) {
-            v3 = Adapter::scene(this);
+            v3 = this->scene();
             r = v3->render();
             re_1 = (Texture2d *) operator new(0x50uLL);
             Texture2d::Texture2d(re_1, r);
@@ -153,16 +90,7 @@ namespace MyGL {
     }
 
     IShader *Adapter::getVolumetricLightScatteringShader() {
-        IShader *v1;
-        std::string d;
-        _BYTE v4[17];
-
-        std::allocator<char>::allocator(v4);
-        std::string::string(&d, "VolumetricLightScatteringShader", v4);
-        v1 = Adapter::returnShader(this, &d);
-        std::string::~string(&d);
-        std::allocator<char>::~allocator(v4);
-        return v1;
+        return this->returnShader("VolumetricLightScatteringShader");
     }
 
     IShader *Adapter::returnShader(const std::string &d) {
@@ -178,11 +106,11 @@ namespace MyGL {
         std::string __lhs;
         IShader *s;
 
-        v2 = Adapter::scene(this);
+        v2 = this->scene();
         v3 = v2->dataControl();
         s = (IShader *) (*(__int64 (__fastcall **)(__int64, const std::string *const)) (*(_QWORD *) v3 + 128LL))(v3,
                                                                                                                  d);
-        v4 = Adapter::scene(this);
+        v4 = this->scene();
         v5 = v4->render();
         v6 = (CGL *) (*(__int64 (__fastcall **)(__int64)) (*(_QWORD *) v5 + 72LL))(v5);
         v7 = CGL::errorCtrl(v6);
