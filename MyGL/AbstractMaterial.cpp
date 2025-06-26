@@ -29,15 +29,15 @@ namespace MyGL {
     bool AbstractMaterial::greater(const ITechnique &t, const ITechnique &t2) {
         unsigned __int64 v2;
 
-        v2 = (*((__int64 (__fastcall **)(const ITechnique *const)) t->_vptr_ITechnique + 6))(t);
-        return v2 > (*((__int64 (__fastcall **)(const ITechnique *const)) t2->_vptr_ITechnique + 6))(t2);
+        v2 = t->cmpShader();
+        return v2 > t2->cmpShader();
     }
 
     bool AbstractMaterial::less(const ITechnique const &t, const ITechnique const &t2) {
         unsigned __int64 v2;
 
-        v2 = (*((__int64 (__fastcall **)(const ITechnique *const)) t->_vptr_ITechnique + 6))(t);
-        return v2 < (*((__int64 (__fastcall **)(const ITechnique *const)) t2->_vptr_ITechnique + 6))(t2);
+        v2 = t->cmpShader();
+        return v2 < t2->cmpShader();
     }
 
     bool AbstractMaterial::operator>(const IMaterial &other) {

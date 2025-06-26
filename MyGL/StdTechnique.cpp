@@ -142,19 +142,19 @@ namespace MyGL {
         __int64 v4;
         __int64 v5;
 
-        StdTechnique::storeRenderState(this);
-        s = StdTechnique::colorShader(this);
-        StdTechnique::setCurrentShader(this, s);
-        v3 = (*((__int64 (__fastcall **)(StdTechnique &)) this->_vptr_ITechnique + 7))(this);
+        this->storeRenderState();
+        s = this->colorShader();
+        this->setCurrentShader(s);
+        v3 = this->renderState();
         (*(void (__fastcall **)(__int64, __int64)) (*(_QWORD *) v3 + 96LL))(v3, 1LL);
-        if (StdTechnique::useDepthPass(this)) {
-            v4 = (*((__int64 (__fastcall **)(StdTechnique &)) this->_vptr_ITechnique + 7))(this);
+        if (this->useDepthPass()) {
+            v4 = this->renderState();
             (*(void (__fastcall **)(__int64, __int64)) (*(_QWORD *) v4 + 128LL))(v4, 6LL);
         } else {
-            v5 = (*((__int64 (__fastcall **)(StdTechnique &)) this->_vptr_ITechnique + 7))(this);
+            v5 = this->renderState();
             (*(void (__fastcall **)(__int64, __int64)) (*(_QWORD *) v5 + 128LL))(v5, 2LL);
         }
-        return (*((__int64 (__fastcall **)(StdTechnique &)) this->_vptr_ITechnique + 5))(this) != 0;
+        return this->currentShader() != 0;
     }
 
     bool StdTechnique::passEvent(const DepthPass *a2) {
@@ -209,8 +209,8 @@ namespace MyGL {
     }
 
     bool StdTechnique::passEvent(const TransparentPass *pass) {
-        StdTechnique::storeRenderState(this);
-        if (TransparentPass::isDepthPass(pass)) {
+        this->storeRenderState();
+        if (pass->isDepthPass()) {
             this->sh = this->mshader;
             if (this->depth)
                 this->sh = this->depth;
@@ -301,9 +301,7 @@ namespace MyGL {
     void StdTechnique::setGlowShader(StdTechnique &mtechnique, IShader *sh) {
         mtechnique->glow = sh;
         if (mtechnique->glow) {
-            mtechnique->gglowSampler =
-                    mtechnique->glow->uniformSampler(
-                            "glow_texture");
+            mtechnique->gglowSampler = mtechnique->glow->uniformSampler("glow_texture");
             if (mtechnique->gglowSampler)
                 mtechnique->gglowSampler->set(0LL);
         } else {
@@ -314,9 +312,7 @@ namespace MyGL {
     void StdTechnique::setShadowShader(StdTechnique &mtechnique, IShader *sh) {
         mtechnique->shadow = sh;
         if (mtechnique->shadow)
-            mtechnique->opacitySampler =
-                    mtechnique->shadow->uniformSampler(
-                            "opacity");
+            mtechnique->opacitySampler = mtechnique->shadow->uniformSampler("opacity");
         else
             mtechnique->opacitySampler = 0LL;
     }
@@ -337,10 +333,10 @@ namespace MyGL {
                 this->lMat->set(v2);
             }
             if (this->lDir) {
-                v3 = AbstractTechnique::scene(this);
+                v3 = this->scene();
                 v4 = v3->lights();
                 if ((*(unsigned int (__fastcall **)(__int64)) (*(_QWORD *) v4 + 40LL))(v4)) {
-                    v6 = AbstractTechnique::scene(this);
+                    v6 = this->scene();
                     v7 = v6->lights();
                     v8 = (*(__int64 (__fastcall **)(__int64, _QWORD)) (*(_QWORD *) v7 + 48LL))(v7, 0LL);
                     l = (Float *) (*(__int64 (__fastcall **)(__int64)) (*(_QWORD *) v8 + 104LL))(v8);

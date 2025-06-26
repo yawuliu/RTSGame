@@ -26,7 +26,7 @@ namespace MyGL {
 	StdMaterial::~StdMaterial()
 	{
 		if (this->mtechnique)
-			(*((void(__fastcall**)(StdTechnique*))this->mtechnique->_vptr_ITechnique + 1))(this->mtechnique);
+			delete this->mtechnique;
 	}
 
 	void StdMaterial::bind()

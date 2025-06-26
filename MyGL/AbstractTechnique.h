@@ -4,56 +4,75 @@
 #include "ITechnique.h"
 
 namespace MyGL {
-	class IMaterial;
-	class AddBlendPass;
-	class ColorPass;
-	class DepthPass;
-	class GlowPass;
-	class IRenderPass;
-	class ShadowPass;
-	class TransparentPass;
-	class AbstractTechnique : public ITechnique {
-	public:
-		AbstractTechnique(IScene& s);
+    class IMaterial;
 
-		virtual ~AbstractTechnique();
+    class AddBlendPass;
 
-		void completeDraw(const AddBlendPass* a2);
+    class ColorPass;
 
-		void completeDraw(const ColorPass* a2);
+    class DepthPass;
 
-		void completeDraw(const DepthPass* a2);
+    class GlowPass;
 
-		void completeDraw(const GlowPass* a2);
+    class IRenderPass;
 
-		void completeDraw(const IRenderPass* a2);
+    class ShadowPass;
 
-		void completeDraw(const ShadowPass* a2);
+    class TransparentPass;
 
-		void completeDraw(const TransparentPass* a2);
+    class AbstractTechnique : public ITechnique {
+    public:
+        AbstractTechnique(IScene &s);
 
-		bool drawEvent(const IGraphicsObject& a2, const IMaterial& a3);
+        virtual ~AbstractTechnique() = default; // 0
 
-		bool passEvent(const AddBlendPass* a2);
+        //virtual ~AbstractTechnique()= default; // 1
+        virtual void bind(); // 2
 
-		bool passEvent(const ColorPass* a2);
+        virtual void setUniforms(); // 3
 
-		bool passEvent(const DepthPass* a2);
+        virtual void uBind(); // 4
 
-		bool passEvent(const GlowPass* a2);
+        virtual void currentShader(); // 5
 
-		bool passEvent(const IRenderPass* a2);
+        virtual void cmpShader(); // 6
 
-		bool passEvent(const ShadowPass* a2);
+        virtual void renderState(); // 7
 
-		bool passEvent(const TransparentPass* a2);
+        // virtual void renderState(); // 8
 
-		IRender* render();
+        virtual void drawEvent(IGraphicsObject const &, IMaterial const &); // 9
 
-		IScene* scene();
+        virtual void passEvent(IRenderPass const *); // 10
 
-	protected:
-		IScene& mscene;
-	};
+        virtual void completeDraw(IRenderPass const *);// 11
+
+        virtual void passEvent(AddBlendPass const *);// 12
+
+        virtual void completeDraw(AddBlendPass const *);// 13
+
+        virtual void passEvent(ColorPass const *);// 14
+
+        virtual void completeDraw(ColorPass const *);// 15
+
+        virtual void passEvent(ShadowPass const *);// 16
+
+        virtual void completeDraw(ShadowPass const *);// 17
+
+        virtual void passEvent(TransparentPass const *);// 18
+
+        virtual void completeDraw(TransparentPass const *);// 19
+
+        virtual void passEvent(DepthPass const *);// 20
+
+        virtual void completeDraw(DepthPass const *);// 21
+
+        virtual void passEvent(GlowPass const *);// 22
+
+        virtual void completeDraw(GlowPass const *);// 23
+
+    protected:
+        IScene &mscene;
+    };
 
 }
