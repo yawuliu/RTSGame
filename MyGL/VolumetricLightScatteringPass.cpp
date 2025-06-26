@@ -61,7 +61,7 @@ namespace MyGL {
     VolumetricLightScatteringPass::~VolumetricLightScatteringPass() {
 
         if (this->frameBuffer)
-            (*((void (__fastcall **)(FBO *)) this->frameBuffer->_vptr_IFBO + 1))(this->frameBuffer);
+            delete this->frameBuffer;
         if (this->frame)
             delete this->frame;
 
@@ -77,7 +77,7 @@ namespace MyGL {
         FBO *frameBuffer;
         int v[12];
 
-        v1 = AbstractPass::scene(this);
+        v1 = this->scene();
         v2 = v1->render();
         (*(void (__fastcall **)(__int64, int *, int *, int *, int *)) (*(_QWORD *) v2 + 96LL))(v2, v, &v[1], &v[2],
                                                                                                &v[3]);
@@ -90,7 +90,7 @@ namespace MyGL {
                 4LL);
         if (this->frameBuffer)
             (*((void (__fastcall **)(FBO *)) this->frameBuffer->_vptr_IFBO + 1))(this->frameBuffer);
-        v3 = AbstractPass::scene(this);
+        v3 = this->scene();
         r = v3->render();
         theWidth = this->frame->width();
         theHeight = this->frame->height();
@@ -108,11 +108,11 @@ namespace MyGL {
         int v6;
         int v[8];
 
-        v1 = AbstractPass::scene(this);
+        v1 = this->scene();
         v2 = v1->render();
         (*(void (__fastcall **)(__int64, int *, int *, int *, int *)) (*(_QWORD *) v2 + 96LL))(v2, v, &v[1], &v[2],
                                                                                                &v[3]);
-        v3 = AbstractPass::scene(this);
+        v3 = this->scene();
         v4 = v3->render();
         (*(void (__fastcall **)(__int64)) (*(_QWORD *) v4 + 24LL))(v4);
         v5 = v[2];

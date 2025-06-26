@@ -66,10 +66,10 @@ namespace MyGL {
 		this->create();
 		glBindTexture(3553LL, this->handle);
 		this->isForwardFormat = 1;
-		v6 = *(_DWORD*)Texture2d::toGlInputFormat(this, imgColorSystem);
+		v6 = *(_DWORD*)this->toGlInputFormat(imgColorSystem);
 		h = this->h;
 		w = this->w;
-		v9 = (unsigned int*)Texture2d::toGlColorSystem(this, colorSystem);
+		v9 = (unsigned int*)this->toGlColorSystem(colorSystem);
 		glTexImage2D(3553LL, 0LL, *v9, w, h, 0LL, v6, 5121, pixels);
 		if (this->filterMip == ITexture::FilterType::Type::Linear)
 			this->filterMip = ITexture::FilterType::Type::Count;
@@ -88,33 +88,33 @@ namespace MyGL {
 		this->create();
 		glBindTexture(3553LL, this->handle);
 		this->isForwardFormat = 1;
-		v6 = *(_DWORD*)Texture2d::toGlInputFormat(this, imgColorSystem);
+		v6 = *(_DWORD*)this->toGlInputFormat( imgColorSystem);
 		h = this->h;
 		w = this->w;
-		v9 = (unsigned int*)Texture2d::toGlColorSystem(this, colorSystem);
+		v9 = (unsigned int*)this->toGlColorSystem(colorSystem);
 		gluBuild2DMipmaps(3553LL, *v9, w, h, v6, 5121LL, pixels);
 		if (this->filterMip == ITexture::FilterType::Type::Count)
 			this->filterMip = ITexture::FilterType::Type::Linear;
 	}
 
-	void Texture2d::setAnisotropy(Texture2d* const re, Float val)
+	void Texture2d::setAnisotropy(Texture2d& re, Float val)
 	{
 		CGL* v2;
 
-		v2 = re->render->gl();
-		re->anisLevel = CGL::maxAnisotropyLevel(v2) * val;
+		v2 = re.render->gl();
+		re->anisLevel = v2->maxAnisotropyLevel() * val;
 		re->isForwardFormat = 1;
 	}
 
-	void Texture2d::setBorderColor(const Color* const c)
+	void Texture2d::setBorderColor(const Color& c)
 	{
-		Color::operator=(&this->border_cl, c);
+        this->border_cl =  c;
 		this->isForwardFormat = 1;
 	}
 
-	void Texture2d::setClamping(Texture2d* const re, ITexture::ClampMode::Type s)
+	void Texture2d::setClamping(Texture2d & re, ITexture::ClampMode::Type s)
 	{
-		re->setClamping(
+		re.setClamping(
 			(unsigned int)s,
 			(unsigned int)s,
 			(unsigned int)s);
@@ -179,12 +179,12 @@ namespace MyGL {
 				glTexParameteri(3553LL, 10241LL, Texture2d::updateSampler(void)::filter_mipN[this->filterMin]);
 			}
 			v1 = this->render->gl();
-			if (CGL::isAnisotropySupported(v1))
+			if (v1->isAnisotropySupported())
 				glTexParameterf(
 					3553LL,
 					34046LL,
 					_mm_unpacklo_pd((__m128d) * (unsigned __int64*)&this->anisLevel, (__m128d) * (unsigned __int64*)&this->anisLevel).m128d_f64[0]);
-			v2 = Color::data(&this->border_cl);
+			v2 = this->border_cl->data();
 			glTexParameterfv(3553LL, 4100LL, v2);
 			this->isForwardFormat = 0;
 		}

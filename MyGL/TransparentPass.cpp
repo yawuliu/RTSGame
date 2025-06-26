@@ -22,11 +22,11 @@ namespace MyGL {
         int i_0;
         int i;
 
-        v1 = AbstractPass::scene(this);
+        v1 = this->scene();
         v2 = v1->render();
         (*(void (__fastcall **)(__int64)) (*(_QWORD *) v2 + 296LL))(v2);
         this->depthP = 1;
-        v3 = AbstractPass::scene(this);
+        v3 = this->scene();
         s = v3->graph();
         ISceneGraph::Visibles::Visibles(&obj, s);
         for (i = 0;; ++i) {
