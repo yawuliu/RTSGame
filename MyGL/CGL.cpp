@@ -43,7 +43,7 @@ namespace MyGL {
 		if (this->maxAnisotropyLevel_val < 0.0)
 		{
 			this->maxAnisotropyLevel_val = 0.0;
-			if (this->CGL::isExtensionSupported("GL_EXT_texture_filter_anisotropic"))
+			if (this->isExtensionSupported("GL_EXT_texture_filter_anisotropic"))
 			{
 				glGetIntegerv(34047LL, &g_nMaxAnisotropy);
 				this->maxAnisotropyLevel_val = (double)g_nMaxAnisotropy;
@@ -56,9 +56,9 @@ namespace MyGL {
 
 		if (this->isFBO_Init)
 			return 1;
-		if (!this->CGL::isExtensionSupported("GL_EXT_framebuffer_object"))
+		if (!this->isExtensionSupported("GL_EXT_framebuffer_object"))
 			return 0;
-		v2 = this->CGL::ext();
+		v2 = this->ext();
 		this->isFBO_Init = privateGLSupportClass::initFBO_API(v2);
 		return this->isFBO_Init;
 	}
@@ -69,14 +69,14 @@ namespace MyGL {
 
 		if (this->isShadingInit)
 			return 1;
-		if (!this->CGL::isExtensionSupported("GL_ARB_shader_objects")
-			|| !this->CGL::isExtensionSupported("GL_ARB_shading_language_100")
-			|| !this->CGL::isExtensionSupported("GL_ARB_vertex_shader")
-			|| !this->CGL::isExtensionSupported("GL_ARB_fragment_shader"))
+		if (!this->isExtensionSupported("GL_ARB_shader_objects")
+			|| !this->isExtensionSupported("GL_ARB_shading_language_100")
+			|| !this->isExtensionSupported("GL_ARB_vertex_shader")
+			|| !this->isExtensionSupported("GL_ARB_fragment_shader"))
 		{
 			return 0;
 		}
-		v3 = this->CGL::ext();
+		v3 = this->ext();
 		this->isShadingInit = privateGLSupportClass::initShadersAPI(v3);
 		return this->isShadingInit;
 	}
@@ -87,8 +87,8 @@ namespace MyGL {
 
 		if (this->isTexturesInit)
 			return 1;
-		this->isDXT_supr = this->CGL::isExtensionSupported("GL_EXT_texture_compression_s3tc");
-		v2 = this->CGL::ext();
+		this->isDXT_supr = this->isExtensionSupported("GL_EXT_texture_compression_s3tc");
+		v2 = this->ext();
 		this->isTexturesInit = privateGLSupportClass::initTextureAPI(v2);
 		return this->isTexturesInit;
 	}
@@ -99,9 +99,9 @@ namespace MyGL {
 
 		if (this->isVBOInit)
 			return 1;
-		if (!this->CGL::isExtensionSupported("GL_ARB_vertex_buffer_object"))
+		if (!this->isExtensionSupported("GL_ARB_vertex_buffer_object"))
 			return 0;
-		v2 = this->CGL::ext();
+		v2 = this->ext();
 		this->isVBOInit = privateGLSupportClass::initVBO_API(v2);
 		return this->isVBOInit;
 	}

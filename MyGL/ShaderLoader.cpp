@@ -31,16 +31,15 @@ namespace MyGL {
         src = ShaderLoader::srcFrom(this, fs_0, &okFs);
         if (src) {
             if (this->shEnv) {
-                v5 = (void (__fastcall *)(IShader *const, __int64)) *((_QWORD *) taget->_vptr_IShader + 3);
                 __rhs = (const char *) (*(
                         (__int64 (__fastcall **)(IShaderEnvironment *)) this->shEnv->_vptr_IShaderEnvironment
                         + 2))(this->shEnv);
                 std::operator+<char>(&__lhs, __rhs);
                 v7 = std::string::data(&__lhs);
-                v5(taget, v7);
+                taget->loadFragmentSource(v7);
                 std::string::~string(&__lhs);
             } else {
-                (*((void (__fastcall **)(IShader *const, char *)) taget->_vptr_IShader + 3))(taget, src);
+                taget->loadFragmentSource(src);
             }
         }
         if (src)
@@ -48,16 +47,15 @@ namespace MyGL {
         src = ShaderLoader::srcFrom(this, vs, &okVs);
         if (src) {
             if (this->shEnv) {
-                v8 = (void (__fastcall *)(IShader *const, __int64)) *((_QWORD *) taget->_vptr_IShader + 2);
                 __rhs_1 = (const char *) (*(
                         (__int64 (__fastcall **)(IShaderEnvironment *)) this->shEnv->_vptr_IShaderEnvironment
                         + 2))(this->shEnv);
                 std::operator+<char>(&__lhs_, __rhs_1);
                 v10 = std::string::data(&__lhs_);
-                v8(taget, v10);
+                taget->loadVertexSource(v10);
                 std::string::~string(&__lhs_);
             } else {
-                (*((void (__fastcall **)(IShader *const, char *)) taget->_vptr_IShader + 2))(taget, src);
+                taget->loadVertexSource(src);
             }
         }
         if (src)

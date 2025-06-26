@@ -12,7 +12,7 @@ namespace MyGL {
         for (i = 0LL; std::vector<IUniform *>::size(&this->unif) > i; ++i) {
             v1 = *std::vector<IUniform *>::operator[](&this->unif, i);
             if (v1)
-                (*((void (__fastcall **)(IUniform *)) v1->_vptr_IUniform + 1))(v1);
+                delete v1;
         }
     }
 
@@ -39,14 +39,14 @@ namespace MyGL {
                 break;
             v2 = this->uniforms();
             v3 = std::vector<IUniform *>::operator[](v2, i);
-            if ((*((unsigned __int8 (__fastcall **)(IUniform *, IUniform *)) (*v3)->_vptr_IUniform + 4))(*v3, ua)) {
+            if (v3->isEqual(ua)) {
                 v4 = this->uniforms();
                 rep = *std::vector<IUniform *>::operator[](v4, i);
             }
         }
         if (rep) {
             if (ua)
-                (*((void (__fastcall **)(IUniform *)) ua->_vptr_IUniform + 1))(ua);
+                delete ua;
             return rep;
         } else {
             std::vector<IUniform *>::push_back(&thisa->unif, &ua);
@@ -70,7 +70,7 @@ namespace MyGL {
                 break;
             v1 = this->uniforms();
             v2 = std::vector<IUniform *>::operator[](v1, i);
-            (*((void (__fastcall **)(IUniform *)) (*v2)->_vptr_IUniform + 2))(*v2);
+            v2->sendDataToGPU();
         }
     }
 
@@ -82,9 +82,9 @@ namespace MyGL {
     void AbstractShader::updateUniform(IUniform *uniform) {
         __int64 v2;
 
-        v2 = (*((__int64 (__fastcall **)(AbstractShader *const)) this->_vptr_IShader + 13))(this);
+        v2 = this->render();
         if ((*(unsigned __int8 (__fastcall **)(__int64, AbstractShader *const)) (*(_QWORD *) v2 + 112LL))(v2, this))
-            (*((void (__fastcall **)(IUniform *)) uniform->_vptr_IUniform + 2))(uniform);
+            uniform->sendDataToGPU();
     }
 
 }

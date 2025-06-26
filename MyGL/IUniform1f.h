@@ -4,16 +4,16 @@
 
 
 namespace MyGL {
-	class IUniform1f : public IUniform {
-	public:
-		IUniform1f() = default;
+    class IUniform1f : public IUniform {
+    public:
+        IUniform1f() = default;
 
-		virtual ~IUniform1f() = default;
-
-		virtual void setValue(float value) = 0;
-
-		virtual float getValue() const = 0;
-
-		virtual int getLocation() const = 0;
-	};
+        virtual ~IUniform1f() = default; // 0
+        // virtual ~IUniform1f(); // 1
+        virtual void sendDataToGPU() = 0; //2
+        virtual void handlePtr() = 0; //3
+        virtual void isEqual(IUniform *) = 0; // 4
+        virtual void owner() = 0;// 5
+        virtual void set(double) = 0;// 6
+    };
 }

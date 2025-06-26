@@ -13,21 +13,21 @@ namespace MyGL {
     public:
         Uniform4f(IShader *sh, CGL::ShaderHandle h);
 
-        virtual ~Uniform4f() = default;
+        virtual ~Uniform4f() = default; // 0
+        // virtual ~Uniform4f()= default; /;/ 1
+        virtual void sendDataToGPU(); // 2
 
-        const void *handlePtr();
+        virtual void handlePtr(); // 3
 
-        bool isEqual(IUniform *u);
+        virtual void isEqual(IUniform *); // 4
 
-        IShader *owner();
+        virtual void owner(); // 5
 
-        void sendDataToGPU();
+        virtual void set(Color); // 6
 
-        void set(Color color);
+        virtual void set(double const *); // 7
 
-        void set(const Float *data);
-
-        void set(Float x, Float y, Float z, Float w);
+        virtual void set(double, double, double, double); // 8
 
     private:
         CGL::ShaderHandle handle;

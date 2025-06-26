@@ -146,11 +146,7 @@ namespace MyGL {
         if (s) {
             data = this->data;
             v3 = Filter::shader(&data->grab);
-            data->textureIn = (IUniformSampler *) (*(
-                    (__int64 (__fastcall **)(IShader *, const char *)) v3->_vptr_IShader
-                    + 17))(
-                    v3,
-                    "mainPass");
+            data->textureIn = v3->uniformSampler("mainPass");
         } else {
             this->data->textureIn = 0LL;
             std::allocator<char>::allocator(v5);
@@ -160,9 +156,7 @@ namespace MyGL {
             std::allocator<char>::~allocator(v5);
         }
         if (this->data->textureIn)
-            (*((void (__fastcall **)(IUniformSampler *, _QWORD)) this->data->textureIn->_vptr_IUniform + 6))(
-                    this->data->textureIn,
-                    0LL);
+            this->data->textureIn->set(0LL);
     }
 
     void MyGL::BloomPass::buildQuad(int w, int h) {
@@ -339,47 +333,41 @@ namespace MyGL {
         _BYTE v17[17];
 
         s = (IShader *) (*((__int64 (__fastcall **)(const Adapter *const)) adapter->_vptr_Adapter + 1))(adapter);
-        Filter::setShader(&this->data->gausV, s);
+        this->data->gausV->setShader(s);
         s_1 = (IShader *) (*((__int64 (__fastcall **)(const Adapter *const)) adapter->_vptr_Adapter + 2))(adapter);
-        Filter::setShader(&this->data->gausH, s_1);
+        this->data->gausH->setShader(s_1);
         s_2 = (IShader *) (*((__int64 (__fastcall **)(const Adapter *const)) adapter->_vptr_Adapter + 3))(adapter);
-        Filter::setShader(&this->data->grab, s_2);
+        this->data->grab->setShader(s_2);
         frame = this->frame;
         std::allocator<char>::allocator(&v11);
         std::string::string(&name, "input_texture", &v11);
-        Filter::setInput(&this->data->gausV, &name, frame);
+        this->data->gausV->setInput(&name, frame);
         std::string::~string(&name);
         std::allocator<char>::~allocator(&v11);
         subFrame = this->subFrame;
         std::allocator<char>::allocator(&v13);
         std::string::string(&name_, "input_texture", &v13);
-        Filter::setInput(&this->data->gausH, &name_, subFrame);
+        this->data->gausH->setInput(&name_, subFrame);
         std::string::~string(&name_);
         std::allocator<char>::~allocator(&v13);
-        if (Filter::shader(&this->data->grab)) {
+        if (this->data->grab->shader()) {
             data = this->data;
             v8 = Filter::shader(&data->grab);
-            data->textureIn = (IUniformSampler *) (*(
-                    (__int64 (__fastcall **)(IShader *, const char *)) v8->_vptr_IShader
-                    + 17))(
-                    v8,
-                    "mainPass");
+            data->textureIn = v8->uniformSampler("mainPass");
         } else {
             this->data->textureIn = 0LL;
             std::allocator<char>::allocator(&v15);
             std::string::string(&msg, "[BloomPass::initShaders]null shader", &v15);
-            BloomPass::incompleteEvent(this, &msg);
+            this->incompleteEvent(&msg);
             std::string::~string(&msg);
             std::allocator<char>::~allocator(&v15);
         }
         if (this->data->textureIn) {
-            (*((void (__fastcall **)(IUniformSampler *, _QWORD)) this->data->textureIn->_vptr_IUniform + 6))(
-                    this->data->textureIn,
-                    0LL);
+            this->data->textureIn->set(0LL);
         } else {
             std::allocator<char>::allocator(v17);
             std::string::string(&msg_, "[BloomPass::initShaders]no texture sampler in shader", v17);
-            BloomPass::incompleteEvent(this, &msg_);
+            this->incompleteEvent(&msg_);
             std::string::~string(&msg_);
             std::allocator<char>::~allocator(v17);
         }

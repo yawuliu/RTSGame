@@ -36,10 +36,8 @@ namespace MyGL {
                 __x._M_node = std::map<IUniformSampler *, ITexture *>::end(&thisa->data->args)._M_node;
                 if (std::_Rb_tree_iterator<std::pair<IUniformSampler *const, ITexture *>>::operator==(
                         &i, &__x)) {
-                    v3 = (void (__fastcall *)(IUniformSampler *, _QWORD)) *((_QWORD *) sma->_vptr_IUniform +
-                                                                            6);
                     v4 = std::map<IUniformSampler *, ITexture *>::size(&thisa->data->args);
-                    v3(sma, v4);
+                    sma->set(v4);
                 }
                 *std::map<IUniformSampler *, ITexture *>::operator[](&thisa->data->args, &sma) = u;
             }
@@ -66,14 +64,12 @@ namespace MyGL {
         CGL *v9;
         IErrorControl *v10;
 
-        if (thisa->data->shader) {
-            v3 = (__int64 (__fastcall *)(IShader *, __int64)) *(
-                    (_QWORD *) thisa->data->shader->_vptr_IShader + 17);
+        if (this->data->shader) {
             v4 = std::string::data((std::string *) name);
-            sm = (IUniformSampler *) v3(thisa->data->shader, v4);
-            return Filter::addArgs(thisa, sm, u);
+            sm = (IUniformSampler *) this->data->shader->uniformSampler(v4);
+            return this->addArgs(sm, u);
         } else {
-            v7 = AbstractPass::scene(thisa);
+            v7 = this->scene();
             v8 = v7->render();
             v9 = (CGL *) (*(__int64 (__fastcall **)(__int64)) (*(_QWORD *) v8 + 72LL))(v8);
             v10 = CGL::errorCtrl(v9);

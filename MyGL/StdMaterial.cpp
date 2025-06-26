@@ -82,7 +82,7 @@ namespace MyGL {
 				&& (v2 = this->technique(),
 					v3 = (*(__int64(__fastcall**)(__int64))(*(_QWORD*)v2 + 40LL))(v2),
 					v4 = StdTechnique::glowSampler(this->mtechnique),
-					v3 == (*((__int64(__fastcall**)(IUniformSampler*))v4->_vptr_IUniform + 5))(v4))
+					v3 == v4->owner())
 				&& this->glow)
 			{
 				v6 = this->render();
@@ -100,7 +100,7 @@ namespace MyGL {
 						v11 = this->technique();
 						v12 = (*(__int64(__fastcall**)(__int64))(*(_QWORD*)v11 + 40LL))(v11);
 						v13 = StdTechnique::opacitySampler_toSM(this->mtechnique);
-						if (v12 == (*((__int64(__fastcall**)(IUniformSampler*))v13->_vptr_IUniform + 5))(v13))
+						if (v12 == v13->owner())
 						{
 							if (this->diff)
 							{
@@ -131,7 +131,7 @@ namespace MyGL {
 			{
 				v3 = this->technique();
 				v4 = (*(__int64(__fastcall**)(__int64))(*(_QWORD*)v3 + 40LL))(v3);
-				if (v4 == (*((__int64(__fastcall**)(IUniformSampler*))s->_vptr_IUniform + 5))(s))
+				if (v4 == s->owner())
 					return 1;
 			}
 		}

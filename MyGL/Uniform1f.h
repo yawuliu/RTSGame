@@ -1,4 +1,5 @@
 #pragma once
+
 #include "CGL.h"
 #include "IShader.h"
 #include "IUniform1f.h"
@@ -7,21 +8,24 @@
 
 
 namespace MyGL {
-	class IUniform;
-	class Uniform1f : public IUniform1f {
-	public:
-		Uniform1f(IShader* sh, CGL::ShaderHandle h);
-		virtual ~Uniform1f() = default;
-		const void* handlePtr();
-		bool isEqual(IUniform* u);
-		IShader* owner();
-		void sendDataToGPU();
-		void set(Float x);
-	private:
-		CGL::ShaderHandle handle;
-		IShader* shader;
-		double dat;
-	};
+    class IUniform;
+
+    class Uniform1f : public IUniform1f {
+    public:
+        Uniform1f(IShader *sh, CGL::ShaderHandle h);
+
+        virtual ~Uniform1f() = default; // 0
+        // virtual ~Uniform1f(); // 1
+        virtual void sendDataToGPU(); //2
+        virtual void handlePtr(); //3
+        virtual void isEqual(IUniform *); // 4
+        virtual void owner();// 5
+        virtual void set(double);// 6
+    private:
+        CGL::ShaderHandle handle;
+        IShader *shader;
+        double dat;
+    };
 }
 
 

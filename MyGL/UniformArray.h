@@ -52,7 +52,7 @@ namespace MyGL {
 
 			v2 = (*(__int64(__fastcall**)(void*))(*(_QWORD*)u + 40LL))(u);
 			result = 0;
-			if (v2 == (*((__int64(__fastcall**)(UniformArray<IUniformMatrix4x4> *const))this->_vptr_IUniform + 5))(this))
+			if (v2 == this->owner())
 			{
 				handle = this->data->handle;
 				if (handle == *(_DWORD*)(*(__int64(__fastcall**)(void*))(*(_QWORD*)u + 24LL))(u))
@@ -62,10 +62,7 @@ namespace MyGL {
 		}
 		IUniformMatrix4x4* operator[](int id)
 		{
-			return (IUniformMatrix4x4*)(*((__int64(__fastcall**)(UniformArray<IUniformMatrix4x4> *const, _QWORD))this->_vptr_IUniform
-				+ 6))(
-					this,
-					(unsigned int)id);
+			return this->set((unsigned int)id);
 		}
 		IShader* owner()
 		{
@@ -78,10 +75,10 @@ namespace MyGL {
 			CGL::GLfloat* data;
 			GLsizei v4;
 
-			v1 = (CGL*)(*((__int64(__fastcall**)(IShader*))this->shader->_vptr_IShader + 12))(this->shader);
-			glUniformMatrix4fv = CGL::ext(v1)->glUniformMatrix4fv;
+			v1 = this->shader->gl() ;
+			glUniformMatrix4fv = v1->ext()->glUniformMatrix4fv;
 			data = this->data->data;
-			v4 = (*((__int64(__fastcall**)(UniformArray<IUniformMatrix4x4> *const))this->_vptr_IUniform + 8))(this);
+			v4 = this->size() ;
 			glUniformMatrix4fv(this->data->handle, v4, 0LL, data);
 		}
 		int size()
@@ -122,7 +119,7 @@ namespace MyGL {
 		{
 			auto v1 = this->uniform[i];
 			if (v1)
-				(*((void(__fastcall**)(UniformMatrix4x4*))v1->_vptr_IUniform + 1))(v1);
+                delete v1;
 		}
 		delete this->data;
 	}

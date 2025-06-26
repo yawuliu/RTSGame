@@ -28,7 +28,7 @@ namespace MyGL {
 
 		v2 = (*(__int64(__fastcall**)(void*))(*(_QWORD*)u + 40LL))(u);
 		result = 0;
-		if (v2 == (*((__int64(__fastcall**)(UniformSampler* const))this->_vptr_IUniform + 5))(this))
+		if (v2 == this->owner())
 		{
 			handle = this->handle;
 			if (handle == *(_DWORD*)(*(__int64(__fastcall**)(void*))(*(_QWORD*)u + 24LL))(u))
@@ -47,7 +47,7 @@ namespace MyGL {
 		CGL* v1;
 		privateGLSupportClass* v2;
 
-		v1 = (CGL*)(*((__int64(__fastcall**)(IShader*))this->shader->_vptr_IShader + 12))(this->shader);
+		v1 = this->shader->gl();
 		v2 = v1->ext();
 		v2->glUniform1iARB(this->handle, this->dat);
 	}
@@ -57,8 +57,7 @@ namespace MyGL {
 		if (this->dat != x)
 		{
 			this->dat = x;
-			(*((void(__fastcall**)(IShader*, UniformSampler* const))this->shader->_vptr_IShader + 19))(
-				this->shader,
+			this->shader->updateUniform(
 				this);
 		}
 	}

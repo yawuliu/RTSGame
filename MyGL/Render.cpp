@@ -198,7 +198,7 @@ namespace MyGL {
 	{
 		void(__fastcall * v3)(Render* const, _QWORD, ITexture*);
 		unsigned int v4;
-		v4 = (*((__int64(__fastcall**)(IUniformSampler*))sampler->_vptr_IUniform + 7))(sampler);
+		v4 = sampler->get();
         this->bindTexture(v4, tex);
 	}
 
@@ -669,7 +669,7 @@ namespace MyGL {
 	{
 		void(__fastcall * v2)(Render* const, _QWORD);
 		unsigned int v3;
-		v3 = (*((__int64(__fastcall**)(IUniformSampler*))sampler->_vptr_IUniform + 7))(sampler);
+		v3 = sampler->get();;
         this->ubindTexture(v3);
 	}
 
@@ -781,9 +781,9 @@ namespace MyGL {
 		if (this->currShader != sh)
 		{
 			if (sh)
-				(*((void(__fastcall**)(IShader*))sh->_vptr_IShader + 10))(sh);
+				sh->use();
 			else
-				(*((void(__fastcall**)(IShader*))this->currShader->_vptr_IShader + 11))(this->currShader);
+				this->currShader->unUse();
 			this->currShader = sh;
 			++this->batchCount_val;
 		}
