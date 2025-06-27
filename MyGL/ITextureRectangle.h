@@ -15,7 +15,8 @@ namespace MyGL {
         virtual void free(void) = 0;// 4
         virtual void getHandle(void) = 0;// 5
         virtual void setFiltration(ITexture::FilterType::Type, ITexture::FilterType::Type) = 0;// 6
-        virtual void load(void const *, ITexture::InputFormat::Type, uint, uint, ITexture::Format::Type) = 0;// 7
+        virtual void
+        load(void const *, ITexture::InputFormat::Type, uint32_t, uint32_t, ITexture::Format::Type) = 0;// 7
         virtual void width() = 0;// 8
         virtual void height() = 0;// 9
     };

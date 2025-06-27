@@ -28,8 +28,6 @@ namespace MyGL {
         std::allocator<char>::allocator(&v21);
         std::string::string(&fname, fileName, &v21);
         v4 = !IOModel::load(&model, &fname);
-        std::string::~string(&fname);
-        std::allocator<char>::~allocator(&v21);
         if (v4) {
             if (ok)
                 *ok = 0;
@@ -42,7 +40,6 @@ namespace MyGL {
             v8 = std::string::data(&str_0);
             v6->loadError(this, &model, v8);
             taget_1 = this;
-            std::string::~string(&str_0);
         } else {
             if (!model.size()) {
                 std::allocator<char>::allocator(v23);
@@ -57,7 +54,6 @@ namespace MyGL {
             this->load(&model);
             taget_1 = this;
         }
-        IOModel::~IOModel(&model);
         return taget_1;
     }
 
@@ -84,14 +80,11 @@ namespace MyGL {
         std::allocator<char>::allocator(&v21);
         std::string::string(&fname, fileName, &v21);
         v4 = !IOModel::loadBin_v0(&model, &fname);
-        std::string::~string(&fname);
-        std::allocator<char>::~allocator(&v21);
         if (v4) {
             if (ok)
                 *ok = 0;
             std::allocator<char>::allocator(&v22);
             std::string::string(&str_0, "[Error]:IOModel load error: \n", &v22);
-            std::allocator<char>::~allocator(&v22);
             std::string::append(&str_0, fileName);
             v5 = this->render->gl();
             v6 = v5->errorCtrl();
@@ -104,7 +97,6 @@ namespace MyGL {
             if (!model.size()) {
                 std::allocator<char>::allocator(v23);
                 std::string::string(&str, "[Warning]:IOModel is NULL: \n", v23);
-                std::allocator<char>::~allocator(v23);
                 std::string::append(&str, fileName);
                 v10 = this->render->gl();
                 v11 = v10->errorCtrl();

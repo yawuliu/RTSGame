@@ -1,8 +1,7 @@
 #include "GlowPass.h"
 
 namespace MyGL {
-    GlowPass::GlowPass(IScene &s, const Adapter &adapter, ITextureRectangle *depth) : AbstractPass(
-            s) {
+    GlowPass::GlowPass(IScene &s, const Adapter &adapter, ITextureRectangle *depth) : AbstractPass(s) {
         IScene *v4;
         IRender *r;
         TextureRectangle *frame;
@@ -15,31 +14,18 @@ namespace MyGL {
         SmallLightsPass *lights;
         v4 = this->scene();
         r = v4->render();
-        frame = (TextureRectangle *) operator new(0x28uLL);
-        TextureRectangle::TextureRectangle(frame, r);
-        this->frame = frame;
+        this->frame = new TextureRectangle(r);
         this->depthBuf = depth;
-        this->frame->setFiltration(
-                1LL,
-                1LL);
+        this->frame->setFiltration(1LL,1LL);
         this->frameBuffer = 0LL;
         this->fakeLv = 1;
         this->resizeFrame();
-        v7 = this->scene();
-        data = (GlowPass::Data *) operator new(0x10uLL);
-        GlowPass::Data::Data(data, v7);
-        this->data = data;
-        s_1 = this->scene();
-        bloomPass = (BloomPass *) operator new(0x78uLL);
-        BloomPass::BloomPass(bloomPass, s_1, adapter, this->frame);
-        this->data->blur = bloomPass;
-        s_2 = (IShader *) (*((__int64 (__fastcall **)(const Adapter &)) adapter->_vptr_Adapter + 4))(adapter);
-        BloomPass::setShader(this->data->blur, s_2);
-        BloomPass::setDownSamplesCount(this->data->blur, 2);
-        s_3 = this->scene();
-        lights = (SmallLightsPass *) operator new(0x10uLL);
-        SmallLightsPass::SmallLightsPass(lights, s_3, adapter);
-        this->data->lights = lights;
+        this->data = new Data(this->scene());
+        this->data->blur = new BloomPass(this->scene(), adapter, this->frame);
+        s_2 = adapter->getGlowDownSampleShader();
+        this->data->blur->setShader(s_2);
+        this->data->blur->setDownSamplesCount(2);
+        this->data->lights = new SmallLightsPass(this->scene(), adapter);
         this->initShaders(adapter);
     }
 
@@ -52,7 +38,7 @@ namespace MyGL {
         if (this->frame)
             delete this->frame;
         if (this->frameBuffer)
-            (*((void (__fastcall **)(FBO *)) this->frameBuffer->_vptr_IFBO + 1))(this->frameBuffer);
+            delete this->frameBuffer;
 
     }
 
@@ -71,7 +57,6 @@ namespace MyGL {
         IRender *r;
         unsigned int theWidth;
         unsigned int theHeight;
-        FBO *frameBuffer;
         int v[12];
 
         v1 = this->scene();
@@ -79,21 +64,18 @@ namespace MyGL {
         (*(void (__fastcall **)(__int64, int *, int *, int *, int *)) (*(_QWORD *) v2 + 96LL))(v2, v, &v[1], &v[2],
                                                                                                &v[3]);
 
-        this->frame->setFiltration(
-                0LL,
+        this->frame->setFiltration(0LL,
                 1LL,
                 (unsigned int) (v[2] / this->fakeLv),
                 (unsigned int) (v[3] / this->fakeLv),
                 4LL);
         if (this->frameBuffer)
-            (*((void (__fastcall **)(FBO *)) glowPass->frameBuffer->_vptr_IFBO + 1))(this->frameBuffer);
+            delete this->frameBuffer;
         v3 = this->scene();
         r = v3->render();
         theWidth = this->frame->setClamping();
         theHeight = this->frame->setClamping();
-        frameBuffer = (FBO *) operator new(0x28uLL);
-        FBO::FBO(frameBuffer, r, theWidth, theHeight, 4);
-        this->frameBuffer = frameBuffer;
+        this->frameBuffer = new FBO(r, theWidth, theHeight, 4);
     }
 
     void GlowPass::initShaders(const Adapter &adapter) {
@@ -130,7 +112,7 @@ namespace MyGL {
         if (v3 !=  this->frame->setClamping())
             || (v4 = v[3] / this->fakeLv,
                 v4 !=  this->frame->setClamping())) {
-            GlowPass::resizeFrame(this);
+            this->resizeFrame();
         }
         v6 = this->scene();
         v7 = v6->render();
@@ -154,7 +136,7 @@ namespace MyGL {
         v10 = this->scene();
         v11 = v10->render();
         v12 = *(void (__fastcall **)(__int64, double, double)) (*(_QWORD *) v11 + 16LL);
-        Color::Color(&v21, 0.0, 0.0, 0.0, 0.0);
+        Color v21(0.0, 0.0, 0.0, 0.0);
         v12(v11, *(double *) v21.cdata, *(double *) &v21.cdata[2]);
         v13 = this->scene();
         v14 = v13->render();
@@ -162,11 +144,11 @@ namespace MyGL {
         v15 = this->scene();
         v16 = v15->render();
         (*(void (__fastcall **)(__int64, double)) (*(_QWORD *) v16 + 16LL))(v16, cl_0);
-        GlowPass::draw(this);
+        this->draw();
         this->data->lights->exec();
         (*((void (__fastcall **)(FBO *)) glowPass->frameBuffer->_vptr_IFBO + 9))(this->frameBuffer);
         if (this->used)
-            GlowPass::postProcess(this, v[0], v[1], v[2], v[3]);
+            this->postProcess(v[0], v[1], v[2], v[3]);
         v17 = this->scene();
         v18 = v17->render();
         (*(void (__fastcall **)(__int64, _QWORD, _QWORD, _QWORD, _QWORD)) (*(_QWORD *) v18 + 88LL))(
@@ -187,13 +169,12 @@ namespace MyGL {
         int i_1;
         IScene *v8;
         __int64 v9;
-        ISceneGraph::Visibles obj;
         int i;
 
         this->used = 0;
         v1 = this->scene();
         s = v1->graph();
-        ISceneGraph::Visibles::Visibles(&obj, s);
+        ISceneGraph::Visibles obj(s);
         v3 = this->scene();
         v4 = v3->render();
         (*(void (__fastcall **)(__int64)) (*(_QWORD *) v4 + 296LL))(v4);

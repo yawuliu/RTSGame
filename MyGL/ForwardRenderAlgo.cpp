@@ -6,254 +6,230 @@
 #include "BloomPass.h"
 #include "LincPass.h"
 #include "ShadowPass.h"
+
 namespace MyGL {
-	ForwardRenderAlgo::ForwardRenderAlgo(IScene& s, const Adapter& adapter, bool autoMake)
-	{
-		IScene* v4;
-		IRender* r;
-		Model* quad;
-		RenderAlgoSettings<ForwardRenderAlgo>* m_settings;
-		this->mscene = s;
-		std::vector<IRenderPass*>::vector(&this->passes);
-		v4 = this->scene();
-		r = v4->render();
-		quad = (Model*)operator new(0xC0uLL);
-		Model::Model(quad, r);
-		this->quad = quad;
-        this->buildQuad( 0, 0);
-        this->setBloom( 1);
-        this->setShadowPass( 1);
-		if (autoMake)
+    ForwardRenderAlgo::ForwardRenderAlgo(IScene &s, const Adapter &adapter, bool autoMake) {
+        IScene *v4;
+        IRender *r;
+        Model *quad;
+        RenderAlgoSettings <ForwardRenderAlgo> *m_settings;
+        this->mscene = s;
+        std::vector<IRenderPass *>::vector(&this->passes);
+        v4 = this->scene();
+        r = v4->render();
+        this->quad = new Model(r);
+        this->buildQuad(0, 0);
+        this->setBloom(1);
+        this->setShadowPass(1);
+        if (autoMake)
             this->makeAlgo(adapter);
-		m_settings = (RenderAlgoSettings<ForwardRenderAlgo> *)operator new(0x10uLL);
-		RenderAlgoSettings<ForwardRenderAlgo>::RenderAlgoSettings(m_settings, this);
-		this->m_settings = m_settings;
-	}
+        this->m_settings = new RenderAlgoSettings<ForwardRenderAlgo>(this);
+    }
 
-	ForwardRenderAlgo::~ForwardRenderAlgo()
-	{
-		this->freeAlgo();
-		if (this->quad)
+    ForwardRenderAlgo::~ForwardRenderAlgo() {
+        this->freeAlgo();
+        if (this->quad)
             delete this->quad;
-		if (this->m_settings)
+        if (this->m_settings)
             delete this->m_settings;
-	}
+    }
 
-	MainPass* ForwardRenderAlgo::allockMainPass(const Adapter& adapter)
-	{
-		IScene* s;
-		MainPass* v3;
+    MainPass *ForwardRenderAlgo::allockMainPass(const Adapter &adapter) {
+        IScene *s;
+        MainPass *v3;
 
-		s = this->scene();
-		v3 = (MainPass*)operator new(0x48uLL);
-		MainPass::MainPass(v3, s, adapter, this->quad, 1);
-		return v3;
-	}
+        s = this->scene();
+        v3 = (MainPass *) operator new(0x48uLL);
+        MainPass::MainPass(v3, s, adapter, this->quad, 1);
+        return v3;
+    }
 
-	void ForwardRenderAlgo::buildQuad(int w, int h)
-	{
-		float* p;
-		float* p_1;
-		float* p_2;
-		float* p_3;
-		float* p_4;
-		float* p_5;
-		float* p_6;
-		float* p_7;
-		IOModel m;
-		IIOModel::Point retstr_;
-		IIOModel::Point retstr__1;
-		IIOModel::Point retstr__2;
-		IIOModel::Point retstr__3;
-		IIOModel::TexCoord retstr__4;
-		IIOModel::TexCoord retstr__5;
-		IIOModel::TexCoord retstr__6;
-		IIOModel::TexCoord retstr__7;
+    void ForwardRenderAlgo::buildQuad(int w, int h) {
+        float *p;
+        float *p_1;
+        float *p_2;
+        float *p_3;
+        float *p_4;
+        float *p_5;
+        float *p_6;
+        float *p_7;
+        IOModel m;
+        IIOModel::Point retstr_;
+        IIOModel::Point retstr__1;
+        IIOModel::Point retstr__2;
+        IIOModel::Point retstr__3;
+        IIOModel::TexCoord retstr__4;
+        IIOModel::TexCoord retstr__5;
+        IIOModel::TexCoord retstr__6;
+        IIOModel::TexCoord retstr__7;
 
-		IOModel::IOModel(&m);
-		IOModel::allock(&m, 4uLL);
-		IOModel::point(&retstr_, &m, 0);
-		p = IIOModel::Point::data(&retstr_);
-		ForwardRenderAlgo::setPoint(p, -1.0, -1.0);
-		IOModel::point(&retstr__1, &m, 1);
-		p_1 = IIOModel::Point::data(&retstr__1);
-		ForwardRenderAlgo::setPoint(p_1, 1.0, -1.0);
-		IOModel::point(&retstr__2, &m, 2);
-		p_2 = IIOModel::Point::data(&retstr__2);
-		ForwardRenderAlgo::setPoint(p_2, 1.0, 1.0);
-		IOModel::point(&retstr__3, &m, 3);
-		p_3 = IIOModel::Point::data(&retstr__3);
-		ForwardRenderAlgo::setPoint(p_3, -1.0, 1.0);
-		IOModel::texCoord(&retstr__4, &m, 0);
-		p_4 = IIOModel::TexCoord::data(&retstr__4);
-		ForwardRenderAlgo::setPoint(p_4, 0.0, 0.0);
-		IOModel::texCoord(&retstr__5, &m, 1);
-		p_5 = IIOModel::TexCoord::data(&retstr__5);
-		ForwardRenderAlgo::setPoint(p_5, (float)w, 0.0);
-		IOModel::texCoord(&retstr__6, &m, 2);
-		p_6 = IIOModel::TexCoord::data(&retstr__6);
-		ForwardRenderAlgo::setPoint(p_6, (float)w, (float)h);
-		IOModel::texCoord(&retstr__7, &m, 3);
-		p_7 = IIOModel::TexCoord::data(&retstr__7);
-		ForwardRenderAlgo::setPoint(p_7, 0.0, (float)h);
-		this->quad->load(&m);
-		this->quad->setPrimitivesType(2LL);
-		IOModel::~IOModel(&m);
-	}
+        IOModel::IOModel(&m);
+        IOModel::allock(&m, 4uLL);
+        IOModel::point(&retstr_, &m, 0);
+        p = IIOModel::Point::data(&retstr_);
+        ForwardRenderAlgo::setPoint(p, -1.0, -1.0);
+        IOModel::point(&retstr__1, &m, 1);
+        p_1 = IIOModel::Point::data(&retstr__1);
+        ForwardRenderAlgo::setPoint(p_1, 1.0, -1.0);
+        IOModel::point(&retstr__2, &m, 2);
+        p_2 = IIOModel::Point::data(&retstr__2);
+        ForwardRenderAlgo::setPoint(p_2, 1.0, 1.0);
+        IOModel::point(&retstr__3, &m, 3);
+        p_3 = IIOModel::Point::data(&retstr__3);
+        ForwardRenderAlgo::setPoint(p_3, -1.0, 1.0);
+        IOModel::texCoord(&retstr__4, &m, 0);
+        p_4 = IIOModel::TexCoord::data(&retstr__4);
+        ForwardRenderAlgo::setPoint(p_4, 0.0, 0.0);
+        IOModel::texCoord(&retstr__5, &m, 1);
+        p_5 = IIOModel::TexCoord::data(&retstr__5);
+        ForwardRenderAlgo::setPoint(p_5, (float) w, 0.0);
+        IOModel::texCoord(&retstr__6, &m, 2);
+        p_6 = IIOModel::TexCoord::data(&retstr__6);
+        ForwardRenderAlgo::setPoint(p_6, (float) w, (float) h);
+        IOModel::texCoord(&retstr__7, &m, 3);
+        p_7 = IIOModel::TexCoord::data(&retstr__7);
+        ForwardRenderAlgo::setPoint(p_7, 0.0, (float) h);
+        this->quad->load(&m);
+        this->quad->setPrimitivesType(2LL);
+        IOModel::~IOModel(&m);
+    }
 
-	void ForwardRenderAlgo::exec()
-	{
-		if (this->isShadowPass())
-			this->shadowPass->exec();
-		if (this->lincPass->validate())
-			this->mainPass->exec();
-		if (this->vlsPass)
-			this->vlsPass->exec();
-		if (this->bloomPass->validate() && this->isBloom())
-			this->bloomPass->exec();
-		if (this->glowPass->validate())
-			this->glowPass->exec();
-		if (this->lincPass->validate())
-			this->lincPass->exec();
-	}
+    void ForwardRenderAlgo::exec() {
+        if (this->isShadowPass())
+            this->shadowPass->exec();
+        if (this->lincPass->validate())
+            this->mainPass->exec();
+        if (this->vlsPass)
+            this->vlsPass->exec();
+        if (this->bloomPass->validate() && this->isBloom())
+            this->bloomPass->exec();
+        if (this->glowPass->validate())
+            this->glowPass->exec();
+        if (this->lincPass->validate())
+            this->lincPass->exec();
+    }
 
-	void ForwardRenderAlgo::freeAlgo()
-	{
-		for (size_t i = 0; i < this->passes.size(); ++i)
-		{
-			auto& v1 = this->passes[i];
-			if (v1)
+    void ForwardRenderAlgo::freeAlgo() {
+        for (size_t i = 0; i < this->passes.size(); ++i) {
+            auto &v1 = this->passes[i];
+            if (v1)
                 delete v1;
-		}
+        }
         this->passes.clear();
-	}
+    }
 
-	bool ForwardRenderAlgo::isBloom()
-	{
-		return this->m_isBloom;
-	}
+    bool ForwardRenderAlgo::isBloom() {
+        return this->m_isBloom;
+    }
 
-	bool ForwardRenderAlgo::isShadowPass()
-	{
-		return this->m_shadow;
-	}
+    bool ForwardRenderAlgo::isShadowPass() {
+        return this->m_shadow;
+    }
 
-	void ForwardRenderAlgo::makeAlgo(const Adapter& adapter)
-	{
-		IScene* s;
-		ShadowPass* shadowPass;
-		IScene* s_1;
-		ITextureRectangle* depth;
-		GlowPass* glowPass_1;
-		IScene* s_2;
-		ITextureRectangle* in;
-		BloomPass* bloomPass_1;
-		IScene* s_3;
-		ITextureRectangle* f;
-		ITextureRectangle* b;
-		ITextureRectangle* d;
-		LincPass* lincPass_1;
-		IScene* s_4;
-		ITextureRectangle* f_1;
-		ITextureRectangle* b_1;
-		ITextureRectangle* d_1;
-		ITextureRectangle* g_1;
-		ITextureRectangle* g;
-		std::vector<IRenderPass*>::value_type __x;
-		std::vector<IRenderPass*>::value_type mainPass;
-		std::vector<IRenderPass*>::value_type vlsPass;
-		std::vector<IRenderPass*>::value_type bloomPass;
-		std::vector<IRenderPass*>::value_type glowPass;
-		std::vector<IRenderPass*>::value_type lincPass;
+    void ForwardRenderAlgo::makeAlgo(const Adapter &adapter) {
+        IScene *s;
+        ShadowPass *shadowPass;
+        IScene *s_1;
+        ITextureRectangle *depth;
+        GlowPass *glowPass_1;
+        IScene *s_2;
+        ITextureRectangle *in;
+        BloomPass *bloomPass_1;
+        IScene *s_3;
+        ITextureRectangle *f;
+        ITextureRectangle *b;
+        ITextureRectangle *d;
+        LincPass *lincPass_1;
+        IScene *s_4;
+        ITextureRectangle *f_1;
+        ITextureRectangle *b_1;
+        ITextureRectangle *d_1;
+        ITextureRectangle *g_1;
+        ITextureRectangle *g;
+        std::vector<IRenderPass *>::value_type __x;
+        std::vector<IRenderPass *>::value_type mainPass;
+        std::vector<IRenderPass *>::value_type vlsPass;
+        std::vector<IRenderPass *>::value_type bloomPass;
+        std::vector<IRenderPass *>::value_type glowPass;
+        std::vector<IRenderPass *>::value_type lincPass;
 
-		s = ForwardRenderAlgo::scene(this);
-		shadowPass = (ShadowPass*)operator new(0x1D0uLL);
-		ShadowPass::ShadowPass(shadowPass, s, adapter);
-		this->shadowPass = shadowPass;
-		this->mainPass =this->allockMainPass( adapter);
-		this->vlsPass = 0LL;
-		s_1 = ForwardRenderAlgo::scene(this);
-		depth = MainPass::depthBuffer(this->mainPass);
-		glowPass_1 = (GlowPass*)operator new(0x38uLL);
-		GlowPass::GlowPass(glowPass_1, s_1, adapter, depth);
-		this->glowPass = glowPass_1;
-		s_2 = ForwardRenderAlgo::scene(this);
-		in = this->mainPass->output();
-		bloomPass_1 = (BloomPass*)operator new(0x78uLL);
-		BloomPass::BloomPass(bloomPass_1, s_2, adapter, in);
-		this->bloomPass = bloomPass_1;
-		if (this->vlsPass)
-		{
-			s_3 =this->scene();
-			f = VolumetricLightScatteringPass::output(this->vlsPass);
-			g = GlowPass::output(this->glowPass);
-			b = BloomPass::output(this->bloomPass);
-			d = MainPass::depthBuffer(this->mainPass);
-			lincPass_1 = (LincPass*)operator new(0x38uLL);
-			LincPass::LincPass(lincPass_1, s_3, adapter, this->quad, f, g, b, d);
-		}
-		else
-		{
-			s_4 = this->scene();
-			f_1 = this->mainPass->output();
-			g_1 = GlowPass::output(this->glowPass);
-			b_1 = BloomPass::output(this->bloomPass);
-			d_1 = this->mainPass->depthBuffer();
-			lincPass_1 = (LincPass*)operator new(0x38uLL);
-			LincPass::LincPass(lincPass_1, s_4, adapter, this->quad, f_1, g_1, b_1, d_1);
-		}
-		this->lincPass = lincPass_1;
-		__x = this->shadowPass;
+        s = ForwardRenderAlgo::scene(this);
+        shadowPass = (ShadowPass *) operator new(0x1D0uLL);
+        ShadowPass::ShadowPass(shadowPass, s, adapter);
+        this->shadowPass = shadowPass;
+        this->mainPass = this->allockMainPass(adapter);
+        this->vlsPass = 0LL;
+        s_1 = ForwardRenderAlgo::scene(this);
+        depth = MainPass::depthBuffer(this->mainPass);
+        glowPass_1 = (GlowPass *) operator new(0x38uLL);
+        GlowPass::GlowPass(glowPass_1, s_1, adapter, depth);
+        this->glowPass = glowPass_1;
+        s_2 = ForwardRenderAlgo::scene(this);
+        in = this->mainPass->output();
+        bloomPass_1 = (BloomPass *) operator new(0x78uLL);
+        BloomPass::BloomPass(bloomPass_1, s_2, adapter, in);
+        this->bloomPass = bloomPass_1;
+        if (this->vlsPass) {
+            s_3 = this->scene();
+            f = VolumetricLightScatteringPass::output(this->vlsPass);
+            g = GlowPass::output(this->glowPass);
+            b = BloomPass::output(this->bloomPass);
+            d = MainPass::depthBuffer(this->mainPass);
+            lincPass_1 = (LincPass *) operator new(0x38uLL);
+            LincPass::LincPass(lincPass_1, s_3, adapter, this->quad, f, g, b, d);
+        } else {
+            s_4 = this->scene();
+            f_1 = this->mainPass->output();
+            g_1 = GlowPass::output(this->glowPass);
+            b_1 = BloomPass::output(this->bloomPass);
+            d_1 = this->mainPass->depthBuffer();
+            lincPass_1 = (LincPass *) operator new(0x38uLL);
+            LincPass::LincPass(lincPass_1, s_4, adapter, this->quad, f_1, g_1, b_1, d_1);
+        }
+        this->lincPass = lincPass_1;
+        __x = this->shadowPass;
         this->passes.push_back(&__x);
-		mainPass = this->mainPass;
+        mainPass = this->mainPass;
         this->passes.push_back(&mainPass);
-		if (this->vlsPass)
-		{
-			vlsPass = this->vlsPass;
-            this->passes.push_back( &vlsPass);
-		}
-		bloomPass = this->bloomPass;
-        this->passes.push_back( &bloomPass);
-		glowPass = this->glowPass;
+        if (this->vlsPass) {
+            vlsPass = this->vlsPass;
+            this->passes.push_back(&vlsPass);
+        }
+        bloomPass = this->bloomPass;
+        this->passes.push_back(&bloomPass);
+        glowPass = this->glowPass;
         this->passes.push_back(&glowPass);
-		lincPass = this->lincPass;
+        lincPass = this->lincPass;
         this->passes.push_back(&lincPass);
-	}
+    }
 
-	void ForwardRenderAlgo::recreateAlgo(const Adapter& adapter)
-	{
+    void ForwardRenderAlgo::recreateAlgo(const Adapter &adapter) {
         this->freeAlgo();
         this->makeAlgo(adapter);
-	}
+    }
 
-	IScene* ForwardRenderAlgo::scene()
-	{
-		return this->mscene;
-	}
+    IScene *ForwardRenderAlgo::scene() {
+        return this->mscene;
+    }
 
-	void ForwardRenderAlgo::setBloom(bool use)
-	{
-		this->m_isBloom = use;
-	}
+    void ForwardRenderAlgo::setBloom(bool use) {
+        this->m_isBloom = use;
+    }
 
-	void ForwardRenderAlgo::setPoint(float* p, float x, float y)
-	{
-		*p = x;
-		p[1] = y;
-	}
+    void ForwardRenderAlgo::setPoint(float *p, float x, float y) {
+        *p = x;
+        p[1] = y;
+    }
 
-	void ForwardRenderAlgo::setShadowPass(bool use)
-	{
-		this->m_shadow = use;
-	}
+    void ForwardRenderAlgo::setShadowPass(bool use) {
+        this->m_shadow = use;
+    }
 
-	IRenderAlgoSettings* ForwardRenderAlgo::settings()
-	{
-		return this->m_settings;
-	}
+    IRenderAlgoSettings *ForwardRenderAlgo::settings() {
+        return this->m_settings;
+    }
 
-	IRenderPass::Pass::Type ForwardRenderAlgo::type()
-	{
-		return 0;
-	}
+    IRenderPass::Pass::Type ForwardRenderAlgo::type() {
+        return 0;
+    }
 }

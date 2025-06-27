@@ -5,21 +5,14 @@ namespace MyGL {
     LincPass::LincPass(IScene &s, const Adapter &adapter, IModel *quad,
                        ITextureRectangle &f, ITextureRectangle &g,
                        ITextureRectangle &b, ITextureRectangle &d) : AbstractPass(s) {
-        IScene *s_1;
-        Filter *filter;
-        IShader *shader;
 
         this->frame = f;
         this->glow = g;
         this->bloom = b;
         this->depth = d;
-        s_1 = this->scene();
-        filter = (Filter *) operator new(0x18uLL);
-        Filter::Filter(filter, s_1);
-        this->filter = filter;
-        Filter::setQuadModel(this->filter, quad);
-        shader = (IShader *) (*adapter->_vptr_Adapter)(adapter);
-        this->setShader(shader);
+        this->filter = new Filter(this->scene());
+        this->filter->setQuadModel(quad);
+        this->setShader(adapter->getLincShader());
     }
 
     LincPass::~LincPass() {

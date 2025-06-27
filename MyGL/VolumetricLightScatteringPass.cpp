@@ -25,41 +25,29 @@ namespace MyGL {
 
 
         this->depth = d;
-        s_1 = AbstractPass::scene(this);
-        filter = (Filter *) operator new(0x18uLL);
-        Filter::Filter(filter, s_1);
-        this->filter = filter;
-        v8 = AbstractPass::scene(this);
+        this->filter = new Filter(this->scene());
+        v8 = this->scene();
         r = v8->render();
-        frame = (TextureRectangle *) operator new(0x28uLL);
-        TextureRectangle::TextureRectangle(frame, r);
-        this->frame = frame;
-        s_2 = (IShader *) (*((__int64 (__fastcall **)(const Adapter *const)) adapter->_vptr_Adapter + 7))(adapter);
-        Filter::setShader(this->filter, s_2);
+        this->frame = new TextureRectangle(r);
+        s_2 = adapter->getVolumetricLightScatteringShader();
+        this->filter->setShader(s_2);
         std::allocator<char>::allocator(&v19);
         std::string::string(&name, "colorBuffer", &v19);
-        Filter::setInput(this->filter, &name, c);
-        std::string::~string(&name);
-        std::allocator<char>::~allocator(&v19);
+        this->filter->setInput(&name, c);
         depth = this->depth;
         std::allocator<char>::allocator(&v21);
         std::string::string(&name_, "depthBuffer", &v21);
-        Filter::setInput(this->filter, &name_, depth);
-        std::string::~string(&name_);
-        std::allocator<char>::~allocator(&v21);
-        arg = (ITexture *) (*((__int64 (__fastcall **)(const Adapter *const)) adapter->_vptr_Adapter + 9))(adapter);
+        this->filter->setInput(&name_, depth);
+        arg = adapter->getShadowMapTexture();
         std::allocator<char>::allocator(v23);
         std::string::string(&name__1, "shadowMap", v23);
-        Filter::setInput(this->filter, &name__1, arg);
-        std::string::~string(&name__1);
-        std::allocator<char>::~allocator(v23);
-        Filter::setQuadModel(this->filter, quad);
+        this->filter->setInput(&name__1, arg);
+        this->filter->setQuadModel(quad);
         this->frameBuffer = 0LL;
         this->resizeFrame();
     }
 
     VolumetricLightScatteringPass::~VolumetricLightScatteringPass() {
-
         if (this->frameBuffer)
             delete this->frameBuffer;
         if (this->frame)
@@ -89,14 +77,12 @@ namespace MyGL {
                 (unsigned int) v[3],
                 4LL);
         if (this->frameBuffer)
-            (*((void (__fastcall **)(FBO *)) this->frameBuffer->_vptr_IFBO + 1))(this->frameBuffer);
+            delete this->frameBuffer;
         v3 = this->scene();
         r = v3->render();
         theWidth = this->frame->width();
         theHeight = this->frame->height();
-        frameBuffer = (FBO *) operator new(0x28uLL);
-        FBO::FBO(frameBuffer, r, theWidth, theHeight, 8);
-        this->frameBuffer = frameBuffer;
+        this->frameBuffer = new FBO(r, theWidth, theHeight, 8);
     }
 
     void VolumetricLightScatteringPass::exec() {

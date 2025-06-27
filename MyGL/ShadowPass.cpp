@@ -21,36 +21,23 @@ namespace MyGL {
 
 		Camera::Camera(&this->lview);
 		ObjectMatrix::ObjectMatrix(&this->lMat);
-		v3 = AbstractPass::scene(this);
-		r = v3->render();
-		quad = (Model*)operator new(0xC0uLL);
-		Model::Model(quad, r);
-		this->quad = quad;
-		this->frame = ShadowPass::createFrame(this, 0LL);
-		in = (ITexture2d*)(*((__int64(__fastcall**)(const Adapter* const))adapter->_vptr_Adapter + 9))(adapter);
-		this->tmpFrame = ShadowPass::createFrame(this, in);
-		v7 = AbstractPass::scene(this);
-		r_1 = v7->render();
+		v3 = this->scene();
+		this->quad = new Model(v3->render());;
+		this->frame = this->createFrame(0LL);
+		in = adapter->getShadowMapTexture();
+		this->tmpFrame = this->createFrame( in);
+		v7 = this->scene();
 		theWidth = this->frame->width();
 		theHeight = this->frame->height();
-		frameBuffer = (FBO*)operator new(0x28uLL);
-		FBO::FBO(frameBuffer, r_1, theWidth, theHeight, 8);
-		this->frameBuffer = frameBuffer;
-		Camera::setPrespective(&this->lview, 0);
+		this->frameBuffer = new FBO( v7->render(), theWidth, theHeight, 8);
+        this->lview->setPrespective(0);
 		this->nUpdate = 1;
-		s_1 = AbstractPass::scene(this);
-		blur = (Filter*)operator new(0x18uLL);
-		Filter::Filter(blur, s_1);
-		this->blur = blur;
-		s_2 = (IShader*)(*((__int64(__fastcall**)(const Adapter* const))adapter->_vptr_Adapter + 8))(adapter);
-		Filter::setShader(this->blur, s_2);
-		Filter::setQuadModel(this->blur, this->quad);
+		this->blur = new Filter(this->scene());
+        this->blur->setShader(adapter->getBlurShadowShader());
+        this->blur->setQuadModel(this->quad);
 		frame = this->frame;
-		std::allocator<char>::allocator(v19);
 		std::string::string(&name, "texture", v19);
-		Filter::setInput(this->blur, &name, frame);
-		std::string::~string(&name);
-		std::allocator<char>::~allocator(v19);
+        this->blur->setInput(&name, frame);
 		this->lightId = 0;
 	}
 

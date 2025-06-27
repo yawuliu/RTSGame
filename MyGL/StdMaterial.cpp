@@ -47,7 +47,7 @@ namespace MyGL {
 		curShader = this->curShader;
 		v4 = this->technique();
 		if (curShader != (const IShader*)(*(__int64(__fastcall**)(__int64))(*(_QWORD*)v4 + 40LL))(v4))
-			StdMaterial::bindTextures(this);
+            this->bindTextures();
 		v5 = this->technique();
 		this->curShader = (const IShader*)(*(__int64(__fastcall**)(__int64))(*(_QWORD*)v5 + 40LL))(v5);
 		v6 = this->render();
@@ -78,16 +78,16 @@ namespace MyGL {
 		{
 			v1 = this->technique();
 			if ((*(__int64(__fastcall**)(__int64))(*(_QWORD*)v1 + 40LL))(v1)
-				&& StdTechnique::glowSampler(this->mtechnique)
+				&& this->mtechnique->glowSampler()
 				&& (v2 = this->technique(),
 					v3 = (*(__int64(__fastcall**)(__int64))(*(_QWORD*)v2 + 40LL))(v2),
-					v4 = StdTechnique::glowSampler(this->mtechnique),
+					v4 = this->mtechnique->glowSampler(),
 					v3 == v4->owner())
 				&& this->glow)
 			{
 				v6 = this->render();
 				glow = this->glow;
-				v9 = StdTechnique::glowSampler(this->mtechnique);
+				v9 = this->mtechnique->glowSampler();
                 v6->bindTexture(v9, glow);
 			}
 			else
@@ -168,7 +168,7 @@ namespace MyGL {
 			std::string::string(&StdMaterial::name(void)const::mat_name, "FFPMaterial", v2);
 			__cxa_guard_release(&`guard variable for'StdMaterial::name(void)::mat_name);
 				__cxa_atexit((void (*)(void*)) & std::string::~string, &StdMaterial::name(void)const::mat_name, &_dso_handle);
-			std::allocator<char>::~allocator(v2);
+
 		}
 		inline const IRenderState* StdMaterial::renderState() {
 			__int64 v1;

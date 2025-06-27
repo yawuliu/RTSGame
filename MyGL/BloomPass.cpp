@@ -331,11 +331,11 @@ namespace MyGL {
         std::string msg_;
         _BYTE v17[17];
 
-        s = (IShader *) (*((__int64 (__fastcall **)(const Adapter *const)) adapter->_vptr_Adapter + 1))(adapter);
+        s = adapter->getGausVerticalShader();
         this->data->gausV->setShader(s);
-        s_1 = (IShader *) (*((__int64 (__fastcall **)(const Adapter *const)) adapter->_vptr_Adapter + 2))(adapter);
+        s_1 = adapter->getGausHorizontalShader();
         this->data->gausH->setShader(s_1);
-        s_2 = (IShader *) (*((__int64 (__fastcall **)(const Adapter *const)) adapter->_vptr_Adapter + 3))(adapter);
+        s_2 = adapter->getBloomDownSampleShader();
         this->data->grab->setShader(s_2);
         frame = this->frame;
         std::allocator<char>::allocator(&v11);
