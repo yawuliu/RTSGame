@@ -46,9 +46,8 @@ namespace MyGL {
         v3 = this->scene();
         v4 = v3->render();
         v5 = (CGL *) (*(__int64 (__fastcall **)(__int64)) (*(_QWORD *) v4 + 72LL))(v4);
-        v6 = CGL::errorCtrl(v5);
-        (*((void (__fastcall **)(IErrorControl *, bool, const char *)) v6->_vptr_IErrorControl + 4))(
-                v6,
+        v6 = v5->errorCtrl();
+        v6->warning(
                 re != 0LL,
                 "rand4x4 not found");
         return re;
@@ -114,13 +113,10 @@ namespace MyGL {
         v5 = v4->render();
         v6 = (CGL *) (*(__int64 (__fastcall **)(__int64)) (*(_QWORD *) v5 + 72LL))(v5);
         v7 = CGL::errorCtrl(v6);
-        v8 = (void (__fastcall *)(IErrorControl *, bool, __int64)) *((_QWORD *) v7->_vptr_IErrorControl + 4);
         std::operator+<char>((const char *) &__lhs, &_rhs_);
         std::operator+<char>(&__lhs_, (const char *) &__lhs);
         v9 = std::string::data(&__lhs_);
-        v8(v7, s != 0LL, v9);
-        std::string::~string(&__lhs_);
-        std::string::~string(&__lhs);
+        v7->warning(s != 0LL, v9);
         return s;
     }
 

@@ -46,9 +46,8 @@ namespace MyGL {
             v6 = AbstractPass::scene(thisa);
             v7 = v6->render();
             v8 = (CGL *) (*(__int64 (__fastcall **)(__int64)) (*(_QWORD *) v7 + 72LL))(v7);
-            v9 = CGL::errorCtrl(v8);
-            (*((void (__fastcall **)(IErrorControl *, _QWORD, const char *)) v9->_vptr_IErrorControl + 4))(
-                    v9,
+            v9 = v8->errorCtrl();
+            v9->warning(
                     0LL,
                     "[Filter::addArgs]null shader");
             return 0LL;
@@ -72,9 +71,8 @@ namespace MyGL {
             v7 = this->scene();
             v8 = v7->render();
             v9 = (CGL *) (*(__int64 (__fastcall **)(__int64)) (*(_QWORD *) v8 + 72LL))(v8);
-            v10 = CGL::errorCtrl(v9);
-            (*((void (__fastcall **)(IErrorControl *, _QWORD, const char *)) v10->_vptr_IErrorControl + 4))(
-                    v10,
+            v10 = v9->errorCtrl();
+            v10->warning(
                     0LL,
                     "[Filter::addArgs]null shader");
             return 0LL;
@@ -141,9 +139,8 @@ namespace MyGL {
             v1 = AbstractPass::scene(this);
             v2 = v1->render();
             v3 = (CGL *) (*(__int64 (__fastcall **)(__int64)) (*(_QWORD *) v2 + 72LL))(v2);
-            v4 = CGL::errorCtrl(v3);
-            (*((void (__fastcall **)(IErrorControl *, _QWORD, const char *)) v4->_vptr_IErrorControl + 4))(
-                    v4,
+            v4 = v3->errorCtrl();
+            v4->warning(
                     0LL,
                     "Filter is incomplete");
         }

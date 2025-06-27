@@ -28,26 +28,19 @@ namespace MyGL {
         void sendUniformsToGPU();
 
         template<class T, class N>
-        Uniform1f *uniform(AbstractShader *const sh, int location) {
+        Uniform1f *uniform(int location) {
             if (location < 0)
                 return 0LL;
-            u = (Uniform1f *) operator new(0x20uLL);
-            Uniform1f *u = new Uniform1f(sh, location);
-            return (Uniform1f *) AbstractShader::registerUniform(sh, u);
+            auto& u = new Uniform1f(this, location);
+            return this->registerUniform(u);
         }
 
         template<class T, class N>
-        UniformArray<IUniformMatrix4x4> *uniformArray(
-                AbstractShader *const sh,
-                int location,
-                int s) {
-            UniformArray<IUniformMatrix4x4> *u;
-
+        UniformArray<IUniformMatrix4x4> *uniformArray(int location,int s) {
             if (location < 0)
                 return 0LL;
-            u = (UniformArray<IUniformMatrix4x4> *) operator new(0x18uLL);
-            UniformArray<IUniformMatrix4x4>::UniformArray(u, sh, location, s);
-            return (UniformArray<IUniformMatrix4x4> *) AbstractShader::registerUniform(sh, u);
+            auto& u = new UniformArray(this, location, s)
+            return this->registerUniform(u);
         }
 
         std::vector<IUniform *> *uniforms();

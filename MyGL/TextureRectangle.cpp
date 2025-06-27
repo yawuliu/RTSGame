@@ -59,7 +59,7 @@ namespace MyGL {
 		this->create();
 		glBindTexture(34037LL, this->handle);
 		this->isForwardFormat = 1;
-		v6 = *(_DWORD*)this->toGlInputFormat(imgColorSystem);
+		v6 = this->toGlInputFormat(imgColorSystem);
 		h = this->h;
 		w = this->w;
 		v9 = (unsigned int*)this->toGlColorSystem(colorSystem);

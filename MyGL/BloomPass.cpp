@@ -309,9 +309,8 @@ namespace MyGL {
         v3 = v2->render();
         v4 = (CGL *) (*(__int64 (__fastcall **)(__int64)) (*(_QWORD *) v3 + 72LL))(v3);
         v5 = CGL::errorCtrl(v4);
-        v6 = (void (__fastcall *)(IErrorControl *, _QWORD, __int64)) *((_QWORD *) v5->_vptr_IErrorControl + 4);
         v7 = std::string::data((std::string *) msg);
-        v6(v5, 0LL, v7);
+        v5->warning(0LL, v7);
         this->m_isValid = 0;
     }
 

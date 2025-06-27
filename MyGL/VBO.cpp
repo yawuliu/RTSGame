@@ -3,36 +3,32 @@
 namespace MyGL {
 	VBO::Pointer::Pointer(void* buf)
 	{
-		IVBO::IPointer::IPointer(_vptr_IPointer);
-
-		_vptr_IPointer->vbo = buf;
-		VBO::addRef((VBO* const)_vptr_IPointer->vbo);
+		this->vbo = buf;
+        this->vbo->addRef();
 	}
 	VBO::Pointer::Pointer(const Pointer& p)
 	{
-		VBO::addRef(*((VBO* const*)p + 1));
-		VBO::delRef((VBO* const)_vptr_IPointer->vbo);
+		addRef(*((VBO* const*)p + 1));
+        this->vbo->delRef();
 	}
 	VBO::Pointer::~Pointer()
 	{
         this->vbo->delRef();
 	}
-	GLfloat* VBO::Pointer::operator[](size_type id)
+	GLfloat* VBO::Pointer::operator[](uint32_t id)
 	{
 		return (GLfloat*)(4LL * id + *((_QWORD*)this->vbo + 4));
 	}
-	unsigned int VBO::Pointer::size()
+	size_t VBO::Pointer::size()
 	{
 		return *((_DWORD*)this->vbo + 3);
 	}
 	VBO::VBO(IRender& r)
 	{
-		IVBO::IVBO(p_vert);
-
-			p_vert->render = r;
-		p_vert->vertices = 0;
-		p_vert->_size = 0;
-		p_vert->refCount = 0LL;
+		this->render = r;
+        this->vertices = 0;
+        this->_size = 0;
+        this->refCount = 0LL;
 	}
 	VBO::~VBO()
 	{
@@ -64,7 +60,7 @@ namespace MyGL {
 	}
 	void VBO::allocate(CGL::GLsizei size)
 	{
-		(*((void(__fastcall**)(VBO* const, _QWORD, _QWORD))p_vert->_vptr_IVBO + 5))(p_vert, 0LL, (unsigned int)size);
+		this->loadData( 0LL, (unsigned int)size);
 	}
 	void VBO::loadData(const CGL::GLfloat* data, CGL::GLsizei s)
 	{
@@ -75,19 +71,19 @@ namespace MyGL {
 		CGL* v7;
 		privateGLSupportClass* v8;
 
-		if (!p_vert->vertices)
+		if (!this->vertices)
 		{
-			v3 = p_vert->render->gl();
+			v3 = this->render->gl();
 			v4 = v3->ext();
-			v4->glGenBuffersARB(1LL, &p_vert->vertices);
+			v4->glGenBuffersARB(1LL, &this->vertices);
 		}
-		p_vert->_size = s;
-		v5 = p_vert->render->gl();
+        this->_size = s;
+		v5 = this->render->gl();
 		v6 = v5->ext();
-		v6->glBindBufferARB(34962LL, p_vert->vertices);
-		v7 = p_vert->render->gl();
+		v6->glBindBufferARB(34962LL, this->vertices);
+		v7 = this->render->gl();
 		v8 =v7->ext();
-		v8->glBufferDataARB(34962LL, 4LL * p_vert->_size, data, 35044LL);
+		v8->glBufferDataARB(34962LL, 4LL * this->_size, data, 35044LL);
 	}
 	void VBO::bind(IVBO::BindMode::Type mode)
 	{
@@ -100,8 +96,7 @@ namespace MyGL {
 		{
 			v2 = this->render->gl();
 			v3 = v2->errorCtrl();
-			(*((void(__fastcall**)(IErrorControl*, _QWORD, const char*))v3->_vptr_IErrorControl + 6))(
-				v3,
+			v3->fail(
 				0LL,
 				"[error]VBO::bind : buffer is already mapped!");
 		}
@@ -131,7 +126,7 @@ namespace MyGL {
 	void VBO::draw(bool binded, IVBO::PrimitiveType::Type p)
 	{
 		if (!binded)
-			(*((void(__fastcall**)(VBO* const, _QWORD))this->_vptr_IVBO + 2))(this, 0LL);
+			this->bind(0LL);
 		glDrawArrays(VBO::draw(bool, IVBO::PrimitiveType::Type)::primitiveT[p], 0LL, this->_size);
 	}
 	void VBO::uBind()
@@ -158,11 +153,7 @@ namespace MyGL {
 	}
 	IVBO::IPointer* VBO::pointerToData()
 	{
-		VBO::Pointer* _vptr_IPointer;
-
-		_vptr_IPointer = (VBO::Pointer*)operator new(0x10uLL);
-		VBO::Pointer::Pointer(_vptr_IPointer, buf);
-		return _vptr_IPointer;
+		return new VBO::Pointer();
 	}
 	void VBO::addRef()
 	{

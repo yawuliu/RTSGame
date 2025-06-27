@@ -39,10 +39,8 @@ namespace MyGL {
             std::string::append(&str_0, fileName);
             v5 = this->render->gl();
             v6 = v5->errorCtrl();
-            v7 = (void (__fastcall *)(IErrorControl *, IModel *const, IOModel *, __int64)) *(
-                    (_QWORD *) v6->_vptr_IErrorControl + 9);
             v8 = std::string::data(&str_0);
-            v7(v6, this, &model, v8);
+            v6->loadError(this, &model, v8);
             taget_1 = this;
             std::string::~string(&str_0);
         } else {
@@ -53,11 +51,8 @@ namespace MyGL {
                 std::string::append(&str, fileName);
                 v10 = this->render->gl();
                 v11 = v10->errorCtrl();
-                v12 = (void (__fastcall *)(IErrorControl *, IModel *const, IOModel *, __int64)) *(
-                        (_QWORD *) v11->_vptr_IErrorControl + 9);
                 v13 = std::string::data(&str);
-                v12(v11, this, &model, v13);
-                std::string::~string(&str);
+                v11->loadError(this, &model, v13);
             }
             this->load(&model);
             taget_1 = this;
@@ -99,13 +94,10 @@ namespace MyGL {
             std::allocator<char>::~allocator(&v22);
             std::string::append(&str_0, fileName);
             v5 = this->render->gl();
-            v6 = CGL::errorCtrl(v5);
-            v7 = (void (__fastcall *)(IErrorControl *, IModel *const, IOModel *, __int64)) *(
-                    (_QWORD *) v6->_vptr_IErrorControl + 9);
+            v6 = v5->errorCtrl();
             v8 = std::string::data(&str_0);
-            v7(v6, this, &model, v8);
+            v6->loadError(this, &model, v8);
             taget_1 = this;
-            std::string::~string(&str_0);
         } else {
             if (ok)
                 *ok = 1;
@@ -115,17 +107,13 @@ namespace MyGL {
                 std::allocator<char>::~allocator(v23);
                 std::string::append(&str, fileName);
                 v10 = this->render->gl();
-                v11 = CGL::errorCtrl(v10);
-                v12 = (void (__fastcall *)(IErrorControl *, IModel *const, IOModel *, __int64)) *(
-                        (_QWORD *) v11->_vptr_IErrorControl + 9);
+                v11 = v10->errorCtrl();
                 v13 = std::string::data(&str);
-                v12(v11, this, &model, v13);
-                std::string::~string(&str);
+                v11->loadError(this, &model, v13);
             }
             this->load(&model);
             taget_1 = this;
         }
-        IOModel::~IOModel(&model);
         return taget_1;
     }
 }

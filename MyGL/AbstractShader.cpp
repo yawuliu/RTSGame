@@ -8,7 +8,7 @@ namespace MyGL {
 
     AbstractShader::~AbstractShader() {
         for (size_t i = 0LL; this->unif.size() > i; ++i) {
-            v1 = this->unif[i];
+            auto &v1 = this->unif[i];
             if (v1)
                 delete v1;
         }
@@ -19,26 +19,16 @@ namespace MyGL {
     }
 
     IUniform *AbstractShader::registerUniform(IUniform *u) {
-        std::vector<IUniform *> *v2;
-        std::vector<IUniform *>::reference v3;
-        std::vector<IUniform *> *v4;
-        std::vector<IUniform *> *v5;
-        IUniform *ua;
-        AbstractShader *thisa;
-        size_t i;
-        IUniform *rep;
-
-        thisa = this;
-        ua = u;
-        rep = 0LL;
-        for (i = 0LL;; ++i) {
-            v5 = this->uniforms();
+        IUniform *ua = u;
+        IUniform *rep = 0LL;
+        for (size_t i = 0LL;; ++i) {
+            auto &v5 = this->uniforms();
             if (v5.size() <= i)
                 break;
-            v2 = this->uniforms();
-            v3 = v2[i];
+            auto &v2 = this->uniforms();
+            auto &v3 = v2[i];
             if (v3->isEqual(ua)) {
-                v4 = this->uniforms();
+                auto &v4 = this->uniforms();
                 rep = v4[i];
             }
         }
@@ -47,7 +37,7 @@ namespace MyGL {
                 delete ua;
             return rep;
         } else {
-            thisa->unif.push_back(&ua);
+            this->unif.push_back(&ua);
         }
         return ua;
     }
@@ -57,17 +47,12 @@ namespace MyGL {
     }
 
     void AbstractShader::sendUniformsToGPU() {
-        std::vector<IUniform *> *v1;
-        std::vector<IUniform *>::reference v2;
-        std::vector<IUniform *> *v3;
-        std::vector<IUniform *>::size_type i;
-
-        for (i = 0LL;; ++i) {
-            v3 = this->uniforms();
+        for (size_t i = 0LL;; ++i) {
+            auto &v3 = this->uniforms();
             if (v3.size() <= i)
                 break;
-            v1 = this->uniforms();
-            v2 = v1[i];
+            auto &v1 = this->uniforms();
+            auto &v2 = v1[i];
             v2->sendDataToGPU();
         }
     }

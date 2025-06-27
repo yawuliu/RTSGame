@@ -20,7 +20,6 @@ namespace MyGL {
 
     class IScene;
 
-    class IRenderState;
 
     class IShader;
 
@@ -36,17 +35,17 @@ namespace MyGL {
 
         IShader *colorShader();
 
-        void completeDraw(const AddBlendPass *a2);
+        void completeDraw(AddBlendPass const *a2);
 
-        void completeDraw(const ColorPass *a2);
+        void completeDraw(ColorPass const *a2);
 
-        void completeDraw(const DepthPass *a2);
+        void completeDraw(DepthPass const *a2);
 
-        void completeDraw(const GlowPass *a2);
+        void completeDraw(GlowPass const *a2);
 
-        void completeDraw(const ShadowPass *a2);
+        void completeDraw(ShadowPass const *a2);
 
-        void completeDraw(const TransparentPass *a2);
+        void completeDraw(TransparentPass const *a2);
 
         const IShader *currentShader();
 
@@ -64,17 +63,17 @@ namespace MyGL {
 
         IUniformSampler *opacitySampler_toSM(StdTechnique &mtechnique);
 
-        bool passEvent(const AddBlendPass *a2);
+        bool passEvent(AddBlendPass const *a2);
 
-        bool passEvent(const ColorPass *a2);
+        bool passEvent(ColorPass const *a2);
 
-        bool passEvent(const DepthPass *a2);
+        bool passEvent(DepthPass const *a2);
 
-        bool passEvent(const GlowPass *a2);
+        bool passEvent(GlowPass const *a2);
 
-        bool passEvent(const ShadowPass *a2);
+        bool passEvent(ShadowPass const *a2);
 
-        bool passEvent(const TransparentPass *pass);
+        bool passEvent(TransparentPass const *pass);
 
         IRenderState *renderState();
 

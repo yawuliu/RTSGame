@@ -10,20 +10,17 @@ namespace MyGL {
     public:
         class Pointer {
         public:
-            typedef unsigned int size_type;
-        public:
             Pointer(void *buf);
 
             Pointer(const Pointer &p);
 
             virtual ~Pointer();
 
-            GLfloat *operator[](size_type id);
+            virtual GLfloat *operator[](uint32_t id);
 
-            unsigned int size();
+            virtual size_t size();
 
         public:
-
             void *vbo;
         };
 

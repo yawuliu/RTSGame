@@ -1,52 +1,70 @@
 #pragma once
 
 #include <cstdint>
+#include <QOpenGLContext>
 #include "DisableCopy.h"
 
 namespace MyGL {
-	class IVBO : public DisableCopy {
-	public:
-		class IPointer {
-		public:
-			IPointer() = default;
+    class IVBO : public DisableCopy {
+    public:
+        class PrimitiveType {
+        public:
+            enum Type {
+                Triangles = 0x0,
+                TrianglesStrip = 0x1,
+                Quads = 0x2,
+                QuadsStrip = 0x3,
+                Count = 0x4,
+            };
 
-			virtual ~IPointer() = default;
-		};
+        };
 
-	public:
-		IVBO() = default;
+        class BindMode {
+        public:
+            enum Type {
+                Vertex = 0x0,
+                TexCoord = 0x1,
+                Normal = 0x2,
+                Color = 0x3,
+                Count = 0x4,
+            };
+        };
 
-		virtual ~IVBO() = default;
+    public:
+        class IPointer {
+        public:
+            IPointer() = default;
 
-	public:
-		class PrimitiveType {
-		public:
-			enum Type {
-				Triangles = 0x0,
-				TrianglesStrip = 0x1,
-				Quads = 0x2,
-				QuadsStrip = 0x3,
-				Count = 0x4,
-			};
+            virtual ~IPointer() = default;//0
+            //virtual ~IPointer() = default;//1
 
-		};
-		class BindMode {
-		public:
-			enum Type {
-				Vertex = 0x0,
-				TexCoord = 0x1,
-				Normal = 0x2,
-				Color = 0x3,
-				Count = 0x4,
-			};
-		};
+            virtual GLfloat *operator[](uint32_t) = 0; // 2
 
+            virtual size_t size();//3
+        };
 
-		virtual IPointer* pointerToData() = 0;
+    public:
+        IVBO() = default;
 
-		virtual void subData(size_t, int, float[]) = 0;
+        virtual ~IVBO() = default; // 0
+        // virtual ~IVBO() = default;// 1
+        virtual void bind(IVBO::BindMode::Type) = 0; // 2
 
-		virtual void allocate(size_t) = 0;
-	};
+        virtual void draw(bool, IVBO::PrimitiveType::Type) = 0; // 3
+
+        virtual void uBind() = 0; // 4
+
+        virtual void loadData(float const *, int) = 0; // 5
+
+        virtual void allocate(int) = 0; // 6
+
+        virtual void subData(int, int, void *) = 0; // 7
+
+        virtual void free() = 0; // 8
+
+        virtual IPointer *pointerToData() = 0; // 9
+        
+
+    };
 }
 

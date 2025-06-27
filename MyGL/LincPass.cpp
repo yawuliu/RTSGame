@@ -37,9 +37,8 @@ namespace MyGL {
             v1 = this->scene();
             v2 = v1->render();
             v3 = (CGL *) (*(__int64 (__fastcall **)(__int64)) (*(_QWORD *) v2 + 72LL))(v2);
-            v4 = CGL::errorCtrl(v3);
-            (*((void (__fastcall **)(IErrorControl *, const char *)) v4->_vptr_IErrorControl + 5))(
-                    v4,
+            v4 = v3->errorCtrl();
+            v4->fail(
                     "Linc frame shader is not loaded");
         } else {
             this->filter->exec();
@@ -94,9 +93,8 @@ namespace MyGL {
             v6 = this->scene();
             v7 = v6->render();
             v8 = (CGL *) (*(__int64 (__fastcall **)(__int64)) (*(_QWORD *) v7 + 72LL))(v7);
-            v9 = CGL::errorCtrl(v8);
-            (*((void (__fastcall **)(IErrorControl *, _QWORD, const char *)) v9->_vptr_IErrorControl + 4))(
-                    v9,
+            v9 = v8->errorCtrl();
+            v9->warning(
                     0LL,
                     "Linc frame shader is not loaded");
         }

@@ -72,13 +72,9 @@ namespace MyGL {
                 std::string::append(&msg, fs_0);
             std::string::append(&msg, "]");
             v11 = this->render->gl();
-            v12 = CGL::errorCtrl(v11);
-            v13 = (void (__fastcall *)(IErrorControl *, IShader *const, __int64)) *(
-                    (_QWORD *) v12->_vptr_IErrorControl
-                    + 7);
+            v12 = v11->errorCtrl();
             v14 = std::string::data(&msg);
-            v13(v12, taget, v14);
-            std::string::~string(&msg);
+            v12->loadError(taget, v14);
         }
         return taget;
     }

@@ -2,19 +2,13 @@
 
 namespace MyGL {
     StdTechnique::StdTechnique(IScene &s) : AbstractTechnique(s) {
-        RenderState *rstate;
-        RenderState *pstate;
         this->setColorShader(0LL);
         this->setShadowShader(0LL);
         this->setDepthShader(0LL);
         this->setGlowShader(0LL);
         this->opacitySampler = 0LL;
-        rstate = (RenderState *) operator new(0x30uLL);
-        RenderState::RenderState(rstate);
-        this->rstate = rstate;
-        pstate = (RenderState *) operator new(0x30uLL);
-        RenderState::RenderState(pstate);
-        this->pstate = pstate;
+        this->rstate = new RenderState();
+        this->pstate = new RenderState();
         this->rstate->setAlphaTestRef(0.5);
         this->rstate->setAlphaTestMode(1LL);
         this->rstate->setAlphaCoverage(1LL);
@@ -32,15 +26,12 @@ namespace MyGL {
     }
 
     void StdTechnique::bind() {
-        IRender *v1;
-
         if (this->sh) {
-            v1 = this->render();
-            v1->useShader(this->sh);
+            this->render()->useShader(this->sh);
         }
     }
 
-    const IShader *StdTechnique::cmpShader(const) {
+    const IShader *StdTechnique::cmpShader() {
         return this->mshader;
     }
 
@@ -48,31 +39,31 @@ namespace MyGL {
         return this->mshader;
     }
 
-    void StdTechnique::completeDraw(const AddBlendPass *a2) {
+    void StdTechnique::completeDraw(AddBlendPass const *a2) {
         this->restoreRenderState();
     }
 
-    void StdTechnique::completeDraw(const ColorPass *a2) {
+    void StdTechnique::completeDraw(ColorPass const *a2) {
         this->restoreRenderState();
     }
 
-    void StdTechnique::completeDraw(const DepthPass *a2) {
+    void StdTechnique::completeDraw(DepthPass const *a2) {
         this->restoreRenderState();
     }
 
-    void StdTechnique::completeDraw(const GlowPass *a2) {
+    void StdTechnique::completeDraw(GlowPass const *a2) {
         this->restoreRenderState();
     }
 
-    void StdTechnique::completeDraw(const ShadowPass *a2) {
+    void StdTechnique::completeDraw(ShadowPass const *a2) {
         this->restoreRenderState();
     }
 
-    void StdTechnique::completeDraw(const TransparentPass *a2) {
+    void StdTechnique::completeDraw(TransparentPass const *a2) {
         this->restoreRenderState();
     }
 
-    const IShader *StdTechnique::currentShader(const) {
+    const IShader *StdTechnique::currentShader() {
         return this->sh;
     }
 
@@ -128,7 +119,7 @@ namespace MyGL {
     bool StdTechnique::passEvent(const AddBlendPass *a2) {
         this->sh = this->mshader;
         if (this->sh) {
-            StdTechnique::storeRenderState(this);
+            this->storeRenderState();
             this->rstate->setZTest(1LL);
             this->rstate->setZWriting(0LL);
             this->rstate->setZTestMode(2LL);
@@ -193,7 +184,7 @@ namespace MyGL {
             this->updateMat = 1;
             this->rstate->setZTest(1LL);
             this->rstate->setZTestMode(2LL);
-            this->rstate > setColorMask(
+            this->rstate->setColorMask(
                     1LL,
                     1LL,
                     1LL,

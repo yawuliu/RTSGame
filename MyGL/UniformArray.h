@@ -38,7 +38,7 @@ namespace MyGL {
 		}
 		IUniformMatrix4x4* at(int id)
 		{
-			return *std::vector<UniformMatrix4x4*>::operator[](&this->data->uniform, id);
+			return this->data->uniform[id];
 		}
 		const void* handlePtr()
 		{

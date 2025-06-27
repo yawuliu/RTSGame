@@ -28,29 +28,29 @@ namespace MyGL {
         this->depthP = 1;
         v3 = this->scene();
         s = v3->graph();
-        ISceneGraph::Visibles::Visibles(&obj, s);
+        obj.Visibles(s);
         for (i = 0;; ++i) {
             i_1 = ISceneGraph::Visibles::size(&obj);
             if (i_1 <= i)
                 break;
-            obj_2 = ISceneGraph::Visibles::operator[](&obj, i);
-            if (TransparentPass::isDrawable(this, obj_2)) {
-                obj_1 = ISceneGraph::Visibles::operator[](&obj, i);
-                AbstractPass::drawObject<TransparentPass>(this, obj_1);
+            obj_2 = obj[i];
+            if (this->isDrawable(obj_2)) {
+                obj_1 = obj[i];
+                this->drawObject(obj_1);
             }
         }
         this->depthP = 0;
         for (i_0 = 0;; ++i_0) {
-            i_2 = ISceneGraph::Visibles::size(&obj);
+            i_2 = obj.size();
             if (i_2 <= i_0)
                 break;
-            obj_4 = ISceneGraph::Visibles::operator[](&obj, i_0);
-            if (TransparentPass::isDrawable(this, obj_4)) {
-                obj_3 = ISceneGraph::Visibles::operator[](&obj, i_0);
-                AbstractPass::drawObject<TransparentPass>(this, obj_3);
+            obj_4 = obj[i_0];
+            if (this->isDrawable(obj_4)) {
+                obj_3 = obj[i_0];
+                this->drawObject(obj_3);
             }
         }
-        v11 = AbstractPass::scene(this);
+        v11 = this->scene();
         v12 = v11->render();
         (*(void (__fastcall **)(__int64)) (*(_QWORD *) v12 + 312LL))(v12);
     }

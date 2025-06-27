@@ -40,9 +40,8 @@ namespace MyGL {
 		IErrorControl* v2;
 
 		v1 = this->gl();
-		v2 = CGL::errorCtrl(v1);
-		(*((void(__fastcall**)(IErrorControl*, bool, const char*))v2->_vptr_IErrorControl + 4))(
-			v2,
+		v2 = v1->errorCtrl();
+        v2->warning(
 			!this->isWork,
 			"Render is already activated");
 		this->isWork = 1;
@@ -215,7 +214,7 @@ namespace MyGL {
 
 	void Render::bindVBO(IVBO* vbo, IVBO::BindMode::Type mode)
 	{
-		(*((void(__fastcall**)(IVBO*, _QWORD))vbo->_vptr_IVBO + 2))(vbo, (unsigned int)mode);
+		vbo->bind((unsigned int)mode);
 	}
 
 	ICamera* Render::camera()
@@ -361,10 +360,8 @@ namespace MyGL {
 		IErrorControl* v2;
 
 		v1 = this->gl();
-		v2 = CGL::errorCtrl(v1);
-		(*((void(__fastcall**)(IErrorControl*, bool, const char*))v2->_vptr_IErrorControl + 4))(
-			v2,
-			this->isWork,
+		v2 = v1->errorCtrl();
+		this->isWork->warning(
 			"Render is not activated");
 		this->ubindMaterial();
 		this->useShader( 0LL);
@@ -686,7 +683,7 @@ namespace MyGL {
 
 	void Render::ubindVBO(IVBO* vbo)
 	{
-		(*((void(__fastcall**)(IVBO*))vbo->_vptr_IVBO + 4))(vbo);
+		vbo->uBind()
 	}
 
 	void Render::upsetRState()
