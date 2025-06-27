@@ -33,9 +33,9 @@ namespace MyGL {
 		if (this->depth)
             delete this->depth;
 		if (this->m_frameBuffer)
-			(*((void(__fastcall**)(FBO*)) this->m_frameBuffer->_vptr_IFBO + 1))(this->m_frameBuffer);
-		for (i = 0; i < std::vector<IRenderPass*>::size(&this->passes); ++i) {
-			v1 = *std::vector<IRenderPass*>::operator[](&this->passes, i);
+			delete this->m_frameBuffer;
+		for (i = 0; i < this->passes.size(); ++i) {
+			v1 = this->passes[i];
 			if (v1)
 				delete v1;
 		}
@@ -141,22 +141,22 @@ namespace MyGL {
 		if (v3 != this->frame->width()
 			|| (v4 = v[3],
 				v4 != this->frame->height())) {
-            this-》resizeFrame();
+            this->resizeFrame();
 		}
 		v6 = this->frameBuffer();
-		(*((void(__fastcall**)(FBO*)) v6->_vptr_IFBO + 8))(v6);
+		v6->bind();
 		v7 = this->frameBuffer();
-		(*((void(__fastcall**)(FBO*, ITextureRectangle*, _QWORD)) v7->_vptr_IFBO + 12))(v7,
+		v7->attachColorTexture(
 			this->frame,
 			0LL);
-		v8 = this->rameBuffer();
-		(*((void(__fastcall**)(FBO*, ITextureRectangle*)) v8->_vptr_IFBO + 13))(v8, this->depth);
-		v9 = AbstractPass::scene(this);
+		v8 = this->frameBuffer();
+		v8->attachDepthTexture( this->depth);
+		v9 = this->scene();
 		v10 = v9->render();
 		(*(void(__fastcall**)(__int64, __int64)) (*(_QWORD*)v10 + 32LL))(v10, 3LL);
-		MainPass::draw(this);
+        this->draw();
 		v11 = this->frameBuffer();
-		(*((void(__fastcall**)(FBO*)) v11->_vptr_IFBO + 9))(v11);
+		v11->unbind();
 	}
 
 	FBO* MainPass::frameBuffer() {
@@ -250,14 +250,12 @@ namespace MyGL {
 				(unsigned int)v[3],
 				21LL);
 		if (this->m_frameBuffer)
-			(*((void(__fastcall**)(FBO*)) this->m_frameBuffer->_vptr_IFBO + 1))(this->m_frameBuffer);
-		v3 = AbstractPass::scene(this);
+            delete this->m_frameBuffer;
+		v3 = this->scene();
 		r = v3->render();
 		theWidth = this->frame->setClamping();
 		theHeight = this->frame->setClamping();
-		m_frameBuffer = (FBO*) operator new(0x28uLL);
-		FBO::FBO(m_frameBuffer, r, theWidth, theHeight, 4);
-		this->m_frameBuffer = m_frameBuffer;
+		this->m_frameBuffer = new FBO(r, theWidth, theHeight, 4);;
 		MainPass::buildQuad(this, v[2], v[3]);
 	}
 

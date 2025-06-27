@@ -427,15 +427,14 @@ namespace MyGL {
         IScene *v10;
         __int64 v11;
 
-        (*((void (__fastcall **)(FBO *)) frameBuffer->_vptr_IFBO + 8))(frameBuffer);
+        frameBuffer->bind();
         v5 = this->scene();
         v6 = v5->render();
         v7 = *(void (__fastcall **)(__int64, _QWORD, _QWORD, _QWORD, _QWORD)) (*(_QWORD *) v6 + 88LL);
         v8 = output->height();
         v9 = output->width();
         v7(v6, 0LL, 0LL, v9, v8);
-        (*((void (__fastcall **)(FBO *, ITextureRectangle *, _QWORD)) frameBuffer->_vptr_IFBO + 12))(
-                frameBuffer,
+        frameBuffer->attachColorTexture(
                 output,
                 0LL);
         v10 = this->scene();
@@ -446,22 +445,20 @@ namespace MyGL {
                 input);
         this->data->grab->setQuadModel(quad);
         this->data->grab->exec();
-        (*((void (__fastcall **)(FBO *)) frameBuffer->_vptr_IFBO + 9))(frameBuffer);
+        frameBuffer->unbind();
     }
 
     void MyGL::BloomPass::postProcess(FBO *frameBuffer) {
-        (*((void (__fastcall **)(FBO *)) frameBuffer->_vptr_IFBO + 8))(frameBuffer);
-        (*((void (__fastcall **)(FBO *, ITextureRectangle *, _QWORD)) frameBuffer->_vptr_IFBO + 12))(
-                frameBuffer,
+        frameBuffer->bind();
+        frameBuffer->attachColorTexture(
                 this->subFrame,
                 0LL);
         this->data->gausV->exec();
-        (*((void (__fastcall **)(FBO *, ITextureRectangle *, _QWORD)) frameBuffer->_vptr_IFBO + 12))(
-                frameBuffer,
+        frameBuffer->attachColorTexture(
                 this->frame,
                 0LL);
         this->data->gausH->exec();
-        (*((void (__fastcall **)(FBO *)) frameBuffer->_vptr_IFBO + 9))(frameBuffer);
+        frameBuffer->unbind();
     }
 
     ITextureRectangle *MyGL::BloomPass::output() {

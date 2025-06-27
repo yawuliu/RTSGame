@@ -45,7 +45,7 @@ namespace MyGL {
 	{
 
 		if (this->frameBuffer)
-			(*((void(__fastcall**)(FBO*))this->frameBuffer->_vptr_IFBO + 1))(this->frameBuffer);
+            delete this->frameBuffer;
 		if (this->blur)
 			delete this->blur;
 		if (this->frame)
@@ -219,8 +219,8 @@ namespace MyGL {
 		v3 = AbstractPass::scene(this);
 		v4 = v3->render();
 		v5 = *(void(__fastcall**)(__int64, _QWORD, _QWORD, _QWORD, _QWORD))(*(_QWORD*)v4 + 88LL);
-		v6 = (*((__int64(__fastcall**)(FBO*))this->frameBuffer->_vptr_IFBO + 3))(this->frameBuffer);
-		v7 = (*((__int64(__fastcall**)(FBO*))this->frameBuffer->_vptr_IFBO + 2))(this->frameBuffer);
+		v6 = this->frameBuffer->height();
+		v7 = this->frameBuffer->width();
 		v5(v4, 0LL, 0LL, v7, v6);
 		v8 = AbstractPass::scene(this);
 		v9 = v8->render();
@@ -287,24 +287,23 @@ namespace MyGL {
 
 		if (this->nUpdate)
 		{
-			v2 = AbstractPass::scene(this);
+			v2 = this->scene();
 			v3 = v2->lights();
 			if ((*(unsigned int(__fastcall**)(__int64))(*(_QWORD*)v3 + 40LL))(v3))
 			{
-				ShadowPass::initLight(this, 0);
-				(*((void(__fastcall**)(FBO*))this->frameBuffer->_vptr_IFBO + 8))(this->frameBuffer);
-				(*((void(__fastcall**)(FBO*, ITexture2d*, _QWORD))this->frameBuffer->_vptr_IFBO + 10))(
-					this->frameBuffer,
+                this->initLight( 0);
+				this->frameBuffer->bind();
+				this->frameBuffer->attachColorTexture(
 					this->frame,
 					0LL);
-				v4 = AbstractPass::scene(this);
+				v4 = this->scene();
 				v5 = v4->render();
 				c = (ICamera*)(*(__int64(__fastcall**)(__int64))(*(_QWORD*)v5 + 256LL))(v5);
-				v6 = AbstractPass::scene(this);
+				v6 = this->scene();
 				v7 = v6->render();
 				*(_QWORD*)cl_0.cdata = (*(double(__fastcall**)(__int64))(*(_QWORD*)v7 + 24LL))(v7);
 				*(_QWORD*)&cl_0.cdata[2] = v1;
-				v8 = AbstractPass::scene(this);
+				v8 = this->scene();
 				v9 = v8->render();
 				(*(void(__fastcall**)(__int64, int*, int*, int*, int*))(*(_QWORD*)v9 + 96LL))(
 					v9,
@@ -312,20 +311,19 @@ namespace MyGL {
 					&view[1],
 					&view[2],
 					&view[3]);
-				v10 = AbstractPass::scene(this);
+				v10 = this->scene();
 				v11 = v10->render();
 				(*(void(__fastcall**)(__int64, ObjectMatrix*))(*(_QWORD*)v11 + 336LL))(v11, &this->lMat);
-				ShadowPass::draw(this);
-				(*((void(__fastcall**)(FBO*, ITexture2d*, _QWORD))this->frameBuffer->_vptr_IFBO + 10))(
-					this->frameBuffer,
+                this->draw();
+				this->frameBuffer->attachColorTexture(
 					this->tmpFrame,
 					0LL);
 				this->blur->clearColor();
-				(*((void(__fastcall**)(FBO*))this->frameBuffer->_vptr_IFBO + 9))(this->frameBuffer);
-				v12 = AbstractPass::scene(this);
+				this->frameBuffer->unbind();
+				v12 = this->scene();
 				v13 = v12->render();
 				(*(void(__fastcall**)(__int64, ICamera*))(*(_QWORD*)v13 + 240LL))(v13, c);
-				v14 = AbstractPass::scene(this);
+				v14 = this->scene();
 				v15 = v14->render();
 				(*(void(__fastcall**)(__int64, _QWORD, _QWORD, _QWORD, _QWORD))(*(_QWORD*)v15 + 88LL))(
 					v15,
@@ -333,7 +331,7 @@ namespace MyGL {
 					(unsigned int)view[1],
 					(unsigned int)view[2],
 					(unsigned int)view[3]);
-				v16 = AbstractPass::scene(this);
+				v16 = this->scene();
 				v17 = v16->render();
 				(*(void(__fastcall**)(__int64, double, double))(*(_QWORD*)v17 + 16LL))(
 					v17,

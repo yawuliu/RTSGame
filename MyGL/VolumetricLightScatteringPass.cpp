@@ -107,13 +107,12 @@ namespace MyGL {
                 v6 != this->frame->height())) {
             VolumetricLightScatteringPass::resizeFrame(this);
         }
-        (*((void (__fastcall **)(FBO *)) this->frameBuffer->_vptr_IFBO + 8))(this->frameBuffer);
-        (*((void (__fastcall **)(FBO *, ITextureRectangle *, _QWORD)) this->frameBuffer->_vptr_IFBO + 12))(
-                this->frameBuffer,
+        this->frameBuffer->bind();
+        this->frameBuffer->attachColorTexture(
                 this->frame,
                 0LL);
         this->filter->clearColor();
-        (*((void (__fastcall **)(FBO *)) this->frameBuffer->_vptr_IFBO + 9))(this->frameBuffer);
+        this->frameBuffer->unbind();
     }
 
     ITextureRectangle *VolumetricLightScatteringPass::output() {

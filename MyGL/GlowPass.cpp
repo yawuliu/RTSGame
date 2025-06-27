@@ -122,13 +122,11 @@ namespace MyGL {
                 (unsigned int) v[1],
                 (unsigned int) (v[2] / this->fakeLv),
                 (unsigned int) (v[3] / this->fakeLv));
-        (*((void (__fastcall **)(FBO *)) glowPass->frameBuffer->_vptr_IFBO + 8))(this->frameBuffer);
-        (*((void (__fastcall **)(FBO *, ITextureRectangle *, _QWORD)) glowPass->frameBuffer->_vptr_IFBO + 12))(
-                this->frameBuffer,
+        this->frameBuffer->bind();
+        this->frameBuffer->attachColorTexture(
                 this->frame,
                 0LL);
-        (*((void (__fastcall **)(FBO *, ITextureRectangle *)) glowPass->frameBuffer->_vptr_IFBO + 13))(
-                this->frameBuffer,
+        this->frameBuffer->attachDepthTexture(
                 this->depthBuf);
         v8 = this->scene();
         v9 = v8->render();
@@ -146,7 +144,7 @@ namespace MyGL {
         (*(void (__fastcall **)(__int64, double)) (*(_QWORD *) v16 + 16LL))(v16, cl_0);
         this->draw();
         this->data->lights->exec();
-        (*((void (__fastcall **)(FBO *)) glowPass->frameBuffer->_vptr_IFBO + 9))(this->frameBuffer);
+        this->frameBuffer->unbind();
         if (this->used)
             this->postProcess(v[0], v[1], v[2], v[3]);
         v17 = this->scene();
