@@ -8,65 +8,65 @@
 #include "RenderState.h"
 
 namespace MyGL {
-    class IModel;
+	class IModel;
 
-    class IScene;
+	class IScene;
 
-    class IShader;
+	class IShader;
 
-    class ITexture;
+	class ITexture;
 
-    class IRenderState;
+	class IRenderState;
 
-    class IUniformSampler;
+	class IUniformSampler;
 
-    class Filter : public AbstractPass {
-    public:
-        class Data {
-        public:
-            typedef std::map<IUniformSampler *, ITexture *> Args;
-        public:
-            Data() = default;
+	typedef std::map<IUniformSampler*, ITexture*> Args;
 
-            virtual ~Data() = default;
+	class Filter : public AbstractPass {
+	public:
+		class Data {
+		public:
+			Data() = default;
 
-        public:
-            RenderState renderState;
-            IModel *quad;
-            IShader *shader;
-            Args args;
-        };
+			virtual ~Data() = default;
 
-    public:
-        Filter(IScene &s);
+		public:
+			RenderState renderState;
+			IModel* quad;
+			IShader* shader;
+			Args args;
+		};
 
-        virtual ~Filter();
+	public:
+		Filter(IScene& s);
 
-        virtual void exec() override;
+		virtual ~Filter();
 
-        virtual IRenderPass::Pass::Type type() override;
+		virtual void exec() override;
 
-        IUniformSampler *addArgs(IUniformSampler *sm, ITexture *u);
+		virtual IRenderPass::Pass::Type type() override;
 
-        IUniformSampler *addArgs(const std::string &name, ITexture *u);
+		IUniformSampler* addArgs(IUniformSampler* sm, ITexture* u);
 
-
-        IModel *quadModel();
-
-        IRenderState *renderState();
-
-        IUniformSampler *setInput(IUniformSampler *name, ITexture *arg);
-
-        IUniformSampler *setInput(const std::string &name, ITexture *arg);
-
-        void setQuadModel(IModel *m);
-
-        void setShader(IShader *s);
-
-        IShader *shader();
+		IUniformSampler* addArgs(const std::string& name, ITexture* u);
 
 
-    private:
-        Data *data;
-    };
+		IModel* quadModel();
+
+		IRenderState* renderState();
+
+		IUniformSampler* setInput(IUniformSampler* name, ITexture* arg);
+
+		IUniformSampler* setInput(const std::string& name, ITexture* arg);
+
+		void setQuadModel(IModel* m);
+
+		void setShader(IShader* s);
+
+		IShader* shader();
+
+
+	private:
+		Data* data;
+	};
 }

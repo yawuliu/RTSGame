@@ -1,4 +1,5 @@
 #include "RenderState.h"
+
 namespace MyGL {
 	RenderState::RenderState()
 	{
@@ -15,7 +16,7 @@ namespace MyGL {
 		this->setCullFaceMode(CullMode::Type::noCull);
 	}
 
-    RenderState::AlphaTestMode::Type RenderState::alphaTestMode()
+	RenderState::AlphaTestMode::Type RenderState::alphaTestMode()
 	{
 		return this->atestType;
 	}
@@ -25,49 +26,44 @@ namespace MyGL {
 		return this->atest;
 	}
 
-	IRenderState* RenderState::copy(const void* const r)
+	IRenderState* RenderState::copy(IRenderState const& r)
 	{
-		this->atest = (*(double(__fastcall**)(const void* const))(*(_QWORD*)r + 16LL))(r);
-		this->atestType = (*(__int64(__fastcall**)(const void* const))(*(_QWORD*)r + 48LL))(r);
-		this->zWriting = (*(__int64(__fastcall**)(const void* const))(*(_QWORD*)r + 72LL))(r);
-		this->zTest = (*(__int64(__fastcall**)(const void* const))(*(_QWORD*)r + 88LL))(r);
-		this->blend = (*(__int64(__fastcall**)(const void* const))(*(_QWORD*)r + 136LL))(r);
-		this->sfactor = (*(__int64(__fastcall**)(const void* const))(*(_QWORD*)r + 168LL))(r);
-		this->dfactor = (*(__int64(__fastcall**)(const void* const))(*(_QWORD*)r + 176LL))(r);
-		this->alphaCoverage = (*(__int64(__fastcall**)(const void* const))(*(_QWORD*)r + 152LL))(r);
-		(*(void(__fastcall**)(const void* const, bool*, bool*, bool*, bool*))(*(_QWORD*)r + 64LL))(
-			r,
-			this->clMask,
-			&this->clMask[1],
-			&this->clMask[2],
-			&this->clMask[3]);
-		this->zTestType = (*(__int64(__fastcall**)(const void* const))(*(_QWORD*)r + 120LL))(r);
-		this->cullMode = (*(__int64(__fastcall**)(const void* const))(*(_QWORD*)r + 104LL))(r);
+		this->atest = r.alphaTestRef();
+		this->atestType = r.alphaTestMode();
+		this->zWriting = r.isZWriting();
+		this->zTest = r.isZTest();
+		this->blend = r.isBlend();
+		this->sfactor = r.getBlendSFactor();
+		this->dfactor = r.getBlendDFactor();
+		this->alphaCoverage = r.isAlphaCoverage();
+		r.getColorMask(this->clMask, &this->clMask[1], &this->clMask[2], &this->clMask[3]);
+		this->zTestType = r.getZTestMode();
+		this->cullMode = r.cullFaceMode();
 		return this;
 	}
 
-    RenderState::CullMode::Type RenderState::cullFaceMode()
+	RenderState::CullMode::Type RenderState::cullFaceMode()
 	{
 		return this->cullMode;
 	}
 
-    RenderState::AlphaBlendMode::Type RenderState::getBlendDFactor()
+	RenderState::AlphaBlendMode::Type RenderState::getBlendDFactor()
 	{
 		return this->dfactor;
 	}
 
-	void RenderState::getBlendMode(const AlphaBlendMode::Type* const out_sfactor, AlphaBlendMode::Type* const out_dfactor)
+	void RenderState::getBlendMode(const AlphaBlendMode::Type& out_sfactor, AlphaBlendMode::Type& out_dfactor)
 	{
 		*out_sfactor = this->sfactor;
 		*out_dfactor = this->dfactor;
 	}
 
-    RenderState::AlphaBlendMode::Type RenderState::getBlendSFactor()
+	RenderState::AlphaBlendMode::Type RenderState::getBlendSFactor()
 	{
 		return this->sfactor;
 	}
 
-	void RenderState::getColorMask(const bool* const r, bool* const g, bool* const b, bool* const a)
+	void RenderState::getColorMask(bool& r, bool& g, bool& b, bool& a)
 	{
 		*r = this->clMask[0];
 		*g = this->clMask[1];
@@ -75,7 +71,7 @@ namespace MyGL {
 		*a = this->clMask[3];
 	}
 
-    RenderState::ZTestMode::Type RenderState::getZTestMode()
+	RenderState::ZTestMode::Type RenderState::getZTestMode()
 	{
 		return this->zTestType;
 	}

@@ -1,56 +1,55 @@
 #pragma once
 
-#include "IRenderPass.h"
 #include "AbstractPass.h"
-#include "ITextureRectangle.h"
-#include "FBO.h"
-#include "BloomPass.h"
-#include "SmallLightsPass.h"
-
+#include "IScene.h"
 
 namespace MyGL {
-    class GlowPass : public AbstractPass {
-    public:
-        class Data {
-        public:
-            Data(IScene &a2) = default;
+	class ITextureRectangle;
+	class FBO;
+	class BloomPass;
+	class SmallLightsPass;
+	class GlowPass : public AbstractPass {
+	public:
+		class Data {
+		public:
+			Data(IScene& a2) = default;
 
-        protected:
-            BloomPass *blur;
-            SmallLightsPass *lights;
-        };
+		protected:
+			BloomPass* blur;
+			SmallLightsPass* lights;
+		};
 
-    public:
-        GlowPass(IScene &s, const Adapter &adapter, ITextureRectangle *depth);
+	public:
+		GlowPass(IScene& s, const Adapter& adapter, ITextureRectangle* depth);
 
-        virtual ~GlowPass();
+		virtual ~GlowPass();
 
-        virtual void exec() override;
+		virtual void exec() override;
 
-        virtual IRenderPass::Pass::Type type() override;
+		virtual IRenderPass::Pass::Type type() override;
 
-        bool validate();
+		bool validate();
 
-        bool isDrawable(IGraphicsObject &obj);
+		bool isDrawable(IGraphicsObject& obj);
 
-        void resizeFrame();
+		void resizeFrame();
 
-        void initShaders(const Adapter &adapter);
-        
-        void draw();
+		void initShaders(const Adapter& adapter);
 
-        void postProcess(int a2, int a3, int a4, int a5);
+		void draw();
 
-        ITextureRectangle *output();
+		void postProcess(int a2, int a3, int a4, int a5);
+
+		ITextureRectangle* output();
 
 
-    protected:
-        ITextureRectangle *frame;
-        ITextureRectangle *depthBuf;
-        FBO *frameBuffer;
-        GlowPass::Data *data;
-        bool used;
-        int fakeLv;
-    };
+	protected:
+		ITextureRectangle* frame;
+		ITextureRectangle* depthBuf;
+		FBO* frameBuffer;
+		GlowPass::Data* data;
+		bool used;
+		int fakeLv;
+	};
 
 }

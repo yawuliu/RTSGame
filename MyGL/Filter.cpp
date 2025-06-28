@@ -4,155 +4,101 @@
 
 namespace MyGL {
 
-    Filter::Filter(IScene &s) : AbstractPass(s) {
-        this->data = new Data();
-        this->data->renderState->setZTest(0);
-        this->data->renderState->setZWriting(0);
-        this->data->quad = 0LL;
-        this->data->shader = 0LL;
-    }
+	Filter::Filter(IScene& s) : AbstractPass(s) {
+		this->data = new Data();
+		this->data->renderState->setZTest(0);
+		this->data->renderState->setZWriting(0);
+		this->data->quad = 0LL;
+		this->data->shader = 0LL;
+	}
 
-    Filter::~Filter() {
-        if (this->data) {
-            delete this->data;
-        }
-    }
+	Filter::~Filter() {
+		if (this->data) {
+			delete this->data;
+		}
+	}
 
-    IUniformSampler *Filter::addArgs(IUniformSampler *sm, ITexture *u) {
-        unsigned int v4;
-        IScene *v6;
-        __int64 v7;
-        CGL *v8;
-        IErrorControl *v9;
-        IUniformSampler *sma;
-        Filter *thisa;
-        std::map<IUniformSampler *, ITexture *>::iterator i;
-        std::_Rb_tree_iterator<std::pair<IUniformSampler *const, ITexture *> >::_Self __x;
-        sma = sm;
-        if (this->data->shader) {
-            i._M_node = std::map<IUniformSampler *, ITexture *>::find(&thisa->data->args, &sma)._M_node;
-            if (sma) {
-                __x._M_node = std::map<IUniformSampler *, ITexture *>::end(&thisa->data->args)._M_node;
-                if (std::_Rb_tree_iterator<std::pair<IUniformSampler *const, ITexture *>>::operator==(
-                        &i, &__x)) {
-                    v4 = std::map<IUniformSampler *, ITexture *>::size(&thisa->data->args);
-                    sma->set(v4);
-                }
-                *std::map<IUniformSampler *, ITexture *>::operator[](&thisa->data->args, &sma) = u;
-            }
-            return sma;
-        } else {
-            v6 = this->scene();
-            v7 = v6->render();
-            v8 = (CGL *) (*(__int64 (__fastcall **)(__int64)) (*(_QWORD *) v7 + 72LL))(v7);
-            v9 = v8->errorCtrl();
-            v9->warning(0LL, "[Filter::addArgs]null shader");
-            return 0LL;
-        }
-    }
+	IUniformSampler* Filter::addArgs(IUniformSampler* sm, ITexture* u) {
+		if (this->data->shader)
+		{
+			auto&& i = this->data->args.find(&sm);
+			if (sm)
+			{
+				if (i == this->data->args.end())
+				{
+					sm->set(this->data->args.size());
+				}
+				*(this->data->args[sm]) = u;
+			}
+			return sm;
+		}
+		else
+		{
+			this->scene()->render()->gl()->errorCtrl()->warning(0LL, "[Filter::addArgs]null shader");
+			return 0LL;
+		}
 
-    IUniformSampler *Filter::addArgs(const std::string &name, ITexture *u) {
-        CGL *v9;
+		IUniformSampler* Filter::addArgs(const std::string & name, ITexture * u) {
+			if (this->data->shader) {
+				return this->addArgs(this->data->shader->uniformSampler(name), u);
+			}
+			else {
+				this->scene()->render()->gl()->errorCtrl()->warning(0LL, "[Filter::addArgs]null shader");
+				return 0LL;
+			}
+		}
 
-        if (this->data->shader) {
-            return this->addArgs(this->data->shader->uniformSampler(name), u);
-        } else {
-            v9 = (CGL *) (*(__int64 (__fastcall **)(__int64)) (*(_QWORD *) v8 + 72LL))(this->scene()->render());
-            v9->errorCtrl()->warning(0LL, "[Filter::addArgs]null shader");
-            return 0LL;
-        }
-    }
+		void Filter::exec() {
+			if (this->data->shader && this->data->quad && this->data->shader) {
+				this->scene()->render()->setRenderState(this->data);
+				this->scene()->render()->begin();
+				this->scene()->render()->useShader(this->data->shader);
+				for (auto&& i = this->data->args.begin();; i++) {
+					if (i == this->data->args.end())
+						break;
+					this->scene()->render()->bindTexture(i->first, i->second);
+				}
+				this->scene()->render()->drawModel(this->data->quad);
+				this->scene()->render()->end();
+			}
+			else
+			{
+				this->scene()->render()->gl()->errorCtrl()->warning(0LL, "Filter is incomplete");
+			}
+		}
 
-    void Filter::exec() {
-        IScene *v1;
-        __int64 v2;
-        CGL *v3;
-        IErrorControl *v4;
-        IScene *v5;
-        __int64 v6;
-        IScene *v7;
-        __int64 v8;
-        IScene *v9;
-        __int64 v10;
-        IScene *v11;
-        __int64 v12;
-        void (__fastcall *v13)(__int64, IUniformSampler *const, ITexture *);
-        ITexture *second;
-        std::_Rb_tree_iterator<std::pair<IUniformSampler *const, ITexture *> >::pointer v15;
-        IScene *v16;
-        __int64 v17;
-        IScene *v18;
-        __int64 v19;
-        std::map<IUniformSampler *, ITexture *>::iterator i;
-        std::_Rb_tree_iterator<std::pair<IUniformSampler *const, ITexture *> >::_Self __x;
+		IRenderPass::Pass::Type Filter::type() {
+			return 0;
+		}
 
-        if (this->data->shader && this->data->quad && this->data->shader) {
-            v6 = this->scene()->render();
-            (*(void (__fastcall **)(__int64, Filter::Data *)) (*(_QWORD *) v6 + 272LL))(v6, this->data);
-            v8 = this->scene()->render();
-            (*(void (__fastcall **)(__int64)) (*(_QWORD *) v8 + 296LL))(v8);
-            v10 = this->scene()->render();
-            (*(void (__fastcall **)(__int64, IShader *)) (*(_QWORD *) v10 + 104LL))(v10, this->data->shader);
-            for (i._M_node = std::map<IUniformSampler *, ITexture *>::begin(&this->data->args)._M_node;;
-                 std::_Rb_tree_iterator<std::pair<IUniformSampler *const, ITexture *>>::operator++(
-                         &i)) {
-                __x._M_node = std::map<IUniformSampler *, ITexture *>::end(&this->data->args)._M_node;
-                if (!std::_Rb_tree_iterator<std::pair<IUniformSampler *const, ITexture *>>::operator!=(
-                        &i, &__x))
-                    break;
-                v12 = this->scene()->render();
-                v13 = *(void (__fastcall **)(__int64, IUniformSampler *const, ITexture *)) (
-                        *(_QWORD *) v12 + 128LL);
-                second = std::_Rb_tree_iterator<std::pair<IUniformSampler *const, ITexture *>>::operator->(
-                        &i)->second;
-                v15 = std::_Rb_tree_iterator<std::pair<IUniformSampler *const, ITexture *>>::operator->(
-                        &i);
-                v13(v12, v15->first, second);
-            }
-            v17 = this->scene()->render();
-            (*(void (__fastcall **)(__int64, IModel *)) (*(_QWORD *) v17 + 192LL))(v17, this->data->quad);
-            v19 = this->scene()->render();
-            (*(void (__fastcall **)(__int64)) (*(_QWORD *) v19 + 312LL))(v19);
-        } else {
-            v2 = this->scene()->render();
-            v3 = (CGL *) (*(__int64 (__fastcall **)(__int64)) (*(_QWORD *) v2 + 72LL))(v2);
-            v4 = v3->errorCtrl();
-            v4->warning(0LL, "Filter is incomplete");
-        }
-    }
+		IModel* Filter::quadModel() {
+			return this->data->quad;
+		}
 
-    IRenderPass::Pass::Type Filter::type() {
-        return 0;
-    }
+		IRenderState* Filter::renderState() {
+			return this->data->renderState;
+		}
 
-    IModel *Filter::quadModel() {
-        return this->data->quad;
-    }
+		IUniformSampler* Filter::setInput(IUniformSampler * name, ITexture * arg) {
+			return this->addArgs(name, arg);
+		}
 
-    IRenderState *Filter::renderState() {
-        return this->data->renderState;
-    }
+		IUniformSampler* Filter::setInput(const std::string & name, ITexture * arg) {
+			return this->addArgs(name, arg);
+		}
 
-    IUniformSampler *Filter::setInput(IUniformSampler *name, ITexture *arg) {
-        return this->addArgs(name, arg);
-    }
+		void Filter::setQuadModel(IModel * m) {
+			this->data->quad = m;
+		}
 
-    IUniformSampler *Filter::setInput(const std::string &name, ITexture *arg) {
-        return this->addArgs(name, arg);
-    }
+		void Filter::setShader(IShader * s) {
+			this->data->shader = s;
+			this->data->args.clear();
+		}
 
-    void Filter::setQuadModel(IModel *m) {
-        this->data->quad = m;
-    }
-
-    void Filter::setShader(IShader *s) {
-        this->data->shader = s;
-        this->data->args.clear();
-    }
-
-    IShader *Filter::shader() {
-        return this->data->shader;
-    }
+		IShader* Filter::shader() {
+			return this->data->shader;
+		}
 
 
-}
+	}

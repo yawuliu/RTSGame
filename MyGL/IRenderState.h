@@ -67,29 +67,29 @@ namespace MyGL {
 
 			virtual ~IRenderState() = default; // 0
 			// 1
-			virtual void alphaTestRef() = 0;//2
+			virtual Float alphaTestRef() = 0;//2
 			virtual void setAlphaTestRef(double) = 0;//3
 			virtual void copy(IRenderState const&) = 0;//4
-			virtual void setAlphaTestMode(IRenderState::AlphaTestMode::Type) = 0;//5
-			virtual void alphaTestMode() = 0;//6
+			virtual void setAlphaTestMode(AlphaTestMode::Type) = 0;//5
+			virtual AlphaTestMode::Type alphaTestMode() = 0;//6
 			virtual void setColorMask(bool, bool, bool, bool) = 0;//7
 			virtual void getColorMask(bool&, bool&, bool&, bool&) = 0;//8
-			virtual void isZWriting() = 0;//9
+			virtual bool isZWriting() = 0;//9
 			virtual void setZWriting(bool) = 0;//10
-			virtual void isZTest() = 0;//11
+			virtual bool isZTest() = 0;//11
 			virtual void setZTest(bool) = 0;//12
-			virtual void cullFaceMode() = 0;//13
-			virtual void setCullFaceMode(IRenderState::CullMode::Type) = 0;//14
-			virtual void getZTestMode() = 0;//15
-			virtual void setZTestMode(IRenderState::ZTestMode::Type) = 0;//16
-			virtual void isBlend() = 0;//17
+			virtual CullMode::Type cullFaceMode() = 0;//13
+			virtual void setCullFaceMode(CullMode::Type) = 0;//14
+			virtual ZTestMode::Type getZTestMode() = 0;//15
+			virtual void setZTestMode(ZTestMode::Type) = 0;//16
+			virtual bool isBlend() = 0;//17
 			virtual void setBlend(bool) = 0;//18
-			virtual void isAlphaCoverage() = 0;//19
+			virtual bool isAlphaCoverage() = 0;//19
 			virtual void setAlphaCoverage(bool) = 0;//20
-			virtual void getBlendSFactor() = 0;//21
-			virtual void getBlendDFactor() = 0;//22
-			virtual void getBlendMode(IRenderState::AlphaBlendMode::Type&, IRenderState::AlphaBlendMode::Type&) = 0;//23
-			virtual void setBlendMode(IRenderState::AlphaBlendMode::Type, IRenderState::AlphaBlendMode::Type) = 0;//24
+			virtual AlphaBlendMode::Type getBlendSFactor() = 0;//21
+			virtual AlphaBlendMode::Type getBlendDFactor() = 0;//22
+			virtual void getBlendMode(AlphaBlendMode::Type&, AlphaBlendMode::Type&) = 0;//23
+			virtual void setBlendMode(AlphaBlendMode::Type, AlphaBlendMode::Type) = 0;//24
 			//			virtual void setBlendMode() = 0;
 			//
 			//			virtual void setBlendMode(AlphaBlendMode) = 0;
