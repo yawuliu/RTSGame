@@ -31,9 +31,7 @@ namespace MyGL {
         src = this->srcFrom(fs_0, &okFs);
         if (src) {
             if (this->shEnv) {
-                __rhs = (const char *) (*(
-                        (__int64 (__fastcall **)(IShaderEnvironment *)) this->shEnv->_vptr_IShaderEnvironment
-                        + 2))(this->shEnv);
+                __rhs = (const char *) this->shEnv->getPrecompileSource();
                 std::operator+<char>(&__lhs, __rhs);
                 v7 = std::string::data(&__lhs);
                 taget->loadFragmentSource(v7);
@@ -43,12 +41,10 @@ namespace MyGL {
         }
         if (src)
             operator delete[](src);
-        src = ShaderLoader::srcFrom(this, vs, &okVs);
+        src = this->srcFrom(vs, &okVs);
         if (src) {
             if (this->shEnv) {
-                __rhs_1 = (const char *) (*(
-                        (__int64 (__fastcall **)(IShaderEnvironment *)) this->shEnv->_vptr_IShaderEnvironment
-                        + 2))(this->shEnv);
+                __rhs_1 = (const char *) this->shEnv->getPrecompileSource();
                 std::operator+<char>(&__lhs_, __rhs_1);
                 v10 = std::string::data(&__lhs_);
                 taget->loadVertexSource(v10);
@@ -57,7 +53,7 @@ namespace MyGL {
             }
         }
         if (src)
-            operator delete[](src);
+            delete[] src;
         if (ok)
             *ok = okVs && okFs;
         if (!okVs || !okFs) {
@@ -68,10 +64,8 @@ namespace MyGL {
             else
                 std::string::append(&msg, fs_0);
             std::string::append(&msg, "]");
-            v11 = this->render->gl();
-            v12 = v11->errorCtrl();
             v14 = std::string::data(&msg);
-            v12->loadError(taget, v14);
+            this->render->gl()->errorCtrl()->loadError(taget, v14);
         }
         return taget;
     }

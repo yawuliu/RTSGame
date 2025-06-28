@@ -33,7 +33,7 @@ namespace MyGL {
         ;
     }
 
-    bool AbstractTechnique::drawEvent(const IGraphicsObject &a2, const IMaterial &a3) {
+    bool AbstractTechnique::drawEvent(IGraphicsObject const &a2, IMaterial const &a3) {
         return 1;
     }
 

@@ -8,11 +8,17 @@ namespace MyGL {
     public:
         IShaderEnvironment() = default;
 
-        virtual ~IShaderEnvironment() = default;
+        virtual ~IShaderEnvironment() = default; // 0
+        // virtual ~IShaderEnvironment() = default; // 1
+        virtual void getPrecompileSource() = 0; // 2
 
-        virtual void pop(const std::string &) = 0;
+        virtual void operator<<(std::string const &) = 0; // 3
 
-        virtual void push(const std::string &, const std::string &) = 0;
+        virtual void operator>>(std::string const &) = 0; // 4
+
+        virtual void push(std::string const &, std::string const &) = 0; // 5
+
+        virtual void pop(std::string const &) = 0; // 6
     };
 }
 

@@ -24,24 +24,21 @@ namespace MyGL {
         ISceneGraph::Visibles obj;
         int i;
 
-        v1 = this->scene();
-        s = v1->graph();
-        ISceneGraph::Visibles::Visibles(&obj, s);
-        v3 = this->scene();
-        v4 = v3->render();
+        s = this->scene()->graph();
+        ISceneGraph::Visibles obj(s);
+        v4 = this->scene()->render();
         (*(void (__fastcall **)(__int64)) (*(_QWORD *) v4 + 296LL))(v4);
         for (i = 0;; ++i) {
-            i_1 = ISceneGraph::Visibles::size(&obj);
+            i_1 = obj.size();
             if (i_1 <= i)
                 break;
-            obj_2 = ISceneGraph::Visibles::operator[](&obj, i);
+            obj_2 = obj[i];
             if (this->isDrawable(obj_2)) {
-                obj_1 = ISceneGraph::Visibles::operator[](&obj, i);
+                obj_1 = obj[i];
                 this->drawObject<AddBlendPass>(obj_1);
             }
         }
-        v8 = this->scene();
-        v9 = v8->render();
+        v9 = this->scene()->render();
         (*(void (__fastcall **)(__int64)) (*(_QWORD *) v9 + 312LL))(v9);
     }
 

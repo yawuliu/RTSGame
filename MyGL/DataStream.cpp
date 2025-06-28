@@ -28,26 +28,17 @@ namespace MyGL {
     }
 
     void *DataStream::add(IModel *model, const std::string &name) {
-        void (__fastcall *v3)(IData *, __int64, IModel *);
-        __int64 v4;
-        v4 = std::string::data((std::string &) name);
-        this->data->addModel(v4, model);
+        this->data->addModel(name, model);
         return this;
     }
 
     void *DataStream::add(IShader *sh, const std::string &name) {
-        void (__fastcall *v3)(IData *, __int64, IShader *);
-        __int64 v4;
-        v4 = std::string::data((std::string &) name);
-        this->data->addShader(v4, sh);
+        this->data->addShader(name, sh);
         return this;
     }
 
     void *DataStream::add(ITexture2d *texture, const std::string &name) {
-        void (__fastcall *v3)(IData *, __int64, ITexture2d *);
-        __int64 v4;
-        v4 = std::string::data((std::string &) name);
-        this->data->addTexture(v4, texture);
+        this->data->addTexture(name, texture);
         return this;
     }
 
@@ -72,28 +63,14 @@ namespace MyGL {
     }
 
     void DataStream::popShaderDef(const std::string &name) {
-        (*((void (__fastcall **)(IShaderEnvironment *, const std::string &)) this->env->_vptr_IShaderEnvironment + 6))(
-                this->env,
-                name);
+        this->env->pop(name);
     }
 
     void DataStream::pushShaderDef(const std::string &name) {
-        std::string val;
-        _BYTE v3[17];
-
-        std::allocator<char>::allocator(v3);
-        std::string::string(&val, &unk_4D39E1, v3);
-        this->pushShaderDef(name, &val);
+        this->pushShaderDef(name, unk_4D39E1);
     }
 
     void DataStream::pushShaderDef(const std::string &name, const std::string &val) {
-        (*((void (__fastcall **)(IShaderEnvironment *, const std::string &,
-                                 const std::string &)) this->env->_vptr_IShaderEnvironment
-           + 5))(
-                this->env,
-                name,
-                val);
+        this->env->push(name, val);
     }
-
-
 }

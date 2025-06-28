@@ -73,33 +73,19 @@ namespace MyGL {
 
 	IShaderEnvironment* ShaderEnvironment::operator<<(const std::string& def)
 	{
-		__int64(__fastcall * v2)(ShaderEnvironment* const, const std::string* const, std::string*);
-		IShaderEnvironment* v3;
-		std::string v5;
-		_BYTE v6[17];
-
-		v2 = (__int64(__fastcall*)(ShaderEnvironment* const, const std::string* const, std::string*)) * ((_QWORD*)this->_vptr_IShaderEnvironment + 5);
-		std::allocator<char>::allocator(v6);
-		std::string::string(&v5, &unk_4D2E74, v6);
-		v3 = (IShaderEnvironment*)v2(this, def, &v5);
-		std::string::~string(&v5);
-		std::allocator<char>::~allocator(v6);
-		return v3;
+		return this->push( def, unk_4D2E74);
 	}
 
 	ShaderEnvironment* ShaderEnvironment::operator=(const ShaderEnvironment& other)
 	{
-		ShaderEnvironment::pimpl::operator=(this->data, *((const ShaderEnvironment::pimpl* const*)other + 2));
+        this->data =  *((const ShaderEnvironment::pimpl* const*)other + 2));
 		this->needToUpdate = 1;
 		return this;
 	}
 
 	IShaderEnvironment* ShaderEnvironment::operator>>(const std::string& def)
 	{
-		return (IShaderEnvironment*)(*((__int64(__fastcall**)(ShaderEnvironment* const, const std::string* const))this->_vptr_IShaderEnvironment
-			+ 6))(
-				this,
-				def);
+		return this->pop(def);
 	}
 
 	IShaderEnvironment* ShaderEnvironment::pop(const std::string& name)
