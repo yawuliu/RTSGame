@@ -6,8 +6,6 @@ namespace MyGL {
 	Texture2d::Texture2d(IRender& r) :render(r)
 	{
 		Color other;
-
-		Color::Color(&this->border_cl);
 		this->handle = 0;
 		this->isForwardFormat = 0;
 		this->setFiltration(ITexture::FilterType::Type::Linear,
@@ -15,8 +13,8 @@ namespace MyGL {
 			ITexture::FilterType::Type::Count);
 		this->setClamping(ITexture::ClampMode::Type::Repeat);
 		this->setAnisotropy(1.0);
-		Color::Color(&other, 0.0);
-		Color::operator=(&this->border_cl, &other);
+		Color other(0.0);
+        this->border_cl = other;
 	}
 
 	Texture2d::~Texture2d()
@@ -43,12 +41,12 @@ namespace MyGL {
 		this->handle = 0;
 	}
 
-	const void* Texture2d::getHandle()
+	const CGL::TextureHandle* Texture2d::getHandle()
 	{
 		return &this->handle;
 	}
 
-	unsigned int Texture2d::height()
+	unsigned uint32_t Texture2d::height()
 	{
 		return this->h;
 	}
@@ -56,8 +54,6 @@ namespace MyGL {
 	void Texture2d::load(const void* pixels, ITexture::InputFormat::Type imgColorSystem, unsigned int pw, unsigned int ph, ITexture::Format::Type colorSystem)
 	{
 		int v6;
-		unsigned int h;
-		unsigned int w;
 		unsigned int* v9;
 
 		this->w = pw;
@@ -67,10 +63,8 @@ namespace MyGL {
 		glBindTexture(3553LL, this->handle);
 		this->isForwardFormat = 1;
 		v6 = *(_DWORD*)this->toGlInputFormat(imgColorSystem);
-		h = this->h;
-		w = this->w;
 		v9 = (unsigned int*)this->toGlColorSystem(colorSystem);
-		glTexImage2D(3553LL, 0LL, *v9, w, h, 0LL, v6, 5121, pixels);
+		glTexImage2D(3553LL, 0LL, *v9, this->w, this->h, 0LL, v6, 5121, pixels);
 		if (this->filterMip == ITexture::FilterType::Type::Linear)
 			this->filterMip = ITexture::FilterType::Type::Count;
 	}
@@ -97,13 +91,10 @@ namespace MyGL {
 			this->filterMip = ITexture::FilterType::Type::Linear;
 	}
 
-	void Texture2d::setAnisotropy(Texture2d& re, Float val)
+	void Texture2d::setAnisotropy(Float val)
 	{
-		CGL* v2;
-
-		v2 = re.render->gl();
-		re->anisLevel = v2->maxAnisotropyLevel() * val;
-		re->isForwardFormat = 1;
+		this->anisLevel = this.render->gl()->maxAnisotropyLevel() * val;
+        this->isForwardFormat = 1;
 	}
 
 	void Texture2d::setBorderColor(const Color& c)
@@ -112,12 +103,9 @@ namespace MyGL {
 		this->isForwardFormat = 1;
 	}
 
-	void Texture2d::setClamping(Texture2d & re, ITexture::ClampMode::Type s)
+	void Texture2d::setClamping(ITexture::ClampMode::Type s)
 	{
-		re.setClamping(
-			(unsigned int)s,
-			(unsigned int)s,
-			(unsigned int)s);
+		this->setClamping(s,s,s);
 	}
 
 	void Texture2d::setClamping(ITexture::ClampMode::Type s, ITexture::ClampMode::Type t, ITexture::ClampMode::Type r)
@@ -130,10 +118,7 @@ namespace MyGL {
 
 	void Texture2d::setFiltration(ITexture::FilterType::Type mag, ITexture::FilterType::Type min)
 	{
-		this->setFiltration(
-			(unsigned int)mag,
-			(unsigned int)min,
-			2LL);
+		this->setFiltration(mag, min,2LL);
 	}
 
 	void Texture2d::setFiltration(ITexture::FilterType::Type fmag, ITexture::FilterType::Type fmin, ITexture::FilterType::Type fmip)
@@ -190,7 +175,7 @@ namespace MyGL {
 		}
 	}
 
-	unsigned int Texture2d::width()
+	uint32_t Texture2d::width()
 	{
 		return this->w;
 	}

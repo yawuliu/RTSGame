@@ -23,34 +23,23 @@ namespace MyGL {
 
     void Model::allocate(size_t s) {
         this->size = s;
-        VBO::allocate(&this->vert, 3 * this->size);
-        VBO::allocate(&this->tex, 2 * this->size);
-        VBO::allocate(&this->norm, 3 * this->size);
-        VBO::allocate(&this->extra, 4 * this->size);
+        this->vert.allocate(3 * this->size);
+        this->tex.allocate(2 * this->size);
+        this->norm.allocate(3 * this->size);
+        this->extra.allocate(4 * this->size);
     }
 
     void Model::bind() {
-        if (VBO::size(&this->extra)) {
+        if (this->extra.size()) {
             glEnableClientState(32886LL);
-
-            this->render > bindVBO(
-                    &this->extra,
-                    3LL);
+            this->render > bindVBO(&this->extra, 3LL);
         } else {
             glDisableClientState(32886LL);
         }
 
-        this->render->bindVBO(
-                &this->norm,
-                2LL);
-
-        this->render->bindVBO(
-                &this->tex,
-                1LL);
-
-        this->render->bindVBO(
-                &this->vert,
-                0LL);
+        this->render->bindVBO(&this->norm, 2LL);
+        this->render->bindVBO(&this->tex, 1LL);
+        this->render->bindVBO(&this->vert, 0LL);
     }
 
     Model::DataContent::flags Model::content() {
@@ -58,7 +47,7 @@ namespace MyGL {
 
         c = Model::DataContent::flags::vertex | Model::DataContent::flags::texture |
             Model::DataContent::flags::normal;
-        if (VBO::size(&this->extra))
+        if (this->extra.size())
             return 15;
         return c;
     }
@@ -71,24 +60,17 @@ namespace MyGL {
         if (!binded)
             this->bind();
 
-        this->render->drawVBO(
-                (unsigned int) this->type,
-                this->size);
+        this->render->drawVBO((unsigned int) this->type, this->size);
     }
 
     void Model::drawInstance(int Isize, CGL::GLint *fist, CGL::GLsizei *count, bool binded) {
-        CGL *v5;
-        privateGLSupportClass *v6;
-
         if (Isize >= 0) {
             if (!binded)
                 this->bind();
             if (Isize <= 1) {
                 glDrawArrays((unsigned int) this->type, (unsigned int) *fist, (unsigned int) *count);
             } else {
-                v5 = this->render->gl();
-                v6 = v5->ext();
-                v6->glMultiDrawArraysEXT(this->type, fist, count, Isize);
+                this->render->gl()->ext()->glMultiDrawArraysEXT(this->type, fist, count, Isize);
             }
         } else {
             this->draw(binded);
@@ -155,18 +137,10 @@ namespace MyGL {
 
     void Model::uBind() {
         if (VBO::size(&this->extra))
-
-            this->render->ubindVBO(
-                    &this->extra);
-
-        this->render->ubindVBO(
-                &this->norm);
-
-        this->render->ubindVBO(
-                &this->tex);
-
-        this->render->ubindVBO(
-                &this->vert);
+            this->render->ubindVBO(&this->extra);
+        this->render->ubindVBO(&this->norm);
+        this->render->ubindVBO(&this->tex);
+        this->render->ubindVBO(&this->vert);
         glDisableClientState(32886LL);
     }
 

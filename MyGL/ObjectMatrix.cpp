@@ -3,8 +3,7 @@
 namespace MyGL {
     ObjectMatrix::ObjectMatrix(const ObjectMatrix &other) {
         this->matrix = new pimpl();
-        data = ObjectMatrix::data((const ObjectMatrix *const) other);
-        this->setData(data);
+        this->setData(other.data());
     }
 
     ObjectMatrix::ObjectMatrix(const Float *data) {
@@ -45,7 +44,7 @@ namespace MyGL {
     }
 
     void *ObjectMatrix::operator=(const ObjectMatrix &other) {
-        ObjectMatrix::pimpl::operator=(this->matrix, *(const ObjectMatrix::pimpl *const *) other);
+        this->matrix = other.matrix;
         return this;
     }
 
@@ -188,28 +187,26 @@ namespace MyGL {
         Float za;
         Float ya;
         Float xa;
-        ObjectMatrix *thisa;
         glm::detail::tmat4x4<double> m;
         glm::detail::tvec3<double> v;
 
-        thisa = thisa_1;
         xa = x;
         ya = y;
         za = z;
         glm::detail::tvec3<double>::tvec3(&v, &xa, &ya, &za);
-        glm::gtc::matrix_transform::translate<double>(&m, &thisa->matrix->m, &v);
-        glm::detail::tmat4x4<double>::operator=(&thisa->matrix->m, &m);
+        glm::gtc::matrix_transform::translate<double>(&m, &this->matrix->m, &v);
+        this->matrix->m = m;
     }
 
     void ObjectMatrix::transpose() {
         glm::detail::tmat4x4<double> m;
 
         glm::core::function::matrix::transpose<double>(&m, &this->matrix->m);
-        glm::detail::tmat4x4<double>::operator=(&this->matrix->m, &m);
+        this->matrix->m = m;
     }
 
     ObjectMatrix::pimpl *ObjectMatrix::pimpl::operator=(const pimpl &a2) {
-        glm::detail::tmat4x4<double>::operator=(&this->m, &a2->m);
+        this->m = a2.m;
         return this;
     }
 }

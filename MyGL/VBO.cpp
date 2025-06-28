@@ -38,25 +38,15 @@ namespace MyGL {
 	}
 	void VBO::free()
 	{
-		CGL* v1;
-		privateGLSupportClass* v2;
-
 		if (this->vertices)
 		{
-			v1 = this->render->gl();
-			v2 = v1->ext();
-			v2->glDeleteBuffersARB(1LL, &this->vertices);
+            this->render->gl()->ext()->glDeleteBuffersARB(1LL, &this->vertices);
 			this->vertices = 0;
 		}
 	}
 	void VBO::subData(CGL::GLsizei offset, CGL::GLsizei size, void* data)
 	{
-		CGL* v4;
-		privateGLSupportClass* v5;
-
-		v4 = this->render->gl();
-		v5 = v4->ext();
-		v5->glBufferSubDataARB(34962LL, offset, size, data);
+        this->render->gl()->ext()->glBufferSubDataARB(34962LL, offset, size, data);
 	}
 	void VBO::allocate(CGL::GLsizei size)
 	{
@@ -73,17 +63,11 @@ namespace MyGL {
 
 		if (!this->vertices)
 		{
-			v3 = this->render->gl();
-			v4 = v3->ext();
-			v4->glGenBuffersARB(1LL, &this->vertices);
+            this->render->gl()->ext()->glGenBuffersARB(1LL, &this->vertices);
 		}
         this->_size = s;
-		v5 = this->render->gl();
-		v6 = v5->ext();
-		v6->glBindBufferARB(34962LL, this->vertices);
-		v7 = this->render->gl();
-		v8 =v7->ext();
-		v8->glBufferDataARB(34962LL, 4LL * this->_size, data, 35044LL);
+        this->render->gl()->ext()->glBindBufferARB(34962LL, this->vertices);
+        this->render->gl()->ext()->glBufferDataARB(34962LL, 4LL * this->_size, data, 35044LL);
 	}
 	void VBO::bind(IVBO::BindMode::Type mode)
 	{
@@ -94,15 +78,11 @@ namespace MyGL {
 
 		if (this->refCount)
 		{
-			v2 = this->render->gl();
-			v3 = v2->errorCtrl();
-			v3->fail(
+            this->render->gl()->errorCtrl()->fail(
 				0LL,
 				"[error]VBO::bind : buffer is already mapped!");
 		}
-		v4 = this->render->gl();
-		v5 = v4->ext();
-		v5->glBindBufferARB(34962LL, this->vertices);
+        this->render->gl()->ext()->glBindBufferARB(34962LL, this->vertices);
 		if (mode)
 		{
 			switch (mode)
@@ -131,16 +111,11 @@ namespace MyGL {
 	}
 	void VBO::uBind()
 	{
-		CGL* v1;
-		privateGLSupportClass* v2;
-
-		v1 = this->render->gl();
-		v2 = v1->ext();
-		v2->glBindBufferARB(34962LL, 0LL);
+        this->render->gl()->ext()->glBindBufferARB(34962LL, 0LL);
 	}
-	CGL::GLuint VBO::size(VBO* const p_extra)
+	CGL::GLuint VBO::size()
 	{
-		return p_extra->_size;
+		return this->_size;
 	}
 	VBO::Pointer VBO::data()
 	{
@@ -157,37 +132,19 @@ namespace MyGL {
 	}
 	void VBO::addRef()
 	{
-		CGL* v1;
-		privateGLSupportClass* v2;
-		CGL* v3;
-		privateGLSupportClass* v4;
-
 		if (++this->refCount == 1)
 		{
-			v1 = this->render->gl();
-			v2 = v1->ext();
-			v2->glBindBufferARB(34962LL, this->vertices);
-			v3 = this->render->gl();
-			v4 = v3->ext();
-			this->map = v4->glMapBufferARB(34962LL, 35002LL);
+            this->render->gl()->ext()->glBindBufferARB(34962LL, this->vertices);
+			this->map = this->render->gl()->ext()->glMapBufferARB(34962LL, 35002LL);
 		}
 	}
 	void VBO::delRef()
 	{
-		CGL* v1;
-		privateGLSupportClass* v2;
-		CGL* v3;
-		privateGLSupportClass* v4;
-
 		if (!--this->refCount)
 		{
-			v1 = this->render->gl();
-			v2 = v1->ext();
-			v2->glBindBufferARB(34962LL, this->vertices);
+            this->render->gl()->ext()->glBindBufferARB(34962LL, this->vertices);
 			this->map = 0LL;
-			v3 = this->render->gl();
-			v4 = v3->ext();
-			v4->glUnmapBufferARB(34962LL);
+            this->render->gl()->ext()->glUnmapBufferARB(34962LL);
 		}
 	}
 }

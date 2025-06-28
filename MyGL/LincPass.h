@@ -6,31 +6,31 @@
 #include "AbstractPass.h"
 
 namespace MyGL {
-	class IModel;
+    class IModel;
 
-	class Filter;
+    class Filter;
 
-	class LincPass : public AbstractPass {
-	public:
-		LincPass(IScene& s, const Adapter& adapter, IModel* quad, ITextureRectangle& f, ITextureRectangle& g,
-			ITextureRectangle& b, ITextureRectangle& d);
+    class LincPass : public AbstractPass {
+    public:
+        LincPass(IScene &s, const Adapter &adapter, IModel *quad, ITextureRectangle &f, ITextureRectangle &g,
+                 ITextureRectangle &b, ITextureRectangle &d);
 
-		virtual ~LincPass();
+        virtual ~LincPass();
 
-		void exec();
+        virtual void exec() override;
 
-		void setShader(IShader* shader);
+        virtual IRenderPass::Pass::Type type() override;
 
-		IRenderPass::Pass::Type type();
+        void setShader(IShader *shader);
 
-		bool validate();
+        bool validate();
 
-	protected:
-		ITextureRectangle& frame;
-		ITextureRectangle& glow;
-		ITextureRectangle& bloom;
-		ITextureRectangle& depth;
-		Filter* filter;
-	};
+    protected:
+        ITextureRectangle &frame;
+        ITextureRectangle &glow;
+        ITextureRectangle &bloom;
+        ITextureRectangle &depth;
+        Filter *filter;
+    };
 
 }

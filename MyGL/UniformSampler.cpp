@@ -57,8 +57,7 @@ namespace MyGL {
 		if (this->dat != x)
 		{
 			this->dat = x;
-			this->shader->updateUniform(
-				this);
+			this->shader->updateUniform(this);
 		}
 	}
 }

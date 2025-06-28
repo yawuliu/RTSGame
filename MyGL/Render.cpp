@@ -203,12 +203,7 @@ namespace MyGL {
 
 	void Render::bindTexture(CGL::TextureUnitHandle tx_unit, ITexture* tex)
 	{
-		CGL* v3;
-		privateGLSupportClass* v4;
-
-		v3 = this->gl();
-		v4 = CGL::ext(v3);
-		v4->glActiveTextureARB(tx_unit + 33984);
+        this->gl()->ext()->glActiveTextureARB(tx_unit + 33984);
 		tex->bind();
 	}
 
@@ -256,23 +251,20 @@ namespace MyGL {
 		glClear(bits);
 	}
 
-	void Render::clearColor(a_1, Color c)
+	void Render::clearColor(Color c)
 	{
 		float v2;
 		float v3;
 		float v4;
 		float v5;
 		Color ca;
-		Render* thisa;
-
-		thisa = thisa_1;
 		*(_QWORD*)ca.cdata = *(_QWORD*)c.cdata;
 		*(_QWORD*)&ca.cdata[2] = *(_QWORD*)&c.cdata[2];
-		Color::operator=(&thisa_1->clrColor, &ca);
-		v5 = Color::a(&ca);
-		v4 = Color::b(&ca);
-		v3 = Color::g(&ca);
-		v2 = Color::r(&ca);
+        this->clrColor =  ca;
+		v5 = ca.a();
+		v4 = ca.b();
+		v3 = ca.g();
+		v2 = ca.r();
 		glClearColor(v2, v3, v4, v5);
 	}
 
@@ -308,11 +300,8 @@ namespace MyGL {
 			v2 = obj->material();
 			if ((*(unsigned __int8(__fastcall**)(__int64, IGraphicsObject* const))(*(_QWORD*)v2 + 96LL))(v2, obj))
 			{
-				v4 = obj->material();
-                this->bindMaterial(v4);
-				v6 = obj->objectMatrix();
-				v7 = obj->model();
-                this->drawModel(v7, v6);
+                this->bindMaterial(obj->material());
+                this->drawModel(obj->model(), obj->objectMatrix());
 			}
 		}
 	}
@@ -327,10 +316,10 @@ namespace MyGL {
 	{
 		const double* x;
 
-		x = ObjectMatrix::data(objMatrix);
-		glMultMatrix(this, x);
+		x = objMatrix->data();
+        this->glMultMatrix(x);
 		this->drawModel(m);
-		glLoadMatrix(this, this->modelView);
+        this->glLoadMatrix(this->modelView);
 	}
 
 	void Render::drawVBO(IVBO::PrimitiveType::Type p, CGL::GLsizei size)
@@ -375,72 +364,60 @@ namespace MyGL {
 		;
 	}
 
-	std::string Render::getError()
-	{
-		char v2;
-		char v3;
-		char v4;
-		char v5;
-		char v6;
-		char v7;
-		char v8;
-		char v9;
-		GLenum err;
+    std::string Render::getError()
+    {
+        GLenum err = glGetError();
+        if (err)
+        {
+            switch (err)
+            {
+                case 0x500u:
+                    return  "GL_INVALID_ENUM";
+                    break;
+                case 0x501u:
 
-		err = glGetError();
-		if (err)
-		{
-			switch (err)
-			{
-			case 0x500u:
-				std::allocator<char>::allocator(&v3);
-				std::string::string(this, "GL_INVALID_ENUM", &v3);
-				std::allocator<char>::~allocator(&v3);
-				break;
-			case 0x501u:
-				std::allocator<char>::allocator(&v4);
-				std::string::string(this, "GL_INVALID_VALUE", &v4);
-				std::allocator<char>::~allocator(&v4);
-				break;
-			case 0x502u:
-				std::allocator<char>::allocator(&v5);
-				std::string::string(this, "GL_INVALID_OPERATION", &v5);
-				std::allocator<char>::~allocator(&v5);
-				break;
-			case 0x503u:
-				std::allocator<char>::allocator(&v6);
-				std::string::string(this, "GL_STACK_OVERFLOW", &v6);
-				std::allocator<char>::~allocator(&v6);
-				break;
-			case 0x504u:
-				std::allocator<char>::allocator(&v7);
-				std::string::string(this, "GL_STACK_UNDERFLOW", &v7);
-				std::allocator<char>::~allocator(&v7);
-				break;
-			case 0x505u:
-				std::allocator<char>::allocator(&v8);
-				std::string::string(this, "GL_OUT_OF_MEMORY", &v8);
-				std::allocator<char>::~allocator(&v8);
-				break;
-			default:
-				std::allocator<char>::allocator(&v9);
-				std::string::string(this, &unk_4D3AB3, &v9);
-				std::allocator<char>::~allocator(&v9);
-				break;
-			}
-		}
-		else
-		{
-			std::allocator<char>::allocator(&v2);
-			std::string::string(this, &unk_4D3AB3, &v2);
-			std::allocator<char>::~allocator(&v2);
-		}
-		return (std::string)this;
-	}
+                    return  "GL_INVALID_VALUE";
 
-	void Render::getModeViewlMatrix(ObjectMatrix* const out)
+                    break;
+                case 0x502u:
+
+                    return  "GL_INVALID_OPERATION;
+
+                    break;
+                case 0x503u:
+
+                    return  "GL_STACK_OVERFLOW";
+
+                    break;
+                case 0x504u:
+
+                    return  "GL_STACK_UNDERFLOW";
+
+                    break;
+                case 0x505u:
+
+                    return  "GL_OUT_OF_MEMORY";
+
+                    break;
+                default:
+
+                    return  &unk_4D3AB3;
+
+                    break;
+            }
+        }
+        else
+        {
+
+            return unk_4D3AB3;
+
+        }
+        return "";
+    }
+
+	void Render::getModeViewlMatrix(ObjectMatrix& out)
 	{
-		ObjectMatrix::setData(out, this->modelView);
+        out.setData(this->modelView);
 	}
 
 	void Render::getModeViewlMatrix(Float* out)
@@ -448,9 +425,9 @@ namespace MyGL {
 		memcpy(out, this->modelView, 0x80uLL);
 	}
 
-	void Render::getProjectionMatrix(ObjectMatrix* const out)
+	void Render::getProjectionMatrix(ObjectMatrix&  out)
 	{
-		ObjectMatrix::setData(out, this->projectionMat);
+        out.setData(this->projectionMat);
 	}
 
 	void Render::getProjectionMatrix(Float* out)
@@ -458,21 +435,15 @@ namespace MyGL {
 		memcpy(out, this->projectionMat, 0x80uLL);
 	}
 
-	void Render::getTransformMatrix(ObjectMatrix* const out)
+	void Render::getTransformMatrix(ObjectMatrix& out)
 	{
 		const Float* data;
 		ObjectMatrix pm;
 		ObjectMatrix mv;
-
-		ObjectMatrix::ObjectMatrix(&mv);
-		ObjectMatrix::ObjectMatrix(&pm);
 		this->getModeViewlMatrix(&mv);
 		this->getProjectionMatrix( &pm);
-		ObjectMatrix::mul(&mv, &pm);
-		data = ObjectMatrix::data(&mv);
-		ObjectMatrix::setData(out, data);
-		ObjectMatrix::~ObjectMatrix(&pm);
-		ObjectMatrix::~ObjectMatrix(&mv);
+        mv.mul(&pm);
+        out.setData(mv.data());
 	}
 
 	void Render::getViewport(int* const x, int* const y, int* const w, int* const h)
@@ -513,9 +484,6 @@ namespace MyGL {
 
 	void Render::init()
 	{
-		RenderState* defState;
-		RenderState* state;
-
 		this->wInit = 0;
 		this->isWork = 0;
 		this->currShader = 0LL;
@@ -524,10 +492,10 @@ namespace MyGL {
 		this->setZRange(0.0, 1.0);
 		this->cam = 0LL;
 		defState = (RenderState*)operator new(0x30uLL);
-		RenderState::RenderState(defState);
+		RenderState defState;
 		this->defState = defState;
 		state = (RenderState*)operator new(0x30uLL);
-		RenderState::RenderState(state);
+		RenderState state;
 		this->state = state;
 		this->scene = 0LL;
 		this->isGL_ARB_multisampleEnable = 0;
@@ -545,26 +513,26 @@ namespace MyGL {
 		privateGLSupportClass* v8;
 
 		glD = this->gl();
-		CGL::createExtObject(glD);
+        glD->createExtObject();
 		v2 = this->gl();
-		if (!CGL::initShaderAPI(v2))
+		if (!v2->initShaderAPI())
 			return 0;
 		v4 = this->gl();
-		if (!CGL::initTextureAPI(v4))
+		if (!v4->initTextureAPI())
 			return 0;
 		v5 = this->gl();
-		if (!CGL::initVBO_API(v5))
+		if (!v5->initVBO_API())
 			return 0;
 		v6 = this->gl();
-		if (!CGL::initFBO_API(v6))
+		if (!v6->initFBO_API())
 			return 0;
 		v7 = this->gl();
-		v8 = CGL::ext(v7);
+		v8 =v7->ext();
 		v8->glGenerateMipmapEXT(3553LL);
 		glEnableClientState(32884LL);
 		glEnableClientState(32888LL);
 		glEnableClientState(32885LL);
-		this->isGL_ARB_multisampleEnable = CGL::isExtensionSupported(this->glDev, "GL_ARB_multisample");
+		this->isGL_ARB_multisampleEnable = this->glDev->isExtensionSupported("GL_ARB_multisample");
 		this->wInit = 1;
 		return 1;
 	}
@@ -640,7 +608,7 @@ namespace MyGL {
 		glViewport((unsigned int)x, (unsigned int)y, (unsigned int)w, (unsigned int)h);
 	}
 
-	void Render::setZRange(double, double)
+	void Render::setZRange(double near, double far)
 	{
 		this->zNear = near;
 		this->zFar = far;
@@ -664,20 +632,12 @@ namespace MyGL {
 
 	void Render::ubindTexture(IUniformSampler* sampler)
 	{
-		void(__fastcall * v2)(Render* const, _QWORD);
-		unsigned int v3;
-		v3 = sampler->get();;
-        this->ubindTexture(v3);
+        this->ubindTexture(sampler->get());
 	}
 
 	void Render::ubindTexture(CGL::TextureUnitHandle tx_unit)
 	{
-		CGL* v2;
-		privateGLSupportClass* v3;
-
-		v2 = this->gl();
-		v3 = CGL::ext(v2);
-		v3->glActiveTextureARB(tx_unit + 33984);
+        this->gl()->ext()->glActiveTextureARB(tx_unit + 33984);
 		glBindTexture(3553LL, 0LL);
 	}
 

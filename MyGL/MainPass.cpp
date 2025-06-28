@@ -1,23 +1,8 @@
 #include "MainPass.h"
 namespace MyGL {
-	MainPass::MainPass(IScene& s, const Adapter& adapter, IModel* q, bool autoMake) : AbstractPass(
-		s) {
-		IScene* v5;
-		IRender* r;
-		TextureRectangle* frame;
-		IScene* v8;
-		IRender* r_1;
-		TextureRectangle* depth;
-		v5 = AbstractPass::scene(this);
-		r = v5->render();
-		frame = (TextureRectangle*) operator new(0x28uLL);
-		TextureRectangle::TextureRectangle(frame, r);
-		this->frame = frame;
-		v8 = AbstractPass::scene(this);
-		r_1 = v8->render();
-		depth = (TextureRectangle*) operator new(0x28uLL);
-		TextureRectangle::TextureRectangle(depth, r_1);
-		this->depth = depth;
+	MainPass::MainPass(IScene& s, const Adapter& adapter, IModel* q, bool autoMake) : AbstractPass(s) {
+		this->frame = new TextureRectangle(this->scene()->render());
+		this->depth =  new TextureRectangle(this->scene()->render());
 		this->m_frameBuffer = 0LL;
 		this->quad = q;
 		this->resizeFrame();
@@ -26,16 +11,14 @@ namespace MyGL {
 	}
 
 	MainPass::~MainPass() {
-		IRenderPass* v1;
-		unsigned int i;
 		if (this->frame)
             delete this->frame;
 		if (this->depth)
             delete this->depth;
 		if (this->m_frameBuffer)
 			delete this->m_frameBuffer;
-		for (i = 0; i < this->passes.size(); ++i) {
-			v1 = this->passes[i];
+		for (int i = 0; i < this->passes.size(); ++i) {
+			auto& v1 = this->passes[i];
 			if (v1)
 				delete v1;
 		}
@@ -105,17 +88,17 @@ namespace MyGL {
 		__int64 v7;
 		unsigned int i;
 
-		v1 = AbstractPass::scene(this);
+		v1 = this->scene();
 		v2 = v1->render();
 		(*(void(__fastcall**)(__int64)) (*(_QWORD*)v2 + 248LL))(v2);
-		v3 = AbstractPass::scene(this);
+		v3 = this->scene();
 		v4 = v3->graph();
 		(*(void(__fastcall**)(__int64, MainPass* const)) (*(_QWORD*)v4 + 40LL))(v4, this);
 		for (i = 0; i < std::vector<IRenderPass*>::size(&this->passes); ++i) {
 			v5 = std::vector<IRenderPass*>::operator[](&this->passes, i);
 			v5->exec();
 		}
-		v6 = AbstractPass::scene(this);
+		v6 = this->scene();
 		v7 = v6->graph();
 		(*(void(__fastcall**)(__int64)) (*(_QWORD*)v7 + 48LL))(v7);
 	}
@@ -164,9 +147,7 @@ namespace MyGL {
 	}
 
 	void MainPass::makeAlgo(const Adapter& adapter) {
-		this->makeAlgo(
-				&this->passes,
-				adapter);
+		this->makeAlgo(&this->passes,adapter);
 	}
 
 	void MainPass::makeAlgo(MainPass& mp, std::vector<IRenderPass*>& passes,
@@ -256,7 +237,7 @@ namespace MyGL {
 		theWidth = this->frame->setClamping();
 		theHeight = this->frame->setClamping();
 		this->m_frameBuffer = new FBO(r, theWidth, theHeight, 4);;
-		MainPass::buildQuad(this, v[2], v[3]);
+        this->buildQuad(v[2], v[3]);
 	}
 
 	void MainPass::setPoint(float* p, float x, float y) {

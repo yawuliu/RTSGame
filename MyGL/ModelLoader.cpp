@@ -33,7 +33,7 @@ namespace MyGL {
                 *ok = 0;
             std::allocator<char>::allocator(&v22);
             std::string::string(&str_0, "[Error]:IOModel load error: \n", &v22);
-            std::allocator<char>::~allocator(&v22);
+
             std::string::append(&str_0, fileName);
             v5 = this->render->gl();
             v6 = v5->errorCtrl();
@@ -44,7 +44,7 @@ namespace MyGL {
             if (!model.size()) {
                 std::allocator<char>::allocator(v23);
                 std::string::string(&str, "[Warning]:IOModel is NULL: \n", v23);
-                std::allocator<char>::~allocator(v23);
+
                 std::string::append(&str, fileName);
                 v10 = this->render->gl();
                 v11 = v10->errorCtrl();

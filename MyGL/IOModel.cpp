@@ -94,35 +94,27 @@ namespace MyGL {
 					break;
 				for (r = 0; r <= 1; ++r)
 				{
-					v23= this->texCoord(
-						(unsigned int)(i + 1));
+					v23= this->texCoord((unsigned int)(i + 1));
 					v18 = *IIOModel::TexCoord::operator[](&v23, r);
-                    v24 = this->texCoord(
-						(unsigned int)i);
+                    v24 = this->texCoord((unsigned int)i);
 					v2 = v18 - *IIOModel::TexCoord::operator[](&v24, r);
 					tex1[r] = v2;
-                    v25 = this->texCoord(
-						(unsigned int)(i + 2));
+                    v25 = this->texCoord((unsigned int)(i + 2));
 					v17 = *IIOModel::TexCoord::operator[](&v25, r);
-                    v26 = this->texCoord(
-						(unsigned int)i);
+                    v26 = this->texCoord((unsigned int)i);
 					v3 = v17 - *IIOModel::TexCoord::operator[](&v26, r);
 					tex2[r] = v3;
 				}
 				for (r_0 = 0; r_0 <= 2; ++r_0)
 				{
-					v27 = this->point(
-						(unsigned int)(i + 1));
+					v27 = this->point((unsigned int)(i + 1));
 					v16 = *IIOModel::Point::operator[](&v27, r_0);
-					v28 = this->point(
-						(unsigned int)i);
+					v28 = this->point((unsigned int)i);
 					v4 = v16 - *IIOModel::Point::operator[](&v28, r_0);
 					pos1[r_0] = v4;
-					v29= this->point(
-						(unsigned int)(i + 2));
+					v29= this->point((unsigned int)(i + 2));
 					v15 = *IIOModel::Point::operator[](&v29, r_0);
-					v30= this->point(
-						(unsigned int)i);
+					v30= this->point((unsigned int)i);
 					v5 = v15 - *IIOModel::Point::operator[](&v30, r_0);
 					pos2[r_0] = v5;
 				}
@@ -132,8 +124,7 @@ namespace MyGL {
 					{
 						for (r_3 = 0; r_3 <= 2; ++r_3)
 						{
-							v33 = this->exPoint(
-								(unsigned int)i);
+							v33 = this->exPoint((unsigned int)i);
 							*IIOModel::Point4::operator[](&v33, r_3) = 0.0;
 						}
 					}
@@ -141,8 +132,7 @@ namespace MyGL {
 					{
 						for (r_2 = 0; r_2 <= 2; ++r_2)
 						{
-							v32 = this->exPoint(
-								(unsigned int)i);
+							v32 = this->exPoint((unsigned int)i);
 							v7 = IIOModel::Point4::operator[](&v32, r_2);
 							*v7 = pos2[r_2] / tex2[0];
 						}
@@ -153,23 +143,19 @@ namespace MyGL {
 					k = tex1[1] / tex2[1];
 					for (r_1 = 0; r_1 <= 2; ++r_1)
 					{
-						v31 = this->exPoint(
-							(unsigned int)i);
+						v31 = this->exPoint((unsigned int)i);
 						v6 = IIOModel::Point4::operator[](&v31, r_1);
 						*v6 = (float)(pos1[r_1] - (float)(pos2[r_1] * k)) / (float)(tex1[0] - (float)(tex2[1] * k));
 					}
 				}
-				v34 = this->exPoint(
-					(unsigned int)i);
+				v34 = this->exPoint((unsigned int)i);
 				*IIOModel::Point4::operator[](&v34, 3) = 0.0;
 				*(float*)&l = 0.0;
 				for (r_4 = 0; r_4 <= 2; ++r_4)
 				{
-					v35 = this->exPoint(
-						(unsigned int)i);
+					v35 = this->exPoint((unsigned int)i);
 					v14 = *IIOModel::Point4::operator[](&v35, r_4);
-					v36 = this->exPoint(
-						(unsigned int)i);
+					v36 = this->exPoint((unsigned int)i);
 					v8 = IIOModel::Point4::operator[](&v36, r_4);
 					*(float*)&l = (float)(*v8 * v14) + *(float*)&l;
 				}
@@ -178,24 +164,19 @@ namespace MyGL {
 				*(float*)&l = _mm_unpacklo_pd(v9, v9).m128d_f64[0];
 				for (r_5 = 0; r_5 <= 2; ++r_5)
 				{
-					v37 = this->exPoint(
-						(unsigned int)i);
+					v37 = this->exPoint((unsigned int)i);
 					v10 = IIOModel::Point4::operator[](&v37, r_5);
 					*v10 = *v10 / *(float*)&l;
 				}
 				for (r_6 = 0; r_6 <= 3; ++r_6)
 				{
-					v38 = this->exPoint(
-						(unsigned int)(i + 1));
+					v38 = this->exPoint((unsigned int)(i + 1));
 					v11 = IIOModel::Point4::operator[](&v38, r_6);
-					v39 = this->exPoint(
-						(unsigned int)i);
+					v39 = this->exPoint((unsigned int)i);
 					*v11 = *IIOModel::Point4::operator[](&v39, r_6);
-					v40 = this->exPoint(
-						(unsigned int)(i + 2));
+					v40 = this->exPoint((unsigned int)(i + 2));
 					v12 = IIOModel::Point4::operator[](&v40, r_6);
-					v41 = this->exPoint(
-						(unsigned int)i);
+					v41 = this->exPoint((unsigned int)i);
 					*v12 = *IIOModel::Point4::operator[](&v41, r_6);
 				}
 			}
@@ -331,29 +312,27 @@ namespace MyGL {
 				this->vert = (CGL::GLfloat*)operator new[](12LL * this->msize);
 				this->tex = (CGL::GLfloat*)operator new[](8LL * this->msize);
 				this->norm = (CGL::GLfloat*)operator new[](12LL * this->msize);
-				std::istream::read((std::istream*)v7, (char*)this->vert, 12LL * this->msize);
-				std::istream::read((std::istream*)v7, (char*)this->tex, 8LL * this->msize);
-				std::istream::read((std::istream*)v7, (char*)this->norm, 12LL * this->msize);
+                v7.read( (char*)this->vert, 12LL * this->msize);
+                v7.read(( (char*)this->tex, 8LL * this->msize);
+                v7.read(( (char*)this->norm, 12LL * this->msize);
 				i = 0;
-				std::istream::read((std::istream*)v7, (char*)&i, 4LL);
+                v7.read( (char*)&i, 4LL);
 				if ((unsigned __int8)std::ios::eof(&v8) != 1)
 				{
 					memset(&info, 0, sizeof(info));
-					std::istream::read((std::istream*)v7, (char*)&info, i);
+                    v7.read((char*)&info, i);
 					if (info.stencilModelSize)
 					{
-						sh_data_1 = (IOModel*)operator new(0x38uLL);
-						IOModel::IOModel(sh_data_1);
-						sh_data = sh_data_1;
+						sh_data = new IOModel();
 						sh_data_1->msize = info.stencilModelSize;
 						*((_QWORD*)sh_data + 1) = operator new[](12LL * info.stencilModelSize);
-						std::istream::read((std::istream*)v7, *((char**)sh_data + 1), 12LL * info.stencilModelSize);
+                        v7.read( *((char**)sh_data + 1), 12LL * info.stencilModelSize);
 						this->shadow_data = sh_data;
 					}
 					if (info.extraData)
 					{
 						this->extra = (CGL::GLfloat*)operator new[](16LL * this->msize);
-						std::istream::read((std::istream*)v7, (char*)this->extra, 16LL * this->msize);
+                        v7.read((char*)this->extra, 16LL * this->msize);
 					}
 				}
                 v7.close();
@@ -426,17 +405,15 @@ namespace MyGL {
 		_BYTE v29[524];
 		int i;
 
-		std::fstream::basic_fstream(v28);
-		v2 = std::string::data((std::string*)fname);
-		std::fstream::open(v28, v2, 16LL);
-		if ((unsigned __int8)std::fstream::is_open(v28) != 1)
+		std::fstream v28;
+        v28.open( fname, 16LL);
+		if (v28.is_open() != 1)
 		{
 			v3 = 0;
 		}
 		else
 		{
-			v4 = std::ostream::operator<<(v29, (unsigned int)this->msize);
-			std::ostream::operator<<(v4, &std::endl<char, std::char_traits<char>>);
+			 v29 << (unsigned int)this->msize << std::endl;
 			for (i = 0; this->msize > i; ++i)
 			{
 				v27 = this->norm[3 * i + 2];
@@ -446,27 +423,12 @@ namespace MyGL {
 				v23 = this->tex[2 * i];
 				v22 = this->vert[3 * i + 2];
 				v21 = this->vert[3 * i + 1];
-				v5 = std::ostream::operator<<(v29, this->vert[3 * i]);
-				v6 = std::operator<<<std::char_traits<char>>(v5, &unk_4D36E0);
-				v7 = std::ostream::operator<<(v6, v21);
-				v8 = std::operator<<<std::char_traits<char>>(v7, &unk_4D36E0);
-				v9 = std::ostream::operator<<(v8, v22);
-				v10 = std::operator<<<std::char_traits<char>>(v9, &unk_4D36E0);
-				v11 = std::ostream::operator<<(v10, v23);
-				v12 = std::operator<<<std::char_traits<char>>(v11, &unk_4D36E0);
-				v13 = std::ostream::operator<<(v12, v24);
-				v14 = std::operator<<<std::char_traits<char>>(v13, &unk_4D36E0);
-				v15 = std::ostream::operator<<(v14, v25);
-				v16 = std::operator<<<std::char_traits<char>>(v15, &unk_4D36E0);
-				v17 = std::ostream::operator<<(v16, v26);
-				v18 = std::operator<<<std::char_traits<char>>(v17, &unk_4D36E0);
-				v19 = std::ostream::operator<<(v18, v27);
-				std::ostream::operator<<(v19, &std::endl<char, std::char_traits<char>>);
+				v29 << this->vert[3 * i]<< unk_4D36E0 << v21<<unk_4D36E0 <<v22 << unk_4D36E0 << v23
+                 << unk_4D36E0 <<  v24 << unk_4D36E0 <<  v25 << unk_4D36E0 << v26 << unk_4D36E0 << v27 << std::endl;
 			}
-			std::fstream::close(v28);
+            v28.close();
 			v3 = 1;
 		}
-		std::fstream::~fstream(v28);
 		return v3;
 	}
 
@@ -482,40 +444,38 @@ namespace MyGL {
 		unsigned int i;
 		IOModel::IOInfo info;
 
-		std::fstream::basic_fstream(v8);
+		std::fstream v8;
 		v2 = std::operator|(std::_Ios_Openmode::_S_out, std::_Ios_Openmode::_S_bin);
-		v3 = std::string::data((std::string*)fname);
-		std::fstream::open(v8, v3, (unsigned int)v2);
-		if ((unsigned __int8)std::fstream::is_open(v8) != 1)
+        v8.open(fname, (unsigned int)v2);
+		if (v8.is_open() != 1)
 		{
 			v4 = 0;
 		}
 		else
 		{
-			std::ostream::write(v9, (const char*)&this->msize, 4LL);
-			std::ostream::write(v9, (const char*)this->vert, 12LL * this->msize);
-			std::ostream::write(v9, (const char*)this->tex, 8LL * this->msize);
-			std::ostream::write(v9, (const char*)this->norm, 12LL * this->msize);
+            v9.write( (const char*)&this->msize, 4LL);
+            v9.write( (const char*)this->vert, 12LL * this->msize);
+            v9.write( (const char*)this->tex, 8LL * this->msize);
+            v9.write( (const char*)this->norm, 12LL * this->msize);
 			if (this->shadow_data)
 				info.stencilModelSize = (*(__int64(__fastcall**)(void*))(*(_QWORD*)this->shadow_data + 144LL))(this->shadow_data);
 			else
 				info.stencilModelSize = 0;
 			info.extraData = this->extra != 0LL;
 			i = 20;
-			std::ostream::write(v9, (const char*)&i, 4LL);
-			std::ostream::write(v9, (const char*)&info, 20LL);
+            v9.write((const char*)&i, 4LL);
+            v9.write(, (const char*)&info, 20LL);
 			if (info.stencilModelSize)
 			{
 				v5 = 12LL * (*(int(__fastcall**)(void*))(*(_QWORD*)this->shadow_data + 144LL))(this->shadow_data);
 				v6 = (const char*)(*(__int64(__fastcall**)(void*))(*(_QWORD*)this->shadow_data + 64LL))(this->shadow_data);
-				std::ostream::write(v9, v6, v5);
+                v9.write(v6, v5);
 			}
 			if (this->extra)
-				std::ostream::write(v9, (const char*)this->extra, 16LL * this->msize);
-			std::fstream::close(v8);
+                v9.write((const char*)this->extra, 16LL * this->msize);
+            v8.close();
 			v4 = 1;
 		}
-		std::fstream::~fstream(v8);
 		return v4;
 	}
 
@@ -526,8 +486,7 @@ namespace MyGL {
 
 	IIOModel::TexCoord* IOModel::texCoord(IIOModel::TexCoord* retstr, int i)
 	{
-		IIOModel::TexCoord::TexCoord(retstr, &this->tex[2 * i]);
-		return retstr;
+		return &IIOModel::TexCoord(&this->tex[2 * i]);
 	}
 
 	const CGL::GLfloat* IOModel::textureCoords()

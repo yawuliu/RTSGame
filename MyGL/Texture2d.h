@@ -1,6 +1,7 @@
 #pragma once
 
 #include "ITexture2d.h"
+#include "CGL.h"
 #include "Color.h"
 #include "privateGLSupportClass.h"
 
@@ -11,7 +12,7 @@ namespace MyGL {
     public:
         Texture2d(IRender &r);
 
-        virtual  ~Texture2d() = default;// 0
+        virtual  ~Texture2d();// 0
         //virtual  ~Texture2d() = default;// 1
         virtual void create() = 0;// 2
         virtual void bind() = 0;// 3
@@ -28,10 +29,10 @@ namespace MyGL {
         load(void const *, ITexture::InputFormat::Type, uint32_t, uint32_t, ITexture::Format::Type) = 0;// 11
         virtual void
         loadMipMaps(void const *, ITexture::InputFormat::Type, uint32_t, uint32_t, ITexture::Format::Type) = 0;// 12
-        virtual void setAnisotropy(double) = 0;// 13
-        virtual void width() = 0;// 14
-        virtual void height() = 0;// 15
-        
+        virtual void setAnisotropy(Float) = 0;// 13
+        virtual uint32_t width() = 0;// 14
+        virtual uint32_t height() = 0;// 15
+
         const void *toGlColorSystem(ITexture::Format::Type colorSystem);
 
         const void *toGlInputFormat(ITexture::InputFormat::Type imgColorSystem);
@@ -40,15 +41,19 @@ namespace MyGL {
 
 
     private:
-        IRender &render;
-        int w;
-        int h;
-        int handle;
-        bool isForwardFormat;
+        IRender *render;
         ITexture::FilterType::Type filterMin;
-        ITexture::FilterType::Type filterMip;
         ITexture::FilterType::Type filterMag;
-        Color border_cl;
+        ITexture::FilterType::Type filterMip;
         ITexture::ClampMode::Type clamp[3];
+        Float anisLevel;
+        bool isForwardFormat;
+        // padding byte
+        // padding byte
+        // padding byte
+        unsigned int w;
+        unsigned int h;
+        CGL::TextureHandle handle;
+        Color border_cl;
     };
 }

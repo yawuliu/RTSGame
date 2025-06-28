@@ -39,7 +39,6 @@ namespace MyGL {
 		if (this->wasInitVBO)
 			return true;
 		wasInitVBO = initGlExtensionFuncPtr(
-
 			&this->glGenBuffersARB,
 			"glGenBuffersARB")
 			&& initGlExtensionFuncPtr(

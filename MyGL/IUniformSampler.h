@@ -9,7 +9,6 @@ namespace MyGL {
     public:
         IUniformSampler() = default;
 
-
         virtual ~IUniformSampler() = default;// 0
 
         //virtual ~IUniformSampler() = default;// 1

@@ -8,8 +8,7 @@ namespace MyGL {
 		this->isForwardFormat = 0;
 		this->w = 0;
 		this->h = 0;
-		this->setFiltration(ITexture::FilterType::Type::Nearest,
-			ITexture::FilterType::Type::Nearest);
+		this->setFiltration(ITexture::FilterType::Type::Nearest, ITexture::FilterType::Type::Nearest);
 	}
 
 	TextureRectangle::~TextureRectangle()
@@ -25,13 +24,13 @@ namespace MyGL {
 
 	void TextureRectangle::create()
 	{
-		if (!(unsigned __int8)glIsTexture(this->handle))
+		if (!glIsTexture(this->handle))
 			glGenTextures(1LL, &this->handle);
 	}
 
 	void TextureRectangle::free()
 	{
-		if (this->handle && !(unsigned __int8)glIsTexture(this->handle))
+		if (this->handle && !glIsTexture(this->handle))
 			glDeleteTextures(1LL, &this->handle);
 		this->handle = 0;
 	}
@@ -48,22 +47,15 @@ namespace MyGL {
 
 	void TextureRectangle::load(const void* pixels, ITexture::InputFormat::Type imgColorSystem, unsigned int pw, unsigned int ph, ITexture::Format::Type colorSystem)
 	{
-		int v6;
-		unsigned int h;
-		unsigned int w;
 		unsigned int* v9;
-
 		this->w = pw;
 		this->h = ph;
 		this->free();
 		this->create();
 		glBindTexture(34037LL, this->handle);
 		this->isForwardFormat = 1;
-		v6 = this->toGlInputFormat(imgColorSystem);
-		h = this->h;
-		w = this->w;
 		v9 = (unsigned int*)this->toGlColorSystem(colorSystem);
-		glTexImage2D(34037LL, 0LL, *v9, w, h, 0LL, v6, 5121, pixels);
+		glTexImage2D(34037LL, 0LL, *v9, this->w, this->h, 0LL, this->toGlInputFormat(imgColorSystem), 5121, pixels);
 	}
 
 	void TextureRectangle::setFiltration(ITexture::FilterType::Type fmag, ITexture::FilterType::Type fmin)

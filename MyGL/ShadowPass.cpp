@@ -21,23 +21,19 @@ namespace MyGL {
 
 		Camera::Camera(&this->lview);
 		ObjectMatrix::ObjectMatrix(&this->lMat);
-		v3 = this->scene();
-		this->quad = new Model(v3->render());;
+		this->quad = new Model(this->scene()->render());;
 		this->frame = this->createFrame(0LL);
 		in = adapter->getShadowMapTexture();
 		this->tmpFrame = this->createFrame( in);
-		v7 = this->scene();
 		theWidth = this->frame->width();
 		theHeight = this->frame->height();
-		this->frameBuffer = new FBO( v7->render(), theWidth, theHeight, 8);
+		this->frameBuffer = new FBO(this->scene()->render(), theWidth, theHeight, 8);
         this->lview->setPrespective(0);
 		this->nUpdate = 1;
 		this->blur = new Filter(this->scene());
         this->blur->setShader(adapter->getBlurShadowShader());
         this->blur->setQuadModel(this->quad);
-		frame = this->frame;
-		std::string::string(&name, "texture", v19);
-        this->blur->setInput(&name, frame);
+        this->blur->setInput("texture", this->frame);
 		this->lightId = 0;
 	}
 
@@ -92,28 +88,28 @@ namespace MyGL {
 		IOModel::allock(&m, 4uLL);
 		IOModel::point(&retstr_, &m, 0);
 		p = IIOModel::Point::data(&retstr_);
-		ShadowPass::setPoint(this, p, -1.0, -1.0);
+        this->setPoint( p, -1.0, -1.0);
 		IOModel::point(&retstr__1, &m, 1);
 		p_1 = IIOModel::Point::data(&retstr__1);
-		ShadowPass::setPoint(this, p_1, 1.0, -1.0);
+        this->setPoint(p_1, 1.0, -1.0);
 		IOModel::point(&retstr__2, &m, 2);
 		p_2 = IIOModel::Point::data(&retstr__2);
-		ShadowPass::setPoint(this, p_2, 1.0, 1.0);
+        this->setPoint( p_2, 1.0, 1.0);
 		IOModel::point(&retstr__3, &m, 3);
 		p_3 = IIOModel::Point::data(&retstr__3);
-		ShadowPass::setPoint(this, p_3, -1.0, 1.0);
+        this->setPoint( p_3, -1.0, 1.0);
 		IOModel::texCoord(&retstr__4, &m, 0);
 		p_4 = IIOModel::TexCoord::data(&retstr__4);
-		ShadowPass::setPoint(this, p_4, 0.0, 0.0);
+        this->setPoint( p_4, 0.0, 0.0);
 		IOModel::texCoord(&retstr__5, &m, 1);
 		p_5 = IIOModel::TexCoord::data(&retstr__5);
-		ShadowPass::setPoint(this, p_5, 1.0, 0.0);
+        this->setPoint( p_5, 1.0, 0.0);
 		IOModel::texCoord(&retstr__6, &m, 2);
 		p_6 = IIOModel::TexCoord::data(&retstr__6);
-		ShadowPass::setPoint(this, p_6, 1.0, 1.0);
+        this->setPoint(p_6, 1.0, 1.0);
 		IOModel::texCoord(&retstr__7, &m, 3);
 		p_7 = IIOModel::TexCoord::data(&retstr__7);
-		ShadowPass::setPoint(this, p_7, 0.0, 1.0);
+        this->setPoint(p_7, 0.0, 1.0);
 		v11 = (__m128d)0x3FF0000000000000uLL;
 		v11.m128d_f64[0] = 1.0 / (double)w;
 		nx_1 = _mm_unpacklo_pd(v11, v11).m128d_f64[0];
@@ -123,56 +119,42 @@ namespace MyGL {
 		ny = _mm_unpacklo_pd(v13, v13).m128d_f64[0];
 		IOModel::normal(&retstr__8, &m, 0);
 		p_8 = IIOModel::Point::data(&retstr__8);
-		ShadowPass::setPoint(this, p_8, nx, ny);
+        this->setPoint(p_8, nx, ny);
 		IOModel::normal(&retstr__9, &m, 1);
 		p_9 = IIOModel::Point::data(&retstr__9);
-		ShadowPass::setPoint(this, p_9, nx, ny);
+        this->setPoint( p_9, nx, ny);
 		IOModel::normal(&retstr__10, &m, 2);
 		p_10 = IIOModel::Point::data(&retstr__10);
-		ShadowPass::setPoint(this, p_10, nx, ny);
+        this->setPoint( p_10, nx, ny);
 		IOModel::normal(&retstr__11, &m, 3);
 		p_11 = IIOModel::Point::data(&retstr__11);
-		ShadowPass::setPoint(this, p_11, nx, ny);
+        this->setPoint( p_11, nx, ny);
 		this->quad->load(&m);
 		this->quad->setPrimitivesType(2LL);
-		IOModel::~IOModel(&m);
 	}
 
 	ITexture2d* ShadowPass::createFrame(ITexture2d* in)
 	{
-		IScene* v2;
-		IRender* r;
-		Texture2d* re;
-		void(__fastcall * v5)(ITexture2d*, Color*);
 		Color v7;
-		int smSize;
-		ITexture2d* frame;
-
-		frame = in;
-		smSize = 1024;
 		if (!in)
 		{
-			v2 = AbstractPass::scene(this);
-			r = v2->render();
-			re = (Texture2d*)operator new(0x50uLL);
-			Texture2d::Texture2d(re, r);
-			frame = re;
+            in = new Texture2d(this->scene()->render());
 		}
 
-		frame->load(
+        in->load(
 				0LL,
 				1LL,
 				1024LL,
 				1024LL,
 				12LL,
 				in);
-		frame->setFiltration( 1LL, 1LL);
-		frame->setAnisotropy(0.0);
-		frame->setClamping( 1LL);
-		Color::Color(&v7, 1.0);
-        frame->setBorderColor(&v7);
+        in->setFiltration( 1LL, 1LL);
+        in->setAnisotropy(0.0);
+        in->setClamping( 1LL);
+		Color v7(1.0);
+        in->setBorderColor(&v7);
         this->buildQuad(1024, 1024);
-		return frame;
+		return in;
 	}
 
 	int ShadowPass::currentLightId()
@@ -213,51 +195,51 @@ namespace MyGL {
 		Color v30;
 		int i;
 
-		v1 = AbstractPass::scene(this);
+		v1 = this->scene();
 		v2 = v1->render();
 		(*(void(__fastcall**)(__int64, Camera*))(*(_QWORD*)v2 + 240LL))(v2, &this->lview);
-		v3 = AbstractPass::scene(this);
+		v3 = this->scene();
 		v4 = v3->render();
 		v5 = *(void(__fastcall**)(__int64, _QWORD, _QWORD, _QWORD, _QWORD))(*(_QWORD*)v4 + 88LL);
 		v6 = this->frameBuffer->height();
 		v7 = this->frameBuffer->width();
 		v5(v4, 0LL, 0LL, v7, v6);
-		v8 = AbstractPass::scene(this);
+		v8 = this->scene();
 		v9 = v8->render();
 		v10 = *(void(__fastcall**)(__int64, double, double))(*(_QWORD*)v9 + 16LL);
 		Color::Color(&v30, 1.0, 1.0, 1.0, 0.0);
 		v10(v9, *(double*)v30.cdata, *(double*)&v30.cdata[2]);
-		v11 = AbstractPass::scene(this);
+		v11 = this->scene();
 		v12 = v11->render();
 		(*(void(__fastcall**)(__int64, __int64))(*(_QWORD*)v12 + 32LL))(v12, 3LL);
-		v13 = AbstractPass::scene(this);
+		v13 = this->scene();
 		v14 = v13->render();
 		(*(void(__fastcall**)(__int64))(*(_QWORD*)v14 + 248LL))(v14);
-		v15 = AbstractPass::scene(this);
+		v15 = this->scene();
 		v16 = v15->graph();
 		(*(void(__fastcall**)(__int64, ShadowPass* const))(*(_QWORD*)v16 + 40LL))(v16, this);
-		v17 = AbstractPass::scene(this);
+		v17 = this->scene();
 		s = v17->graph();
 		ISceneGraph::Visibles::Visibles(&obj, s);
-		v19 = AbstractPass::scene(this);
+		v19 = this->scene();
 		v20 = v19->render();
 		(*(void(__fastcall**)(__int64))(*(_QWORD*)v20 + 296LL))(v20);
 		for (i = 0; ; ++i)
 		{
-			i_1 = ISceneGraph::Visibles::size(&obj);
+			i_1 = obj.size();
 			if (i_1 <= i)
 				break;
-			obj_2 = ISceneGraph::Visibles::operator[](&obj, i);
+			obj_2 = obj[i];
 			if (ShadowPass::isDrawable(this, obj_2))
 			{
-				obj_1 = ISceneGraph::Visibles::operator[](&obj, i);
+				obj_1 = obj[i];
 				AbstractPass::drawObject<ShadowPass>(this, obj_1);
 			}
 		}
-		v24 = AbstractPass::scene(this);
+		v24 = this->scene();
 		v25 = v24->render();
 		(*(void(__fastcall**)(__int64))(*(_QWORD*)v25 + 312LL))(v25);
-		v26 = AbstractPass::scene(this);
+		v26 = this->scene();
 		v27 = v26->graph();
 		(*(void(__fastcall**)(__int64))(*(_QWORD*)v27 + 48LL))(v27);
 	}
@@ -369,15 +351,15 @@ namespace MyGL {
 		ILight* light;
 		float ax_0;
 
-		v2 = AbstractPass::scene(this);
+		v2 = this->scene();
 		v3 = v2->lights();
 		light = (ILight*)(*(__int64(__fastcall**)(__int64, _QWORD))(*(_QWORD*)v3 + 48LL))(v3, (unsigned int)id);
 		z1 = light->z();
 		y1 = light->y();
 		x1 = light->x();
-		Camera::setPos(&this->lview, x1, y1, z1, 1.0);
+        this->lview.setPos(x1, y1, z1, 1.0);
 		v5 = (__m128d)0xBFE0000000000000LL;
-		Camera::setDistance(&this->lview, -0.5, 1.0);
+        this->lview.setDistance(-0.5, 1.0);
 		v18 = light->dirX();
 		v17 = v18 * light->dirX();
 		v16 = light->dirY();
@@ -408,22 +390,21 @@ namespace MyGL {
 		v10.m128d_f64[1] = (float)(l / l2);
 		v10.m128d_f64[0] = atan2(v10.m128d_f64[1], v10.m128d_f64[0] / l2);
 		*(float*)v10.m128d_f64 = _mm_unpacklo_pd(v10, v10).m128d_f64[0];
-		Camera::setAngles(
-			&this->lview,
+        this->lview.setAngles(
 			*(float*)v10.m128d_f64 * 180.0 / 3.141592653589793,
 			ax_0 * 180.0 / 3.141592653589793 + 90.0,
 			1.0);
-		v11 = AbstractPass::scene(this);
+		v11 = this->scene();
 		v12 = v11->render();
 		v13 = (*(__int64(__fastcall**)(__int64))(*(_QWORD*)v12 + 256LL))(v12);
 		v10.m128d_f64[0] = (*(double(__fastcall**)(__int64))(*(_QWORD*)v13 + 80LL))(v13);
 		v10.m128d_f64[0] = sqrt(v10.m128d_f64[0]);
-		Camera::setZoom(&this->lview, 0.25 / v10.m128d_f64[0]);
+        this->lview.setZoom(0.25 / v10.m128d_f64[0]);
 	}
 
 	bool ShadowPass::isDrawable(IGraphicsObject& obj)
 	{
-		return obj->visible() == 1;
+		return obj.visible() == 1;
 	}
 
 	void ShadowPass::setPoint(float* p, float x, float y)

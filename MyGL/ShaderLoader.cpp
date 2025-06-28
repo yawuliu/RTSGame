@@ -28,7 +28,7 @@ namespace MyGL {
         char v24;
         char *src;
 
-        src = ShaderLoader::srcFrom(this, fs_0, &okFs);
+        src = this->srcFrom(fs_0, &okFs);
         if (src) {
             if (this->shEnv) {
                 __rhs = (const char *) (*(
@@ -37,7 +37,6 @@ namespace MyGL {
                 std::operator+<char>(&__lhs, __rhs);
                 v7 = std::string::data(&__lhs);
                 taget->loadFragmentSource(v7);
-                std::string::~string(&__lhs);
             } else {
                 taget->loadFragmentSource(src);
             }
@@ -53,7 +52,6 @@ namespace MyGL {
                 std::operator+<char>(&__lhs_, __rhs_1);
                 v10 = std::string::data(&__lhs_);
                 taget->loadVertexSource(v10);
-                std::string::~string(&__lhs_);
             } else {
                 taget->loadVertexSource(src);
             }
@@ -65,7 +63,6 @@ namespace MyGL {
         if (!okVs || !okFs) {
             std::allocator<char>::allocator(&v24);
             std::string::string(&msg, "[Error]: Shader load error [", &v24);
-            std::allocator<char>::~allocator(&v24);
             if (!okVs)
                 std::string::append(&msg, vs);
             else
@@ -91,27 +88,26 @@ namespace MyGL {
         char *vv;
         int length;
 
-        std::ifstream::basic_ifstream(v7);
-        std::ifstream::open(v7, file, 4LL);
-        if ((unsigned __int8) std::ifstream::is_open(v7) != 1) {
+        std::ifstream v7;
+        v7.open(file, 4LL);
+        if (v7.is_open() != 1) {
             if (ok)
                 *ok = 0;
             vv_1 = 0LL;
         } else {
-            std::istream::seekg(v7, 0LL, 2LL);
-            v8._M_off = std::istream::tellg((std::istream *) v7);
+            v7.seekg(0LL, 2LL);
+            v8._M_off = v7.tellg();
             v8._M_state = _M_state;
             length = std::fpos<__mbstate_t>::operator long(&v8);
-            std::istream::seekg(v7, 0LL, 0LL);
+            v7.seekg(0LL, 0LL);
             vv = (char *) operator new[](length + 1);
-            std::istream::read((std::istream *) v7, vv, length);
-            std::ifstream::close(v7);
+            v7.read(vv, length);
+            v7.close();
             vv[length] = 0;
             if (ok)
                 *ok = 1;
             vv_1 = vv;
         }
-        std::ifstream::~ifstream(v7);
         return vv_1;
     }
 }

@@ -86,17 +86,17 @@ namespace MyGL {
             return 1;
         this->updateMat = 0;
         ObjectMatrix::ObjectMatrix(&m);
-        ObjectMatrix::identity(&this->lMatrix);
+        this->lMatrix.identity();
         v4 = this->render();
         v4->getProjectionMatrix(&m);
-        ObjectMatrix::mul(&this->lMatrix, &m);
+        this->lMatrix.mul(&m);
         v5 = this->render();
         v5->getModeViewlMatrix(&m);
-        ObjectMatrix::mul(&this->lMatrix, &m);
+        this->lMatrix.mul(&m);
         other = obj->objectMatrix();
-        ObjectMatrix::mul(&this->lMatrix, other);
+        this->lMatrix.mul(other);
         v3 = this->sh != 0LL;
-        ObjectMatrix::~ObjectMatrix(&m);
+
         return v3;
     }
 
@@ -208,22 +208,14 @@ namespace MyGL {
             this->rstate->setZTest(1LL);
             this->rstate->setZTestMode(2LL);
 
-            this->rstate->setColorMask(
-                    0LL,
-                    0LL,
-                    0LL,
-                    0LL);
+            this->rstate->setColorMask(0LL, 0LL, 0LL, 0LL);
             this->rstate->setBlend(0LL);
         }
         if (pass->isColorPass()) {
             this->sh = this->mshader;
             this->rstate->setZTest(1LL);
             this->rstate->setZTestMode(6LL);
-            this->rstate->setColorMask(
-                    1LL,
-                    1LL,
-                    1LL,
-                    1LL);
+            this->rstate->setColorMask(1LL, 1LL, 1LL, 1LL);
             this->rstate->setBlend(1LL);
         }
         return this->sh != 0LL;
@@ -241,36 +233,20 @@ namespace MyGL {
     void StdTechnique::setColorShader(StdTechnique &mtechnique, IShader *sh) {
         mtechnique->mshader = sh;
         if (mtechnique->mshader) {
-            mtechnique->mdiffSampler =
-                    mtechnique->mshader->uniformSampler(
-                            "diffuse_texture");
-            mtechnique->mshadowSampler =
-                    mtechnique->mshader->uniformSampler(
-                            "shadow_map_texture");
-            mtechnique->mspecSampler =
-                    mtechnique->mshader->uniformSampler(
-                            "specular_texture");
-            mtechnique->normalSampler =
-                    mtechnique->mshader->uniformSampler(
-                            "normal_map_texture");
+            mtechnique->mdiffSampler = mtechnique->mshader->uniformSampler("diffuse_texture");
+            mtechnique->mshadowSampler = mtechnique->mshader->uniformSampler("shadow_map_texture");
+            mtechnique->mspecSampler = mtechnique->mshader->uniformSampler("specular_texture");
+            mtechnique->normalSampler = mtechnique->mshader->uniformSampler("normal_map_texture");
             if (mtechnique->mdiffSampler)
-                mtechnique->mdiffSampler->set(
-                        0LL);
+                mtechnique->mdiffSampler->set(0LL);
             if (mtechnique->mshadowSampler)
-                mtechnique->mshadowSampler->set(
-                        1LL);
+                mtechnique->mshadowSampler->set(1LL);
             if (mtechnique->mspecSampler)
-                mtechnique->mspecSampler->set(
-                        2LL);
+                mtechnique->mspecSampler->set(2LL);
             if (mtechnique->normalSampler)
-                mtechnique->normalSampler->set(
-                        3LL);
-            mtechnique->lMat =
-                    mtechnique->mshader->uniformMatrix4x4(
-                            "lMatrix");
-            mtechnique->lDir =
-                    mtechnique->mshader->uniform4f(
-                            "lDirection");
+                mtechnique->normalSampler->set(3LL);
+            mtechnique->lMat = mtechnique->mshader->uniformMatrix4x4("lMatrix");
+            mtechnique->lDir = mtechnique->mshader->uniform4f("lDirection");
         } else {
             mtechnique->mdiffSampler = 0LL;
             mtechnique->mshadowSampler = 0LL;
@@ -331,10 +307,7 @@ namespace MyGL {
                     v7 = v6->lights();
                     v8 = (*(__int64 (__fastcall **)(__int64, _QWORD)) (*(_QWORD *) v7 + 48LL))(v7, 0LL);
                     l = (Float *) (*(__int64 (__fastcall **)(__int64)) (*(_QWORD *) v8 + 104LL))(v8);
-                    this->lDir->set(*l,
-                                    l[1],
-                                    l[2],
-                                    1.0);
+                    this->lDir->set(*l, l[1], l[2], 1.0);
                 }
             }
         }

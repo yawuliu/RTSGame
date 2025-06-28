@@ -44,15 +44,12 @@ namespace MyGL {
 		(*(void(__fastcall**)(__int64))(*(_QWORD*)v1 + 16LL))(v1);
 		v2 = this->technique();
 		(*(void(__fastcall**)(__int64))(*(_QWORD*)v2 + 24LL))(v2);
-		curShader = this->curShader;
 		v4 = this->technique();
-		if (curShader != (const IShader*)(*(__int64(__fastcall**)(__int64))(*(_QWORD*)v4 + 40LL))(v4))
+		if (this->curShader != (const IShader*)(*(__int64(__fastcall**)(__int64))(*(_QWORD*)v4 + 40LL))(v4))
             this->bindTextures();
 		v5 = this->technique();
 		this->curShader = (const IShader*)(*(__int64(__fastcall**)(__int64))(*(_QWORD*)v5 + 40LL))(v5);
-		v6 = this->render();
-		v8 = this->renderState();
-        v6->setRenderState(v8);
+        this->render()->setRenderState(this->renderState());
 	}
 
 	void StdMaterial::bindTextures()
@@ -99,15 +96,11 @@ namespace MyGL {
 					{
 						v11 = this->technique();
 						v12 = (*(__int64(__fastcall**)(__int64))(*(_QWORD*)v11 + 40LL))(v11);
-						v13 = StdTechnique::opacitySampler_toSM(this->mtechnique);
-						if (v12 == v13->owner())
+						if (v12 == this->mtechnique->opacitySampler_toSM()->owner())
 						{
 							if (this->diff)
 							{
-								v15 = this->render();
-								diff = this->diff;
-								v18 = StdTechnique::opacitySampler_toSM(this->mtechnique);
-                                v15->bindTexture(v18, diff);
+                                this->render()->bindTexture(this->mtechnique->opacitySampler_toSM(), this->diff);
 							}
 						}
 					}
@@ -170,115 +163,5 @@ namespace MyGL {
 				__cxa_atexit((void (*)(void*)) & std::string::~string, &StdMaterial::name(void)const::mat_name, &_dso_handle);
 
 		}
-		inline const IRenderState* StdMaterial::renderState() {
-			__int64 v1;
-
-			v1 = this->technique();
-			return (const IRenderState*)(*(__int64(__fastcall**)(__int64)) (*(_QWORD*)v1 + 64LL))(v1);
-		}
-		inline void StdMaterial::setDepthShader(IShader * sh) {
-			this->mtechnique->setDepthShader(sh);
-		}
-		inline void StdMaterial::setDiffuseTexture(ITexture2d * t) {
-			m->diff = t;
-		}
-		inline void StdMaterial::setGlowShader(IShader * sh) {
-			this->mtechnique->setGlowShader(sh);
-		}
-		inline void StdMaterial::setGlowTexture(ITexture2d * sh) {
-			this->glow = sh;
-		}
-		inline void StdMaterial::setNormalTexture(ITexture2d * sh) {
-			m->normal = sh;
-		}
-		inline void StdMaterial::setShader(IShader * sh) {
-			this->mtechnique->setColorShader(sh);
-		}
-		inline void StdMaterial::setShadowShader(IShader * sh) {
-			this->mtechnique->setShadowShader(sh);
-		}
-		inline void StdMaterial::setShadowTexture(ITexture2d * sh) {
-			this->shadowMap = sh;
-		}
-		inline void StdMaterial::setSpecularTexture(ITexture2d * sh) {
-			this->spec = sh;
-		}
-		inline void StdMaterial::setUniforms() {
-			this->bind();
-		}
-		inline ITechnique* StdMaterial::technique() {
-			return this->mtechnique;
-		}
-		inline void StdMaterial::uBind() {
-			this->curShader = 0LL;
-		}
-		inline void StdMaterial::useCullFace(bool use, IRenderState::CullMode::Type t) {
-			this->mtechnique->useCullFace(use, t);
-		}
-		inline void StdMaterial::useDepthPass(bool use) {
-			this->mtechnique->useDepthPass(use);
-		}
-		inline void StdMaterial::useGlow(bool use) {
-			this->mtechnique->useGlow(use);
-		}
-		inline bool StdMaterial::useMainTextures() {
-			IUniformSampler* s;
-			IRender* v3;
-			void(__fastcall * v4)(IRender*, IUniformSampler*, ITexture2d*);
-			ITexture2d* diff;
-			IUniformSampler* v6;
-			IUniformSampler* s_1;
-			IRender* v9;
-			void(__fastcall * v10)(IRender*, IUniformSampler*, ITexture2d*);
-			ITexture2d* shadowMap;
-			IUniformSampler* v12;
-			IUniformSampler* s_2;
-			IRender* v15;
-			void(__fastcall * v16)(IRender*, IUniformSampler*, ITexture2d*);
-			ITexture2d* spec;
-			IUniformSampler* v18;
-			IUniformSampler* s_3;
-			IRender* v21;
-			void(__fastcall * v22)(IRender*, IUniformSampler*, ITexture2d*);
-			ITexture2d* normal;
-			IUniformSampler* v24;
-			bool ok;
-
-			ok = 0;
-			s = this->mtechnique->diffSampler();
-			if (StdMaterial::checkSampler(this, s) && this->diff) {
-				v3 = this->render();
-				diff = this->diff;
-				v6 = this->mtechnique->diffSampler();
-                v3->bindTexture(v6, diff);
-				ok = 1;
-			}
-			s_1 = this->mtechnique->shadowSampler();
-			if (StdMaterial::checkSampler(this, s_1) && this->shadowMap) {
-				v9 = this->render();
-				shadowMap = this->shadowMap;
-				v12 = this->mtechnique->shadowSampler();
-                v9->bindTexture(v12, shadowMap);
-				ok = 1;
-			}
-			s_2 = this->mtechnique->specularSampler();
-			if (StdMaterial::checkSampler(this, s_2) && this->spec) {
-				v15 = this->render();
-				spec = this->spec;
-				v18 = this->mtechnique->specularSampler();
-                v15->bindTexture(v18, spec);
-				ok = 1;
-			}
-			s_3 = this->mtechnique->normalMapSampler();
-			if (StdMaterial::checkSampler(this, s_3) && this->normal) {
-				v21 = this->render();
-				normal = this->normal;
-				v24 = this->mtechnique->normalMapSampler();
-                v21->bindTexture(v24, normal);
-				return 1;
-			}
-			return ok;
-		}
-		return &StdMaterial::name(void)const::mat_name;
-	}
+    }
 }

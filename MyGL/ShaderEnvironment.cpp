@@ -14,21 +14,12 @@ namespace MyGL {
 
 	ShaderEnvironment::ShaderEnvironment(const ShaderEnvironment& other)
 	{
-		operator=(this, other);
+        *this = other;
 	}
 
 	ShaderEnvironment::ShaderEnvironment()
 	{
-		__int64 data;
-		data = operator new(0x38uLL);
-		*(_QWORD*)data = 0LL;
-		*(_DWORD*)(data + 16) = 0;
-		*(_QWORD*)(data + 24) = 0LL;
-		*(_QWORD*)(data + 32) = 0LL;
-		*(_QWORD*)(data + 40) = 0LL;
-		*(_QWORD*)(data + 48) = 0LL;
-		ShaderEnvironment::pimpl::pimpl((ShaderEnvironment::pimpl* const)data);
-		this->data = (ShaderEnvironment::pimpl*)data;
+		this->data = new pimpl();
 		this->needToUpdate = 1;
 	}
 
@@ -141,7 +132,7 @@ namespace MyGL {
 		std::map<std::string, ShaderEnvironment::pimpl::def>::iterator i;
 		std::_Rb_tree_iterator<std::pair<const std::string, ShaderEnvironment::pimpl::def> >::_Self __x;
 
-		if (std::string::size((std::string*)name))
+		if (name.size())
 		{
 			i._M_node = std::map<std::string, ShaderEnvironment::pimpl::def>::find(&this->data->map, name)._M_node;
 			__x._M_node = std::map<std::string, ShaderEnvironment::pimpl::def>::end(&this->data->map)._M_node;

@@ -56,14 +56,9 @@ namespace MyGL {
 
 	SSAOpass::~SSAOpass()
 	{
-		SSAOpass::Data* data;
-
-
-		data = this->data;
-		if (data)
+		if (this->data)
 		{
-			SSAOpass::Data::~Data(this->data);
-			operator delete(data);
+            delete this->data;
 		}
 		if (this->out)
             delete this->out;
@@ -73,20 +68,12 @@ namespace MyGL {
 
 	void SSAOpass::exec()
 	{
-		FBO* v1;
-		FBO* v2;
-		void(__fastcall * v3)(FBO*, ITextureRectangle*);
-		ITextureRectangle* v4;
-
 		if (this->active)
 		{
             this->resizeFrame();
-			v1 = this->mpass->frameBuffer();
-			v1->attachDepthTexture(this->depth);
+            this->mpass->frameBuffer()->attachDepthTexture(this->depth);
             this->data->ssao->exec();
-			v2 = this->mpass->frameBuffer();
-			v4 = this->mpass->depthBuffer();
-			v2->attachDepthTexture(v4);
+            this->mpass->frameBuffer()->attachDepthTexture(this->mpass->depthBuffer());
 		}
 	}
 
