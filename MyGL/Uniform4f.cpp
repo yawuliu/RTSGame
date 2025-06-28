@@ -8,7 +8,7 @@ namespace MyGL {
 			this->dat[i] = 0.0;
 	}
 
-	const void* Uniform4f::handlePtr()
+    CGL::ShaderHandle * Uniform4f::handlePtr()
 	{
 		return &this->handle;
 	}
@@ -37,12 +37,7 @@ namespace MyGL {
 
 	void Uniform4f::sendDataToGPU()
 	{
-		CGL* v1;
-		privateGLSupportClass* v2;
-
-		v1 = this->shader->gl() ;
-		v2 = v1->ext();
-		v2->glUniform4fARB(this->handle, this->dat[0], this->dat[1], this->dat[2], this->dat[3]);
+        this->shader->gl()->ext()->glUniform4fARB(this->handle, this->dat[0], this->dat[1], this->dat[2], this->dat[3]);
 	}
 
 	void Uniform4f::set(Color color)

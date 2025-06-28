@@ -1,30 +1,8 @@
 #pragma once
 
-#include <map>
-#include <string>
-#include "IData.h"
 #include "IScene.h"
-#include "LightsCollection.h"
-#include "IObjectCollection.h"
-#include "ObjectCollection.h"
-#include "IRenderAlgoSettings.h"
-
 
 namespace MyGL {
-    class CGL;
-
-    class IModelLoader;
-
-    class IShaderLoader;
-
-    class ITextureLoader;
-
-    class IData;
-
-    class ISceneGraph;
-
-    class IDataLoader;
-
     class Scene : public IScene {
     public:
         Scene(CGL *gl);
@@ -33,63 +11,64 @@ namespace MyGL {
 
         virtual ~Scene();
 
-        ILightsCollection *allocLightsCollection(Scene &s);
+        virtual IData *dataControl() override;
+
+        virtual const IRender *render() override;
+
+        virtual ITextureLoader *textureLoader() override;
+
+        virtual IShaderLoader *shaderLoader() override;
+
+        virtual IModelLoader *modelLoader() override;
+
+        virtual ISceneGraph *graph() override;
+
+        virtual IObjectCollection *objects() override;
+
+        virtual void insertObject(IGraphicsObject &o) override;
+
+        virtual void removeObject(IGraphicsObject &o) override;
+
+        virtual void changeObject(IGraphicsObject &o, IMaterial &m) override;
+
+        virtual IRenderAlgoSettings *settings() override;
+
+        virtual void draw() override;
+
+        virtual bool initGL() override;
+
+        virtual void finitGL() override;
+
+
+        virtual void createRenderAlgo() override;
+
+        virtual void recreateRenderAlgo() override;
+
+        virtual IDataLoader *loader() override;
+
+        virtual ILightsCollection *lights() override;
+
+        virtual void upsetCameraEvent(IRender &a2) override;
+
+        virtual ITextureLoader *allocTextureLoader() override;
+
+        virtual IShaderLoader *allocShaderLoader() override;
+
+        virtual IModelLoader *allocModelLoader() override;
+
+        virtual IObjectCollection *allocObjectCollection() override;
+
+        virtual ILightsCollection *allocLightsCollection() override;
+
+        virtual ISceneGraph *allocSceneGraph() override;
+
+        virtual void initLightsCollection() override;
+
+        virtual IRenderAlgo *allocRenderAlgo() override;
 
         void allocLoaders();
 
-        IModelLoader *allocModelLoader();
-
-        IObjectCollection *allocObjectCollection(Scene &s);
-
-        IRenderAlgo *allocRenderAlgo(Scene &s);
-
-        ISceneGraph *allocSceneGraph(Scene &s);
-
-        IShaderLoader *allocShaderLoader();
-
-        ITextureLoader *allocTextureLoader();
-
-        void changeObject(IGraphicsObject &o, IMaterial &m);
-
-        void createRenderAlgo();
-
-        IData *dataControl();
-
-        void draw();
-
-        void finitGL();
-
-        ISceneGraph *graph();
-
         void init();
-
-        bool initGL();
-
-        void initLightsCollection();
-
-        void insertObject(IGraphicsObject &o);
-
-        ILightsCollection *lights();
-
-        IDataLoader *loader();
-
-        IModelLoader *modelLoader();
-
-        IObjectCollection *objects();
-
-        void recreateRenderAlgo(Scene &s);
-
-        void removeObject(IGraphicsObject &o);
-
-        IRender *render();
-
-        IRenderAlgoSettings *settings();
-
-        IShaderLoader *shaderLoader();
-
-        ITextureLoader *textureLoader();
-
-        void upsetCameraEvent(IRender &a2);
 
         void upsetLight();
 

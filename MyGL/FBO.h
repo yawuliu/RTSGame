@@ -5,57 +5,57 @@
 #include "IRender.h"
 
 namespace MyGL {
-	class FBO : public IFBO {
-	public:
-		class Flags {
-		public:
-			typedef int BitMap;
-		};
+    class FBO : public IFBO {
+    public:
+        class Flags {
+        public:
+            typedef int BitMap;
+        };
 
-	public:
-		FBO(IRender& r, unsigned int theWidth, unsigned int theHeight, FBO::Flags::BitMap f);
+    public:
+        FBO(IRender &r, unsigned int theWidth, unsigned int theHeight, FBO::Flags::BitMap f);
 
-		virtual ~FBO();
+        virtual ~FBO();
 
-		bool create();
+        bool create();
 
-		std::string status() override;
+        virtual std::string status() override;
 
-		bool validate() override;
+        virtual bool validate() override;
 
-		bool bind() override;
+        virtual bool bind() override;
 
-		bool unbind() override;
+        virtual bool unbind() override;
 
-		bool attachColorTexture(ITexture2d* target, int no) override;
+        virtual bool attachColorTexture(ITexture2d *target, int no) override;
 
-		bool attachDepthTexture(ITexture2d* target) override;
+        virtual bool attachDepthTexture(ITexture2d *target) override;
 
-		bool attachColorTexture(ITextureRectangle* target, int no) override;
+        virtual bool attachColorTexture(ITextureRectangle *target, int no) override;
 
-		bool attachDepthTexture(ITextureRectangle* target) override;
+        virtual bool attachDepthTexture(ITextureRectangle *target) override;
 
-		int maxColorAttachemnts() override;
+        virtual int maxColorAttachemnts() override;
 
-		uint32_t width() override;
+        virtual uint32_t width() override;
 
-		uint32_t height() override;
+        virtual uint32_t height() override;
 
-		bool hasStencil() override;
+        virtual bool hasStencil() override;
 
-		bool hasDepth() override;
+        virtual bool hasDepth() override;
 
-		bool detachColorTexture(int no) override;
+        virtual bool detachColorTexture(int no) override;
 
-		bool detachDepthTexture() override;
+        virtual bool detachDepthTexture() override;
 
-	protected:
-		int frameBuffer;
-		int depthBuffer;
-		int stencilBuffer;
-		int ext;
-		int w;
-		int h;
-		int flags;
-	};
+    protected:
+        int frameBuffer;
+        int depthBuffer;
+        int stencilBuffer;
+        int ext;
+        int w;
+        int h;
+        int flags;
+    };
 }

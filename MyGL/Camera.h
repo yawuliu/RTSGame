@@ -9,7 +9,7 @@ namespace MyGL {
     public:
         Camera();
 
-        virtual ~Camera();
+        virtual ~Camera() = default;
 
         Float distance();
 
@@ -19,10 +19,7 @@ namespace MyGL {
 
         void move(Float x, Float y);
 
-        void normalization(CGL::GLdouble *const X,
-                           CGL::GLdouble *const Y,
-                           CGL::GLdouble *const Z,
-                           CGL::GLdouble *const D);
+        void normalization(CGL::GLdouble &X, CGL::GLdouble &Y, CGL::GLdouble &Z, CGL::GLdouble &D);
 
         Camera *operator=(const Camera &c);
 

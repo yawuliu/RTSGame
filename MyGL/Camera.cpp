@@ -7,10 +7,6 @@ namespace MyGL {
         this->setPrespective(1);
     }
 
-    Camera::~Camera() {
-
-
-    }
 
     Float Camera::distance() {
         return this->dist;
@@ -38,11 +34,7 @@ namespace MyGL {
                 1.0);
     }
 
-    void Camera::normalization(
-            CGL::GLdouble *const X,
-            CGL::GLdouble *const Y,
-            CGL::GLdouble *const Z,
-            CGL::GLdouble *const D) {
+    void Camera::normalization(CGL::GLdouble &X, CGL::GLdouble &Y, CGL::GLdouble &Z, CGL::GLdouble &D) {
         double v5;
 
         v5 = sqrt(*Z * *Z + *X * *X + *Y * *Y);
@@ -104,12 +96,7 @@ namespace MyGL {
         this->dist = (d - this->dist) * ani + this->dist;
     }
 
-    void Camera::setPos(
-
-            Float x1,
-            Float y1,
-            Float z1,
-            Float ani) {
+    void Camera::setPos(Float x1, Float y1, Float z1, Float ani) {
         this->px = (x1 - this->px) * ani + this->px;
         this->py = (y1 - this->py) * ani + this->py;
         this->pz = (z1 - this->pz) * ani + this->pz;
@@ -153,7 +140,7 @@ namespace MyGL {
         this->cullM[5][2] = m[10] + m[11];
         this->cullM[5][3] = m[14] + m[15];
         for (i = 0; i <= 5; ++i)
-            this->normalization(this->cullM[i], &this->cullM[i][1], &this->cullM[i][2], &this->cullM[i][3]);
+            this->normalization(&this->cullM[i][0], &this->cullM[i][1], &this->cullM[i][2], &this->cullM[i][3]);
     }
 
     void Camera::updateGL() {

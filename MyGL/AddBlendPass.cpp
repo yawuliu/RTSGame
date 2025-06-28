@@ -1,7 +1,6 @@
 #include "AddBlendPass.h"
 #include "ISceneGraph.h"
 
-
 namespace MyGL {
     AddBlendPass::AddBlendPass(IScene &s) : AbstractPass(s) {
 

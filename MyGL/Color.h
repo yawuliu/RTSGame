@@ -2,44 +2,41 @@
 
 namespace MyGL {
 
-	class Color {
-	public:
-		typedef float ChanelType;
-	public:
-		Color(ChanelType c);
+    class Color {
+    public:
+        typedef float ChanelType;
+    public:
+        Color(ChanelType c);
 
-		Color(ChanelType r,
-			ChanelType g,
-			ChanelType b,
-			ChanelType a);
+        Color(ChanelType r, ChanelType g, ChanelType b, ChanelType a);
 
-		Color();
+        Color();
 
-		ChanelType a();
+        ChanelType a();
 
-		ChanelType b();
+        ChanelType b();
 
-		const ChanelType* data();
+        const ChanelType *data();
 
-		ChanelType g();
+        ChanelType g();
 
-		void operator+(const Color& other);
+        void operator+(const Color &other);
 
-		void operator+=(const Color& other);
+        void operator+=(const Color &other);
 
-		void operator-(const Color& other);
+        void operator-(const Color &other);
 
-		void operator-=(const Color& other);
+        void operator-=(const Color &other);
 
-		void* operator=(const Color& other);
+        void *operator=(const Color &other);
 
-		ChanelType r();
+        ChanelType r();
 
-		void set(ChanelType rgba);
+        void set(ChanelType rgba);
 
-		void set(ChanelType r, ChanelType g, ChanelType b, ChanelType a);
+        void set(ChanelType r, ChanelType g, ChanelType b, ChanelType a);
 
-	protected:
-		ChanelType cdata[4];
-	};
+    protected:
+        ChanelType cdata[4];
+    };
 }

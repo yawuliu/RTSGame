@@ -1,38 +1,36 @@
 #pragma once
-#include "IRender.h"
+
 #include "IMaterial.h"
 #include "IScene.h"
-#include "ITechnique.h"
-#include "IGraphicsObject.h"
-#include "ITexture.h"
-#include "Render.h"
-
 
 namespace MyGL {
-	class AbstractMaterial : public IMaterial {
-	public:
-		AbstractMaterial(IScene& r);
+    class IRender;
 
-		virtual ~AbstractMaterial();
+    class AbstractMaterial : public IMaterial {
+    public:
+        AbstractMaterial(IScene &r);
 
-		bool drawEvent(IGraphicsObject const& o) override;
+        virtual ~AbstractMaterial() = default;
 
-		const ITexture* getTexture(uint32_t a2);
+        bool drawEvent(IGraphicsObject const &o) override;
 
-		bool greater(ITechnique const& t, ITechnique const& t2);
+        bool operator<(IMaterial const &other) override;
 
-		bool less(ITechnique const& t, ITechnique const& t2);
+        bool operator>(IMaterial const &other) override;
 
-		bool operator<(IMaterial const& other) override;
-		bool operator>(IMaterial const& other) override;
+        const ITexture *getTexture(uint32_t a2) override;
 
-		IRender* render();
+        bool greater(ITechnique const &t, ITechnique const &t2);
 
-		IScene& scene();
+        bool less(ITechnique const &t, ITechnique const &t2);
 
-	protected:
-		IScene& mscene;
-	};
+        IRender *render();
+
+        IScene &scene();
+
+    protected:
+        IScene &mscene;
+    };
 }
 
 

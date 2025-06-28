@@ -15,7 +15,7 @@ namespace MyGL {
 		return this->dat;
 	}
 
-	const void* UniformSampler::handlePtr()
+	 CGL::ShaderHandle * UniformSampler::handlePtr()
 	{
 		return &this->handle;
 	}
@@ -44,12 +44,7 @@ namespace MyGL {
 
 	void UniformSampler::sendDataToGPU()
 	{
-		CGL* v1;
-		privateGLSupportClass* v2;
-
-		v1 = this->shader->gl();
-		v2 = v1->ext();
-		v2->glUniform1iARB(this->handle, this->dat);
+        this->shader->gl()->ext()->glUniform1iARB(this->handle, this->dat);
 	}
 
 	void UniformSampler::set(int x)

@@ -2,30 +2,30 @@
 
 #include "IRenderPass.h"
 #include "IGraphicsObject.h"
+#include "ITechnique.h"
+#include "IScene.h"
 
 namespace MyGL {
-	class IScene;
+    class AbstractPass : public IRenderPass {
+    public:
+        AbstractPass(IScene &s);
 
-	class AbstractPass : public IRenderPass {
-	public:
-		AbstractPass(IScene& s);
+        IScene &scene();
 
-		IScene& scene();
+        template<class T>
+        bool drawObject(IGraphicsObject &obj) {
+            if (!obj.model())
+                return false;
+            if (!obj.material()->technique()->passEvent(const_cast<const T *>(this)))
+                return false;
 
-		template<class T>
-		bool drawObject(IGraphicsObject& obj) {
-			if (!obj.model())
-				return false;
-			if (!obj.material()->technique()->passEvent(const_cast<const T*>(this)))
-				return false;
+            this->scene().render()->draw(obj);
+            obj.material()->technique()->completeDraw(this);
+            return true;
+        }
 
-			this->scene()->render()->draw(obj);
-			obj.material()->technique()->completeDraw(this);
-			return true;
-		}
-
-	protected:
-		IScene& mscene;
-	};
+    protected:
+        IScene &mscene;
+    };
 }
 

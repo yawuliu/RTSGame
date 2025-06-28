@@ -18,12 +18,13 @@ namespace MyGL {
         AbstractShader(IRender *);
 
         virtual ~AbstractShader();
+        virtual CGL *gl() override;
+        virtual IRender *render() override;
+        virtual void updateUniform(IUniform *uniform) override;
 
-        CGL *gl();
 
         IUniform *registerUniform(IUniform *u);
 
-        IRender *render();
 
         void sendUniformsToGPU();
 
@@ -36,16 +37,14 @@ namespace MyGL {
         }
 
         template<class T, class N>
-        UniformArray<IUniformMatrix4x4> *uniformArray(int location,int s) {
+        UniformArray<T> *uniformArray(int location,int s) {
             if (location < 0)
                 return 0LL;
-            auto& u = new UniformArray(this, location, s)
+            auto& u = new UniformArray<T>(this, location, s)
             return this->registerUniform(u);
         }
 
         std::vector<IUniform *> *uniforms();
-
-        void updateUniform(IUniform *uniform);
 
     protected:
         IRender *mrender;

@@ -1,39 +1,42 @@
 #pragma once
+
 #include <string>
-#include "IAdapter.h"
 #include "IScene.h"
-#include "IShader.h"
 
 namespace MyGL {
-	class Adapter {
-	public:
-		Adapter(IScene& s);
+    class IShader;
 
-		IShader& getBloomDownSampleShader();
+    class ITexture2d;
 
-		IShader& getBlurShadowShader();
+    class Adapter {
+    public:
+        Adapter(IScene &s);
 
-		IShader& getGausHorizontalShader();
+        virtual IShader *getLincShader() = 0; // 0
 
-		IShader& getGausVerticalShader();
+        virtual IShader *getGausVerticalShader() = 0; // 1
 
-		IShader& getGlowDownSampleShader();
+        virtual IShader *getGausHorizontalShader() = 0;// 2
 
-		IShader& getLincShader();
+        virtual IShader *getBloomDownSampleShader() = 0;//3
 
-		ITexture2d* getRandTexture();
+        virtual IShader *getGlowDownSampleShader() = 0;// 4
 
-		IShader& getSSAOShader();
+        virtual IShader *getSSAOShader() = 0; // 5
 
-		ITexture2d* getShadowMapTexture();
+        virtual ITexture2d *getRandTexture() = 0; // 6
 
-		IShader& getVolumetricLightScatteringShader();
+        virtual IShader *getVolumetricLightScatteringShader() = 0; // 7
 
-		IShader& returnShader(const std::string& d);
+        virtual IShader *getBlurShadowShader() = 0; // 8
 
-		IScene& scene();
+        virtual ITexture2d *getShadowMapTexture() = 0; // 9
 
-	protected:
-		IScene& _scene;
-	};
+        IShader *returnShader(const std::string &d);
+
+        IScene &scene();
+
+    protected:
+        IScene &_scene;
+    };
 }

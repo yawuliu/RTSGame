@@ -7,7 +7,6 @@ namespace MyGL {
     public:
         IModelInfo() = default;
 
-
         virtual ~IModelInfo() = default; // 0
         // virtual ~IModelInfo() = default; // 1
         virtual void minX() = 0; // 2

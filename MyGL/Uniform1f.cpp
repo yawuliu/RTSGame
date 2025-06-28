@@ -7,7 +7,7 @@ namespace MyGL {
 		this->dat = 0.0;
 	}
 
-	const void* Uniform1f::handlePtr()
+    CGL::ShaderHandle *Uniform1f::handlePtr()
 	{
 		return &this->handle;
 	}
@@ -36,12 +36,7 @@ namespace MyGL {
 
 	void Uniform1f::sendDataToGPU()
 	{
-		CGL* v1;
-		privateGLSupportClass* v2;
-
-		v1 = this->shader->gl();
-		v2 = v1->ext();
-		v2->glUniform1fARB(this->handle, this->dat);
+        this->shader->gl()->ext()->glUniform1fARB(this->handle, this->dat);
 	}
 
 	void Uniform1f::set(Float x)

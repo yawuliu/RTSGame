@@ -2,89 +2,85 @@
 
 #include <string>
 #include "AbstractMaterial.h"
-#include "IUniformSampler.h"
 #include "IRenderState.h"
-#include "StdTechnique.h"
 
 namespace MyGL {
-	class IScene;
+    class IShader;
 
-	class IShader;
+    class StdTechnique;
 
-	class StdTechnique;
+    class ITexture2d;
 
-	class ITexture2d;
+    class StdMaterial : public AbstractMaterial {
+    public:
+        StdMaterial(IScene &s, StdTechnique *technique);
 
-	class StdMaterial : public AbstractMaterial {
-	public:
-		StdMaterial(IScene& s, StdTechnique* technique);
+        virtual ~StdMaterial();
 
-		virtual ~StdMaterial();
+        virtual void bind() override;
 
-		void bind();
+        virtual void setUniforms() override;
 
-		void bindTextures();
+        virtual void uBind() override;
 
-		bool checkSampler(IUniformSampler* s);
+        virtual ITechnique *technique() override;
 
-		bool drawEvent(const IGraphicsObject& obj);
+        virtual const ITexture *getTexture(const unsigned int id) override;
 
-		const ITexture* getTexture(const unsigned int id);
+        virtual const IRenderState *renderState() override;
 
-		const std::string& name();
+        virtual bool drawEvent(IGraphicsObject const &obj) override;
 
-		const IRenderState* renderState();
+        void bindTextures();
 
-		void setDepthShader(IShader* sh);
+        bool checkSampler(IUniformSampler *s);
+        
+        const std::string &name();
 
-		void setDiffuseTexture(ITexture2d* t);
+        void setDepthShader(IShader *sh);
 
-		void setGlowShader(IShader* sh);
+        void setDiffuseTexture(ITexture2d *t);
 
-		void setGlowTexture(ITexture2d* sh);
+        void setGlowShader(IShader *sh);
 
-		void setNormalTexture(ITexture2d* sh);
+        void setGlowTexture(ITexture2d *sh);
 
-		void setShader(IShader* sh);
+        void setNormalTexture(ITexture2d *sh);
 
-		void setShadowShader(IShader* sh);
+        void setShader(IShader *sh);
 
-		void setShadowTexture(ITexture2d* sh);
+        void setShadowShader(IShader *sh);
 
-		void setSpecularTexture(ITexture2d* sh);
+        void setShadowTexture(ITexture2d *sh);
 
-		void setUniforms();
+        void setSpecularTexture(ITexture2d *sh);
 
-		ITechnique* technique();
+        void useCullFace(bool use, IRenderState::CullMode::Type t);
 
-		void uBind();
+        void useDepthPass(bool use);
 
-		void useCullFace(bool use, IRenderState::CullMode::Type t);
+        void useGlow(bool use);
 
-		void useDepthPass(bool use);
+        bool useMainTextures();
 
-		void useGlow(bool use);
-
-		bool useMainTextures();
-
-	protected:
-		IScene* curShader;
-		IShader* mShader;
-		IShader* mShadowShader;
-		IShader* mDepthShader;
-		IShader* mGlowShader;
-		ITexture2d* mTexture;
-		ITexture2d* shadowMap;
-		ITexture2d* diff;
-		ITexture2d* spec;
-		ITexture2d* normal;
-		ITexture2d* glow;
-		IRenderState* mState;
-		StdTechnique* mtechnique;
-		bool mUseGlow;
-		bool mUseDepthPass;
-		bool mUseCullFace;
-	};
+    protected:
+        IScene *curShader;
+        IShader *mShader;
+        IShader *mShadowShader;
+        IShader *mDepthShader;
+        IShader *mGlowShader;
+        ITexture2d *mTexture;
+        ITexture2d *shadowMap;
+        ITexture2d *diff;
+        ITexture2d *spec;
+        ITexture2d *normal;
+        ITexture2d *glow;
+        IRenderState *mState;
+        StdTechnique *mtechnique;
+        bool mUseGlow;
+        bool mUseDepthPass;
+        bool mUseCullFace;
+    };
 
 
 }

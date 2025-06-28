@@ -17,11 +17,11 @@ namespace MyGL {
         // virtual ~Uniform4f()= default; /;/ 1
         virtual void sendDataToGPU(); // 2
 
-        virtual void handlePtr(); // 3
+        virtual CGL::ShaderHandle *handlePtr(); // 3
 
-        virtual void isEqual(IUniform *); // 4
+        virtual bool isEqual(IUniform *); // 4
 
-        virtual void owner(); // 5
+        virtual IShader *owner(); // 5
 
         virtual void set(Color); // 6
 

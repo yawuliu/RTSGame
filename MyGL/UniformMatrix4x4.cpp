@@ -21,7 +21,7 @@ namespace MyGL {
 			this->dat[i] = 0.0;
 	}
 
-	const void* UniformMatrix4x4::handlePtr()
+    CGL::ShaderHandle * UniformMatrix4x4::handlePtr()
 	{
 		return &this->handle;
 	}
@@ -50,12 +50,7 @@ namespace MyGL {
 
 	void UniformMatrix4x4::sendDataToGPU()
 	{
-		CGL* v1;
-		privateGLSupportClass* v2;
-
-		v1 = this->shader->gl();
-		v2 = v1->ext();
-		v2->glUniformMatrix4fv(this->handle, 1LL, 0LL, this->dat);
+        this->shader->gl()->ext()->glUniformMatrix4fv(this->handle, 1LL, 0LL, this->dat);
 	}
 
 	void UniformMatrix4x4::set(const Float* data)

@@ -1,21 +1,22 @@
 #pragma once
 
+#include "AbstractPass.h"
 #include "IScene.h"
 #include "IRenderPass.h"
 #include "IGraphicsObject.h"
-#include "AbstractPass.h"
+
 
 namespace MyGL {
-	class AddBlendPass : public AbstractPass {
-	public:
-		AddBlendPass(IScene& s);
+    class AddBlendPass : public AbstractPass {
+    public:
+        AddBlendPass(IScene &s);
 
-		virtual ~AddBlendPass();
+        virtual ~AddBlendPass();
 
-		void exec();
+        virtual void exec() override;
 
-		bool isDrawable(IGraphicsObject& obj);
+        virtual IRenderPass::Pass::Type type() override;
 
-		IRenderPass::Pass::Type type();
-	};
+        bool isDrawable(IGraphicsObject &obj);
+    };
 }

@@ -6,16 +6,17 @@
 #include "IGraphicsObject.h"
 
 namespace MyGL {
-	class ColorPass : public AbstractPass {
-	public:
-		ColorPass(IScene& s);
+    class ColorPass : public AbstractPass {
+    public:
+        ColorPass(IScene &s);
 
-		virtual ~ColorPass();
+        virtual ~ColorPass();
 
-		void exec();
+        virtual void exec() override;
 
-		bool isDrawable(IGraphicsObject& obj);
+        virtual IRenderPass::Pass::Type type() override;
 
-		IRenderPass::Pass::Type type();
-	};
+        bool isDrawable(IGraphicsObject &obj);
+        
+    };
 }

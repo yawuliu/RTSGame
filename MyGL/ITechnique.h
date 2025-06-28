@@ -18,6 +18,10 @@ namespace MyGL {
 
     class GlowPass;
 
+    class IShader;
+
+    class IRenderState;
+
     class ITechnique {
     public:
         ITechnique() = default;
@@ -31,11 +35,11 @@ namespace MyGL {
 
         virtual void uBind() = 0; // 4
 
-        virtual void currentShader() = 0; // 5
+        virtual const IShader *currentShader() = 0; // 5
 
-        virtual void cmpShader() = 0; // 6
+        virtual const IShader *cmpShader() const = 0; // 6
 
-        virtual void renderState() = 0; // 7
+        virtual const IRenderState *renderState() = 0; // 7
 
         // virtual void renderState() = 0; // 8
 
