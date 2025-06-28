@@ -18,7 +18,7 @@ namespace MyGL {
 
 	void IOModel::allock(size_t vertexCount)
 	{
-		(*((void(__fastcall**)(IOModel* const))this->_vptr_IIOModel + 7))(this);
+		this->free();
 		this->msize = vertexCount;
 		this->vert = (CGL::GLfloat*)operator new[](12LL * this->msize);
 		this->tex = (CGL::GLfloat*)operator new[](8LL * this->msize);
@@ -83,61 +83,45 @@ namespace MyGL {
 		int r;
 		int i;
 
-		(*((void(__fastcall**)(IOModel* const))this->_vptr_IIOModel + 16))(this);
-		v1 = (*((__int64(__fastcall**)(IOModel* const))this->_vptr_IIOModel + 18))(this);
+		this->createExtra();
+		v1 = this->size();
 		if (v1 == 3 * (v1 / 3))
 		{
 			for (i = 0; ; i += 3)
 			{
-				i_1 = (*((__int64(__fastcall**)(IOModel* const))this->_vptr_IIOModel + 18))(this);
+				i_1 = this->size();
 				if (i_1 <= i)
 					break;
 				for (r = 0; r <= 1; ++r)
 				{
-					(*((void(__fastcall**)(IIOModel::TexCoord*, IOModel* const, _QWORD))this->_vptr_IIOModel + 13))(
-						&v23,
-						this,
+					v23= this->texCoord(
 						(unsigned int)(i + 1));
 					v18 = *IIOModel::TexCoord::operator[](&v23, r);
-					(*((void(__fastcall**)(IIOModel::TexCoord*, IOModel* const, _QWORD))this->_vptr_IIOModel + 13))(
-						&v24,
-						this,
+                    v24 = this->texCoord(
 						(unsigned int)i);
 					v2 = v18 - *IIOModel::TexCoord::operator[](&v24, r);
 					tex1[r] = v2;
-					(*((void(__fastcall**)(IIOModel::TexCoord*, IOModel* const, _QWORD))this->_vptr_IIOModel + 13))(
-						&v25,
-						this,
+                    v25 = this->texCoord(
 						(unsigned int)(i + 2));
 					v17 = *IIOModel::TexCoord::operator[](&v25, r);
-					(*((void(__fastcall**)(IIOModel::TexCoord*, IOModel* const, _QWORD))this->_vptr_IIOModel + 13))(
-						&v26,
-						this,
+                    v26 = this->texCoord(
 						(unsigned int)i);
 					v3 = v17 - *IIOModel::TexCoord::operator[](&v26, r);
 					tex2[r] = v3;
 				}
 				for (r_0 = 0; r_0 <= 2; ++r_0)
 				{
-					(*((void(__fastcall**)(IIOModel::Point*, IOModel* const, _QWORD))this->_vptr_IIOModel + 12))(
-						&v27,
-						this,
+					v27 = this->point(
 						(unsigned int)(i + 1));
 					v16 = *IIOModel::Point::operator[](&v27, r_0);
-					(*((void(__fastcall**)(IIOModel::Point*, IOModel* const, _QWORD))this->_vptr_IIOModel + 12))(
-						&v28,
-						this,
+					v28 = this->point(
 						(unsigned int)i);
 					v4 = v16 - *IIOModel::Point::operator[](&v28, r_0);
 					pos1[r_0] = v4;
-					(*((void(__fastcall**)(IIOModel::Point*, IOModel* const, _QWORD))this->_vptr_IIOModel + 12))(
-						&v29,
-						this,
+					v29= this->point(
 						(unsigned int)(i + 2));
 					v15 = *IIOModel::Point::operator[](&v29, r_0);
-					(*((void(__fastcall**)(IIOModel::Point*, IOModel* const, _QWORD))this->_vptr_IIOModel + 12))(
-						&v30,
-						this,
+					v30= this->point(
 						(unsigned int)i);
 					v5 = v15 - *IIOModel::Point::operator[](&v30, r_0);
 					pos2[r_0] = v5;
@@ -148,9 +132,7 @@ namespace MyGL {
 					{
 						for (r_3 = 0; r_3 <= 2; ++r_3)
 						{
-							(*((void(__fastcall**)(IIOModel::Point4*, IOModel* const, _QWORD))this->_vptr_IIOModel + 15))(
-								&v33,
-								this,
+							v33 = this->exPoint(
 								(unsigned int)i);
 							*IIOModel::Point4::operator[](&v33, r_3) = 0.0;
 						}
@@ -159,9 +141,7 @@ namespace MyGL {
 					{
 						for (r_2 = 0; r_2 <= 2; ++r_2)
 						{
-							(*((void(__fastcall**)(IIOModel::Point4*, IOModel* const, _QWORD))this->_vptr_IIOModel + 15))(
-								&v32,
-								this,
+							v32 = this->exPoint(
 								(unsigned int)i);
 							v7 = IIOModel::Point4::operator[](&v32, r_2);
 							*v7 = pos2[r_2] / tex2[0];
@@ -173,30 +153,22 @@ namespace MyGL {
 					k = tex1[1] / tex2[1];
 					for (r_1 = 0; r_1 <= 2; ++r_1)
 					{
-						(*((void(__fastcall**)(IIOModel::Point4*, IOModel* const, _QWORD))this->_vptr_IIOModel + 15))(
-							&v31,
-							this,
+						v31 = this->exPoint(
 							(unsigned int)i);
 						v6 = IIOModel::Point4::operator[](&v31, r_1);
 						*v6 = (float)(pos1[r_1] - (float)(pos2[r_1] * k)) / (float)(tex1[0] - (float)(tex2[1] * k));
 					}
 				}
-				(*((void(__fastcall**)(IIOModel::Point4*, IOModel* const, _QWORD))this->_vptr_IIOModel + 15))(
-					&v34,
-					this,
+				v34 = this->exPoint(
 					(unsigned int)i);
 				*IIOModel::Point4::operator[](&v34, 3) = 0.0;
 				*(float*)&l = 0.0;
 				for (r_4 = 0; r_4 <= 2; ++r_4)
 				{
-					(*((void(__fastcall**)(IIOModel::Point4*, IOModel* const, _QWORD))this->_vptr_IIOModel + 15))(
-						&v35,
-						this,
+					v35 = this->exPoint(
 						(unsigned int)i);
 					v14 = *IIOModel::Point4::operator[](&v35, r_4);
-					(*((void(__fastcall**)(IIOModel::Point4*, IOModel* const, _QWORD))this->_vptr_IIOModel + 15))(
-						&v36,
-						this,
+					v36 = this->exPoint(
 						(unsigned int)i);
 					v8 = IIOModel::Point4::operator[](&v36, r_4);
 					*(float*)&l = (float)(*v8 * v14) + *(float*)&l;
@@ -206,33 +178,23 @@ namespace MyGL {
 				*(float*)&l = _mm_unpacklo_pd(v9, v9).m128d_f64[0];
 				for (r_5 = 0; r_5 <= 2; ++r_5)
 				{
-					(*((void(__fastcall**)(IIOModel::Point4*, IOModel* const, _QWORD))this->_vptr_IIOModel + 15))(
-						&v37,
-						this,
+					v37 = this->exPoint(
 						(unsigned int)i);
 					v10 = IIOModel::Point4::operator[](&v37, r_5);
 					*v10 = *v10 / *(float*)&l;
 				}
 				for (r_6 = 0; r_6 <= 3; ++r_6)
 				{
-					(*((void(__fastcall**)(IIOModel::Point4*, IOModel* const, _QWORD))this->_vptr_IIOModel + 15))(
-						&v38,
-						this,
+					v38 = this->exPoint(
 						(unsigned int)(i + 1));
 					v11 = IIOModel::Point4::operator[](&v38, r_6);
-					(*((void(__fastcall**)(IIOModel::Point4*, IOModel* const, _QWORD))this->_vptr_IIOModel + 15))(
-						&v39,
-						this,
+					v39 = this->exPoint(
 						(unsigned int)i);
 					*v11 = *IIOModel::Point4::operator[](&v39, r_6);
-					(*((void(__fastcall**)(IIOModel::Point4*, IOModel* const, _QWORD))this->_vptr_IIOModel + 15))(
-						&v40,
-						this,
+					v40 = this->exPoint(
 						(unsigned int)(i + 2));
 					v12 = IIOModel::Point4::operator[](&v40, r_6);
-					(*((void(__fastcall**)(IIOModel::Point4*, IOModel* const, _QWORD))this->_vptr_IIOModel + 15))(
-						&v41,
-						this,
+					v41 = this->exPoint(
 						(unsigned int)i);
 					*v12 = *IIOModel::Point4::operator[](&v41, r_6);
 				}
@@ -305,17 +267,16 @@ namespace MyGL {
 		_BYTE v19[540];
 		int i;
 
-		(*((void(__fastcall**)(IOModel* const))this->_vptr_IIOModel + 7))(this);
-		std::fstream::basic_fstream(v19);
-		v2 = std::string::data((std::string*)fname);
-		std::fstream::open(v19, v2, 8LL);
-		if ((unsigned __int8)std::fstream::is_open(v19) != 1)
+		this->free();
+		std::fstream v19;
+        v19.open(fname, 8LL);
+		if (v19.is_open() != 1)
 		{
 			v3 = 0;
 		}
 		else
 		{
-			std::istream::operator>>(v19, &this->msize);
+            v19 >>  this->msize;
 			if (this->msize <= 51200)
 			{
 				this->vert = (CGL::GLfloat*)operator new[](12LL * this->msize);
@@ -330,17 +291,10 @@ namespace MyGL {
 					v8 = &this->tex[2 * i];
 					v18 = &this->vert[3 * i + 2];
 					v17 = &this->vert[3 * i + 1];
-					v9 = std::istream::operator>>(v19, &this->vert[3 * i]);
-					v10 = std::istream::operator>>(v9, v17);
-					v11 = std::istream::operator>>(v10, v18);
-					v12 = std::istream::operator>>(v11, v8);
-					v13 = std::istream::operator>>(v12, v7);
-					v14 = std::istream::operator>>(v13, v6);
-					v15 = std::istream::operator>>(v14, v5);
-					std::istream::operator>>(v15, v4);
+					v19 >> &this->vert[3 * i] >> v17 >> v18>>  v8>> v7>> v6>>v5>> v4;
 				}
-				std::fstream::close(v19);
-				IOModel::computeTBN(this);
+                v19.close();
+                this->computeTBN();
 				v3 = 1;
 			}
 			else
@@ -349,7 +303,6 @@ namespace MyGL {
 				v3 = 0;
 			}
 		}
-		std::fstream::~fstream(v19);
 		return v3;
 	}
 
@@ -365,15 +318,14 @@ namespace MyGL {
 		unsigned int i;
 		void* sh_data;
 
-		(*((void(__fastcall**)(IOModel* const))this->_vptr_IIOModel + 7))(this);
-		std::fstream::basic_fstream(v7);
+		this->free();
+		std::fstream v7;
 		v2 = std::operator|(std::_Ios_Openmode::_S_in, std::_Ios_Openmode::_S_bin);
-		v3 = std::string::data((std::string*)fname);
-		std::fstream::open(v7, v3, (unsigned int)v2);
-		if ((unsigned __int8)std::fstream::is_open(v7))
+        v7.open(fname, (unsigned int)v2);
+		if (v7.is_open())
 		{
-			(*((void(__fastcall**)(IOModel* const))this->_vptr_IIOModel + 7))(this);
-			std::istream::read((std::istream*)v7, (char*)&this->msize, 4LL);
+			this->free();
+            v7.read((char*)&this->msize, 4LL);
 			if (this->msize <= 512000)
 			{
 				this->vert = (CGL::GLfloat*)operator new[](12LL * this->msize);
@@ -404,8 +356,8 @@ namespace MyGL {
 						std::istream::read((std::istream*)v7, (char*)this->extra, 16LL * this->msize);
 					}
 				}
-				std::fstream::close(v7);
-				IOModel::computeTBN(this);
+                v7.close();
+                this->computeTBN();
 				v4 = 1;
 			}
 			else
@@ -418,7 +370,6 @@ namespace MyGL {
 		{
 			v4 = 0;
 		}
-		std::fstream::~fstream(v7);
 		return v4;
 	}
 

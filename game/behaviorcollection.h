@@ -1,42 +1,41 @@
-#ifndef BEHAVIORCOLLECTION_H
-#define BEHAVIORCOLLECTION_H
+#pragma once
 
 #include "abstractbehavior.h"
-
+#include <string>
 #include <vector>
 
-class BehaviorCollection:public AbstractBehavior{
-  public:
-    BehaviorCollection();
-    ~BehaviorCollection();
+class BehaviorCollection :public AbstractBehavior {
+public:
+	BehaviorCollection();
+	~BehaviorCollection();
 
-    void add(AbstractBehavior* );
-    void del(AbstractBehavior* );
+	void add(AbstractBehavior*);
+	void del(AbstractBehavior*);
 
-    AbstractBehavior* getBehavior( const std::string& );
+	AbstractBehavior* getBehavior(const std::string&);
 
-    void tick();
-    void command(float , float , int sq, bool);
-    void command( GLObject* );
-    void deleteUnitEvent( const GLObject* );
+	void tick();
+	void command(float, float, int sq, bool);
+	void command(GLObject*);
+	void deleteUnitEvent(const GLObject*);
 
-    bool needToMoveDisplace();
-    void setMoveDisplace(float , float );
+	bool needToMoveDisplace();
+	void setMoveDisplace(float, float);
 
-    void selectEvent( bool /*s*/ );
+	void selectEvent(bool /*s*/);
 
-    void positionEvent(float, float);
-    IController* createController();
+	void positionEvent(float, float);
+	IController* createController();
 
-    void serialize(FileStream &f);
-    void serialize(FileStream &f, GLObject *owner);
-    void clear();
+	void serialize(FileStream& f);
+	void serialize(FileStream& f, GLObject* owner);
+	void clear();
 
-    void setPlaylerEvent(int Old, int New);
-    int buildQueueSize();
+	void setPlaylerEvent(int Old, int New);
+	int buildQueueSize();
 
-  private:
-    std::vector<AbstractBehavior*> behaviors;
-  };
+private:
+	std::vector<AbstractBehavior*> behaviors;
+};
 
-#endif // BEHAVIORCOLLECTION_H
+

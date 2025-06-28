@@ -3,20 +3,22 @@
 #include "AbstractPass.h"
 
 namespace MyGL {
-	class IScene;
+    class IScene;
 
-	class IGraphicsObject;
+    class IGraphicsObject;
 
-	class DepthPass : public AbstractPass {
-	public:
-		DepthPass(IScene& s);
+    class DepthPass : public AbstractPass {
+    public:
+        DepthPass(IScene &s);
 
-		virtual ~DepthPass();
+        virtual ~DepthPass() = default;
 
-		void exec();
+        virtual void exec() override;
 
-		bool isDrawable(IGraphicsObject& obj);
+        virtual IRenderPass::Pass::Type type() override;
 
-		IRenderPass::Pass::Type type();
-	};
+        bool isDrawable(IGraphicsObject &obj);
+
+
+    };
 }

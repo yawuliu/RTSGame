@@ -1,6 +1,7 @@
 #include "FBO.h"
 #include <gl/GL.h>
 #include "IRender.h"
+
 namespace MyGL {
 	FBO::FBO(IRender& r, unsigned int theWidth, unsigned int theHeight, FBO::Flags::BitMap f)
 	{
@@ -98,28 +99,27 @@ namespace MyGL {
 		if (*(_DWORD*)(v1 + 20) != currentFb)
 			(*(void(__fastcall**)(__int64, _QWORD))(*(_QWORD*)(v1 + 32) + 56LL))(36160LL, *(unsigned int*)(v1 + 20));
 		complete = (*(__int64(__fastcall**)(__int64))(*(_QWORD*)(v1 + 32) + 80LL))(36160LL);
-		std::string::string((std::string*)this);
 		if (complete == 36053)
-			std::string::operator=(this, "GL_FRAMEBUFFER_COMPLETE_EXT");
+			return  "GL_FRAMEBUFFER_COMPLETE_EXT";
 		if (complete == 36054)
-			std::string::operator=(this, "GL_FRAMEBUFFER_INCOMPLETE_ATTACHMENT_EXT");
+			return  "GL_FRAMEBUFFER_INCOMPLETE_ATTACHMENT_EXT";
 		if (complete == 36055)
-			std::string::operator=(this, "GL_FRAMEBUFFER_INCOMPLETE_MISSING_ATTACHMENT_EXT");
+			return "GL_FRAMEBUFFER_INCOMPLETE_MISSING_ATTACHMENT_EXT";
 		if (complete == 36057)
-			std::string::operator=(this, "GL_FRAMEBUFFER_INCOMPLETE_DIMENSIONS_EXT");
+			return "GL_FRAMEBUFFER_INCOMPLETE_DIMENSIONS_EXT";
 		if (complete == 36057)
-			std::string::operator=(this, "GL_FRAMEBUFFER_INCOMPLETE_DIMENSIONS_EXT");
+			return "GL_FRAMEBUFFER_INCOMPLETE_DIMENSIONS_EXT";
 		if (complete == 36058)
-			std::string::operator=(this, "GL_FRAMEBUFFER_INCOMPLETE_FORMATS_EXT");
+			return "GL_FRAMEBUFFER_INCOMPLETE_FORMATS_EXT";
 		if (complete == 36059)
-			std::string::operator=(this, "GL_FRAMEBUFFER_INCOMPLETE_DRAW_BUFFER_EXT");
+			return "GL_FRAMEBUFFER_INCOMPLETE_DRAW_BUFFER_EXT";
 		if (complete == 36060)
-			std::string::operator=(this, "GL_FRAMEBUFFER_INCOMPLETE_READ_BUFFER_EXT");
+			return "GL_FRAMEBUFFER_INCOMPLETE_READ_BUFFER_EXT";
 		if (complete == 36061)
-			std::string::operator=(this, "GL_FRAMEBUFFER_UNSUPPORTED_EXT");
+			return "GL_FRAMEBUFFER_UNSUPPORTED_EXT";
 		if (*(_DWORD*)(v1 + 20) != currentFb)
 			(*(void(__fastcall**)(__int64, _QWORD))(*(_QWORD*)(v1 + 32) + 56LL))(36160LL, currentFb);
-		return (std::string)this;
+		return "";
 	}
 
 	bool FBO::validate()

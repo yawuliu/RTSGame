@@ -18,7 +18,7 @@ namespace MyGL {
 
         virtual ~ErrorControl();
 
-        virtual void setOutputStream(std::ostream *const s) override;
+        virtual void setOutputStream(std::ostream &s) override;
 
         virtual std::ostream *output() override;
 

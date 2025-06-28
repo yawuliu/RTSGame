@@ -42,11 +42,14 @@ namespace MyGL {
 
         virtual ~Filter();
 
+        virtual void exec() override;
+
+        virtual IRenderPass::Pass::Type type() override;
+
         IUniformSampler *addArgs(IUniformSampler *sm, ITexture *u);
 
         IUniformSampler *addArgs(const std::string &name, ITexture *u);
 
-        void exec();
 
         IModel *quadModel();
 
@@ -62,7 +65,6 @@ namespace MyGL {
 
         IShader *shader();
 
-        IRenderPass::Pass::Type type();
 
     private:
         Data *data;

@@ -5,9 +5,9 @@
 namespace MyGL {
 
     Filter::Filter(IScene &s) : AbstractPass(s) {
-        this->data = new Filter::Data::Data();
+        this->data = new Data();
         this->data->renderState->setZTest(0);
-        this->data->renderState->etZWriting(0);
+        this->data->renderState->setZWriting(0);
         this->data->quad = 0LL;
         this->data->shader = 0LL;
     }
@@ -19,7 +19,6 @@ namespace MyGL {
     }
 
     IUniformSampler *Filter::addArgs(IUniformSampler *sm, ITexture *u) {
-        void (__fastcall *v3)(IUniformSampler *, _QWORD);
         unsigned int v4;
         IScene *v6;
         __int64 v7;
@@ -43,38 +42,23 @@ namespace MyGL {
             }
             return sma;
         } else {
-            v6 = AbstractPass::scene(thisa);
+            v6 = this->scene();
             v7 = v6->render();
             v8 = (CGL *) (*(__int64 (__fastcall **)(__int64)) (*(_QWORD *) v7 + 72LL))(v7);
             v9 = v8->errorCtrl();
-            v9->warning(
-                    0LL,
-                    "[Filter::addArgs]null shader");
+            v9->warning(0LL, "[Filter::addArgs]null shader");
             return 0LL;
         }
     }
 
     IUniformSampler *Filter::addArgs(const std::string &name, ITexture *u) {
-        __int64(__fastcall *v3)(IShader *, __int64);
-        __int64 v4;
-        IUniformSampler *sm;
-        IScene *v7;
-        __int64 v8;
         CGL *v9;
-        IErrorControl *v10;
 
         if (this->data->shader) {
-            v4 = std::string::data((std::string *) name);
-            sm = (IUniformSampler *) this->data->shader->uniformSampler(v4);
-            return this->addArgs(sm, u);
+            return this->addArgs(this->data->shader->uniformSampler(name), u);
         } else {
-            v7 = this->scene();
-            v8 = v7->render();
-            v9 = (CGL *) (*(__int64 (__fastcall **)(__int64)) (*(_QWORD *) v8 + 72LL))(v8);
-            v10 = v9->errorCtrl();
-            v10->warning(
-                    0LL,
-                    "[Filter::addArgs]null shader");
+            v9 = (CGL *) (*(__int64 (__fastcall **)(__int64)) (*(_QWORD *) v8 + 72LL))(this->scene()->render());
+            v9->errorCtrl()->warning(0LL, "[Filter::addArgs]null shader");
             return 0LL;
         }
     }
@@ -103,14 +87,11 @@ namespace MyGL {
         std::_Rb_tree_iterator<std::pair<IUniformSampler *const, ITexture *> >::_Self __x;
 
         if (this->data->shader && this->data->quad && this->data->shader) {
-            v5 = AbstractPass::scene(this);
-            v6 = v5->render();
+            v6 = this->scene()->render();
             (*(void (__fastcall **)(__int64, Filter::Data *)) (*(_QWORD *) v6 + 272LL))(v6, this->data);
-            v7 = AbstractPass::scene(this);
-            v8 = v7->render();
+            v8 = this->scene()->render();
             (*(void (__fastcall **)(__int64)) (*(_QWORD *) v8 + 296LL))(v8);
-            v9 = AbstractPass::scene(this);
-            v10 = v9->render();
+            v10 = this->scene()->render();
             (*(void (__fastcall **)(__int64, IShader *)) (*(_QWORD *) v10 + 104LL))(v10, this->data->shader);
             for (i._M_node = std::map<IUniformSampler *, ITexture *>::begin(&this->data->args)._M_node;;
                  std::_Rb_tree_iterator<std::pair<IUniformSampler *const, ITexture *>>::operator++(
@@ -119,8 +100,7 @@ namespace MyGL {
                 if (!std::_Rb_tree_iterator<std::pair<IUniformSampler *const, ITexture *>>::operator!=(
                         &i, &__x))
                     break;
-                v11 = AbstractPass::scene(this);
-                v12 = v11->render();
+                v12 = this->scene()->render();
                 v13 = *(void (__fastcall **)(__int64, IUniformSampler *const, ITexture *)) (
                         *(_QWORD *) v12 + 128LL);
                 second = std::_Rb_tree_iterator<std::pair<IUniformSampler *const, ITexture *>>::operator->(
@@ -129,21 +109,20 @@ namespace MyGL {
                         &i);
                 v13(v12, v15->first, second);
             }
-            v16 = AbstractPass::scene(this);
-            v17 = v16->render();
+            v17 = this->scene()->render();
             (*(void (__fastcall **)(__int64, IModel *)) (*(_QWORD *) v17 + 192LL))(v17, this->data->quad);
-            v18 = AbstractPass::scene(this);
-            v19 = v18->render();
+            v19 = this->scene()->render();
             (*(void (__fastcall **)(__int64)) (*(_QWORD *) v19 + 312LL))(v19);
         } else {
-            v1 = AbstractPass::scene(this);
-            v2 = v1->render();
+            v2 = this->scene()->render();
             v3 = (CGL *) (*(__int64 (__fastcall **)(__int64)) (*(_QWORD *) v2 + 72LL))(v2);
             v4 = v3->errorCtrl();
-            v4->warning(
-                    0LL,
-                    "Filter is incomplete");
+            v4->warning(0LL, "Filter is incomplete");
         }
+    }
+
+    IRenderPass::Pass::Type Filter::type() {
+        return 0;
     }
 
     IModel *Filter::quadModel() {
@@ -175,7 +154,5 @@ namespace MyGL {
         return this->data->shader;
     }
 
-    IRenderPass::Pass::Type Filter::type() {
-        return 0;
-    }
+
 }

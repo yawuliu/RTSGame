@@ -1,65 +1,61 @@
 #pragma once
 
-#include <string>
+
 #include "IFBO.h"
 #include "IRender.h"
 
 namespace MyGL {
-    class ITexture2d;
+	class FBO : public IFBO {
+	public:
+		class Flags {
+		public:
+			typedef int BitMap;
+		};
 
-    class ITextureRectangle;
+	public:
+		FBO(IRender& r, unsigned int theWidth, unsigned int theHeight, FBO::Flags::BitMap f);
 
-    class FBO : public IFBO {
-    public:
-        class Flags {
-        public:
-            typedef int BitMap;
-        };
+		virtual ~FBO();
 
-    public:
-        FBO(IRender &r, unsigned int theWidth, unsigned int theHeight, FBO::Flags::BitMap f);
+		bool create();
 
-        virtual ~FBO();
+		std::string status() override;
 
-        bool create();
+		bool validate() override;
 
-        std::string status();
+		bool bind() override;
 
-        bool validate();
+		bool unbind() override;
 
-        bool bind();
+		bool attachColorTexture(ITexture2d* target, int no) override;
 
-        bool unbind();
+		bool attachDepthTexture(ITexture2d* target) override;
 
-        bool attachColorTexture(ITexture2d *target, int no);
+		bool attachColorTexture(ITextureRectangle* target, int no) override;
 
-        bool attachDepthTexture(ITexture2d *target);
+		bool attachDepthTexture(ITextureRectangle* target) override;
 
-        bool attachColorTexture(ITextureRectangle *target, int no);
+		int maxColorAttachemnts() override;
 
-        bool attachDepthTexture(ITextureRectangle *target);
+		uint32_t width() override;
 
-        int maxColorAttachemnts();
+		uint32_t height() override;
 
-        unsigned int width();
+		bool hasStencil() override;
 
-        unsigned int height();
+		bool hasDepth() override;
 
-        bool hasStencil();
+		bool detachColorTexture(int no) override;
 
-        bool hasDepth();
+		bool detachDepthTexture() override;
 
-        bool detachColorTexture(int no);
-
-        bool detachDepthTexture();
-
-    protected:
-        int frameBuffer;
-        int depthBuffer;
-        int stencilBuffer;
-        int ext;
-        int w;
-        int h;
-        int flags;
-    };
+	protected:
+		int frameBuffer;
+		int depthBuffer;
+		int stencilBuffer;
+		int ext;
+		int w;
+		int h;
+		int flags;
+	};
 }

@@ -13,7 +13,7 @@ namespace MyGL {
         if (this->scene)
             this->scene->removeObject(this);
         if (this->actualInfo)
-            (*((void (__fastcall **)(ModelInfo *)) this->actualInfo->_vptr_IModelInfo + 1))(this->actualInfo);
+            delete this->actualInfo;
     }
 
     void GraphicsObject::init(IScene *s) {
@@ -33,7 +33,7 @@ namespace MyGL {
         this->upsetMatrix();
         if (this->scene)
             this->scene->insertObject(this);
-        this->actualInfo = newModelInfo::ModelInfo();
+        this->actualInfo = new ModelInfo::ModelInfo();
     }
 
     bool GraphicsObject::isAlvaysVisible(const) {
@@ -63,13 +63,13 @@ namespace MyGL {
     void GraphicsObject::setMaterial(IMaterial *m) {
         IMaterial *old;
 
-        old = p_object->gmaterial;
-        p_object->gmaterial = m;
-        if (p_object->scene) {
+        old = this->gmaterial;
+        this->gmaterial = m;
+        if (this->scene) {
             if (old)
-                p_object->scene->changeObject(p_object, old);
+                this->scene->changeObject(this, old);
             else
-                p_object->scene->insertObject(p_object);
+                this->scene->insertObject(this);
         }
     }
 
@@ -139,34 +139,34 @@ namespace MyGL {
 
         if (this->gmodel) {
             m = this->gmodel->cullInfo();
-            v1 = (*((double (__fastcall **)(const IModelInfo *)) m->_vptr_IModelInfo + 7))(m);
+            v1 = m->maxZ();
             v2 = (__m128d) *(unsigned __int64 *) &this->size[2];
             v2.m128d_f64[0] = v2.m128d_f64[0] * v1;
             *(float *) v2.m128d_f64 = _mm_unpacklo_pd(v2, v2).m128d_f64[0];
             Z = *(float *) v2.m128d_f64;
-            v3 = (*((double (__fastcall **)(const IModelInfo *)) m->_vptr_IModelInfo + 6))(m);
+            v3 = m->maxY();
             v4 = (__m128d) *(unsigned __int64 *) &this->size[1];
             v4.m128d_f64[0] = v4.m128d_f64[0] * v3;
             *(float *) v4.m128d_f64 = _mm_unpacklo_pd(v4, v4).m128d_f64[0];
             Y = *(float *) v4.m128d_f64;
-            v5 = (*((double (__fastcall **)(const IModelInfo *)) m->_vptr_IModelInfo + 5))(m);
+            v5 = m->maxX();
             v6 = (__m128d) *(unsigned __int64 *) &this->size[0];
             v6.m128d_f64[0] = v6.m128d_f64[0] * v5;
             *(float *) v6.m128d_f64 = _mm_unpacklo_pd(v6, v6).m128d_f64[0];
             X = *(float *) v6.m128d_f64;
-            v7 = (*((double (__fastcall **)(const IModelInfo *)) m->_vptr_IModelInfo + 4))(m);
+            v7 = m->minZ();
             v8 = (__m128d) *(unsigned __int64 *) &this->size[2];
             v8.m128d_f64[0] = v8.m128d_f64[0] * v7;
             *(float *) v8.m128d_f64 = _mm_unpacklo_pd(v8, v8).m128d_f64[0];
             z = *(float *) v8.m128d_f64;
-            v9 = (*((double (__fastcall **)(const IModelInfo *)) m->_vptr_IModelInfo + 3))(m);
+            v9 = m->minY();
             v10 = (__m128d) *(unsigned __int64 *) &this->size[1];
             v10.m128d_f64[0] = v10.m128d_f64[0] * v9;
             y = _mm_unpacklo_pd(v10, v10).m128d_f64[0];
-            v11 = (*((double (__fastcall **)(const IModelInfo *)) m->_vptr_IModelInfo + 2))(m);
+            v11 = m->minX();
             v12 = (__m128d) *(unsigned __int64 *) &this->size[0];
             v12.m128d_f64[0] = v12.m128d_f64[0] * v11;
-            ModelInfo::setBox(this->actualInfo, _mm_unpacklo_pd(v12, v12).m128d_f64[0], y, z, X, Y, Z);
+            this->actualInfo->setBox(_mm_unpacklo_pd(v12, v12).m128d_f64[0], y, z, X, Y, Z);
         }
     }
 

@@ -29,13 +29,13 @@ namespace MyGL {
 
         void init(IScene *s);
 
-        bool isAlvaysVisible();
+        bool isAlvaysVisible() override;
 
         IMaterial *material();
 
         IModel *model();
 
-        const IModelInfo *modelInfo();
+        const IModelInfo *modelInfo() override;
 
         const ObjectMatrix *objectMatrix();
 
@@ -95,9 +95,9 @@ namespace MyGL {
         //        00000035     // padding byte
         //        00000036     // padding byte
         //        00000037     // padding byte
-        double pos[3];
-        double size[3];
-        double angles[3];
+        Float pos[3];
+        Float size[3];
+        Float angles[3];
 
     };
 }

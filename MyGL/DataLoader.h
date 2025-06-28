@@ -1,8 +1,12 @@
 #pragma once
 #include "Texture2d.h"
 #include "IDataLoader.h"
+#include "IModel.h"
 #include "Model.h"
 #include "IRender.h"
+#include "AbstractShader.h"
+#include "StdMaterial.h"
+#include "ErrorControl.h"
 
 namespace MyGL {
 	class IModelLoader;

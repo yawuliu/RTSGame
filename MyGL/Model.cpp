@@ -18,8 +18,7 @@ namespace MyGL {
 
     Model::~Model() {
         if (this->mCullInform)
-            (*((void (__fastcall **)(ModelInfo *)) this->mCullInform->_vptr_IModelInfo + 1))(
-                    this->mCullInform);
+            delete this->mCullInform;
     }
 
     void Model::allocate(size_t s) {
@@ -117,31 +116,24 @@ namespace MyGL {
         CGL::GLsizei s_3;
         const CGL::GLfloat *data_3;
 
-        if ((*((unsigned int (__fastcall **)(IIOModel *const)) m->_vptr_IIOModel + 18))(m)) {
-            s = 3 * (*((__int64 (__fastcall **)(IIOModel *const)) m->_vptr_IIOModel + 18))(m);
-            data = (const CGL::GLfloat *) (*(
-                    (__int64 (__fastcall **)(IIOModel *const)) m->_vptr_IIOModel + 8))(m);
+        if (m->size()) {
+            s = 3 * m->size();
+            data = (const CGL::GLfloat *) m->points();
             this->vert->loadData(data, s);
-            s_1 = 2 * (*((__int64 (__fastcall **)(IIOModel *const)) m->_vptr_IIOModel + 18))(m);
-            data_1 = (const CGL::GLfloat *) (*(
-                    (__int64 (__fastcall **)(IIOModel *const)) m->_vptr_IIOModel + 9))(m);
+            s_1 = 2 * m->size();
+            data_1 = (const CGL::GLfloat *) m->textureCoords();
             this->tex->loadData(data_1, s_1);
-            s_2 = 3 * (*((__int64 (__fastcall **)(IIOModel *const)) m->_vptr_IIOModel + 18))(m);
-            data_2 = (const CGL::GLfloat *) (*(
-                    (__int64 (__fastcall **)(IIOModel *const)) m->_vptr_IIOModel + 10))(m);
+            s_2 = 3 * m->size();
+            data_2 = (const CGL::GLfloat *) m->normals();
             this->norm->loadData(data_2, s_2);
-            if ((*((__int64 (__fastcall **)(IIOModel *const)) m->_vptr_IIOModel + 11))(m)) {
-                s_3 = 4 * (*((__int64 (__fastcall **)(IIOModel *const)) m->_vptr_IIOModel + 18))(m);
-                data_3 = (const CGL::GLfloat *) (*(
-                        (__int64 (__fastcall **)(IIOModel *const)) m->_vptr_IIOModel + 11))(m);
+            if (m->extraData()) {
+                s_3 = 4 * m->size();
+                data_3 = (const CGL::GLfloat *) m->extraData();
                 this->extra->loadData(data_3, s_3);
             }
             this->type = IVBO::PrimitiveType::Type::Triangles;
-            this->size = (*((__int64 (__fastcall **)(IIOModel *const)) m->_vptr_IIOModel + 18))(m);
-            (*((void (__fastcall **)(ModelInfo *,
-                                     IIOModel *const)) this->mCullInform->_vptr_IModelInfo + 9))(
-                    this->mCullInform,
-                    m);
+            this->size = m->size();
+            this->mCullInform->updateFrom(m);
         }
     }
 
