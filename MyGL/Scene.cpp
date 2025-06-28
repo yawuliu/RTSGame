@@ -20,16 +20,13 @@ namespace MyGL {
         if (this->dataL)
             delete this->dataL;
         if (this->texLoader)
-            (*((void (__fastcall **)(ITextureLoader *)) this->texLoader->_vptr_ITextureLoader + 1))(
-                    this->texLoader);
+            delete this->texLoader;
         if (this->shLoader)
-            (*((void (__fastcall **)(IShaderLoader *)) this->shLoader->_vptr_IShaderLoader + 1))(
-                    this->shLoader);
+            delete this->shLoader;
         if (this->mLoader)
-            (*((void (__fastcall **)(IModelLoader *)) this->mLoader->_vptr_IModelLoader + 1))(this->mLoader);
+            delete this->mLoader;
         if (this->obj)
-            (*((void (__fastcall **)(IObjectCollection *)) this->obj->_vptr_IObjectCollection + 1))(
-                    this->obj);
+            delete this->obj;
         if (this->light)
             delete this->light;
         if (this->sceneGraph)
@@ -77,12 +74,7 @@ namespace MyGL {
     }
 
     void Scene::changeObject(IGraphicsObject *const o, IMaterial *const m) {
-        (*((void (__fastcall **)(IObjectCollection *, IGraphicsObject *const,
-                                 IMaterial *const)) this->obj->_vptr_IObjectCollection
-           + 4))(
-                this->obj,
-                o,
-                m);
+        this->obj->onChangeMaterialObject(o, m);
     }
 
     void Scene::createRenderAlgo() {
@@ -173,11 +165,7 @@ namespace MyGL {
     void Scene::insertObject(IGraphicsObject *const o) {
         __int64 v2;
 
-        (*((void (__fastcall **)(IObjectCollection *,
-                                 IGraphicsObject *const)) this->obj->_vptr_IObjectCollection
-           + 2))(
-                this->obj,
-                o);
+        this->obj->addObject(o);
         v2 = this->graph();
         (*(void (__fastcall **)(__int64, IGraphicsObject *const)) (*(_QWORD *) v2 + 16LL))(v2, o);
     }
@@ -210,11 +198,7 @@ namespace MyGL {
     void Scene::removeObject(IGraphicsObject *const o) {
         __int64 v2;
 
-        (*((void (__fastcall **)(IObjectCollection *,
-                                 IGraphicsObject *const)) this->obj->_vptr_IObjectCollection
-           + 3))(
-                this->obj,
-                o);
+        this->obj->delObject(o);
         v2 = this->graph();
         (*(void (__fastcall **)(__int64, IGraphicsObject *const)) (*(_QWORD *) v2 + 24LL))(v2, o);
     }

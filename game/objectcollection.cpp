@@ -740,14 +740,10 @@ inline bool MyGL::ObjectCollection::less(MyGL::IGraphicsObject* obj1, MyGL::IGra
 	return v10 < obj2->model();
 }
 
-inline void MyGL::ObjectCollection::onChangeMaterialObject(MyGL::IGraphicsObject& obj, MyGL::IMaterial* const a3)
+ void MyGL::ObjectCollection::onChangeMaterialObject(MyGL::IGraphicsObject& obj, MyGL::IMaterial* const a3)
 {
-	(*((void(__fastcall**)(MyGL::ObjectCollection* const, MyGL::IGraphicsObject* const))this->_vptr_IObjectCollection + 3))(
-		this,
-		obj);
-	(*((void(__fastcall**)(MyGL::ObjectCollection* const, MyGL::IGraphicsObject* const))this->_vptr_IObjectCollection + 2))(
-		this,
-		obj);
+    this->delObject(obj);
+	this->addObject(obj);
 }
 
 inline MyGL::IGraphicsObject* MyGL::ObjectCollection::operator[](size_t i)

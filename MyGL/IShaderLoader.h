@@ -12,12 +12,12 @@ namespace MyGL {
     public:
         IShaderLoader() = default;
 
-        virtual ~IShaderLoader() = default;
+        virtual ~IShaderLoader() = default; // 0
+        // 1
+        virtual void load(MyGL::IShader &, char const *, char const *, bool *) = 0; // 2
 
-        virtual void setShaderAllocator(DataLoader::IAllocator<IShader> *) = 0;
+        virtual void setEnvironment(IShaderEnvironment *) = 0; // 3
 
-        virtual ShaderEnvironment *enviroment() = 0;
-
-        virtual void setEnvironment(ShaderEnvironment *) = 0;
+        virtual ShaderEnvironment *enviroment(void) = 0; // 4
     };
 }
