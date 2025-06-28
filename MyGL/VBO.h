@@ -3,6 +3,7 @@
 #include "IVBO.h"
 #include "CGL.h"
 #include "Data.h"
+#include "IRender.h"
 
 namespace MyGL {
 
@@ -10,7 +11,7 @@ namespace MyGL {
     public:
         class Pointer {
         public:
-            Pointer(void *buf);
+            Pointer(VBO *buf);
 
             Pointer(const Pointer &p);
 
@@ -21,7 +22,7 @@ namespace MyGL {
             virtual size_t size();
 
         public:
-            void *vbo;
+            VBO *vbo;
         };
 
     public:

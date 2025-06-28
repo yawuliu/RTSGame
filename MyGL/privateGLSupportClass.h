@@ -7,68 +7,68 @@
 
 
 namespace MyGL {
-	class privateGLSupportClass : public DisableCopy {
-	protected:
-		CGL* gl;
-		bool wasFBOInit;
-		bool wasInitShaders;
-		bool wasInitTextureAPI;
-		bool wasInitVBO;
-		bool glGenBuffersARB;
-		bool glBindBufferARB;
-		bool glBufferDataARB;
-		bool glDeleteBuffersARB;
-		bool glMultiDrawArraysEXT;
-		bool glMapBufferARB;
-		bool glUnmapBufferARB;
-		bool glBufferSubDataARB;
-		bool glClampColorARB;
-		bool glActiveTextureARB;
-		bool glUniform1fARB;
-		bool glUniform1iARB;
-		bool glUniform4fARB;
-		bool glGenRenderbuffersEXT;
-		bool glGenerateMipmapEXT;
-		bool glUniform4iARB;
-		bool glUniformMatrix4fv;
-		bool glIsRenderbufferEXT;
-		bool glBindRenderbufferEXT;
-		bool glGetFramebufferAttachmentParameterivEXT;
-		bool glDeleteRenderbuffersEXT;
-		bool glRenderbufferStorageEXT;
-		bool glGetRenderbufferParameterivEXT;
-		bool glIsFramebufferEXT;
-		bool glBindFramebufferEXT;
-		bool glDeleteFramebuffersEXT;
-		bool glGenFramebuffersEXT;
-		bool glCheckFramebufferStatusEXT;
-		bool glFramebufferTexture1DEXT;
-		bool glFramebufferTexture2DEXT;
-		bool glFramebufferTexture3DEXT;
-		bool glFramebufferRenderbufferEXT;
+    class privateGLSupportClass : public DisableCopy {
+    public:
+        CGL *gl;
+        bool wasFBOInit;
+        bool wasInitShaders;
+        bool wasInitTextureAPI;
+        bool wasInitVBO;
+        PFNGLGENBUFFERSARBPROC glGenBuffersARB;
+        PFNGLBINDBUFFERARBPROC glBindBufferARB;
+        PFNGLBUFFERDATAARBPROC glBufferDataARB;
+        PFNGLDELETEBUFFERSARBPROC glDeleteBuffersARB;
+        PFNGLMULTIDRAWARRAYSEXTPROC glMultiDrawArraysEXT;
+        PFNGLMAPBUFFERARBPROC glMapBufferARB;
+        PFNGLUNMAPBUFFERARBPROC glUnmapBufferARB;
+        PFNGLBUFFERSUBDATAARBPROC glBufferSubDataARB;
+        PFNGLCLAMPCOLORARBPROC glClampColorARB;
+        PFNGLACTIVETEXTUREARBPROC glActiveTextureARB;
+        PFNGLUNIFORM1FARBPROC glUniform1fARB;
+        PFNGLUNIFORM1IARBPROC glUniform1iARB;
+        PFNGLUNIFORM4FARBPROC glUniform4fARB;
+        PFNGLGENRENDERBUFFERSEXTPROC glGenRenderbuffersEXT;
+        PFNGLGENERATEMIPMAPEXTPROC glGenerateMipmapEXT;
+        PFNGLUNIFORM4IARBPROC glUniform4iARB;
+        PFNGLUNIFORMMATRIX4FVARBPROC glUniformMatrix4fv;
+        PFNGLISRENDERBUFFEREXTPROC glIsRenderbufferEXT;
+        PFNGLBINDRENDERBUFFEREXTPROC glBindRenderbufferEXT;
+        PFNGLGETFRAMEBUFFERATTACHMENTPARAMETERIVEXTPROC glGetFramebufferAttachmentParameterivEXT;
+        PFNGLDELETERENDERBUFFERSEXTPROC glDeleteRenderbuffersEXT;
+        PFNGLRENDERBUFFERSTORAGEEXTPROC glRenderbufferStorageEXT;
+        PFNGLGETRENDERBUFFERPARAMETERIVEXTPROC glGetRenderbufferParameterivEXT;
+        PFNGLISFRAMEBUFFEREXTPROC glIsFramebufferEXT;
+        PFNGLBINDFRAMEBUFFEREXTPROC glBindFramebufferEXT;
+        PFNGLDELETEFRAMEBUFFERSEXTPROC glDeleteFramebuffersEXT;
+        PFNGLGENFRAMEBUFFERSEXTPROC glGenFramebuffersEXT;
+        PFNGLCHECKFRAMEBUFFERSTATUSEXTPROC glCheckFramebufferStatusEXT;
+        PFNGLFRAMEBUFFERTEXTURE1DEXTPROC glFramebufferTexture1DEXT;
+        PFNGLFRAMEBUFFERTEXTURE2DEXTPROC glFramebufferTexture2DEXT;
+        PFNGLFRAMEBUFFERTEXTURE3DEXTPROC glFramebufferTexture3DEXT;
+        PFNGLFRAMEBUFFERRENDERBUFFEREXTPROC glFramebufferRenderbufferEXT;
 
-	public:
-		privateGLSupportClass(CGL& glD);
+    public:
+        privateGLSupportClass(CGL &glD);
 
-		static const void* toGlColorSystem(IRender& render, ITexture::Format::Type colorSystem);
+        static const void *toGlColorSystem(IRender &render, ITexture::Format::Type colorSystem);
 
-		static const void* toGlInputFormat(IRender& a1, ITexture::InputFormat::Type imgColorSystem);
+        static const void *toGlInputFormat(IRender &a1, ITexture::InputFormat::Type imgColorSystem);
 
-		bool initVBO_API();
+        bool initVBO_API();
 
-		bool initTextureAPI();
+        bool initTextureAPI();
 
-		bool initShadersAPI();
+        bool initShadersAPI();
 
-		bool initFBO_API();
+        bool initFBO_API();
 
-		bool initColorAPI();
+        bool initColorAPI();
 
-		template<class T>
-		bool initGlExtensionFuncPtr(T func, const char* name) {
-			return initGlExtensionFuncPtr(this->gl, func, name);
-		}
-	};
+        template<class T>
+        bool initGlExtensionFuncPtr(T func, const char *name) {
+            return initGlExtensionFuncPtr(this->gl, func, name);
+        }
+    };
 }
 
 
