@@ -10,24 +10,6 @@ namespace MyGL {
     }
 
     IShader *ShaderLoader::load(IShader &taget, const char *vs, const char *fs_0, bool *ok) {
-        void (__fastcall *v5)(IShader *const, __int64);
-        const char *__rhs;
-        __int64 v7;
-        void (__fastcall *v8)(IShader *const, __int64);
-        const char *__rhs_1;
-        __int64 v10;
-        CGL *v11;
-        IErrorControl *v12;
-        void (__fastcall *v13)(IErrorControl *, IShader *const, __int64);
-        __int64 v14;
-        std::string msg;
-        bool okFs;
-        bool okVs;
-        std::string __lhs;
-        std::string __lhs_;
-        char v24;
-        char *src;
-
         src = this->srcFrom(fs_0, &okFs);
         if (src) {
             if (this->shEnv) {
@@ -75,13 +57,6 @@ namespace MyGL {
     }
 
     char *ShaderLoader::srcFrom(const char *file, bool *ok) {
-        char *vv_1;
-        __mbstate_t _M_state;
-        _BYTE v7[528];
-        std::fpos<__mbstate_t> v8;
-        char *vv;
-        int length;
-
         std::ifstream v7;
         v7.open(file, 4LL);
         if (v7.is_open() != 1) {

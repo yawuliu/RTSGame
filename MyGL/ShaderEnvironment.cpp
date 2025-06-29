@@ -32,17 +32,9 @@ namespace MyGL {
 
 	const std::string& ShaderEnvironment::getPrecompileSource()
 	{
-		std::map<std::string, ShaderEnvironment::pimpl::def>::iterator i;
-		std::_Rb_tree_iterator<std::pair<const std::string, ShaderEnvironment::pimpl::def> >::_Self __x;
-		std::string __lhs__1;
-		std::string __lhs_;
-		std::string __rhs;
-		std::string __lhs[4];
-
 		if (this->needToUpdate)
 		{
-			std::string::operator=(this->data, "
-				std::_Rb_tree_iterator<std::pair<std::string const, ShaderEnvironment::pimpl::def>>::_Rb_tree_iterator(&i);
+            this->data = i;
 			for (i._M_node = std::map<std::string, ShaderEnvironment::pimpl::def>::begin(&this->data->map)._M_node;
 				;
 				std::_Rb_tree_iterator<std::pair<std::string const, ShaderEnvironment::pimpl::def>>::operator++(&i))
@@ -59,10 +51,6 @@ namespace MyGL {
 				std::operator+<char>(&__lhs_, &__rhs);
 				std::operator+<char>(&__lhs__1, (const char*)&__lhs_);
 				std::string::operator+=(this->data, &__lhs__1);
-				std::string::~string(&__lhs__1);
-				std::string::~string(&__lhs_);
-				std::string::~string(&__rhs);
-				std::string::~string(__lhs);
 			}
 			std::string::operator+=(this->data, "
 				std::string::operator+=(this->data, "\n#line 0\n");
@@ -94,7 +82,7 @@ namespace MyGL {
 		std::map<std::string, ShaderEnvironment::pimpl::def>::iterator i;
 		std::_Rb_tree_iterator<std::pair<const std::string, ShaderEnvironment::pimpl::def> >::_Self __x;
 
-		if (std::string::size((std::string*)name))
+		if (name.size())
 		{
 			i._M_node = std::map<std::string, ShaderEnvironment::pimpl::def>::find(&this->data->map, name)._M_node;
 			__x._M_node = std::map<std::string, ShaderEnvironment::pimpl::def>::end(&this->data->map)._M_node;
@@ -120,20 +108,19 @@ namespace MyGL {
 
 		if (name.size())
 		{
-			i._M_node = std::map<std::string, ShaderEnvironment::pimpl::def>::find(&this->data->map, name)._M_node;
-			__x._M_node = std::map<std::string, ShaderEnvironment::pimpl::def>::end(&this->data->map)._M_node;
-			if (std::_Rb_tree_iterator<std::pair<std::string const, ShaderEnvironment::pimpl::def>>::operator!=(&i, &__x)
-				&& (p_second = &std::_Rb_tree_iterator<std::pair<std::string const, ShaderEnvironment::pimpl::def>>::operator->(&i)->second,
-					std::operator==<char>(&p_second->str, def)))
+			i = this->data->map.find(name);
+			__x._M_node = this->data->map.end();
+			if (i != __x
+				&& (p_second = &i->second,
+                    p_second->str==def))
 			{
-				v5 = std::_Rb_tree_iterator<std::pair<std::string const, ShaderEnvironment::pimpl::def>>::operator->(&i);
+				v5 = i;
 				++v5->second.count;
 			}
 			else
 			{
-				v6 = std::map<std::string, ShaderEnvironment::pimpl::def>::operator[](&this->data->map, name);
-				std::string::operator=(v6, def);
-				std::map<std::string, ShaderEnvironment::pimpl::def>::operator[](&this->data->map, name)->count = 1;
+                this->data->map[name]=def;
+                this->data->map[name]->count = 1;
 				this->needToUpdate = 1;
 			}
 		}

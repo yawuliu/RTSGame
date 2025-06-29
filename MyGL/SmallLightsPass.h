@@ -6,14 +6,14 @@
 #include "Adapter.h"
 
 namespace MyGL {
-	class SmallLightsPass : public AbstractPass {
-	public:
-		SmallLightsPass(const IScene& s, const Adapter& a3);
+    class SmallLightsPass : public AbstractPass {
+    public:
+        SmallLightsPass(const IScene &s, const Adapter &a3);
 
-		virtual ~SmallLightsPass() = default;
+        virtual ~SmallLightsPass() = default;
 
-		void exec();
+        virtual void exec() override;
 
-		IRenderPass::Pass::Type type();
-	};
+        virtual IRenderPass::Pass::Type type() override;
+    };
 }

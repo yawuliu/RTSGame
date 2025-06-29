@@ -1,5 +1,13 @@
 #include "Scene.h"
 #include "IRender.h"
+#include "Render.h"
+#include "ModelLoader.h"
+#include "ObjectCollection.h"
+#include "LightsCollection.h"
+#include "ForwardRenderAlgo.h"
+#include "SceneGraph.h"
+#include "ShaderLoader.h"
+#include "TextureLoader.h"
 
 namespace MyGL {
     Scene::Scene(CGL *gl) {

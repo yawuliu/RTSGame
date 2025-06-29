@@ -159,6 +159,8 @@ qt_add_executable(Game WIN32 MACOSX_BUNDLE
         MyGL/VolumetricLightScatteringPass.cpp
         MyGL/VBO.cpp
         MyGL/LincPass.cpp
+        MyGL/TextureLoader.cpp
+        MyGL/TextureLoader.h
 )
 target_include_directories(Game PRIVATE
         .

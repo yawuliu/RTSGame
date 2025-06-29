@@ -48,7 +48,6 @@ namespace MyGL {
             delete this->frame;
 		if (this->quad)
             delete this->quad;
-
 	}
 
 	void ShadowPass::buildQuad(int w, int h)
@@ -195,34 +194,26 @@ namespace MyGL {
 		Color v30;
 		int i;
 
-		v1 = this->scene();
-		v2 = v1->render();
+		v2 = this->scene()->render();
 		(*(void(__fastcall**)(__int64, Camera*))(*(_QWORD*)v2 + 240LL))(v2, &this->lview);
-		v3 = this->scene();
-		v4 = v3->render();
+		v4 = this->scene()->render();
 		v5 = *(void(__fastcall**)(__int64, _QWORD, _QWORD, _QWORD, _QWORD))(*(_QWORD*)v4 + 88LL);
 		v6 = this->frameBuffer->height();
 		v7 = this->frameBuffer->width();
 		v5(v4, 0LL, 0LL, v7, v6);
-		v8 = this->scene();
-		v9 = v8->render();
+		v9 = this->scene()->render();
 		v10 = *(void(__fastcall**)(__int64, double, double))(*(_QWORD*)v9 + 16LL);
 		Color::Color(&v30, 1.0, 1.0, 1.0, 0.0);
 		v10(v9, *(double*)v30.cdata, *(double*)&v30.cdata[2]);
-		v11 = this->scene();
-		v12 = v11->render();
+		v12 = this->scene()->render();
 		(*(void(__fastcall**)(__int64, __int64))(*(_QWORD*)v12 + 32LL))(v12, 3LL);
-		v13 = this->scene();
-		v14 = v13->render();
+		v14 = this->scene()->render();
 		(*(void(__fastcall**)(__int64))(*(_QWORD*)v14 + 248LL))(v14);
-		v15 = this->scene();
-		v16 = v15->graph();
+		v16 = this->scene()->graph();
 		(*(void(__fastcall**)(__int64, ShadowPass* const))(*(_QWORD*)v16 + 40LL))(v16, this);
-		v17 = this->scene();
-		s = v17->graph();
+		s = this->scene()->graph();
 		ISceneGraph::Visibles::Visibles(&obj, s);
-		v19 = this->scene();
-		v20 = v19->render();
+		v20 = this->scene()->render();
 		(*(void(__fastcall**)(__int64))(*(_QWORD*)v20 + 296LL))(v20);
 		for (i = 0; ; ++i)
 		{
@@ -236,11 +227,9 @@ namespace MyGL {
 				AbstractPass::drawObject<ShadowPass>(this, obj_1);
 			}
 		}
-		v24 = this->scene();
-		v25 = v24->render();
+		v25 = this->scene()->render();
 		(*(void(__fastcall**)(__int64))(*(_QWORD*)v25 + 312LL))(v25);
-		v26 = this->scene();
-		v27 = v26->graph();
+		v27 = this->scene()->graph();
 		(*(void(__fastcall**)(__int64))(*(_QWORD*)v27 + 48LL))(v27);
 	}
 
@@ -269,8 +258,7 @@ namespace MyGL {
 
 		if (this->nUpdate)
 		{
-			v2 = this->scene();
-			v3 = v2->lights();
+			v3 = this->scene()->lights();
 			if ((*(unsigned int(__fastcall**)(__int64))(*(_QWORD*)v3 + 40LL))(v3))
 			{
                 this->initLight( 0);
@@ -278,23 +266,19 @@ namespace MyGL {
 				this->frameBuffer->attachColorTexture(
 					this->frame,
 					0LL);
-				v4 = this->scene();
-				v5 = v4->render();
+				v5 = this->scene()->render();
 				c = (ICamera*)(*(__int64(__fastcall**)(__int64))(*(_QWORD*)v5 + 256LL))(v5);
-				v6 = this->scene();
-				v7 = v6->render();
+				v7 = this->scene()->render();
 				*(_QWORD*)cl_0.cdata = (*(double(__fastcall**)(__int64))(*(_QWORD*)v7 + 24LL))(v7);
 				*(_QWORD*)&cl_0.cdata[2] = v1;
-				v8 = this->scene();
-				v9 = v8->render();
+				v9 = this->scene()->render();
 				(*(void(__fastcall**)(__int64, int*, int*, int*, int*))(*(_QWORD*)v9 + 96LL))(
 					v9,
 					view,
 					&view[1],
 					&view[2],
 					&view[3]);
-				v10 = this->scene();
-				v11 = v10->render();
+				v11 = this->scene()->render();
 				(*(void(__fastcall**)(__int64, ObjectMatrix*))(*(_QWORD*)v11 + 336LL))(v11, &this->lMat);
                 this->draw();
 				this->frameBuffer->attachColorTexture(
@@ -302,19 +286,16 @@ namespace MyGL {
 					0LL);
 				this->blur->clearColor();
 				this->frameBuffer->unbind();
-				v12 = this->scene();
-				v13 = v12->render();
+				v13 = this->scene()->render();
 				(*(void(__fastcall**)(__int64, ICamera*))(*(_QWORD*)v13 + 240LL))(v13, c);
-				v14 = this->scene();
-				v15 = v14->render();
+				v15 = this->scene()->render();
 				(*(void(__fastcall**)(__int64, _QWORD, _QWORD, _QWORD, _QWORD))(*(_QWORD*)v15 + 88LL))(
 					v15,
 					(unsigned int)view[0],
 					(unsigned int)view[1],
 					(unsigned int)view[2],
 					(unsigned int)view[3]);
-				v16 = this->scene();
-				v17 = v16->render();
+				v17 = this->scene()->render();
 				(*(void(__fastcall**)(__int64, double, double))(*(_QWORD*)v17 + 16LL))(
 					v17,
 					*(double*)cl_0.cdata,
@@ -350,9 +331,7 @@ namespace MyGL {
 		float l;
 		ILight* light;
 		float ax_0;
-
-		v2 = this->scene();
-		v3 = v2->lights();
+		v3 = this->scene()->lights();
 		light = (ILight*)(*(__int64(__fastcall**)(__int64, _QWORD))(*(_QWORD*)v3 + 48LL))(v3, (unsigned int)id);
 		z1 = light->z();
 		y1 = light->y();
@@ -394,8 +373,7 @@ namespace MyGL {
 			*(float*)v10.m128d_f64 * 180.0 / 3.141592653589793,
 			ax_0 * 180.0 / 3.141592653589793 + 90.0,
 			1.0);
-		v11 = this->scene();
-		v12 = v11->render();
+		v12 = this->scene()->render();
 		v13 = (*(__int64(__fastcall**)(__int64))(*(_QWORD*)v12 + 256LL))(v12);
 		v10.m128d_f64[0] = (*(double(__fastcall**)(__int64))(*(_QWORD*)v13 + 80LL))(v13);
 		v10.m128d_f64[0] = sqrt(v10.m128d_f64[0]);
@@ -420,6 +398,6 @@ namespace MyGL {
 
 	IRenderPass::Pass::Type ShadowPass::type()
 	{
-		return 7;
+		return IRenderPass::Pass::Shadow;
 	}
 }
