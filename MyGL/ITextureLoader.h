@@ -12,15 +12,19 @@ namespace MyGL {
         public:
             ILoader() = default;
 
-            virtual ~ILoader() = default;
+            virtual ~ILoader() = default; // 0
+            //1
+            virtual void operator()(ITexture2d &, std::string const &, bool *) = 0;// 2
         };
 
     public:
         ITextureLoader() = default;
 
-        virtual ~ITextureLoader() = default;
-
-        virtual void setLoadFileCallBack(void(&)(ITexture2d &, const std::string &, bool *)) = 0;
+        virtual ~ITextureLoader() = default; //0
+        //1
+        virtual void load(ITexture2d &, std::string const &, bool *) = 0; // 2
+        virtual void setLoadFileCallBack(void (*)(ITexture2d &, std::string const &, bool *)) = 0; // 3
+        virtual void setLoadAlgo(ITextureLoader::ILoader *) = 0;// 4
     };
 }
 

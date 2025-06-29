@@ -1,11 +1,13 @@
 #include "DataLoader.h"
+#include "IModelLoader.h"
+
 namespace MyGL {
 	DataLoader::DataLoader(const IRender& r)
 	{
 		this->render = r;
-		this->textureAllocator = new DataLoader::Allocator<Texture2d, ITexture2d>();
+		this->textureAllocator = new Allocator<Texture2d, ITexture2d>();
 		this->textureLoad = 0LL;
-		this->modelAllocator = new DataLoader::Allocator<Model, IModel>();;
+		this->modelAllocator = new Allocator<Model, IModel>();;
 		this->modelLoad = 0LL;
 		this->shaderAllocator = 0LL;
 		this->shaderLoad = 0LL;
@@ -22,12 +24,7 @@ namespace MyGL {
 	IModel* DataLoader::loadModel(IModel* t, const char* file)
 	{
 		if (this->modelLoad)
-			(*((void(__fastcall**)(IModelLoader*, IModel*, const char*, _QWORD))this->modelLoad->_vptr_IModelLoader
-				+ 2))(
-					this->modelLoad,
-					t,
-					file,
-					0LL);
+			this->modelLoad->load(t,file,0LL);
 		return t;
 	}
 
@@ -39,12 +36,7 @@ namespace MyGL {
 	IModel* DataLoader::loadModelBin_v0(IModel* t, const char* file)
 	{
 		if (this->modelLoad)
-			(*((void(__fastcall**)(IModelLoader*, IModel*, const char*, _QWORD))this->modelLoad->_vptr_IModelLoader
-				+ 3))(
-					this->modelLoad,
-					t,
-					file,
-					0LL);
+			this->modelLoad->loadBin_v0(t,file,0LL);
 		return t;
 	}
 
@@ -67,13 +59,9 @@ namespace MyGL {
 
 	ITexture2d* DataLoader::loadTexture(ITexture2d* t, const char* file)
 	{
-		void(__fastcall * v3)(ITextureLoader*, ITexture2d*, std::string*, _QWORD);
-
 		if (this->textureLoad)
 		{
-			v3 = (void(__fastcall*)(ITextureLoader*, ITexture2d*, std::string*, _QWORD)) * ((_QWORD*)this->textureLoad->_vptr_ITextureLoader
-				+ 2);
-			v3(this->textureLoad, t, file, 0LL);
+            this->textureLoad->load( t, file, 0LL);
 		}
 		return t;
 	}

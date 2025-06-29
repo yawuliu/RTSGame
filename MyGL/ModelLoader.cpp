@@ -6,106 +6,34 @@ namespace MyGL {
     }
 
     IModel *ModelLoader::load(const char *fileName, bool *ok) {
-        bool v4;
-        CGL *v5;
-        IErrorControl *v6;
-        void (__fastcall *v7)(IErrorControl *, IModel *const, IOModel *, __int64);
-        __int64 v8;
-        IModel *taget_1;
-        CGL *v10;
-        IErrorControl *v11;
-        void (__fastcall *v12)(IErrorControl *, IModel *const, IOModel *, __int64);
-        __int64 v13;
         IOModel model;
-        std::string str;
-        std::string str_0;
-        std::string fname;
-        char v21;
-        char v22;
-        _BYTE v23[17];
-
-        IOModel::IOModel(&model);
-        std::allocator<char>::allocator(&v21);
-        std::string::string(&fname, fileName, &v21);
-        v4 = !IOModel::load(&model, &fname);
-        if (v4) {
+        if (!model.load(fileName)) {
             if (ok)
                 *ok = 0;
-            std::allocator<char>::allocator(&v22);
-            std::string::string(&str_0, "[Error]:IOModel load error: \n", &v22);
-
-            std::string::append(&str_0, fileName);
-            v5 = this->render->gl();
-            v6 = v5->errorCtrl();
-            v8 = std::string::data(&str_0);
-            v6->loadError(this, &model, v8);
-            taget_1 = this;
+            this->rende.gl()->errorCtrl()->loadError(this, &model, "[Error]:IOModel load error: \n" + fileName);
         } else {
             if (!model.size()) {
-                std::allocator<char>::allocator(v23);
-                std::string::string(&str, "[Warning]:IOModel is NULL: \n", v23);
-
-                std::string::append(&str, fileName);
-                v10 = this->render->gl();
-                v11 = v10->errorCtrl();
-                v13 = std::string::data(&str);
-                v11->loadError(this, &model, v13);
+                this->render.gl()->errorCtrl()->loadError(this, &model, "[Warning]:IOModel is NULL: \n" + fileName);
             }
             this->load(&model);
-            taget_1 = this;
         }
-        return taget_1;
+        return &model;
     }
 
     IModel *ModelLoader::loadBin_v0(const char *fileName, bool *ok) {
-        bool v4;
-        CGL *v5;
-        IErrorControl *v6;
-        void (__fastcall *v7)(IErrorControl *, IModel *const, IOModel *, __int64);
-        __int64 v8;
-        IModel *taget_1;
-        CGL *v10;
-        IErrorControl *v11;
-        void (__fastcall *v12)(IErrorControl *, IModel *const, IOModel *, __int64);
-        __int64 v13;
         IOModel model;
-        std::string str;
-        std::string str_0;
-        std::string fname;
-        char v21;
-        char v22;
-        _BYTE v23[17];
-
-        IOModel::IOModel(&model);
-        std::allocator<char>::allocator(&v21);
-        std::string::string(&fname, fileName, &v21);
-        v4 = !IOModel::loadBin_v0(&model, &fname);
-        if (v4) {
+        if (!model.loadBin_v0(fileName)) {
             if (ok)
                 *ok = 0;
-            std::allocator<char>::allocator(&v22);
-            std::string::string(&str_0, "[Error]:IOModel load error: \n", &v22);
-            std::string::append(&str_0, fileName);
-            v5 = this->render->gl();
-            v6 = v5->errorCtrl();
-            v8 = std::string::data(&str_0);
-            v6->loadError(this, &model, v8);
-            taget_1 = this;
+            this->render.gl()->errorCtrl()->loadError(this, &model, "[Error]:IOModel load error: \n" + fileName);
         } else {
             if (ok)
                 *ok = 1;
             if (!model.size()) {
-                std::allocator<char>::allocator(v23);
-                std::string::string(&str, "[Warning]:IOModel is NULL: \n", v23);
-                std::string::append(&str, fileName);
-                v10 = this->render->gl();
-                v11 = v10->errorCtrl();
-                v13 = std::string::data(&str);
-                v11->loadError(this, &model, v13);
+                this->render.gl()->errorCtrl()->loadError(this, &model, "[Warning]:IOModel is NULL: \n" + fileName);
             }
             this->load(&model);
-            taget_1 = this;
         }
-        return taget_1;
+        return &model;
     }
 }
