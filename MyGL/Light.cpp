@@ -1,17 +1,9 @@
 #include "Light.h"
-
+#include "RenderState.h"
 
 namespace MyGL {
     Light::Data::Data(IScene &s) : object(s) {
-        Light::Technicue *t_1;
-        Light::Material *m;
-        ITechnique *t;
-        t_1 = (Light::Technicue *) operator new(0x10uLL);
-        Light::Technicue::Technicue(t_1, s);
-        t = t_1;
-        m = (Light::Material *) operator new(0x18uLL);
-        m = new Light::Material::Material(s, t);
-        object->setMaterial(m);
+        object->setMaterial(new Light::Material(new Technicue(s)));
     }
 
     Light::Data::~Data() {
@@ -30,12 +22,6 @@ namespace MyGL {
     }
 
     void Light::Material::bind() {
-        __int64 v1;
-        __int64 v2;
-        IRender *v3;
-        void (__fastcall *v4)(IRender *, __int64);
-        __int64 v5;
-
         v1 = this->technique();
         (*(void (__fastcall **)(__int64)) (*(_QWORD *) v1 + 16LL))(v1);
         v2 = this->technique();
@@ -44,7 +30,8 @@ namespace MyGL {
     }
 
     IRenderState *Light::Material::renderState() {
-        return &Light::Technicue::rs;
+        static RenderState rs;
+        return &rs;
     }
 
     void Light::Material::setUniforms() {
@@ -59,9 +46,6 @@ namespace MyGL {
         ;
     }
 
-    const IRenderState *Light::Material::renderState() {
-        return &Light::Technicue::rs;
-    }
 
     Light::Technicue::Technicue(IScene &s) : AbstractTechnique(s) {
     }
