@@ -9,21 +9,14 @@
 
 namespace MyGL {
     ForwardRenderAlgo::ForwardRenderAlgo(IScene &s, const Adapter &adapter, bool autoMake) {
-        IScene *v4;
-        IRender *r;
-        Model *quad;
-        RenderAlgoSettings <ForwardRenderAlgo> *m_settings;
         this->mscene = s;
-        std::vector<IRenderPass *>::vector(&this->passes);
-        v4 = this->scene();
-        r = v4->render();
-        this->quad = new Model(r);
+        this->quad = new Model(this->scene()->render());
         this->buildQuad(0, 0);
         this->setBloom(1);
         this->setShadowPass(1);
         if (autoMake)
             this->makeAlgo(adapter);
-        this->m_settings = new RenderAlgoSettings<ForwardRenderAlgo>(this);
+        this->m_settings = new RenderAlgoSettings(this);
     }
 
     ForwardRenderAlgo::~ForwardRenderAlgo() {
@@ -45,24 +38,6 @@ namespace MyGL {
     }
 
     void ForwardRenderAlgo::buildQuad(int w, int h) {
-        float *p;
-        float *p_1;
-        float *p_2;
-        float *p_3;
-        float *p_4;
-        float *p_5;
-        float *p_6;
-        float *p_7;
-        IOModel m;
-        IIOModel::Point retstr_;
-        IIOModel::Point retstr__1;
-        IIOModel::Point retstr__2;
-        IIOModel::Point retstr__3;
-        IIOModel::TexCoord retstr__4;
-        IIOModel::TexCoord retstr__5;
-        IIOModel::TexCoord retstr__6;
-        IIOModel::TexCoord retstr__7;
-
         IOModel::IOModel(&m);
         IOModel::allock(&m, 4uLL);
         IOModel::point(&retstr_, &m, 0);
@@ -127,44 +102,18 @@ namespace MyGL {
     }
 
     void ForwardRenderAlgo::makeAlgo(const Adapter &adapter) {
-        IScene *s;
-        ShadowPass *shadowPass;
-        IScene *s_1;
-        ITextureRectangle *depth;
-        GlowPass *glowPass_1;
-        IScene *s_2;
-        ITextureRectangle *in;
-        BloomPass *bloomPass_1;
-        IScene *s_3;
-        ITextureRectangle *f;
-        ITextureRectangle *b;
-        ITextureRectangle *d;
-        LincPass *lincPass_1;
-        IScene *s_4;
-        ITextureRectangle *f_1;
-        ITextureRectangle *b_1;
-        ITextureRectangle *d_1;
-        ITextureRectangle *g_1;
-        ITextureRectangle *g;
-        std::vector<IRenderPass *>::value_type __x;
-        std::vector<IRenderPass *>::value_type mainPass;
-        std::vector<IRenderPass *>::value_type vlsPass;
-        std::vector<IRenderPass *>::value_type bloomPass;
-        std::vector<IRenderPass *>::value_type glowPass;
-        std::vector<IRenderPass *>::value_type lincPass;
-
-        s = ForwardRenderAlgo::scene(this);
+        s = this->scene();
         shadowPass = (ShadowPass *) operator new(0x1D0uLL);
         ShadowPass::ShadowPass(shadowPass, s, adapter);
         this->shadowPass = shadowPass;
         this->mainPass = this->allockMainPass(adapter);
         this->vlsPass = 0LL;
-        s_1 = ForwardRenderAlgo::scene(this);
+        s_1 = this->scene();
         depth = MainPass::depthBuffer(this->mainPass);
         glowPass_1 = (GlowPass *) operator new(0x38uLL);
         GlowPass::GlowPass(glowPass_1, s_1, adapter, depth);
         this->glowPass = glowPass_1;
-        s_2 = ForwardRenderAlgo::scene(this);
+        s_2 = this->scene();
         in = this->mainPass->output();
         bloomPass_1 = (BloomPass *) operator new(0x78uLL);
         BloomPass::BloomPass(bloomPass_1, s_2, adapter, in);
@@ -217,7 +166,7 @@ namespace MyGL {
     }
 
     void ForwardRenderAlgo::setPoint(float *p, float x, float y) {
-        *p = x;
+        p[0] = x;
         p[1] = y;
     }
 

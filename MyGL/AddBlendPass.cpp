@@ -6,26 +6,9 @@ namespace MyGL {
 
     }
 
-    AddBlendPass::~AddBlendPass() {
-
-    }
-
 
     void AddBlendPass::exec() {
-        IScene *v1;
-        void *s;
-        IScene *v3;
-        __int64 v4;
-        IGraphicsObject *obj_2;
-        IGraphicsObject *obj_1;
-        int i_1;
-        IScene *v8;
-        __int64 v9;
-        ISceneGraph::Visibles obj;
-        int i;
-
-        s = this->scene()->graph();
-        ISceneGraph::Visibles obj(s);
+        ISceneGraph::Visibles obj(this->scene()->graph());
         v4 = this->scene()->render();
         (*(void (__fastcall **)(__int64)) (*(_QWORD *) v4 + 296LL))(v4);
         for (i = 0;; ++i) {

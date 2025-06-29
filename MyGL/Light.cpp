@@ -93,7 +93,7 @@ namespace MyGL {
 
     bool Light::Technicue::passEvent(const IRenderPass *pass) {
         return pass->type() == 10
-               && Light::Technicue::lPass(this, (const SmallLightsPass *) pass);
+               && this->lPass((const SmallLightsPass *) pass);
     }
 
     IRenderState *Light::Technicue::renderState() {
@@ -129,27 +129,27 @@ namespace MyGL {
         return this->tDir;
     }
 
-    Float Light::dirX(const) {
+    Float Light::dirX() {
         return this->dir[0];
     }
 
-    Float Light::dirY(const) {
+    Float Light::dirY() {
         return this->dir[1];
     }
 
-    Float Light::dirZ(const) {
+    Float Light::dirZ() {
         return this->dir[2];
     }
 
-    bool Light::hasOccluder(const) {
+    bool Light::hasOccluder() {
         return 0;
     }
 
-    bool Light::isDeferred(const) {
+    bool Light::isDeferred() {
         return this->ds;
     }
 
-    bool Light::isShadowCaster(const) {
+    bool Light::isShadowCaster() {
         return this->sh;
     }
 
@@ -158,21 +158,12 @@ namespace MyGL {
     }
 
     void Light::setDeferred(bool d) {
-        Light::Data *data;
-        IScene *s;
-        Light::Data *data_1;
-
         this->ds = d;
-        data = this->data;
-        if (data) {
-            Light::Data::~Data(this->data);
-            operator delete(data);
+        if (this->data) {
+            delete this->data;
         }
         if (this->ds) {
-            s = this->collect->scene();
-            data_1 = (Light::Data *) operator new(0x80uLL);
-            Light::Data::Data(data_1, s);
-            this->data = data_1;
+            this->data = new Data(this->collect->scene());
         }
     }
 
@@ -199,45 +190,32 @@ namespace MyGL {
     }
 
     void Light::upset() {
-        __int64 v1;
-        __int64 v2;
-        const Float *v3;
-        const Float *v4;
-        double v5;
-        ObjectMatrix m;
-        Float l;
-        int i;
-        int r;
-        int i_0;
-
-        ObjectMatrix::ObjectMatrix(&m);
         v1 = this->collect->scene();
         v2 = (*(__int64 (__fastcall **)(__int64)) (*(_QWORD *) v1 + 24LL))(v1);
         (*(void (__fastcall **)(__int64, ObjectMatrix *)) (*(_QWORD *) v2 + 320LL))(v2, &m);
         for (i_0 = 0; i_0 <= 2; ++i_0) {
-            v3 = ObjectMatrix::data(&m);
+            v3 = m.data();
             this->tDir[i_0] = v3[4 * i_0 + 3];
             for (r = 0; r <= 2; ++r) {
                 v5 = this->tDir[i_0];
-                v4 = ObjectMatrix::data(&m);
+                v4 = m.data();
                 this->tDir[i_0] = this->dir[r] * v4[4 * r + i_0] + v5;
             }
         }
         l = sqrt(this->tDir[2] * this->tDir[2] + this->tDir[0] * this->tDir[0] + this->tDir[1] * this->tDir[1]);
         for (i = 0; i <= 2; ++i)
             this->tDir[i] = this->tDir[i] / -l;
-        ObjectMatrix::~ObjectMatrix(&m);
     }
 
-    Float Light::x(const) {
+    Float Light::x() {
         return this->pos[0];
     }
 
-    Float Light::y(const) {
+    Float Light::y() {
         return this->pos[1];
     }
 
-    Float Light::z(const) {
+    Float Light::z() {
         return this->pos[2];
     }
 }

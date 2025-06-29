@@ -1,33 +1,13 @@
 #include "BloomPass.h"
 
 namespace MyGL {
-    MyGL::BloomPass::Data::Data(IScene &s, IModel *quad) : gausV(s), gausH(s), grab(s) {
+    BloomPass::Data::Data(IScene &s, IModel *quad) : gausV(s), gausH(s), grab(s) {
         this->gausV.setQuadModel(quad);
         this->gausH.setQuadModel(quad);
         this->grab.setQuadModel(quad);
     }
 
-    MyGL::BloomPass::BloomPass(IScene &s, const Adapter &adapter, ITextureRectangle *in) : AbstractPass(s) {
-        IScene *v4;
-        IRender *r;
-        TextureRectangle *frame;
-        IScene *v7;
-        IRender *r_1;
-        TextureRectangle *subFrame;
-        IScene *v10;
-        IRender *r_2;
-        TextureRectangle *v12;
-        IScene *v13;
-        IRender *r_3;
-        Model *v15;
-        IScene *s_1;
-        BloomPass::Data *data;
-        IRenderState *v18;
-        IRenderState *v19;
-        IRenderState *v20;
-        IRenderState *v21;
-        int i;
-        int i_0;
+    BloomPass::BloomPass(IScene &s, const Adapter &adapter, ITextureRectangle *in) : AbstractPass(s) {
         this->m_isValid = 1;
         this->input = in;
         this->m_downSamplesCount = -1;
@@ -55,9 +35,7 @@ namespace MyGL {
         this->initShaders(adapter);
     }
 
-    MyGL::BloomPass::~BloomPass() {
-        int i_0;
-        int i;
+    BloomPass::~BloomPass() {
         if (this->data) {
 
             delete this->data;
@@ -78,20 +56,15 @@ namespace MyGL {
         }
     }
 
-    bool MyGL::BloomPass::validate() {
+    bool BloomPass::validate() {
         return this->m_isValid;
     }
 
-    int MyGL::BloomPass::downSamplesCount() {
+    int BloomPass::downSamplesCount() {
         return this->m_downSamplesCount;
     }
 
-    void MyGL::BloomPass::setDownSamplesCount(int c) {
-        const int *__a;
-        int ca;
-        int __b_;
-        int __b;
-
+    void BloomPass::setDownSamplesCount(int c) {
         ca = c;
         __b_ = 1;
         __b = 3;
@@ -106,7 +79,7 @@ namespace MyGL {
         }
     }
 
-    void MyGL::BloomPass::setShader(IShader *s) {
+    void BloomPass::setShader(IShader *s) {
         this->m_isValid = 1;
         this->data->grab.setShader(s);
         if (s) {
@@ -119,34 +92,7 @@ namespace MyGL {
             this->data->textureIn->set(0LL);
     }
 
-    void MyGL::BloomPass::buildQuad(int w, int h) {
-        float *p;
-        float *p_1;
-        float *p_2;
-        float *p_3;
-        float *p_4;
-        float *p_5;
-        float *p_6;
-        float *p_7;
-        float *p_8;
-        float *p_9;
-        float *p_10;
-        float *p_11;
-        IOModel m;
-        IIOModel::Point retstr_;
-        IIOModel::Point retstr__1;
-        IIOModel::Point retstr__2;
-        IIOModel::Point retstr__3;
-        IOModel::Normal retstr__4;
-        IOModel::Normal retstr__5;
-        IOModel::Normal retstr__6;
-        IOModel::Normal retstr__7;
-        IIOModel::TexCoord retstr__8;
-        IIOModel::TexCoord retstr__9;
-        IIOModel::TexCoord retstr__10;
-        IIOModel::TexCoord retstr__11;
-        int i;
-
+    void BloomPass::buildQuad(int w, int h) {
         IOModel::IOModel(&m);
         IOModel::allock(&m, 4uLL);
         IOModel::point(&retstr_, &m, 0);
@@ -193,20 +139,12 @@ namespace MyGL {
         }
     }
 
-    void MyGL::BloomPass::setPoint(float *p, float x, float y) {
-        *p = x;
+    void BloomPass::setPoint(float *p, float x, float y) {
+        p[0] = x;
         p[1] = y;
     }
 
-    void MyGL::BloomPass::resizeFrame() {
-        IScene *v1;
-        __int64 v2;
-        IScene *v3;
-        IRender *r;
-        FBO *v5;
-        int v[6];
-        int dw;
-        int i;
+    void BloomPass::resizeFrame() {
         v2 = this->scene()->render();
         (*(void (__fastcall **)(__int64, int *, int *, int *, int *)) (*(_QWORD *) v2 + 96LL))(v2, v, &v[1], &v[2],
                                                                                                &v[3]);
@@ -250,14 +188,14 @@ namespace MyGL {
         }
     }
 
-    void MyGL::BloomPass::incompleteEvent(const std::string &msg) {
+    void BloomPass::incompleteEvent(const std::string &msg) {
         v3 = this->scene()->render();
         v4 = (CGL *) (*(__int64 (__fastcall **)(__int64)) (*(_QWORD *) v3 + 72LL))(v3);
         v4->errorCtrl()->warning(0LL, msg);
         this->m_isValid = 0;
     }
 
-    void MyGL::BloomPass::initShaders(const Adapter &adapter) {
+    void BloomPass::initShaders(const Adapter &adapter) {
         this->data->gausV->setShader(adapter->getGausVerticalShader());
         this->data->gausH->setShader(adapter->getGausHorizontalShader());
         this->data->grab->setShader(adapter->getBloomDownSampleShader());
@@ -276,20 +214,7 @@ namespace MyGL {
         }
     }
 
-    void MyGL::BloomPass::exec() {
-        IScene *v1;
-        __int64 v2;
-        IScene *v3;
-        __int64 v4;
-        int v5;
-        IScene *v6;
-        __int64 v7;
-        IScene *v8;
-        __int64 v9;
-        double cl_0;
-        unsigned int v[8];
-
-
+    void BloomPass::exec() {
         v2 = this->scene()->render();
         (*(void (__fastcall **)(__int64, unsigned int *, unsigned int *, unsigned int *, unsigned int *)) (
                 *(_QWORD *) v2 + 96LL))(
@@ -319,15 +244,7 @@ namespace MyGL {
         (*(void (__fastcall **)(__int64, double)) (*(_QWORD *) v9 + 16LL))(v9, cl_0);
     }
 
-    void MyGL::BloomPass::downSample(FBO *frameBuffer, ITexture *input, ITextureRectangle *output, IModel *quad) {
-        IScene *v5;
-        __int64 v6;
-        void (__fastcall *v7)(__int64, _QWORD, _QWORD, _QWORD, _QWORD);
-        unsigned int v8;
-        unsigned int v9;
-        IScene *v10;
-        __int64 v11;
-
+    void BloomPass::downSample(FBO *frameBuffer, ITexture *input, ITextureRectangle *output, IModel *quad) {
         frameBuffer->bind();
         v6 = this->scene()->render();
         v7 = *(void (__fastcall **)(__int64, _QWORD, _QWORD, _QWORD, _QWORD)) (*(_QWORD *) v6 + 88LL);
@@ -343,7 +260,7 @@ namespace MyGL {
         frameBuffer->unbind();
     }
 
-    void MyGL::BloomPass::postProcess(FBO *frameBuffer) {
+    void BloomPass::postProcess(FBO *frameBuffer) {
         frameBuffer->bind();
         frameBuffer->attachColorTexture(this->subFrame,0LL);
         this->data->gausV->exec();
@@ -352,11 +269,11 @@ namespace MyGL {
         frameBuffer->unbind();
     }
 
-    ITextureRectangle *MyGL::BloomPass::output() {
+    ITextureRectangle *BloomPass::output() {
         return this->frame;
     }
 
-    IRenderPass::Pass::Type MyGL::BloomPass::type() {
+    IRenderPass::Pass::Type BloomPass::type() {
         return 2;
     }
 }

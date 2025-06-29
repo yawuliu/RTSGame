@@ -12,16 +12,12 @@ namespace MyGL {
     }
 
     DataStream::DataStream(IScene *s) {
-        __int64 v2;
-
         this->data = s->dataControl();
         v2 = s->shaderLoader();
         this->env = (IShaderEnvironment *) (*(__int64 (__fastcall **)(__int64)) (*(_QWORD *) v2 + 32LL))(v2);
     }
 
     DataStream::DataStream(IScene &s) {
-        __int64 v2;
-
         this->data = s->dataControl();
         v2 = s->shaderLoader();
         this->env = (IShaderEnvironment *) (*(__int64 (__fastcall **)(__int64)) (*(_QWORD *) v2 + 32LL))(v2);

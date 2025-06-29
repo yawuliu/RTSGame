@@ -68,7 +68,7 @@ namespace MyGL {
 		}
 
 		IRenderPass::Pass::Type Filter::type() {
-			return 0;
+			return IRenderPass::Pass::None;
 		}
 
 		IModel* Filter::quadModel() {

@@ -11,7 +11,7 @@ namespace MyGL {
     public:
         AddBlendPass(IScene &s);
 
-        virtual ~AddBlendPass();
+        virtual ~AddBlendPass() = default;
 
         virtual void exec() override;
 
