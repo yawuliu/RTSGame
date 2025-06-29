@@ -1,58 +1,32 @@
 #include "TransparentPass.h"
+#include "ISceneGraph.h"
+#include "IScene.h"
+#include "IRender.h"
+#include "IRenderState.h"
 
 namespace MyGL {
     TransparentPass::TransparentPass(IScene &s) : AbstractPass(s) {}
 
-    TransparentPass::~TransparentPass() {}
-
     void TransparentPass::exec() {
-        IScene *v1;
-        __int64 v2;
-        IScene *v3;
-        void *s;
-        IGraphicsObject *obj_2;
-        IGraphicsObject *obj_1;
-        int i_1;
-        IGraphicsObject *obj_4;
-        IGraphicsObject *obj_3;
-        int i_2;
-        IScene *v11;
-        __int64 v12;
-        ISceneGraph::Visibles obj;
-        int i_0;
-        int i;
-
-        v1 = this->scene();
-        v2 = v1->render();
-        (*(void (__fastcall **)(__int64)) (*(_QWORD *) v2 + 296LL))(v2);
+        this->scene().render()->begin();
         this->depthP = 1;
-        v3 = this->scene();
-        s = v3->graph();
-        obj.Visibles(s);
-        for (i = 0;; ++i) {
-            i_1 = ISceneGraph::Visibles::size(&obj);
-            if (i_1 <= i)
+        ISceneGraph::Visibles obj(this->scene().graph());
+        for (int i = 0;; ++i) {
+            if (obj.size() <= i)
                 break;
-            obj_2 = obj[i];
-            if (this->isDrawable(obj_2)) {
-                obj_1 = obj[i];
-                this->drawObject(obj_1);
+            if (this->isDrawable(obj[i])) {
+                this->drawObject(obj[i]);
             }
         }
         this->depthP = 0;
-        for (i_0 = 0;; ++i_0) {
-            i_2 = obj.size();
-            if (i_2 <= i_0)
+        for (int i_0 = 0;; ++i_0) {
+            if (obj.size() <= i_0)
                 break;
-            obj_4 = obj[i_0];
-            if (this->isDrawable(obj_4)) {
-                obj_3 = obj[i_0];
-                this->drawObject(obj_3);
+            if (this->isDrawable(obj[i_0])) {
+                this->drawObject(obj[i_0]);
             }
         }
-        v11 = this->scene();
-        v12 = v11->render();
-        (*(void (__fastcall **)(__int64)) (*(_QWORD *) v12 + 312LL))(v12);
+        this->scene().render()->end();
     }
 
     bool TransparentPass::isColorPass() {
@@ -63,30 +37,17 @@ namespace MyGL {
         return this->depthP;
     }
 
-    bool TransparentPass::isDrawable(IGraphicsObject *const obj) {
-        __int64 v3;
-        __int64 v4;
-        __int64 v5;
-        __int64 v6;
-        __int64 v7;
-        __int64 v8;
-
-        if (obj->visible() != 1)
+    bool TransparentPass::isDrawable(IGraphicsObject &obj) {
+        if (obj.visible() != 1)
             return 0;
-        v3 = obj->material();
-        v4 = (*(__int64 (__fastcall **)(__int64)) (*(_QWORD *) v3 + 88LL))(v3);
-        if ((*(unsigned __int8 (__fastcall **)(__int64)) (*(_QWORD *) v4 + 136LL))(v4) != 1)
+        if (obj.material()->renderState()->isBlend() != 1)
             return 0;
-        v5 = obj->material();
-        v6 = (*(__int64 (__fastcall **)(__int64)) (*(_QWORD *) v5 + 88LL))(v5);
-        if ((*(unsigned int (__fastcall **)(__int64)) (*(_QWORD *) v6 + 168LL))(v6) != 4)
+        if (obj.material()->renderState()->getBlendSFactor() != 4)
             return 0;
-        v7 = obj->material();
-        v8 = (*(__int64 (__fastcall **)(__int64)) (*(_QWORD *) v7 + 88LL))(v7);
-        return (*(unsigned int (__fastcall **)(__int64)) (*(_QWORD *) v8 + 176LL))(v8) == 5;
+        return obj.material()->renderState()->getBlendDFactor() == 5;
     }
 
     IRenderPass::Pass::Type TransparentPass::type() {
-        return 8;
+        return IRenderPass::Pass::Transparent;
     }
 }

@@ -107,7 +107,7 @@ namespace MyGL {
     }
 
     IVBO::IPointer *VBO::pointerToData() {
-        return new Pointer();
+        return new Pointer(this);
     }
 
     void VBO::addRef() {

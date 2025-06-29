@@ -9,6 +9,8 @@ namespace MyGL {
 
     class StdTechnique;
 
+    class IUniformSampler;
+
     class ITexture2d;
 
     class StdMaterial : public AbstractMaterial {
@@ -34,7 +36,7 @@ namespace MyGL {
         void bindTextures();
 
         bool checkSampler(IUniformSampler *s);
-        
+
         const std::string &name();
 
         void setDepthShader(IShader *sh);

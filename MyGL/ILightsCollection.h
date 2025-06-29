@@ -13,7 +13,7 @@ namespace MyGL {
         virtual void del(ILight &) = 0;// 3
         virtual void remove(ILight &) = 0;// 4
         virtual void size() = 0;// 5
-        virtual void at(uint) = 0;//  6
+        virtual ILight *at(uint) = 0;//  6
         virtual void scene() = 0;// 7
     };
 }

@@ -22,6 +22,6 @@ namespace MyGL {
 
         virtual void set(int) = 0; // 6
 
-        virtual void get() = 0; // 7
+        virtual int get() = 0; // 7
     };
 }

@@ -71,49 +71,38 @@ namespace MyGL {
         return this->depth;
     }
 
-    IUniformSampler *StdTechnique::diffSampler(StdTechnique &mtechnique) {
-        return mtechnique->mdiffSampler;
+    IUniformSampler *StdTechnique::diffSampler() {
+        return this->mdiffSampler;
     }
 
     bool StdTechnique::drawEvent(const IGraphicsObject &obj, const IMaterial &a3) {
-        bool v3;
-        IRender *v4;
-        IRender *v5;
-        const void *other;
-        ObjectMatrix m;
-
         if (!this->updateMat)
             return 1;
         this->updateMat = 0;
-        ObjectMatrix::ObjectMatrix(&m);
         this->lMatrix.identity();
-        v4 = this->render();
-        v4->getProjectionMatrix(&m);
+        ObjectMatrix m;
+        this->render()->getProjectionMatrix(&m);
         this->lMatrix.mul(&m);
-        v5 = this->render();
-        v5->getModeViewlMatrix(&m);
+        this->render()->getModeViewlMatrix(&m);
         this->lMatrix.mul(&m);
-        other = obj->objectMatrix();
-        this->lMatrix.mul(other);
-        v3 = this->sh != 0LL;
-
-        return v3;
+        this->lMatrix.mul(obj.objectMatrix());
+        return this->sh != 0LL;
     }
 
-    IUniformSampler *StdTechnique::glowSampler(StdTechnique &mtechnique) {
-        return mtechnique->gglowSampler;
+    IUniformSampler *StdTechnique::glowSampler() {
+        return this->gglowSampler;
     }
 
     IShader *StdTechnique::glowShader() {
         return this->glow;
     }
 
-    IUniformSampler *StdTechnique::normalMapSampler(StdTechnique &mtechnique) {
-        return mtechnique->normalSampler;
+    IUniformSampler *StdTechnique::normalMapSampler() {
+        return this->normalSampler;
     }
 
-    IUniformSampler *StdTechnique::opacitySampler_toSM(StdTechnique &mtechnique) {
-        return mtechnique->opacitySampler;
+    IUniformSampler *StdTechnique::opacitySampler_toSM() {
+        return this->opacitySampler;
     }
 
     bool StdTechnique::passEvent(const AddBlendPass *a2) {
@@ -128,22 +117,13 @@ namespace MyGL {
     }
 
     bool StdTechnique::passEvent(const ColorPass *a2) {
-        IShader *s;
-        __int64 v3;
-        __int64 v4;
-        __int64 v5;
-
         this->storeRenderState();
-        s = this->colorShader();
-        this->setCurrentShader(s);
-        v3 = this->renderState();
-        (*(void (__fastcall **)(__int64, __int64)) (*(_QWORD *) v3 + 96LL))(v3, 1LL);
+        this->setCurrentShader(this->colorShader());
+        this->renderState()->setZTest(1LL);
         if (this->useDepthPass()) {
-            v4 = this->renderState();
-            (*(void (__fastcall **)(__int64, __int64)) (*(_QWORD *) v4 + 128LL))(v4, 6LL);
+            this->renderState()->setZTestMode(6LL);
         } else {
-            v5 = this->renderState();
-            (*(void (__fastcall **)(__int64, __int64)) (*(_QWORD *) v5 + 128LL))(v5, 2LL);
+            this->renderState()->setZTestMode(2LL);
         }
         return this->currentShader() != 0;
     }
@@ -155,11 +135,7 @@ namespace MyGL {
         this->sh = this->depth;
         this->rstate->setZTest(1LL);
         this->rstate->setZTestMode(2LL);
-        this->rstate->setColorMask(
-                0LL,
-                0LL,
-                0LL,
-                0LL);
+        this->rstate->setColorMask(0LL, 0LL, 0LL, 0LL);
         return this->sh != 0LL;
     }
 
@@ -184,11 +160,7 @@ namespace MyGL {
             this->updateMat = 1;
             this->rstate->setZTest(1LL);
             this->rstate->setZTestMode(2LL);
-            this->rstate->setColorMask(
-                    1LL,
-                    1LL,
-                    1LL,
-                    1LL);
+            this->rstate->setColorMask(1LL, 1LL, 1LL, 1LL);
             this->rstate->setBlend(0LL);
             if (this->rstate->cullFaceMode() == 2) {
                 this->rstate->setCullFaceMode(1LL);
@@ -230,30 +202,30 @@ namespace MyGL {
         this->rstate->copy(this->pstate);
     }
 
-    void StdTechnique::setColorShader(StdTechnique &mtechnique, IShader *sh) {
-        mtechnique->mshader = sh;
-        if (mtechnique->mshader) {
-            mtechnique->mdiffSampler = mtechnique->mshader->uniformSampler("diffuse_texture");
-            mtechnique->mshadowSampler = mtechnique->mshader->uniformSampler("shadow_map_texture");
-            mtechnique->mspecSampler = mtechnique->mshader->uniformSampler("specular_texture");
-            mtechnique->normalSampler = mtechnique->mshader->uniformSampler("normal_map_texture");
-            if (mtechnique->mdiffSampler)
-                mtechnique->mdiffSampler->set(0LL);
-            if (mtechnique->mshadowSampler)
-                mtechnique->mshadowSampler->set(1LL);
-            if (mtechnique->mspecSampler)
-                mtechnique->mspecSampler->set(2LL);
-            if (mtechnique->normalSampler)
-                mtechnique->normalSampler->set(3LL);
-            mtechnique->lMat = mtechnique->mshader->uniformMatrix4x4("lMatrix");
-            mtechnique->lDir = mtechnique->mshader->uniform4f("lDirection");
+    void StdTechnique::setColorShader(IShader *sh) {
+        this->mshader = sh;
+        if (this->mshader) {
+            this->mdiffSampler = this->mshader->uniformSampler("diffuse_texture");
+            this->mshadowSampler = this->mshader->uniformSampler("shadow_map_texture");
+            this->mspecSampler = this->mshader->uniformSampler("specular_texture");
+            this->normalSampler = this->mshader->uniformSampler("normal_map_texture");
+            if (this->mdiffSampler)
+                this->mdiffSampler->set(0LL);
+            if (this->mshadowSampler)
+                this->mshadowSampler->set(1LL);
+            if (this->mspecSampler)
+                this->mspecSampler->set(2LL);
+            if (this->normalSampler)
+                this->normalSampler->set(3LL);
+            this->lMat = this->mshader->uniformMatrix4x4("lMatrix");
+            this->lDir = this->mshader->uniform4f("lDirection");
         } else {
-            mtechnique->mdiffSampler = 0LL;
-            mtechnique->mshadowSampler = 0LL;
-            mtechnique->mspecSampler = 0LL;
-            mtechnique->normalSampler = 0LL;
-            mtechnique->lMat = 0LL;
-            mtechnique->lDir = 0LL;
+            this->mdiffSampler = 0LL;
+            this->mshadowSampler = 0LL;
+            this->mspecSampler = 0LL;
+            this->normalSampler = 0LL;
+            this->lMat = 0LL;
+            this->lDir = 0LL;
         }
     }
 
@@ -261,68 +233,54 @@ namespace MyGL {
         this->sh = s;
     }
 
-    void StdTechnique::setDepthShader(StdTechnique &mtechnique, IShader *sh) {
-        mtechnique->depth = sh;
+    void StdTechnique::setDepthShader(IShader *sh) {
+        this->depth = sh;
     }
 
-    void StdTechnique::setGlowShader(StdTechnique &mtechnique, IShader *sh) {
-        mtechnique->glow = sh;
-        if (mtechnique->glow) {
-            mtechnique->gglowSampler = mtechnique->glow->uniformSampler("glow_texture");
-            if (mtechnique->gglowSampler)
-                mtechnique->gglowSampler->set(0LL);
+    void StdTechnique::setGlowShader(IShader *sh) {
+        this->glow = sh;
+        if (this->glow) {
+            this->gglowSampler = this->glow->uniformSampler("glow_texture");
+            if (this->gglowSampler)
+                this->gglowSampler->set(0LL);
         } else {
-            mtechnique->gglowSampler = 0LL;
+            this->gglowSampler = 0LL;
         }
     }
 
-    void StdTechnique::setShadowShader(StdTechnique &mtechnique, IShader *sh) {
-        mtechnique->shadow = sh;
-        if (mtechnique->shadow)
-            mtechnique->opacitySampler = mtechnique->shadow->uniformSampler("opacity");
+    void StdTechnique::setShadowShader(IShader *sh) {
+        this->shadow = sh;
+        if (this->shadow)
+            this->opacitySampler = this->shadow->uniformSampler("opacity");
         else
-            mtechnique->opacitySampler = 0LL;
+            this->opacitySampler = 0LL;
     }
 
     void StdTechnique::setUniforms() {
-        void (__fastcall *v1)(IUniformMatrix4x4 *, const Float *);
-        const Float *v2;
-        IScene *v3;
-        __int64 v4;
-        IScene *v6;
-        __int64 v7;
-        __int64 v8;
-        Float *l;
-
         if (this->mshader == this->sh) {
             if (this->lMat) {
                 v2 = this->lMatrix->data();
                 this->lMat->set(v2);
             }
             if (this->lDir) {
-                v3 = this->scene();
-                v4 = v3->lights();
-                if ((*(unsigned int (__fastcall **)(__int64)) (*(_QWORD *) v4 + 40LL))(v4)) {
-                    v6 = this->scene();
-                    v7 = v6->lights();
-                    v8 = (*(__int64 (__fastcall **)(__int64, _QWORD)) (*(_QWORD *) v7 + 48LL))(v7, 0LL);
-                    l = (Float *) (*(__int64 (__fastcall **)(__int64)) (*(_QWORD *) v8 + 104LL))(v8);
+                if (this->scene()->lights()->size()) {
+                    Float *l = this->scene()->lights()->at(0LL)->dirTransform();
                     this->lDir->set(*l, l[1], l[2], 1.0);
                 }
             }
         }
     }
 
-    IUniformSampler *StdTechnique::shadowSampler(StdTechnique &mtechnique) {
-        return mtechnique->mshadowSampler;
+    IUniformSampler *StdTechnique::shadowSampler() {
+        return this->mshadowSampler;
     }
 
     IShader *StdTechnique::shadowShader() {
         return this->shadow;
     }
 
-    IUniformSampler *StdTechnique::specularSampler(StdTechnique &mtechnique) {
-        return mtechnique->mspecSampler;
+    IUniformSampler *StdTechnique::specularSampler() {
+        return this->mspecSampler;
     }
 
     void StdTechnique::storeRenderState() {
@@ -333,27 +291,27 @@ namespace MyGL {
         ;
     }
 
-    void StdTechnique::useCullFace(StdTechnique &mtechnique, bool use) {
-        StdTechnique::useCullFace(mtechnique, use, IRenderState::CullMode::Type::back);
+    void StdTechnique::useCullFace(bool use) {
+        this->useCullFace(use, IRenderState::CullMode::Type::back);
     }
 
-    void StdTechnique::useCullFace(StdTechnique &mtechnique, bool use, IRenderState::CullMode::Type t) {
-        mtechnique->useCull = use;
-        if (!mtechnique->useCull)
-            mtechnique->rstate->setCullFaceMode(0LL);
+    void StdTechnique::useCullFace(bool use, IRenderState::CullMode::Type t) {
+        this->useCull = use;
+        if (!this->useCull)
+            this->rstate->setCullFaceMode(0LL);
         else
-            mtechnique->rstate->setCullFaceMode((unsigned int) t);
+            this->rstate->setCullFaceMode((unsigned int) t);
     }
 
-    void StdTechnique::useDepthPass(StdTechnique &mtechnique, bool use) {
-        mtechnique->useDepth = use;
+    void StdTechnique::useDepthPass(bool use) {
+        this->useDepth = use;
     }
 
     bool StdTechnique::useDepthPass() {
         return this->useDepth && this->depth;
     }
 
-    void StdTechnique::useGlow(StdTechnique &mtechnique, bool use) {
-        mtechnique->useGlowM = use;
+    void StdTechnique::useGlow(bool use) {
+        this->useGlowM = use;
     }
 }

@@ -1,28 +1,28 @@
 #pragma once
 
 #include "AbstractPass.h"
-#include "ISceneGraph.h"
+#include "IGraphicsObject.h"
+#include "IScene.h"
+#include "IRenderPass.h"
 
 namespace MyGL {
-	class IScene;
+    class TransparentPass : public AbstractPass {
+    public:
+        TransparentPass(IScene &s);
 
-	class TransparentPass : public AbstractPass {
-	public:
-		TransparentPass(IScene& s);
+        virtual ~TransparentPass() = default;
 
-		virtual ~TransparentPass();
+        virtual void exec() override;
 
-		void exec();
+        virtual IRenderPass::Pass::Type type() override;
 
-		bool isColorPass();
+        bool isColorPass();
 
-		bool isDepthPass();
+        bool isDepthPass();
 
-		bool isDrawable(IGraphicsObject* const obj);
+        bool isDrawable(IGraphicsObject &obj);
 
-		IRenderPass::Pass::Type type();
-
-	protected:
-		bool depthP;
-	};
+    protected:
+        bool depthP;
+    };
 }

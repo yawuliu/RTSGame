@@ -3,7 +3,6 @@
 #include "ITexture2d.h"
 #include "CGL.h"
 #include "Color.h"
-#include "privateGLSupportClass.h"
 
 namespace MyGL {
     class IRender;
@@ -17,7 +16,7 @@ namespace MyGL {
         virtual void create() = 0;// 2
         virtual void bind() = 0;// 3
         virtual void free() = 0;// 4
-        virtual void getHandle() = 0;// 5
+        virtual CGL::TextureHandle *getHandle() = 0;// 5
         virtual void
         setFiltration(ITexture::FilterType::Type, ITexture::FilterType::Type, ITexture::FilterType::Type) = 0;//  6
         virtual void setFiltration(ITexture::FilterType::Type, ITexture::FilterType::Type) = 0;// 7

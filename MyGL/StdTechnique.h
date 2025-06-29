@@ -1,5 +1,6 @@
 #pragma once
 
+#include "IRenderState.h"
 #include "RenderState.h"
 #include "AbstractTechnique.h"
 
@@ -20,12 +21,15 @@ namespace MyGL {
 
     class IScene;
 
+    class IUniformSampler;
 
     class IShader;
 
+    class IUniform4f;
+
     class StdTechnique : public AbstractTechnique {
     public:
-        StdTechnique(StdTechnique &mtechnique, IScene &s);
+        StdTechnique(IScene &s);
 
         virtual ~StdTechnique();
 
@@ -51,17 +55,17 @@ namespace MyGL {
 
         IShader *depthShader();
 
-        IUniformSampler *diffSampler(StdTechnique &mtechnique);
+        IUniformSampler *diffSampler();
 
         bool drawEvent(const IGraphicsObject &obj, const IMaterial &a3);
 
-        IUniformSampler *glowSampler(StdTechnique &mtechnique);
+        IUniformSampler *glowSampler();
 
         IShader *glowShader();
 
-        IUniformSampler *normalMapSampler(StdTechnique &mtechnique);
+        IUniformSampler *normalMapSampler();
 
-        IUniformSampler *opacitySampler_toSM(StdTechnique &mtechnique);
+        IUniformSampler *opacitySampler_toSM();
 
         bool passEvent(AddBlendPass const *a2);
 
@@ -79,37 +83,37 @@ namespace MyGL {
 
         void restoreRenderState();
 
-        void setColorShader(StdTechnique &mtechnique, IShader *sh);
+        void setColorShader(IShader *sh);
 
         void setCurrentShader(IShader *s);
 
-        void setDepthShader(StdTechnique &mtechnique, IShader *sh);
+        void setDepthShader(IShader *sh);
 
-        void setGlowShader(StdTechnique &mtechnique, IShader *sh);
+        void setGlowShader(IShader *sh);
 
-        void setShadowShader(StdTechnique &mtechnique, IShader *sh);
+        void setShadowShader(IShader *sh);
 
         void setUniforms();
 
-        IUniformSampler *shadowSampler(StdTechnique &mtechnique);
+        IUniformSampler *shadowSampler();
 
         IShader *shadowShader();
 
-        IUniformSampler *specularSampler(StdTechnique &mtechnique);
+        IUniformSampler *specularSampler();
 
         void storeRenderState();
 
         void uBind();
 
-        void useCullFace(StdTechnique &mtechnique, bool use);
+        void useCullFace(bool use);
 
-        void useCullFace(StdTechnique &mtechnique, bool use, IRenderState::CullMode::Type t);
+        void useCullFace(bool use, IRenderState::CullMode::Type t);
 
-        void useDepthPass(StdTechnique &mtechnique, bool use);
+        void useDepthPass(bool use);
 
         bool useDepthPass();
 
-        void useGlow(StdTechnique &mtechnique, bool use);
+        void useGlow(bool use);
 
     public:
         IRenderState *rstate;

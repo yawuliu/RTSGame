@@ -29,49 +29,33 @@ namespace MyGL {
     }
 
     void VolumetricLightScatteringPass::resizeFrame() {
-        IScene *v1;
-        __int64 v2;
-        IScene *v3;
-        IRender *r;
-        unsigned int theWidth;
-        unsigned int theHeight;
-        FBO *frameBuffer;
         int v[12];
+        this->scene()->render()->getViewport(
+                &v[0],
+                &v[1],
+                &v[2],
+                &v[3]);
 
-
-        v2 = this->scene()->render();
-        (*(void (__fastcall **)(__int64, int *, int *, int *, int *)) (*(_QWORD *) v2 + 96LL))(v2, v, &v[1], &v[2],
-                                                                                               &v[3]);
-
-        this->frame->load(0LL, 1LL, (unsigned int) v[2], (unsigned int) v[3], 4LL);
+        this->frame->load(0LL, 1LL, v[2], v[3], 4LL);
         if (this->frameBuffer)
             delete this->frameBuffer;
         this->frameBuffer = new FBO(this->scene()->render(), this->frame->width(), this->frame->height(), 8);
     }
 
     void VolumetricLightScatteringPass::exec() {
-        IScene *v1;
-        __int64 v2;
-        IScene *v3;
-        __int64 v4;
-        int v5;
-        int v6;
         int v[8];
-
-        v2 = this->scene()->render();
-        (*(void (__fastcall **)(__int64, int *, int *, int *, int *)) (*(_QWORD *) v2 + 96LL))(v2, v, &v[1], &v[2],
-                                                                                               &v[3]);
-        v4 = this->scene()->render();
-        (*(void (__fastcall **)(__int64)) (*(_QWORD *) v4 + 24LL))(v4);
-        v5 = v[2];
-        if (v5 != this->frame->width()
-            || (v6 = v[3],
-                v6 != this->frame->height())) {
+        this->scene()->render()->getViewport(
+                &v[0],
+                &v[1],
+                &v[2],
+                &v[3]);
+        this->scene()->render()->clearColor();
+        if (v[2] != this->frame->width() || v[3] != this->frame->height()) {
             this->resizeFrame();
         }
         this->frameBuffer->bind();
         this->frameBuffer->attachColorTexture(this->frame, 0LL);
-        this->filter->clearColor();
+        this->filter->exec();
         this->frameBuffer->unbind();
     }
 

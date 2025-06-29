@@ -25,7 +25,7 @@ namespace MyGL {
 
         virtual void set(int); // 6
 
-        virtual void get(); // 7
+        virtual int get(); // 7
     protected:
         CGL::ShaderHandle handle;
         IShader *shader;

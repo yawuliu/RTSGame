@@ -3,7 +3,7 @@
 
 
 namespace MyGL {
-	TextureRectangle::TextureRectangle(IRender& r) :render(r) {
+	TextureRectangle::TextureRectangle(IRender& r) :render(&r) {
 		this->handle = 0;
 		this->isForwardFormat = 0;
 		this->w = 0;
@@ -35,12 +35,16 @@ namespace MyGL {
 		this->handle = 0;
 	}
 
-	const void* TextureRectangle::getHandle()
+	const CGL::TextureHandle * TextureRectangle::getHandle()
 	{
 		return &this->handle;
-	}
 
-	unsigned int TextureRectangle::height()
+    uint32_t TextureRectangle::width()
+    {
+        return this->w;
+    }
+
+    uint32_t TextureRectangle::height()
 	{
 		return this->h;
 	}
@@ -85,8 +89,4 @@ namespace MyGL {
 		}
 	}
 
-	unsigned int TextureRectangle::width()
-	{
-		return this->w;
-	}
 }

@@ -1,9 +1,11 @@
 #include "Texture2d.h"
 #include <stdexcept>
 #include <QOpenGLContext>
+#include <GL/glu.h>
+#include "privateGLSupportClass.h"
 
 namespace MyGL {
-	Texture2d::Texture2d(IRender& r) :render(r)
+	Texture2d::Texture2d(IRender& r) :render(&r)
 	{
 		Color other;
 		this->handle = 0;
@@ -41,12 +43,17 @@ namespace MyGL {
 		this->handle = 0;
 	}
 
-	const CGL::TextureHandle* Texture2d::getHandle()
+	CGL::TextureHandle* Texture2d::getHandle()
 	{
 		return &this->handle;
 	}
 
-	unsigned uint32_t Texture2d::height()
+    uint32_t Texture2d::width()
+    {
+        return this->w;
+    }
+
+	 uint32_t Texture2d::height()
 	{
 		return this->h;
 	}
@@ -93,7 +100,7 @@ namespace MyGL {
 
 	void Texture2d::setAnisotropy(Float val)
 	{
-		this->anisLevel = this.render->gl()->maxAnisotropyLevel() * val;
+		this->anisLevel = this->render->gl()->maxAnisotropyLevel() * val;
         this->isForwardFormat = 1;
 	}
 
@@ -175,8 +182,4 @@ namespace MyGL {
 		}
 	}
 
-	uint32_t Texture2d::width()
-	{
-		return this->w;
-	}
 }

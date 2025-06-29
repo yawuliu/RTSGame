@@ -15,19 +15,11 @@ namespace MyGL {
 
 	bool Uniform4f::isEqual(IUniform* u)
 	{
-		__int64 v2;
-		CGL::ShaderHandle handle;
-		bool result;
-
-		v2 = (*(__int64(__fastcall**)(void*))(*(_QWORD*)u + 40LL))(u);
-		result = 0;
-		if (v2 == this->owner())
-		{
-			handle = this->handle;
-			if (handle == *(_DWORD*)(*(__int64(__fastcall**)(void*))(*(_QWORD*)u + 24LL))(u))
-				return 1;
-		}
-		return result;
+        if (u->owner() == this->owner()) {
+            if (this->handle == *u->handlePtr())
+                return 1;
+        }
+        return 0;
 	}
 
 	IShader* Uniform4f::owner()
