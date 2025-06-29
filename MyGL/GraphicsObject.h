@@ -33,7 +33,7 @@ namespace MyGL {
 
         IMaterial *material();
 
-        IModel *model();
+        virtual IModel *model() override;
 
         const IModelInfo *modelInfo() override;
 

@@ -16,7 +16,7 @@ namespace MyGL {
         this->updateVisible();
     }
 
-    void SceneGraph::delObjectEvent(IGraphicsObject *const a2) {
+    void SceneGraph::delObjectEvent(IGraphicsObject &a2) {
         ;
     }
 
@@ -53,42 +53,31 @@ namespace MyGL {
     }
 
     bool SceneGraph::isObjectVisible(const IGraphicsObject &obj) {
-        __m128d v2;
-        __m128d v3;
-        __m128d v4;
-        __int64 v5;
-        double v7;
-        float z;
-        float y;
-        float x;
-        int i;
-
-        v2.m128d_f64[0] = obj->x();
+        v2.m128d_f64[0] = obj.x();
         v3 = (__m128d) _mm_cvtpd_ps(_mm_unpacklo_pd(v2, v2));
         x = *(float *) v3.m128d_f64;
-        v3.m128d_f64[0] = obj->y();
+        v3.m128d_f64[0] = obj.y();
         v4 = (__m128d) _mm_cvtpd_ps(_mm_unpacklo_pd(v3, v3));
         y = *(float *) v4.m128d_f64;
-        v4.m128d_f64[0] = obj->z();
+        v4.m128d_f64[0] = obj.z();
         z = _mm_unpacklo_pd(v4, v4).m128d_f64[0];
-        for (i = 0; i <= 5; ++i) {
+        for (int i = 0; i <= 5; ++i) {
             v7 = SceneGraph::po(this, x, y, z, this->cullM[i][0], this->cullM[i][1], this->cullM[i][2],
                                 this->cullM[i][3]);
-            v5 = obj->modelInfo();
+            v5 = obj.modelInfo();
             if (-(*(double (__fastcall **)(__int64)) (*(_QWORD *) v5 + 64LL))(v5) > v7)
                 return 0;
         }
         return 1;
     }
 
-    void SceneGraph::normalization(double *const X, double *const Y, double *const Z, double *const D) {
+    void SceneGraph::normalization(double &X, double &Y, double &Z, double &D) {
         double v5;
-
-        v5 = sqrt(*Z * *Z + *X * *X + *Y * *Y);
-        *X = *X * (1.0 / v5);
-        *Y = *Y * (1.0 / v5);
-        *Z = *Z * (1.0 / v5);
-        *D = *D * (1.0 / v5);
+        v5 = sqrt(Z * Z + X * X + Y * Y);
+        X = X * (1.0 / v5);
+        Y = Y * (1.0 / v5);
+        Z = Z * (1.0 / v5);
+        D = D * (1.0 / v5);
     }
 
     double SceneGraph::po(double x, double y, double z, double X, double Y, double Z, double D) {
@@ -96,8 +85,6 @@ namespace MyGL {
     }
 
     void SceneGraph::updateCull() {
-        int i;
-
         this->getGl();
         this->cullM[0][0] = this->model_proj[1] + this->model_proj[3];
         this->cullM[0][1] = this->model_proj[5] + this->model_proj[7];
@@ -123,23 +110,11 @@ namespace MyGL {
         this->cullM[5][1] = this->model_proj[6] + this->model_proj[7];
         this->cullM[5][2] = this->model_proj[10] + this->model_proj[11];
         this->cullM[5][3] = this->model_proj[14] + this->model_proj[15];
-        for (i = 0; i <= 5; ++i)
-            this->normalization(this->cullM[i], &this->cullM[i][1], &this->cullM[i][2], &this->cullM[i][3]);
+        for (int i = 0; i <= 5; ++i)
+            this->normalization(this->cullM[i][0], this->cullM[i][1], this->cullM[i][2], this->cullM[i][3]);
     }
 
     void SceneGraph::updateVisible() {
-        __int64 v1;
-        unsigned __int8 (__fastcall *v2)(SceneGraph *const, __int64);
-        __int64 v3;
-        __int64 v4;
-        std::vector<IGraphicsObject *>::size_type nsize_1;
-        std::vector<IGraphicsObject *>::reference v6;
-        __int64 v7;
-        std::vector<IGraphicsObject *>::value_type __x;
-        size_t objSize;
-        size_t i;
-        size_t nsize;
-
         nsize = 0LL;
         v1 = this->scene->objects();
         objSize = (*(__int64 (__fastcall **)(__int64)) (*(_QWORD *) v1 + 64LL))(v1);

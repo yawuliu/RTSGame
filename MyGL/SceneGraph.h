@@ -26,7 +26,7 @@ namespace MyGL {
 
         void getGl();
 
-        bool isObjectVisible(const IGraphicsObject &obj);
+        virtual bool isObjectVisible(IGraphicsObject const &obj) override;
 
         void normalization(double &X, double &Y, double &Z, double &D);
 
@@ -36,9 +36,9 @@ namespace MyGL {
 
         void updateVisible();
 
-        IGraphicsObject *visible(int num);
+        virtual IGraphicsObject *visible(int num) override;
 
-        int visiblesCount();
+        virtual int visiblesCount() override;
 
     protected:
         double model_proj[16];

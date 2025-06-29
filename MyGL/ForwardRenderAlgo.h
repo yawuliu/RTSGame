@@ -4,7 +4,7 @@
 #include "IScene.h"
 #include "IRenderAlgo.h"
 #include "Adapter.h"
-#include "IRenderPass.h.h"
+#include "IRenderPass.h"
 
 
 namespace MyGL {
@@ -38,7 +38,7 @@ namespace MyGL {
         virtual MainPass *allockMainPass(const Adapter &adapter);//7
 
         void buildQuad(int w, int h);
-        
+
         void freeAlgo();
 
         bool isBloom();

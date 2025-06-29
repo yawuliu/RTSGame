@@ -22,6 +22,8 @@ namespace MyGL {
 
     class IModel;
 
+    class IUniformSampler;
+
 
     class IRender : public DisableCopy {
     public:

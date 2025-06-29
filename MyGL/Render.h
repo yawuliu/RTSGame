@@ -92,7 +92,7 @@ namespace MyGL {
 
         bool initGL();
 
-        bool isActive();
+        virtual bool isActive() override;
 
         bool isShaderCurrent(IShader *sh);
 

@@ -11,8 +11,8 @@ namespace MyGL {
 
         virtual ~IData() = default; //0
         // virtual void ~Data() = 0; //1
-        virtual void clear(void) = 0;//2
-        virtual void loader(void) = 0;//3
+        virtual void clear() = 0;//2
+        virtual void loader() = 0;//3
         virtual void addTexture(char const *, ITexture2d *) = 0;//4
         virtual void addTexture(char const *, char const *) = 0;//5
         virtual void texture(char const *) = 0;//6

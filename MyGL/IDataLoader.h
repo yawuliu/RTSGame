@@ -27,12 +27,12 @@ namespace MyGL {
         virtual  ~IDataLoader() = default; // 0
         // virtual  ~IDataLoader() = default; // 1
         virtual void setTextureLoader(ITextureLoader *) = 0; // 2
-        virtual ITextureLoader *textureLoader(void) = 0; // 3
+        virtual ITextureLoader *textureLoader() = 0; // 3
         virtual void setTextureAllocator(IDataLoader::IAllocator<ITexture2d> *) = 0; // 4
         virtual void loadTexture(char const *) = 0; // 5
         virtual void loadTexture(ITexture2d *, char const *) = 0; // 6
         virtual void setModelLoader(IModelLoader *) = 0; // 7
-        virtual void modelLoader(void) = 0; // 8
+        virtual void modelLoader() = 0; // 8
         virtual void setModelAllocator(IDataLoader::IAllocator<IModel> *) = 0; // 9
         virtual void loadModel(char const *) = 0; // 10
         virtual void loadModel(IModel *, char const *) = 0; // 11

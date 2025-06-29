@@ -15,7 +15,7 @@ namespace MyGL {
         public:
             Visibles(ISceneGraph &);
 
-            ISceneGraph *operator[](size_t i);
+            IGraphicsObject *operator[](int i);
 
             size_t size();
 
@@ -34,13 +34,13 @@ namespace MyGL {
 
         virtual void endFrame() = 0;//6
 
-        virtual void isObjectVisible(IGraphicsObject const &) = 0;//7
+        virtual bool isObjectVisible(IGraphicsObject const &) = 0;//7
 
         virtual void updateVisible() = 0;//8
 
-        virtual void visible(int) = 0;//9
+        virtual IGraphicsObject *visible(int) = 0;//9
 
-        virtual void visiblesCount() = 0;//10
+        virtual int visiblesCount() = 0;//10
 
     };
 }

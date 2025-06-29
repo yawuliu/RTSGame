@@ -30,69 +30,15 @@ namespace MyGL {
 
 	void IOModel::computeTBN()
 	{
-		int v1;
-		float v2;
-		float v3;
-		float v4;
-		float v5;
-		CGL::GLfloat* v6;
-		CGL::GLfloat* v7;
-		CGL::GLfloat* v8;
-		__m128d v9;
-		CGL::GLfloat* v10;
-		CGL::GLfloat* v11;
-		CGL::GLfloat* v12;
-		int i_1;
-		float v14;
-		float v15;
-		float v16;
-		float v17;
-		float v18;
-		float pos2[4];
-		float pos1[4];
-		float tex2[4];
-		float tex1[4];
-		IIOModel::TexCoord v23;
-		IIOModel::TexCoord v24;
-		IIOModel::TexCoord v25;
-		IIOModel::TexCoord v26;
-		IIOModel::Point v27;
-		IIOModel::Point v28;
-		IIOModel::Point v29;
-		IIOModel::Point v30;
-		IIOModel::Point4 v31;
-		IIOModel::Point4 v32;
-		IIOModel::Point4 v33;
-		IIOModel::Point4 v34;
-		IIOModel::Point4 v35;
-		IIOModel::Point4 v36;
-		IIOModel::Point4 v37;
-		IIOModel::Point4 v38;
-		IIOModel::Point4 v39;
-		IIOModel::Point4 v40;
-		IIOModel::Point4 v41;
-		float k;
-		int r_6;
-		int r_5;
-		int r_4;
-		unsigned int l;
-		int r_3;
-		int r_2;
-		int r_1;
-		int r_0;
-		int r;
-		int i;
-
-		this->createExtra();
-		v1 = this->size();
+        this->createExtra();
+		int v1 = this->size();
 		if (v1 == 3 * (v1 / 3))
 		{
-			for (i = 0; ; i += 3)
+			for (int i = 0; ; i += 3)
 			{
-				i_1 = this->size();
-				if (i_1 <= i)
+				if (this->size() <= i)
 					break;
-				for (r = 0; r <= 1; ++r)
+				for (int r = 0; r <= 1; ++r)
 				{
 					v23= this->texCoord((unsigned int)(i + 1));
 					v18 = *IIOModel::TexCoord::operator[](&v23, r);
@@ -105,7 +51,7 @@ namespace MyGL {
 					v3 = v17 - *IIOModel::TexCoord::operator[](&v26, r);
 					tex2[r] = v3;
 				}
-				for (r_0 = 0; r_0 <= 2; ++r_0)
+				for (int r_0 = 0; r_0 <= 2; ++r_0)
 				{
 					v27 = this->point((unsigned int)(i + 1));
 					v16 = *IIOModel::Point::operator[](&v27, r_0);
@@ -122,7 +68,7 @@ namespace MyGL {
 				{
 					if (tex2[0] == 0.0)
 					{
-						for (r_3 = 0; r_3 <= 2; ++r_3)
+						for (int r_3 = 0; r_3 <= 2; ++r_3)
 						{
 							v33 = this->exPoint((unsigned int)i);
 							*IIOModel::Point4::operator[](&v33, r_3) = 0.0;
@@ -130,7 +76,7 @@ namespace MyGL {
 					}
 					else
 					{
-						for (r_2 = 0; r_2 <= 2; ++r_2)
+						for ( int r_2 = 0; r_2 <= 2; ++r_2)
 						{
 							v32 = this->exPoint((unsigned int)i);
 							v7 = IIOModel::Point4::operator[](&v32, r_2);
@@ -141,7 +87,7 @@ namespace MyGL {
 				else
 				{
 					k = tex1[1] / tex2[1];
-					for (r_1 = 0; r_1 <= 2; ++r_1)
+					for (int r_1 = 0; r_1 <= 2; ++r_1)
 					{
 						v31 = this->exPoint((unsigned int)i);
 						v6 = IIOModel::Point4::operator[](&v31, r_1);
@@ -151,7 +97,7 @@ namespace MyGL {
 				v34 = this->exPoint((unsigned int)i);
 				*IIOModel::Point4::operator[](&v34, 3) = 0.0;
 				*(float*)&l = 0.0;
-				for (r_4 = 0; r_4 <= 2; ++r_4)
+				for ( intr_4 = 0; r_4 <= 2; ++r_4)
 				{
 					v35 = this->exPoint((unsigned int)i);
 					v14 = *IIOModel::Point4::operator[](&v35, r_4);
@@ -162,13 +108,13 @@ namespace MyGL {
 				v9 = _mm_cvtps_pd((__m128)l);
 				v9.m128d_f64[0] = sqrt(v9.m128d_f64[0]);
 				*(float*)&l = _mm_unpacklo_pd(v9, v9).m128d_f64[0];
-				for (r_5 = 0; r_5 <= 2; ++r_5)
+				for (int r_5 = 0; r_5 <= 2; ++r_5)
 				{
 					v37 = this->exPoint((unsigned int)i);
 					v10 = IIOModel::Point4::operator[](&v37, r_5);
 					*v10 = *v10 / *(float*)&l;
 				}
-				for (r_6 = 0; r_6 <= 3; ++r_6)
+				for (int r_6 = 0; r_6 <= 3; ++r_6)
 				{
 					v38 = this->exPoint((unsigned int)(i + 1));
 					v11 = IIOModel::Point4::operator[](&v38, r_6);
@@ -198,8 +144,7 @@ namespace MyGL {
 
 	IIOModel::Point4* IOModel::exPoint(int i)
 	{
-		IIOModel::Point4::Point4(retstr, &this->extra[4 * i]);
-		return retstr;
+		return new Point4(&this->extra[4 * i]);
 	}
 
 	const CGL::GLfloat* IOModel::extraData()
@@ -229,25 +174,6 @@ namespace MyGL {
 
 	bool IOModel::load(const std::string& fname)
 	{
-		__int64 v2;
-		bool v3;
-		CGL::GLfloat* v4;
-		CGL::GLfloat* v5;
-		CGL::GLfloat* v6;
-		CGL::GLfloat* v7;
-		CGL::GLfloat* v8;
-		__int64 v9;
-		__int64 v10;
-		__int64 v11;
-		__int64 v12;
-		__int64 v13;
-		__int64 v14;
-		__int64 v15;
-		CGL::GLfloat* v17;
-		CGL::GLfloat* v18;
-		_BYTE v19[540];
-		int i;
-
 		this->free();
 		std::fstream v19;
         v19.open(fname, 8LL);
@@ -263,7 +189,7 @@ namespace MyGL {
 				this->vert = (CGL::GLfloat*)operator new[](12LL * this->msize);
 				this->tex = (CGL::GLfloat*)operator new[](8LL * this->msize);
 				this->norm = (CGL::GLfloat*)operator new[](12LL * this->msize);
-				for (i = 0; this->msize > i; ++i)
+				for (int i = 0; this->msize > i; ++i)
 				{
 					v4 = &this->norm[3 * i + 2];
 					v5 = &this->norm[3 * i + 1];
@@ -289,16 +215,6 @@ namespace MyGL {
 
 	bool IOModel::loadBin_v0(const std::string& fname)
 	{
-		std::_Ios_Openmode v2;
-		__int64 v3;
-		bool v4;
-		IOModel* sh_data_1;
-		_BYTE v7[264];
-		__int64 v8;
-		IOModel::IOInfo info;
-		unsigned int i;
-		void* sh_data;
-
 		this->free();
 		std::fstream v7;
 		v2 = std::operator|(std::_Ios_Openmode::_S_in, std::_Ios_Openmode::_S_bin);
@@ -352,10 +268,9 @@ namespace MyGL {
 		return v4;
 	}
 
-	IOModel::Normal* IOModel::normal(IOModel::Normal* retstr, int i)
+	IOModel::Normal* IOModel::normal(int i)
 	{
-		IIOModel::Point::Point(retstr, &this->norm[3 * i]);
-		return retstr;
+		return new Point(&this->norm[3 * i]);
 	}
 
 	const CGL::GLfloat* IOModel::normals()
@@ -363,10 +278,9 @@ namespace MyGL {
 		return this->norm;
 	}
 
-	IIOModel::Point* IOModel::point(IIOModel::Point* retstr, int i)
+	IIOModel::Point* IOModel::point(int i)
 	{
-		IIOModel::Point::Point(retstr, &this->vert[3 * i]);
-		return retstr;
+		return new Point(&this->vert[3 * i]);
 	}
 
 	const CGL::GLfloat* IOModel::points()
@@ -376,35 +290,6 @@ namespace MyGL {
 
 	bool IOModel::save(const std::string& fname)
 	{
-		__int64 v2;
-		bool v3;
-		__int64 v4;
-		__int64 v5;
-		__int64 v6;
-		__int64 v7;
-		__int64 v8;
-		__int64 v9;
-		__int64 v10;
-		__int64 v11;
-		__int64 v12;
-		__int64 v13;
-		__int64 v14;
-		__int64 v15;
-		__int64 v16;
-		__int64 v17;
-		__int64 v18;
-		__int64 v19;
-		float v21;
-		float v22;
-		float v23;
-		float v24;
-		float v25;
-		float v26;
-		float v27;
-		_BYTE v28[16];
-		_BYTE v29[524];
-		int i;
-
 		std::fstream v28;
         v28.open( fname, 16LL);
 		if (v28.is_open() != 1)
@@ -414,7 +299,7 @@ namespace MyGL {
 		else
 		{
 			 v29 << (unsigned int)this->msize << std::endl;
-			for (i = 0; this->msize > i; ++i)
+			for (int i = 0; this->msize > i; ++i)
 			{
 				v27 = this->norm[3 * i + 2];
 				v26 = this->norm[3 * i + 1];
@@ -434,16 +319,6 @@ namespace MyGL {
 
 	bool IOModel::saveBin(const std::string& fname)
 	{
-		std::_Ios_Openmode v2;
-		__int64 v3;
-		bool v4;
-		__int64 v5;
-		const char* v6;
-		_BYTE v8[16];
-		_BYTE v9[524];
-		unsigned int i;
-		IOModel::IOInfo info;
-
 		std::fstream v8;
 		v2 = std::operator|(std::_Ios_Openmode::_S_out, std::_Ios_Openmode::_S_bin);
         v8.open(fname, (unsigned int)v2);
@@ -464,7 +339,7 @@ namespace MyGL {
 			info.extraData = this->extra != 0LL;
 			i = 20;
             v9.write((const char*)&i, 4LL);
-            v9.write(, (const char*)&info, 20LL);
+            v9.write((const char*)&info, 20LL);
 			if (info.stencilModelSize)
 			{
 				v5 = 12LL * (*(int(__fastcall**)(void*))(*(_QWORD*)this->shadow_data + 144LL))(this->shadow_data);
@@ -484,9 +359,9 @@ namespace MyGL {
 		return this->msize;
 	}
 
-	IIOModel::TexCoord* IOModel::texCoord(IIOModel::TexCoord* retstr, int i)
+	IIOModel::TexCoord* IOModel::texCoord(int i)
 	{
-		return &IIOModel::TexCoord(&this->tex[2 * i]);
+		return new TexCoord(&this->tex[2 * i]);
 	}
 
 	const CGL::GLfloat* IOModel::textureCoords()

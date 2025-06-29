@@ -7,7 +7,7 @@ namespace MyGL {
     public:
         ICamera() = default;
 
-        virtual ~ICamera() = 0;//0
+        virtual ~ICamera() = default;//0
         //1
         virtual void setPos(double, double, double, double) = 0;//2
         virtual void setAngles(double, double, double) = 0;//3

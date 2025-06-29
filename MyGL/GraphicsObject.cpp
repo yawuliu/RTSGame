@@ -33,7 +33,7 @@ namespace MyGL {
         this->upsetMatrix();
         if (this->scene)
             this->scene->insertObject(this);
-        this->actualInfo = new ModelInfo::ModelInfo();
+        this->actualInfo = new ModelInfo();
     }
 
     bool GraphicsObject::isAlvaysVisible(const) {
@@ -41,7 +41,7 @@ namespace MyGL {
     }
 
     IMaterial *GraphicsObject::material() {
-        return p_object->gmaterial;
+        return this->gmaterial;
     }
 
     IModel *GraphicsObject::model() {

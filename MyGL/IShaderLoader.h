@@ -6,7 +6,7 @@
 
 
 namespace MyGL {
-    class ShaderEnvironment;
+    class IShaderEnvironment;
 
     class IShaderLoader : public DisableCopy {
     public:
@@ -18,6 +18,6 @@ namespace MyGL {
 
         virtual void setEnvironment(IShaderEnvironment *) = 0; // 3
 
-        virtual ShaderEnvironment *enviroment(void) = 0; // 4
+        virtual IShaderEnvironment *enviroment(void) = 0; // 4
     };
 }

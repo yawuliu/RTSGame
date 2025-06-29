@@ -1,17 +1,16 @@
 #include "ISceneGraph.h"
+
 namespace MyGL {
-	ISceneGraph::Visibles::Visibles(ISceneGraph& s) :graph(s) {
-		this->count = (*(__int64(__fastcall**)(void*))(*(_QWORD*)this->graph + 80LL))(this->graph);
-	}
+    ISceneGraph::Visibles::Visibles(ISceneGraph &s) : graph(s) {
+        this->count = this->graph.visiblesCount();
+    }
 
-	ISceneGraph* ISceneGraph::Visibles::operator[](size_t i) {
-		return (IGraphicsObject*)(*(__int64(__fastcall**)(void*, _QWORD))(*(_QWORD*)this->graph + 72LL))(
-			this->graph,
-			(unsigned int)id);
-	}
+    IGraphicsObject *ISceneGraph::Visibles::operator[](int id) {
+        return this->graph.visible(id);
+    }
 
-	size_t ISceneGraph::Visibles::size() {
-		return this->count;
-	}
+    size_t ISceneGraph::Visibles::size() {
+        return this->count;
+    }
 
 }

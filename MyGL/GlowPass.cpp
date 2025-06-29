@@ -105,8 +105,7 @@ namespace MyGL {
 
     void GlowPass::draw() {
         this->used = 0;
-        s = this->scene()->graph();
-        ISceneGraph::Visibles obj(s);
+        ISceneGraph::Visibles obj(this->scene()->graph());
         v4 = this->scene()->render();
         (*(void (__fastcall **)(__int64)) (*(_QWORD *) v4 + 296LL))(v4);
         for (int i = 0;; ++i) {

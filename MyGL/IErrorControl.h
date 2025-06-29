@@ -1,7 +1,6 @@
 #pragma once
 
-#include <fstream>
-
+#include <ostream>
 
 namespace MyGL {
     class IShader;

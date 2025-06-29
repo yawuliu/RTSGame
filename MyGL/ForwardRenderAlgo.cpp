@@ -28,18 +28,12 @@ namespace MyGL {
     }
 
     MainPass *ForwardRenderAlgo::allockMainPass(const Adapter &adapter) {
-        IScene *s;
-        MainPass *v3;
-
-        s = this->scene();
-        v3 = (MainPass *) operator new(0x48uLL);
-        MainPass::MainPass(v3, s, adapter, this->quad, 1);
-        return v3;
+        return new MainPass(this->scene(), adapter, this->quad, 1);
     }
 
     void ForwardRenderAlgo::buildQuad(int w, int h) {
-        IOModel::IOModel(&m);
-        IOModel::allock(&m, 4uLL);
+        IOModel m;
+        m.allock(4uLL);
         IOModel::point(&retstr_, &m, 0);
         p = IIOModel::Point::data(&retstr_);
         ForwardRenderAlgo::setPoint(p, -1.0, -1.0);
@@ -66,7 +60,6 @@ namespace MyGL {
         ForwardRenderAlgo::setPoint(p_7, 0.0, (float) h);
         this->quad->load(&m);
         this->quad->setPrimitivesType(2LL);
-        IOModel::~IOModel(&m);
     }
 
     void ForwardRenderAlgo::exec() {
@@ -102,54 +95,30 @@ namespace MyGL {
     }
 
     void ForwardRenderAlgo::makeAlgo(const Adapter &adapter) {
-        s = this->scene();
-        shadowPass = (ShadowPass *) operator new(0x1D0uLL);
-        ShadowPass::ShadowPass(shadowPass, s, adapter);
-        this->shadowPass = shadowPass;
+        this->shadowPass = new ShadowPass(this->scene(), adapter);;
         this->mainPass = this->allockMainPass(adapter);
         this->vlsPass = 0LL;
-        s_1 = this->scene();
-        depth = MainPass::depthBuffer(this->mainPass);
-        glowPass_1 = (GlowPass *) operator new(0x38uLL);
-        GlowPass::GlowPass(glowPass_1, s_1, adapter, depth);
-        this->glowPass = glowPass_1;
-        s_2 = this->scene();
-        in = this->mainPass->output();
-        bloomPass_1 = (BloomPass *) operator new(0x78uLL);
-        BloomPass::BloomPass(bloomPass_1, s_2, adapter, in);
-        this->bloomPass = bloomPass_1;
+        this->glowPass = new GlowPass(this->scene(), adapter, this->mainPass->depthBuffer());
+        this->bloomPass = new BloomPass(this->scene(), adapter, this->mainPass->output());
         if (this->vlsPass) {
-            s_3 = this->scene();
-            f = VolumetricLightScatteringPass::output(this->vlsPass);
-            g = GlowPass::output(this->glowPass);
-            b = BloomPass::output(this->bloomPass);
-            d = MainPass::depthBuffer(this->mainPass);
-            lincPass_1 = (LincPass *) operator new(0x38uLL);
-            LincPass::LincPass(lincPass_1, s_3, adapter, this->quad, f, g, b, d);
+            lincPass_1 = new LincPass(this->scene(), adapter, this->quad, this->vlsPass->output(),
+                                      this->glowPass->output(), this->bloomPass->output(),
+                                      this->mainPass->depthBuffer());
         } else {
-            s_4 = this->scene();
-            f_1 = this->mainPass->output();
-            g_1 = GlowPass::output(this->glowPass);
-            b_1 = BloomPass::output(this->bloomPass);
-            d_1 = this->mainPass->depthBuffer();
-            lincPass_1 = (LincPass *) operator new(0x38uLL);
-            LincPass::LincPass(lincPass_1, s_4, adapter, this->quad, f_1, g_1, b_1, d_1);
+            lincPass_1 = new LincPass(this->scene(), adapter, this->quad, this->mainPass->output(),
+                                      this->glowPass->output(), this->bloomPass->output(),
+                                      this->mainPass->depthBuffer());
+
         }
         this->lincPass = lincPass_1;
-        __x = this->shadowPass;
-        this->passes.push_back(&__x);
-        mainPass = this->mainPass;
-        this->passes.push_back(&mainPass);
+        this->passes.push_back(this->shadowPass);
+        this->passes.push_back(this->mainPass);
         if (this->vlsPass) {
-            vlsPass = this->vlsPass;
-            this->passes.push_back(&vlsPass);
+            this->passes.push_back(this->vlsPass);
         }
-        bloomPass = this->bloomPass;
-        this->passes.push_back(&bloomPass);
-        glowPass = this->glowPass;
-        this->passes.push_back(&glowPass);
-        lincPass = this->lincPass;
-        this->passes.push_back(&lincPass);
+        this->passes.push_back(this->bloomPass);
+        this->passes.push_back(this->glowPass);
+        this->passes.push_back(this->lincPass);
     }
 
     void ForwardRenderAlgo::recreateAlgo(const Adapter &adapter) {
