@@ -1,6 +1,6 @@
 #include "MainPass.h"
 namespace MyGL {
-	MainPass::MainPass(IScene& s, const Adapter& adapter, IModel* q, bool autoMake) : AbstractPass(s) {
+	MainPass::MainPass(IScene& s, const gadapter& adapter, IModel* q, bool autoMake) : AbstractPass(s) {
 		this->frame = new TextureRectangle(this->scene()->render());
 		this->depth =  new TextureRectangle(this->scene()->render());
 		this->m_frameBuffer = 0LL;
@@ -146,12 +146,12 @@ namespace MyGL {
 		return this->m_frameBuffer;
 	}
 
-	void MainPass::makeAlgo(const Adapter& adapter) {
+	void MainPass::makeAlgo(const gadapter& adapter) {
 		this->makeAlgo(&this->passes,adapter);
 	}
 
 	void MainPass::makeAlgo(MainPass& mp, std::vector<IRenderPass*>& passes,
-		const Adapter& adapter) {
+		const gadapter& adapter) {
 		IScene* s;
 		DepthPass* __x_1;
 		IScene* s_1;

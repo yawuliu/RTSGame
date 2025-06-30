@@ -1,5 +1,6 @@
 #include "DepthPass.h"
 #include "ISceneGraph.h"
+#include "IRenderState.h"
 
 namespace MyGL {
     DepthPass::DepthPass(IScene &s) : AbstractPass(s) {
@@ -8,17 +9,15 @@ namespace MyGL {
 
     void DepthPass::exec() {
         ISceneGraph::Visibles obj(this->scene()->graph());
-        v4 = this->scene()->render();
-        (*(void (__fastcall **)(__int64)) (*(_QWORD *) v4 + 296LL))(v4);
-        for (i = 0;; ++i) {
+        this->scene().render()->begin();
+        for (int i = 0;; ++i) {
             if (obj.size() <= i)
                 break;
             if (this->isDrawable(obj[i])) {
-                this->drawObject<DepthPass>(obj[i]);
+                this->drawObject(obj[i]);
             }
         }
-        v9 = this->scene()->render();
-        (*(void (__fastcall **)(__int64)) (*(_QWORD *) v9 + 312LL))(v9);
+        this->scene().render()->end();
     }
 
     IRenderPass::Pass::Type DepthPass::type() {
@@ -26,10 +25,9 @@ namespace MyGL {
     }
 
     bool DepthPass::isDrawable(IGraphicsObject &obj) {
-        if (obj->visible() != 1)
-            return false;
-        v4 = (*(__int64 (__fastcall **)(__int64)) (*(_QWORD *) v3 + 88LL))(obj->material());
-        return (*(unsigned __int8 (__fastcall **)(__int64)) (*(_QWORD *) v4 + 136LL))(v4) == 0;
+        if (obj.visible() != 1)
+            return false;;
+        return obj.material()->renderState()->isBlend() == 0;
     }
 
 }

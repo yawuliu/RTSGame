@@ -2,9 +2,10 @@
 
 #include <string>
 #include "DisableCopy.h"
-#include "IRenderState.h"
 
 namespace MyGL {
+    class ITexture2d;
+
     class IData : public DisableCopy {
     public:
         IData() = default;

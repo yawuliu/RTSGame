@@ -65,7 +65,7 @@ namespace MyGL {
     }
 
     IRenderAlgo *Scene::allocRenderAlgo(Scene &s) {
-        Adapter adapter(s);
+        gadapter adapter(s);
         return new ForwardRenderAlgo(s, &adapter, 1);
     }
 
@@ -198,8 +198,8 @@ namespace MyGL {
     }
 
     void Scene::recreateRenderAlgo(Scene &s) {
-        void (__fastcall *v1)(IRenderAlgo *, Adapter *);
-        Adapter adapter(s);
+        void (__fastcall *v1)(IRenderAlgo *, gadapter *);
+        gadapter adapter(s);
         s.renderAlgo->recreateAlgo(&adapter);
     }
 

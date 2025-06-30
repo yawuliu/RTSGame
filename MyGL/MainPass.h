@@ -11,19 +11,19 @@
 #include "FBO.h"
 
 namespace MyGL {
-    class Adapter;
+    class gadapter;
 
     class MainPass : public AbstractPass {
     public:
-        MainPass(IScene &s, const Adapter &adapter, IModel *q, bool autoMake);
+        MainPass(IScene &s, const gadapter &adapter, IModel *q, bool autoMake);
 
         virtual ~MainPass();//0
         //1
-        virtual void exec();//2
+        virtual void exec() override;//2
 
-        virtual IRenderPass::Pass::Type type();//3
+        virtual IRenderPass::Pass::Type type() override;//3
         virtual ITextureRectangle *output();//4
-        virtual void makeAlgo(MainPass &mp, std::vector<IRenderPass *> &passes, const Adapter &adapter);//5
+        virtual void makeAlgo(MainPass &mp, std::vector<IRenderPass *> &passes, const gadapter &adapter);//5
 
         void buildQuad(int w, int h);
 
@@ -34,7 +34,7 @@ namespace MyGL {
 
         FBO *frameBuffer();
 
-        void makeAlgo(const Adapter &adapter);
+        void makeAlgo(const gadapter &adapter);
 
 
         IModel *quadModel();

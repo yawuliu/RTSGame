@@ -1,7 +1,7 @@
 #include "ShadowPass.h"
 #include "IRenderPass.h"
 namespace MyGL {
-	ShadowPass::ShadowPass(IScene& s, const Adapter& adapter) : AbstractPass(s)
+	ShadowPass::ShadowPass(IScene& s, const gadapter& adapter) : AbstractPass(s)
 	{
 		IScene* v3;
 		IRender* r;

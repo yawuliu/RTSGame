@@ -1,8 +1,9 @@
 #include "GraphicsObject.h"
 
+
 namespace MyGL {
     GraphicsObject::GraphicsObject(IScene &s) {
-        this->init(s);
+        this->init(&s);
     }
 
     GraphicsObject::GraphicsObject(IScene *s) {
@@ -11,32 +12,29 @@ namespace MyGL {
 
     GraphicsObject::~GraphicsObject() {
         if (this->scene)
-            this->scene->removeObject(this);
+            this->scene->removeObject(*this);
         if (this->actualInfo)
             delete this->actualInfo;
     }
 
     void GraphicsObject::init(IScene *s) {
-        ModelInfo *mCullInform;
-        int i;
-
         this->scene = s;
         this->gmodel = 0LL;
         this->gmaterial = 0LL;
         this->isVisible = 1;
         this->setAlvaysVisible(0LL);
-        for (i = 0; i <= 2; ++i) {
+        for (int i = 0; i <= 2; ++i) {
             this->pos[i] = 0.0;
             this->angles[i] = 0.0;
             this->size[i] = 1.0;
         }
         this->upsetMatrix();
         if (this->scene)
-            this->scene->insertObject(this);
+            this->scene->insertObject(*this);
         this->actualInfo = new ModelInfo();
     }
 
-    bool GraphicsObject::isAlvaysVisible(const) {
+    bool GraphicsObject::isAlvaysVisible() {
         return this->isAVisible;
     }
 
@@ -118,25 +116,6 @@ namespace MyGL {
     }
 
     void GraphicsObject::updateModelInfo() {
-        double v1;
-        __m128d v2;
-        double v3;
-        __m128d v4;
-        double v5;
-        __m128d v6;
-        double v7;
-        __m128d v8;
-        double v9;
-        __m128d v10;
-        double v11;
-        __m128d v12;
-        float y;
-        float z;
-        float X;
-        float Y;
-        float Z;
-        const IModelInfo *m;
-
         if (this->gmodel) {
             m = this->gmodel->cullInfo();
             v1 = m->maxZ();

@@ -68,7 +68,7 @@ qt_add_executable(Game WIN32 MACOSX_BUNDLE
         globject.cpp globject.h
         glwidget.cpp glwidget.h
         graphis/abstractuserpass.cpp graphis/abstractuserpass.h
-        graphis/adapter.cpp graphis/adapter.h
+        graphis/gadapter.cpp graphis/gadapter.h
         graphis/bulletobject.cpp graphis/bulletobject.h
         graphis/deathanimation.cpp graphis/deathanimation.h
         graphis/gamescene.cpp graphis/gamescene.h

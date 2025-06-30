@@ -1,4 +1,5 @@
 #include "BloomPass.h"
+#include "Model.h"
 
 namespace MyGL {
     BloomPass::Data::Data(IScene &s, IModel *quad) : gausV(s), gausH(s), grab(s) {
@@ -11,18 +12,18 @@ namespace MyGL {
         this->m_isValid = 1;
         this->input = in;
         this->m_downSamplesCount = -1;
-        this->frame = new TextureRectangle(this->scene()->render());
-        this->subFrame = new TextureRectangle(this->scene()->render());
+        this->frame = new TextureRectangle(this->scene().render());
+        this->subFrame = new TextureRectangle(this->scene().render());
         this->frame->setFiltration(1LL, 1LL);
         this->subFrame->setFiltration(1LL, 1LL);
-        for (i_0 = 0; i_0 <= 1; ++i_0) {
-            (&this->input)[i_0 + 1] = new TextureRectangle(this->scene()->render());
+        for (int i_0 = 0; i_0 <= 1; ++i_0) {
+            (&this->input)[i_0 + 1] = new TextureRectangle(this->scene().render());
         }
         this->frameBuffer[0] = 0LL;
         this->frameBuffer[1] = 0LL;
         this->frameBuffer[2] = 0LL;
-        for (i = 0; i <= 2; ++i) {
-            this->quad[i] = new Model(this->scene()->render());
+        for (int i = 0; i <= 2; ++i) {
+            this->quad[i] = new Model(this->scene().render());
         }
         this->data = new Data(this->scene(), this->quad[2]);
         this->data->w = -1;
@@ -42,13 +43,13 @@ namespace MyGL {
         }
         if (this->frame)
             delete this->frame;
-        for (i = 0; i <= 1; ++i) {
+        for (int i = 0; i <= 1; ++i) {
             if ((&this->input)[i + 1])
                 delete (&this->input)[i + 1];
         }
         if (this->subFrame)
             delete this->subFrame;
-        for (i_0 = 0; i_0 <= 2; ++i_0) {
+        for (int i_0 = 0; i_0 <= 2; ++i_0) {
             if (this->quad[i_0])
                 delete this->quad[i_0];
             if ((&this->subFrame)[i_0 + 1])
@@ -93,8 +94,8 @@ namespace MyGL {
     }
 
     void BloomPass::buildQuad(int w, int h) {
-        IOModel::IOModel(&m);
-        IOModel::allock(&m, 4uLL);
+        IOModel m;
+        m.allock(4uLL);
         IOModel::point(&retstr_, &m, 0);
         p = IIOModel::Point::data(&retstr_);
         p->setPoint( -1.0, -1.0);
@@ -119,7 +120,7 @@ namespace MyGL {
         IOModel::normal(&retstr__7, &m, 3);
         p_7 = IIOModel::Point::data(&retstr__7);
         p_7->setPoint( 1.0, 0.0);
-        for (i = 0; i <= 2; ++i) {
+        for (int i = 0; i <= 2; ++i) {
             IOModel::texCoord(&retstr__8, &m, 0);
             p_8 = IIOModel::TexCoord::data(&retstr__8);
             p_8->setPoint(0.0, 0.0);
@@ -145,60 +146,34 @@ namespace MyGL {
     }
 
     void BloomPass::resizeFrame() {
-        v2 = this->scene()->render();
-        (*(void (__fastcall **)(__int64, int *, int *, int *, int *)) (*(_QWORD *) v2 + 96LL))(v2, v, &v[1], &v[2],
-                                                                                               &v[3]);
+        int v[6];
+        this->scene().render()->getViewport(&v[0], &v[1], &v[2], &v[3]);
         this->data->w = v[2];
         this->data->h = v[3];
-
-        this->scale[0]->setFiltration(
-                0LL,
-                1LL,
-                (unsigned int) (v[2] / 2),
-                (unsigned int) (v[3] / 2),
-                4LL);
-
-        this->scale[1]->setFiltration(
-                0LL,
-                1LL,
-                (unsigned int) (v[2] / 4),
-                (unsigned int) (v[3] / 4),
-                4LL);
-        dw = 1 << this->downSamplesCount();
-
-        this->frame->setFiltration(
-                0LL,
-                1LL,
-                (unsigned int) (v[2] / dw),
-                (unsigned int) (v[3] / dw),
-                4LL);
-        this->subFrame->setFiltration(
-                0LL,
-                1LL,
-                (unsigned int) (v[2] / dw),
-                (unsigned int) (v[3] / dw),
-                4LL);
+        this->scale[0]->setFiltration(0LL,1LL,(unsigned int) (v[2] / 2),(unsigned int) (v[3] / 2),4LL);
+        this->scale[1]->setFiltration(0LL,1LL,(unsigned int) (v[2] / 4),(unsigned int) (v[3] / 4),4LL);
+        int dw = 1 << this->downSamplesCount();
+        this->frame->setFiltration(0LL,1LL,(unsigned int) (v[2] / dw),(unsigned int) (v[3] / dw),4LL);
+        this->subFrame->setFiltration(0LL,1LL,(unsigned int) (v[2] / dw),(unsigned int) (v[3] / dw), 4LL);
         this->buildQuad(v[2] / 2, v[3] / 2);
-        for (i = 0; i <= 2; ++i) {
+        for (int i = 0; i <= 2; ++i) {
             if ((&this->subFrame)[i + 1])
                 delete (&this->subFrame)[i + 1];
-            (&this->subFrame)[i + 1] = (ITextureRectangle *) new FBO(this->scene()->render(), v[2] / 2, v[3] / 2, 8);
+            (&this->subFrame)[i + 1] = (ITextureRectangle *) new FBO(this->scene().render(), v[2] / 2, v[3] / 2, 8);
             v[2] /= 2;
             v[3] /= 2;
         }
     }
 
     void BloomPass::incompleteEvent(const std::string &msg) {
-        v3 = this->scene()->render();
-        v4 = (CGL *) (*(__int64 (__fastcall **)(__int64)) (*(_QWORD *) v3 + 72LL))(v3);
-        v4->errorCtrl()->warning(0LL, msg);
+        this->scene().render()->gl()->errorCtrl()->warning(0LL, msg);
         this->m_isValid = 0;
     }
 
     void BloomPass::initShaders(const Adapter &adapter) {
-        this->data->gausV->setShader(adapter->getGausVerticalShader());
-        this->data->gausH->setShader(adapter->getGausHorizontalShader());
-        this->data->grab->setShader(adapter->getBloomDownSampleShader());
+        this->data->gausV->setShader(adapter.getGausVerticalShader());
+        this->data->gausH->setShader(adapter.getGausHorizontalShader());
+        this->data->grab->setShader(adapter.getBloomDownSampleShader());
         this->data->gausV->setInput("input_texture", this->frame);
         this->data->gausH->setInput"input_texture", this->subFrame);
         if (this->data->grab->shader()) {
@@ -215,16 +190,9 @@ namespace MyGL {
     }
 
     void BloomPass::exec() {
-        v2 = this->scene()->render();
-        (*(void (__fastcall **)(__int64, unsigned int *, unsigned int *, unsigned int *, unsigned int *)) (
-                *(_QWORD *) v2 + 96LL))(
-                v2,
-                v,
-                &v[1],
-                &v[2],
-                &v[3]);
-        v4 = this->scene()->render();
-        cl_0 = (*(double (__fastcall **)(__int64)) (*(_QWORD *) v4 + 24LL))(v4);
+        unsigned int v[8];
+        this->scene().render()->getViewport(&v[0],&v[1],&v[2],&v[3]);
+        Color cl_0 = this->scene().render()->clearColor();
         if (v[2] != this->data->w || v[3] != this->data->h)
             this->resizeFrame();
         if (this->downSamplesCount() > 1)
@@ -235,26 +203,16 @@ namespace MyGL {
             this->downSample(this->frameBuffer[2], this->scale[1], this->frame, this->quad[2]);
         if (this->downSamplesCount() == 2)
             this->downSample(this->frameBuffer[1], this->scale[0], this->frame, this->quad[1]);
-        v5 = this->downSamplesCount();
-        this->postProcess((FBO *) (&this->subFrame)[v5]);
-        v7 = this->scene()->render();
-        (*(void (__fastcall **)(__int64, _QWORD, _QWORD, _QWORD, _QWORD)) (*(_QWORD *) v7 + 88LL))(v7, v[0], v[1], v[2],
-                                                                                                   v[3]);
-        v9 = this->scene()->render();
-        (*(void (__fastcall **)(__int64, double)) (*(_QWORD *) v9 + 16LL))(v9, cl_0);
+        this->postProcess((FBO *) (&this->subFrame)[this->downSamplesCount()]);
+        this->scene().render()->setViewport( v[0], v[1], v[2], v[3]);
+        this->scene().render()->clearColor(cl_0);
     }
 
     void BloomPass::downSample(FBO *frameBuffer, ITexture *input, ITextureRectangle *output, IModel *quad) {
         frameBuffer->bind();
-        v6 = this->scene()->render();
-        v7 = *(void (__fastcall **)(__int64, _QWORD, _QWORD, _QWORD, _QWORD)) (*(_QWORD *) v6 + 88LL);
-        v7(v6, 0LL, 0LL, output->width(), output->height());
+        this->scene().render()->setViewport( 0LL, 0LL, output->width(), output->height());
         frameBuffer->attachColorTexture(output,0LL);
-        v11 = this->scene()->render();
-        (*(void (__fastcall **)(__int64, IUniformSampler *, ITexture *)) (*(_QWORD *) v11 + 128LL))(
-                v11,
-                this->data->textureIn,
-                input);
+        this->scene().render()->bindTexture(this->data->textureIn,input);
         this->data->grab->setQuadModel(quad);
         this->data->grab->exec();
         frameBuffer->unbind();
@@ -274,6 +232,6 @@ namespace MyGL {
     }
 
     IRenderPass::Pass::Type BloomPass::type() {
-        return 2;
+        return IRenderPass::Pass::Bloom;
     }
 }

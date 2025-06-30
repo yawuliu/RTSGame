@@ -26,7 +26,7 @@ namespace MyGL {
         };
 
     public:
-        BloomPass(IScene &s, const Adapter &adapter, ITextureRectangle *in);
+        BloomPass(IScene &s, const gadapter &adapter, ITextureRectangle *in);
 
         virtual ~BloomPass();
 
@@ -50,7 +50,7 @@ namespace MyGL {
 
         void incompleteEvent(const std::string &msg);
 
-        void initShaders(const Adapter &adapter);
+        void initShaders(const gadapter &adapter);
 
         void downSample(FBO *frameBuffer, ITexture *input, ITextureRectangle *output, IModel *quad);
 

@@ -10,13 +10,13 @@ namespace MyGL {
     public:
         ColorPass(IScene &s);
 
-        virtual ~ColorPass();
+        virtual ~ColorPass() = default;
 
         virtual void exec() override;
 
         virtual IRenderPass::Pass::Type type() override;
 
         bool isDrawable(IGraphicsObject &obj);
-        
+
     };
 }

@@ -8,35 +8,25 @@ namespace MyGL {
 
     }
 
-    ColorPass::~ColorPass() {
-    }
 
     void ColorPass::exec() {
-        s = this->scene()->graph();
-        ISceneGraph::Visibles::Visibles(&obj, s);
-        v4 = this->scene()->render();
-        (*(void (__fastcall **)(__int64)) (*(_QWORD *) v4 + 296LL))(v4);
-        for (i = 0;; ++i) {
-            i_1 = ISceneGraph::Visibles::size(&obj);
-            if (i_1 <= i)
+        ISceneGraph::Visibles obj(this->scene().graph());
+        this->scene().render()->begin();
+        for (int i = 0;; ++i) {
+            if (obj.size() <= i)
                 break;
-            obj_2 = ISceneGraph::Visibles::operator[](&obj, i);
-            if (ColorPass::isDrawable(this, obj_2)) {
-                obj_1 = ISceneGraph::Visibles::operator[](&obj, i);
-                AbstractPass::drawObject<ColorPass>(this, obj_1);
+            if (this->isDrawable(obj[i])) {
+                this->drawObject(obj[i]);
             }
         }
 
-        v9 = this->scene()->render();
-        (*(void (__fastcall **)(__int64)) (*(_QWORD *) v9 + 312LL))(v9);
+        this->scene().render()->end();
     }
 
     bool ColorPass::isDrawable(IGraphicsObject &obj) {
-        if (obj->visible() != 1)
+        if (obj.visible() != 1)
             return 0;
-        v3 = obj->material();
-        v4 = (*(__int64 (__fastcall **)(__int64)) (*(_QWORD *) v3 + 88LL))(v3);
-        return (*(unsigned __int8 (__fastcall **)(__int64)) (*(_QWORD *) v4 + 136LL))(v4) == 0;
+        return obj.material()->renderState()->isBlend() == 0;
     }
 
     IRenderPass::Pass::Type type() {

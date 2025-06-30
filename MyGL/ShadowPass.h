@@ -19,7 +19,7 @@
 namespace MyGL {
     class ShadowPass : public AbstractPass {
     public:
-        ShadowPass(IScene &s, const Adapter &adapter);
+        ShadowPass(IScene &s, const gadapter &adapter);
 
         virtual ~ShadowPass();
 

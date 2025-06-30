@@ -1,7 +1,6 @@
 #include "Adapter.h"
 #include "Texture2d.h"
 #include "IData.h"
-#include "IErrorControl.h"
 
 namespace MyGL {
     Adapter::Adapter(IScene &s) : _scene(s) {
@@ -67,3 +66,5 @@ namespace MyGL {
         return this->_scene;
     }
 }
+
+

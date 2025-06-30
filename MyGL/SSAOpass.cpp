@@ -2,7 +2,7 @@
 namespace MyGL {
 	SSAOpass::Data::Data(IScene& s) :ssao(s) {}
 
-	SSAOpass::SSAOpass(IScene& s, const Adapter& adapter, MainPass* mp) : AbstractPass(s)
+	SSAOpass::SSAOpass(IScene& s, const gadapter& adapter, MainPass* mp) : AbstractPass(s)
 	{
         this->data = new Data(this->scene());
         this->data->ssao->setShader(adapter->getSSAOShader());

@@ -1,12 +1,11 @@
 #include "FBO.h"
-#include <gl/GL.h>
 #include "IRender.h"
+#include <gl/GL.h>
 
 namespace MyGL {
 	FBO::FBO(IRender& r, unsigned int theWidth, unsigned int theHeight, FBO::Flags::BitMap f)
 	{
-		v5 = r.gl();
-		this->ext = new CGL::ext();
+		this->ext = new r.gl()->ext();
 		this->w = theWidth;
 		this->h = theHeight;
 		this->flags = f;
@@ -91,14 +90,11 @@ namespace MyGL {
 
 	std::string FBO::status()
 	{
-		__int64 v1;
 		unsigned int currentFb;
-		GLenum complete;
-
 		glGetIntegerv(36006LL, &currentFb);
-		if (*(_DWORD*)(v1 + 20) != currentFb)
-			(*(void(__fastcall**)(__int64, _QWORD))(*(_QWORD*)(v1 + 32) + 56LL))(36160LL, *(unsigned int*)(v1 + 20));
-		complete = (*(__int64(__fastcall**)(__int64))(*(_QWORD*)(v1 + 32) + 80LL))(36160LL);
+		if (this->frameBuffer!= currentFb)
+            this->ext->glBindFramebufferEXT(36160LL, this->frameBuffer);
+        GLenum complete = this->ext->glCheckFramebufferStatusEXT(36160LL);
 		if (complete == 36053)
 			return  "GL_FRAMEBUFFER_COMPLETE_EXT";
 		if (complete == 36054)
@@ -117,20 +113,18 @@ namespace MyGL {
 			return "GL_FRAMEBUFFER_INCOMPLETE_READ_BUFFER_EXT";
 		if (complete == 36061)
 			return "GL_FRAMEBUFFER_UNSUPPORTED_EXT";
-		if (*(_DWORD*)(v1 + 20) != currentFb)
-			(*(void(__fastcall**)(__int64, _QWORD))(*(_QWORD*)(v1 + 32) + 56LL))(36160LL, currentFb);
+		if (this->frameBuffer != currentFb)
+            this->ext->glBindFramebufferEXT(36160LL, currentFb);
 		return "";
 	}
 
 	bool FBO::validate()
 	{
 		unsigned int currentFb;
-		bool complete;
-
 		glGetIntegerv(36006LL, &currentFb);
 		if (this->frameBuffer != currentFb)
 			this->ext->glBindFramebufferEXT(36160LL, this->frameBuffer);
-		complete = this->ext->glCheckFramebufferStatusEXT(36160LL) == 36053;
+        bool complete = this->ext->glCheckFramebufferStatusEXT(36160LL) == 36053;
 		if (this->frameBuffer != currentFb)
 			this->ext->glBindFramebufferEXT(36160LL, currentFb);
 		return complete;

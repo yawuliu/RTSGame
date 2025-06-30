@@ -2,16 +2,19 @@
 
 #include <string>
 #include "IGraphicsObject.h"
-#include "IMaterial.h"
-#include "ModelInfo.h"
 #include "IData.h"
 #include "ObjectMatrix.h"
 #include "Data.h"
+#include "IScene.h"
 
 namespace MyGL {
-    class IModel;
+    class IMaterial;
 
-    class IScene;
+    class ModelInfo;
+
+    class IModelInfo;
+
+    class IModel;
 
     class IShader;
 

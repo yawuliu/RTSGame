@@ -12,25 +12,25 @@ namespace MyGL {
     public:
         Adapter(IScene &s);
 
-        virtual IShader *getLincShader() = 0; // 0
+        virtual IShader *getLincShader(); // 0
 
-        virtual IShader *getGausVerticalShader() = 0; // 1
+        virtual IShader *getGausVerticalShader(); // 1
 
-        virtual IShader *getGausHorizontalShader() = 0;// 2
+        virtual IShader *getGausHorizontalShader();// 2
 
-        virtual IShader *getBloomDownSampleShader() = 0;//3
+        virtual IShader *getBloomDownSampleShader();//3
 
-        virtual IShader *getGlowDownSampleShader() = 0;// 4
+        virtual IShader *getGlowDownSampleShader();// 4
 
-        virtual IShader *getSSAOShader() = 0; // 5
+        virtual IShader *getSSAOShader(); // 5
 
-        virtual ITexture2d *getRandTexture() = 0; // 6
+        virtual ITexture2d *getRandTexture(); // 6
 
-        virtual IShader *getVolumetricLightScatteringShader() = 0; // 7
+        virtual IShader *getVolumetricLightScatteringShader(); // 7
 
-        virtual IShader *getBlurShadowShader() = 0; // 8
+        virtual IShader *getBlurShadowShader(); // 8
 
-        virtual ITexture2d *getShadowMapTexture() = 0; // 9
+        virtual ITexture2d *getShadowMapTexture(); // 9
 
         IShader *returnShader(const std::string &d);
 
@@ -40,3 +40,4 @@ namespace MyGL {
         IScene &_scene;
     };
 }
+

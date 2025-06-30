@@ -6,14 +6,13 @@
 namespace MyGL {
     Model::Model(IRender &r) {
         this->render = r;
-        VBO::VBO(&this->vert, r);
-        VBO::VBO(&this->tex, r);
-        VBO::VBO(&this->norm, r);
-        VBO::VBO(&this->extra, r);
+        this->vert = VBO(r);
+        this->tex = VBO(r);
+        this->norm = VBO(r);
+        this->extra = VBO(r);
         this->type = IVBO::PrimitiveType::Type::Triangles;
         this->size = 0;
-        mCullInform = (ModelInfo *) operator new(0x40uLL);
-        this->mCullInform = new ModelInfo::ModelInfo();
+        this->mCullInform = new ModelInfo();
     }
 
     Model::~Model() {

@@ -9,18 +9,18 @@
 
 class RenderMainPass : public MyGL::MainPass {
 public:
-	RenderMainPass(MyGL::IScene* s, MyGL::IModel* quad,
-		const MyGL::Adapter* adapter);
+    RenderMainPass(MyGL::IScene *s, MyGL::IModel *quad,
+                   const MyGL::gadapter *adapter);
 
-	MyGL::IScene* scene();
+    MyGL::IScene *scene();
 
-	MyGL::ITextureRectangle* output();
+    MyGL::ITextureRectangle *output();
 
 private:
-	void makeAlgo(std::vector<MyGL::IRenderPass*>& out,
-		const MyGL::Adapter* adapter);
+    void makeAlgo(std::vector<MyGL::IRenderPass *> &out,
+                  const MyGL::gadapter *adapter);
 
-	void makeAlgo(const MyGL::Adapter* adapter);
+    void makeAlgo(const MyGL::gadapter *adapter);
 
 };
 
