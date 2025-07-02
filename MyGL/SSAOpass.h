@@ -25,12 +25,12 @@ namespace MyGL {
 
             virtual ~Data() = default;
 
-        protected:
+        public:
             Filter ssao;
         };
 
     public:
-        SSAOpass(IScene &s, const gadapter &adapter, MainPass *mp);
+        SSAOpass(IScene &s, const Adapter &adapter, MainPass *mp);
 
         virtual ~SSAOpass();
 

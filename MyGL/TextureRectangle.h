@@ -31,15 +31,16 @@ namespace MyGL {
         virtual uint32_t width() override;
 
         virtual uint32_t height() override;
-        
-        const void *toGlColorSystem(ITexture::Format::Type colorSystem);
 
-        const void *toGlInputFormat(ITexture::InputFormat::Type imgColorSystem);
+        uint32_t toGlColorSystem(ITexture::Format::Type colorSystem);
+
+        uint32_t toGlInputFormat(ITexture::InputFormat::Type imgColorSystem);
 
         void updateSampler();
 
 
     protected:
+        static uint32_t filter[2];
         IRender *render;
         ITexture::FilterType::Type filterMin;
         ITexture::FilterType::Type filterMag;

@@ -1,8 +1,10 @@
 #include "Render.h"
+#include "IUniformSampler.h"
+
 namespace MyGL {
 	Render::Render(CGL& glDevice)
 	{
-		this->glDev = glDevice;
+		this->glDev = &glDevice;
 		this->autoDel = 0;
 		this->init();
 	}
@@ -51,58 +53,10 @@ namespace MyGL {
 
 	void Render::bindCamera()
 	{
-		__int64 v1;
-		float zFar_1;
-		float zNear_1;
-		double* x_1;
-		double* src;
-		__int64 v6;
-		__int64 v7;
-		__int64 v8;
-		__int64 v9;
-		__int64 v10;
-		__int64 v11;
-		__int64 v12;
-		double* x_2;
-		double* src_1;
-		glm::detail::tmat4x4<double> mview;
-		glm::detail::tmat4x4<double> proj;
-		int vp[4];
-		glm::detail::tmat4x4<float> m;
-		float zFar;
-		float zNear;
-		float aspect;
-		float fovy;
-		glm::detail::tmat4x4<double> retstr_;
-		glm::detail::tvec3<double> v;
-		double z;
-		int y;
-		int x;
-		glm::detail::tmat4x4<double> retstr__1;
-		glm::detail::tvec3<double> v29;
-		value_type s;
-		glm::detail::tmat4x4<double> retstr__2;
-		glm::detail::tvec3<double> v32;
-		int z_;
-		int y_;
-		int x_;
-		double angle;
-		glm::detail::tmat4x4<double> retstr__3;
-		glm::detail::tvec3<double> v38;
-		int z__1;
-		int y__1;
-		int x__1;
-		double angle_;
-		glm::detail::tmat4x4<double> retstr__4;
-		glm::detail::tvec3<double> v44;
-		value_type s2;
-		value_type s1;
-		value_type s0[3];
-
-		if (this->cam)
+        if (this->cam)
 		{
 			glMatrixMode(5889LL);
-			glm::detail::tmat4x4<double>::tmat4x4(&proj);
+			glm::dmat4(&proj);
 			v1 = this->camera();
 			if ((*(unsigned __int8(__fastcall**)(__int64))(*(_QWORD*)v1 + 112LL))(v1))
 			{
@@ -117,50 +71,50 @@ namespace MyGL {
 				glm::detail::tmat4x4<double>::operator=<float>(&proj, &m);
 			}
 			x_1 = glm::gtc::type_ptr::value_ptr<double>(&proj);
-			glLoadMatrix(this, x_1);
+            this->glLoadMatrix(x_1);
 			src = glm::gtc::type_ptr::value_ptr<double>(&proj);
 			memcpy(this->projectionMat, src, sizeof(this->projectionMat));
 			glMatrixMode(5888LL);
-			glm::detail::tmat4x4<double>::tmat4x4(&mview);
+			glm::dmat4(&mview);
 			v6 = this->camera();
 			z = -(*(double(__fastcall**)(__int64))(*(_QWORD*)v6 + 80LL))(v6);
 			y = 0;
 			x = 0;
-			glm::detail::tvec3<double>::tvec3<int, int, double>(&v, &x, &y, &z);
+			glm::dvec3(&v, &x, &y, &z);
 			glm::gtc::matrix_transform::translate<double>(&retstr_, &mview, &v);
-			glm::detail::tmat4x4<double>::operator=(&mview, &retstr_);
+			glm::dmat4::operator=(&mview, &retstr_);
 			v7 = this->camera();
 			s = (*(double(__fastcall**)(__int64))(*(_QWORD*)v7 + 88LL))(v7);
-			glm::detail::tvec3<double>::tvec3(&v29, &s);
+			glm::dvec3(&v29, &s);
 			glm::gtc::matrix_transform::scale<double>(&retstr__1, &mview, &v29);
-			glm::detail::tmat4x4<double>::operator=(&mview, &retstr__1);
+			glm::dmat4::operator=(&mview, &retstr__1);
 			z_ = 0;
 			y_ = 0;
 			x_ = 1;
-			glm::detail::tvec3<double>::tvec3<int, int, int>(&v32, &x_, &y_, &z_);
+			glm::dvec3(&v32, &x_, &y_, &z_);
 			v8 = this->camera();
 			angle = (*(double(__fastcall**)(__int64))(*(_QWORD*)v8 + 96LL))(v8);
 			glm::gtc::matrix_transform::rotate<double>(&retstr__2, &mview, &angle, &v32);
-			glm::detail::tmat4x4<double>::operator=(&mview, &retstr__2);
+			glm::dmat4::operator=(&mview, &retstr__2);
 			z__1 = 1;
 			y__1 = 0;
 			x__1 = 0;
-			glm::detail::tvec3<double>::tvec3<int, int, int>(&v38, &x__1, &y__1, &z__1);
+			glm::dvec3(&v38, &x__1, &y__1, &z__1);
 			v9 = this->camera();
 			angle_ = (*(double(__fastcall**)(__int64))(*(_QWORD*)v9 + 104LL))(v9);
 			glm::gtc::matrix_transform::rotate<double>(&retstr__3, &mview, &angle_, &v38);
-			glm::detail::tmat4x4<double>::operator=(&mview, &retstr__3);
+			glm::dmat4::operator=(&mview, &retstr__3);
 			v10 = this->camera();
 			s2 = -(*(double(__fastcall**)(__int64))(*(_QWORD*)v10 + 72LL))(v10);
 			v11 = this->camera();
 			s1 = -(*(double(__fastcall**)(__int64))(*(_QWORD*)v11 + 64LL))(v11);
 			v12 = this->camera();
 			s0[0] = -(*(double(__fastcall**)(__int64))(*(_QWORD*)v12 + 56LL))(v12);
-			glm::detail::tvec3<double>::tvec3(&v44, s0, &s1, &s2);
+			glm::dvec3(&v44, s0, &s1, &s2);
 			glm::gtc::matrix_transform::translate<double>(&retstr__4, &mview, &v44);
-			glm::detail::tmat4x4<double>::operator=(&mview, &retstr__4);
+			glm::dmat4::operator=(&mview, &retstr__4);
 			x_2 = glm::gtc::type_ptr::value_ptr<double>(&mview);
-			glLoadMatrix(this, x_2);
+            this->glLoadMatrix(x_2);
 			src_1 = glm::gtc::type_ptr::value_ptr<double>(&mview);
 			memcpy(this->modelView, src_1, sizeof(this->modelView));
 			if (this->scene)
@@ -195,10 +149,7 @@ namespace MyGL {
 
 	void Render::bindTexture(IUniformSampler* sampler, ITexture* tex)
 	{
-		void(__fastcall * v3)(Render* const, _QWORD, ITexture*);
-		unsigned int v4;
-		v4 = sampler->get();
-        this->bindTexture(v4, tex);
+        this->bindTexture(sampler->get(), tex);
 	}
 
 	void Render::bindTexture(CGL::TextureUnitHandle tx_unit, ITexture* tex)
@@ -209,7 +160,7 @@ namespace MyGL {
 
 	void Render::bindVBO(IVBO* vbo, IVBO::BindMode::Type mode)
 	{
-		vbo->bind((unsigned int)mode);
+		vbo->bind(mode);
 	}
 
 	ICamera* Render::camera()
@@ -312,12 +263,9 @@ namespace MyGL {
 		m->draw(1LL);
 	}
 
-	void Render::drawModel(IModel* m, const ObjectMatrix* const objMatrix)
+	void Render::drawModel(IModel* m, const ObjectMatrix& objMatrix)
 	{
-		const double* x;
-
-		x = objMatrix->data();
-        this->glMultMatrix(x);
+        this->glMultMatrix(objMatrix.data());
 		this->drawModel(m);
         this->glLoadMatrix(this->modelView);
 	}
@@ -345,13 +293,7 @@ namespace MyGL {
 
 	void Render::end()
 	{
-		CGL* v1;
-		IErrorControl* v2;
-
-		v1 = this->gl();
-		v2 = v1->errorCtrl();
-		this->isWork->warning(
-			"Render is not activated");
+		this->gl()->errorCtrl()->warning(this->isWork, "Render is not activated");
 		this->ubindMaterial();
 		this->useShader( 0LL);
 		this->ubindModel();
@@ -375,42 +317,28 @@ namespace MyGL {
                     return  "GL_INVALID_ENUM";
                     break;
                 case 0x501u:
-
                     return  "GL_INVALID_VALUE";
-
                     break;
                 case 0x502u:
-
-                    return  "GL_INVALID_OPERATION;
-
+                    return  "GL_INVALID_OPERATION";
                     break;
                 case 0x503u:
-
                     return  "GL_STACK_OVERFLOW";
-
                     break;
                 case 0x504u:
-
                     return  "GL_STACK_UNDERFLOW";
-
                     break;
                 case 0x505u:
-
                     return  "GL_OUT_OF_MEMORY";
-
                     break;
                 default:
-
-                    return  &unk_4D3AB3;
-
+                    return  "";
                     break;
             }
         }
         else
         {
-
-            return unk_4D3AB3;
-
+            return "";
         }
         return "";
     }
@@ -437,24 +365,23 @@ namespace MyGL {
 
 	void Render::getTransformMatrix(ObjectMatrix& out)
 	{
-		const Float* data;
 		ObjectMatrix pm;
 		ObjectMatrix mv;
-		this->getModeViewlMatrix(&mv);
-		this->getProjectionMatrix( &pm);
-        mv.mul(&pm);
+		this->getModeViewlMatrix(mv);
+		this->getProjectionMatrix(pm);
+        mv.mul(pm);
         out.setData(mv.data());
 	}
 
-	void Render::getViewport(int* const x, int* const y, int* const w, int* const h)
+	void Render::getViewport(int & x, int& y, int& w, int& h)
 	{
 		int v[4];
 
 		glGetIntegerv(2978LL, v);
-		*x = v[0];
-		*y = v[1];
-		*w = v[2];
-		*h = v[3];
+		x = v[0];
+		y = v[1];
+		w = v[2];
+		h = v[3];
 	}
 
 	CGL* Render::gl()
@@ -491,12 +418,8 @@ namespace MyGL {
 		this->currModel = 0LL;
 		this->setZRange(0.0, 1.0);
 		this->cam = 0LL;
-		defState = (RenderState*)operator new(0x30uLL);
-		RenderState defState;
-		this->defState = defState;
-		state = (RenderState*)operator new(0x30uLL);
-		RenderState state;
-		this->state = state;
+		this->defState = new RenderState();
+		this->state = new RenderState();
 		this->scene = 0LL;
 		this->isGL_ARB_multisampleEnable = 0;
 		this->resetCounters();
@@ -504,31 +427,16 @@ namespace MyGL {
 
 	bool Render::initGL()
 	{
-		CGL* glD;
-		CGL* v2;
-		CGL* v4;
-		CGL* v5;
-		CGL* v6;
-		CGL* v7;
-		privateGLSupportClass* v8;
-
-		glD = this->gl();
-        glD->createExtObject();
-		v2 = this->gl();
-		if (!v2->initShaderAPI())
+        this->gl()->createExtObject();
+		if (!this->gl()->initShaderAPI())
 			return 0;
-		v4 = this->gl();
-		if (!v4->initTextureAPI())
+		if (!this->gl()->initTextureAPI())
 			return 0;
-		v5 = this->gl();
-		if (!v5->initVBO_API())
+		if (!this->gl()->initVBO_API())
 			return 0;
-		v6 = this->gl();
-		if (!v6->initFBO_API())
+		if (!this->gl()->initFBO_API())
 			return 0;
-		v7 = this->gl();
-		v8 =v7->ext();
-		v8->glGenerateMipmapEXT(3553LL);
+        this->gl()->ext()->glGenerateMipmapEXT(3553LL);
 		glEnableClientState(32884LL);
 		glEnableClientState(32888LL);
 		glEnableClientState(32885LL);
@@ -585,7 +493,7 @@ namespace MyGL {
 			this->state->copy(this->defState);
 	}
 
-	void Render::setCamera(ICamera* const c)
+	void Render::setCamera(ICamera& c)
 	{
 		this->cam = c;
 		this->bindCamera();
@@ -598,9 +506,9 @@ namespace MyGL {
             this->upsetRState();
 	}
 
-	void Render::setScene(IScene* const s)
+	void Render::setScene(IScene& s)
 	{
-		this->scene = s;
+		this->scene = &s;
 	}
 
 	void Render::setViewport(int x, int y, int w, int h)
@@ -648,29 +556,6 @@ namespace MyGL {
 
 	void Render::upsetRState()
 	{
-		__m128d v1;
-		__int64 v2;
-		__int64 v3;
-		int v4;
-		__int64 v5;
-		int v6;
-		__int64 v7;
-		unsigned __int8 v8;
-		__int64 v9;
-		__int64 v10;
-		__int64 v11;
-		GLenum v12;
-		__int64 v13;
-		int v14;
-		__int64 v15;
-		__int64 v17;
-		__int64 v18;
-		__int64 v19;
-		int v20;
-		float v21;
-		unsigned int cullMode[4];
-		unsigned __int8 clMask[32];
-
 		glEnable(3008LL);
 		v2 = this->renderState();
 		v1.m128d_f64[0] = (*(double(__fastcall**)(__int64))(*(_QWORD*)v2 + 16LL))(v2);

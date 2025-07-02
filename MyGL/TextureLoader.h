@@ -8,14 +8,22 @@ namespace MyGL {
 
     class TextureLoader : public ITextureLoader {
     public:
-        class setLoadFileCallBack {
-        public:
-            typedef void (*loadFileCallBack)(MyGL::ITexture2d *, const std::string *, bool *);
-        };
-
+        template<typename T>
         class Loader : public ITextureLoader::ILoader {
         public:
-            Loader(void (*const *const t)(ITexture2d *, const std::string *, bool *));
+            Loader(T t) {
+                this->load = t;
+            }
+
+            virtual ~Loader() = default;
+
+            virtual ITexture2d *operator()(ITexture2d &taget, const std::string &fileName, bool *ok) {
+                this->load(&taget, fileName, ok);
+                return &taget;
+            }
+
+        public:
+            T load;
         };
 
     public:
@@ -23,11 +31,11 @@ namespace MyGL {
 
         virtual ~TextureLoader();
 
-        ITexture2d *load(ITexture2d &taget, const std::string &fileName, bool *ok);
+        virtual ITexture2d *load(ITexture2d &taget, const std::string &fileName, bool *ok);
 
-        void setLoadFileCallBack(setLoadFileCallBack::loadFileCallBack c);
+        virtual void setLoadFileCallBack(setLoadFileCallBack::loadFileCallBack c);
 
-        void setLoadAlgo(ILoader *c);
+        virtual void setLoadAlgo(ILoader *c);
 
     protected:
         IRender &render;

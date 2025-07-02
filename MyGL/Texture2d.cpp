@@ -1,4 +1,5 @@
 #include "Texture2d.h"
+#include "Color.h"
 #include <stdexcept>
 #include <QOpenGLContext>
 #include <GL/glu.h>
@@ -7,7 +8,6 @@
 namespace MyGL {
 	Texture2d::Texture2d(IRender& r) :render(&r)
 	{
-		Color other;
 		this->handle = 0;
 		this->isForwardFormat = 0;
 		this->setFiltration(ITexture::FilterType::Type::Linear,
@@ -60,9 +60,6 @@ namespace MyGL {
 
 	void Texture2d::load(const void* pixels, ITexture::InputFormat::Type imgColorSystem, unsigned int pw, unsigned int ph, ITexture::Format::Type colorSystem)
 	{
-		int v6;
-		unsigned int* v9;
-
 		this->w = pw;
 		this->h = ph;
 		this->free();
@@ -78,11 +75,6 @@ namespace MyGL {
 
 	void Texture2d::loadMipMaps(const void* pixels, ITexture::InputFormat::Type imgColorSystem, unsigned int pw, unsigned int ph, ITexture::Format::Type colorSystem)
 	{
-		unsigned int v6;
-		unsigned int h;
-		unsigned int w;
-		unsigned int* v9;
-
 		this->w = pw;
 		this->h = ph;
 		this->free();
@@ -125,7 +117,7 @@ namespace MyGL {
 
 	void Texture2d::setFiltration(ITexture::FilterType::Type mag, ITexture::FilterType::Type min)
 	{
-		this->setFiltration(mag, min,2LL);
+		this->setFiltration(mag, min, (ITexture::FilterType::Type)2LL);
 	}
 
 	void Texture2d::setFiltration(ITexture::FilterType::Type fmag, ITexture::FilterType::Type fmin, ITexture::FilterType::Type fmip)
@@ -136,16 +128,17 @@ namespace MyGL {
 		this->isForwardFormat = 1;
 	}
 
-	const void* Texture2d::toGlColorSystem(ITexture::Format::Type colorSystem)
+    uint32_t Texture2d::toGlColorSystem(ITexture::Format::Type colorSystem)
 	{
 		return privateGLSupportClass::toGlColorSystem(this->render, colorSystem);
 	}
 
-	const void* Texture2d::toGlInputFormat(ITexture::InputFormat::Type imgColorSystem)
+	 uint32_t Texture2d::toGlInputFormat(ITexture::InputFormat::Type imgColorSystem)
 	{
 		return privateGLSupportClass::toGlInputFormat(this->render, imgColorSystem);
 	}
-
+    static uint32_t clampMode[6] = {0x2900, 0x812D, 0x812F, 0x8370, 0x2901,  0x2901};
+    static uint32_t filter[2] = {0x2600, 0x2601};
 	void Texture2d::updateSampler()
 	{
 		CGL* v1;
@@ -153,13 +146,13 @@ namespace MyGL {
 
 		if (this->isForwardFormat)
 		{
-			glTexParameteri(3553LL, 10242LL, Texture2d::updateSampler(void)::clampMode[this->clamp[0]]);
-			glTexParameteri(3553LL, 10243LL, Texture2d::updateSampler(void)::clampMode[this->clamp[1]]);
-			glTexParameteri(3553LL, 32882LL, Texture2d::updateSampler(void)::clampMode[this->clamp[2]]);
-			glTexParameteri(3553LL, 10240LL, Texture2d::updateSampler(void)::filter[this->filterMag]);
+			glTexParameteri(3553LL, 10242LL, clampMode[this->clamp[0]]);
+			glTexParameteri(3553LL, 10243LL, clampMode[this->clamp[1]]);
+			glTexParameteri(3553LL, 32882LL, clampMode[this->clamp[2]]);
+			glTexParameteri(3553LL, 10240LL, filter[this->filterMag]);
 			if (this->filterMip == ITexture::FilterType::Type::Count)
 			{
-				glTexParameteri(3553LL, 10241LL, Texture2d::updateSampler(void)::filter[this->filterMin]);
+				glTexParameteri(3553LL, 10241LL, filter[this->filterMin]);
 			}
 			else if (this->filterMip)
 			{
@@ -176,7 +169,7 @@ namespace MyGL {
 					3553LL,
 					34046LL,
 					_mm_unpacklo_pd((__m128d) * (unsigned __int64*)&this->anisLevel, (__m128d) * (unsigned __int64*)&this->anisLevel).m128d_f64[0]);
-			v2 = this->border_cl->data();
+			v2 = this->border_cl.data();
 			glTexParameterfv(3553LL, 4100LL, v2);
 			this->isForwardFormat = 0;
 		}

@@ -30,7 +30,7 @@ namespace MyGL {
 
             ShaderEnvironment::pimpl *operator=(const pimpl &a2);
 
-        protected:
+        public:
             std::string src;
             std::map<std::string, ShaderEnvironment::pimpl::def> map;
         };
@@ -46,7 +46,7 @@ namespace MyGL {
 
         virtual IShaderEnvironment *operator<<(const std::string &def) override;
 
-        virtual ShaderEnvironment *operator=(const ShaderEnvironment &other) override;
+        virtual IShaderEnvironment *operator=(const IShaderEnvironment &other) override;
 
         IShaderEnvironment *operator>>(const std::string &def);
 

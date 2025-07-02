@@ -25,7 +25,7 @@ namespace MyGL {
         virtual void refresh() = 0; // 5
         virtual void begin() = 0; // 6
         virtual void end() = 0; // 7
-        virtual void size() = 0; // 8
-        virtual void operator[](uint64_t) = 0; // 9
+        virtual size_t size() = 0; // 8
+        virtual IGraphicsObject *operator[](size_t) = 0; // 9
     };
 }

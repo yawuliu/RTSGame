@@ -1,4 +1,8 @@
 #include "StdTechnique.h"
+#include "IShader.h"
+#include "IUniformSampler.h"
+#include "IUniform4f.h"
+#include "ILightsCollection.h"
 
 namespace MyGL {
     StdTechnique::StdTechnique(IScene &s) : AbstractTechnique(s) {
@@ -81,10 +85,10 @@ namespace MyGL {
         this->updateMat = 0;
         this->lMatrix.identity();
         ObjectMatrix m;
-        this->render()->getProjectionMatrix(&m);
-        this->lMatrix.mul(&m);
-        this->render()->getModeViewlMatrix(&m);
-        this->lMatrix.mul(&m);
+        this->render()->getProjectionMatrix(m);
+        this->lMatrix.mul(m);
+        this->render()->getModeViewlMatrix(m);
+        this->lMatrix.mul(m);
         this->lMatrix.mul(obj.objectMatrix());
         return this->sh != 0LL;
     }
@@ -259,12 +263,11 @@ namespace MyGL {
     void StdTechnique::setUniforms() {
         if (this->mshader == this->sh) {
             if (this->lMat) {
-                v2 = this->lMatrix->data();
-                this->lMat->set(v2);
+                this->lMat->set(this->lMatrix.data());
             }
             if (this->lDir) {
-                if (this->scene()->lights()->size()) {
-                    Float *l = this->scene()->lights()->at(0LL)->dirTransform();
+                if (this->scene().lights()->size()) {
+                    Float *l = this->scene().lights()->at(0LL)->dirTransform();
                     this->lDir->set(*l, l[1], l[2], 1.0);
                 }
             }

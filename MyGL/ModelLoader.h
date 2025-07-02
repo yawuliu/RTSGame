@@ -14,9 +14,9 @@ namespace MyGL {
 
         virtual ~ModelLoader() = default;//0
         //1
-        IModel *load(const char *fileName, bool *ok); // 2
+        IModel *load(IModel &taget, const char *fileName, bool *ok); // 2
 
-        IModel *loadBin_v0(const char *fileName, bool *ok); // 3
+        IModel *loadBin_v0(IModel &taget, const char *fileName, bool *ok); // 3
 
     protected:
         IRender &render;

@@ -22,8 +22,13 @@ namespace MyGL {
 
     protected:
         CGL::ShaderHandle handle;
+//        0000000C     // padding byte
+//        0000000D     // padding byte
+//        0000000E     // padding byte
+//        0000000F     // padding byte
         IShader *shader;
-        int dat;
+        float data[16];
+        CGL::GLfloat *dat;
     };
 }
 

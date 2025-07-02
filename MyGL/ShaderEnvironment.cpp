@@ -64,9 +64,9 @@ namespace MyGL {
 		return this->push( def, unk_4D2E74);
 	}
 
-	ShaderEnvironment* ShaderEnvironment::operator=(const ShaderEnvironment& other)
+    IShaderEnvironment* ShaderEnvironment::operator=(const IShaderEnvironment& other)
 	{
-        this->data =  *((const ShaderEnvironment::pimpl* const*)other + 2));
+        this->data =  other.data;
 		this->needToUpdate = 1;
 		return this;
 	}

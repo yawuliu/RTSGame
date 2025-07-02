@@ -7,14 +7,13 @@
 namespace MyGL {
     VolumetricLightScatteringPass::VolumetricLightScatteringPass(IScene &s, IModel *quad, const Adapter &adapter,
                                                                  ITextureRectangle &d, ITextureRectangle &c)
-            : AbstractPass(s) {
-        this->depth = d;
+            : AbstractPass(s), depth(&d) {
         this->filter = new Filter(this->scene());
-        this->frame = new TextureRectangle(this->scene()->render());
-        this->filter->setShader(adapter->getVolumetricLightScatteringShader());
+        this->frame = new TextureRectangle(this->scene().render());
+        this->filter->setShader(adapter.getVolumetricLightScatteringShader());
         this->filter->setInput("colorBuffer", c);
         this->filter->setInput("depthBuffer", this->depth);
-        this->filter->setInput("shadowMap", adapter->getShadowMapTexture());
+        this->filter->setInput("shadowMap", adapter.getShadowMapTexture());
         this->filter->setQuadModel(quad);
         this->frameBuffer = 0LL;
         this->resizeFrame();
@@ -30,26 +29,17 @@ namespace MyGL {
 
     void VolumetricLightScatteringPass::resizeFrame() {
         int v[12];
-        this->scene()->render()->getViewport(
-                &v[0],
-                &v[1],
-                &v[2],
-                &v[3]);
-
+        this->scene().render()->getViewport(&v[0], &v[1], &v[2], &v[3]);
         this->frame->load(0LL, 1LL, v[2], v[3], 4LL);
         if (this->frameBuffer)
             delete this->frameBuffer;
-        this->frameBuffer = new FBO(this->scene()->render(), this->frame->width(), this->frame->height(), 8);
+        this->frameBuffer = new FBO(this->scene().render(), this->frame->width(), this->frame->height(), 8);
     }
 
     void VolumetricLightScatteringPass::exec() {
         int v[8];
-        this->scene()->render()->getViewport(
-                &v[0],
-                &v[1],
-                &v[2],
-                &v[3]);
-        this->scene()->render()->clearColor();
+        this->scene().render()->getViewport(&v[0], &v[1], &v[2], &v[3]);
+        this->scene().render()->clearColor();
         if (v[2] != this->frame->width() || v[3] != this->frame->height()) {
             this->resizeFrame();
         }

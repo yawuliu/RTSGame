@@ -6,6 +6,11 @@
 #include "ShaderEnvironment.h"
 
 namespace MyGL {
+    class setLoadFileCallBack {
+    public:
+        typedef void (*loadFileCallBack)(ITexture2d *, const ::std::string &, bool *);
+    };
+
     class ITextureLoader : public DisableCopy {
     public:
         class ILoader {
@@ -14,7 +19,7 @@ namespace MyGL {
 
             virtual ~ILoader() = default; // 0
             //1
-            virtual void operator()(ITexture2d &, std::string const &, bool *) = 0;// 2
+            virtual ITexture2d *operator()(ITexture2d &, const ::std::string &, bool *) = 0;// 2
         };
 
     public:
@@ -22,8 +27,8 @@ namespace MyGL {
 
         virtual ~ITextureLoader() = default; //0
         //1
-        virtual void load(ITexture2d &, std::string const &, bool *) = 0; // 2
-        virtual void setLoadFileCallBack(void (*)(ITexture2d &, std::string const &, bool *)) = 0; // 3
+        virtual ITexture2d *load(ITexture2d &, const ::std::string &, bool *) = 0; // 2
+        virtual void setLoadFileCallBack(setLoadFileCallBack::loadFileCallBack t) = 0; // 3
         virtual void setLoadAlgo(ITextureLoader::ILoader *) = 0;// 4
     };
 }

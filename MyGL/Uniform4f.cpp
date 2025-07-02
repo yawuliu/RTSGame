@@ -35,18 +35,18 @@ namespace MyGL {
 	void Uniform4f::set(Color color)
 	{
 		void(__fastcall * v2)(Uniform4f*, double, double, double, double);
-		const Color::ChanelType* v3;
+        double v3;
 		double v4;
 		double v5;
 		double v6;
 		Color colora;
 		*(_QWORD*)colora.cdata = *(_QWORD*)color.cdata;
 		*(_QWORD*)&colora.cdata[2] = *(_QWORD*)&color.cdata[2];
-		v6 = Color::data(&colora)[4];
-		v5 = Color::data(&colora)[2];
-		v4 = Color::data(&colora)[1];
-		v3 = Color::data(&colora);
-		this->set( *v3, v4, v5, v6);
+		v6 = colora.data()[4];
+		v5 = colora.data()[2];
+		v4 = colora.data()[1];
+		v3 = colora.data()[0];
+		this->set(v3, v4, v5, v6);
 	}
 
 	void Uniform4f::set(const Float* data)

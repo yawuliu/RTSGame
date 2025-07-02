@@ -30,9 +30,9 @@ namespace MyGL {
         double modl[16];
         double proj[16];
 
-        v1 = this->scene->render();
+        v1 = this->scene.render();
         (*(void (__fastcall **)(__int64, double *)) (*(_QWORD *) v1 + 352LL))(v1, proj);
-        v2 = this->scene->render();
+        v2 = this->scene.render();
         (*(void (__fastcall **)(__int64, double *)) (*(_QWORD *) v2 + 344LL))(v2, modl);
         this->model_proj[0] = proj[12] * modl[3] + modl[0] * proj[0] + proj[4] * modl[1] + proj[8] * modl[2];
         this->model_proj[1] = proj[13] * modl[3] + modl[0] * proj[1] + proj[5] * modl[1] + proj[9] * modl[2];
@@ -62,8 +62,8 @@ namespace MyGL {
         v4.m128d_f64[0] = obj.z();
         z = _mm_unpacklo_pd(v4, v4).m128d_f64[0];
         for (int i = 0; i <= 5; ++i) {
-            v7 = SceneGraph::po(this, x, y, z, this->cullM[i][0], this->cullM[i][1], this->cullM[i][2],
-                                this->cullM[i][3]);
+            v7 = this->po(x, y, z, this->cullM[i][0], this->cullM[i][1], this->cullM[i][2],
+                          this->cullM[i][3]);
             v5 = obj.modelInfo();
             if (-(*(double (__fastcall **)(__int64)) (*(_QWORD *) v5 + 64LL))(v5) > v7)
                 return 0;
@@ -116,10 +116,10 @@ namespace MyGL {
 
     void SceneGraph::updateVisible() {
         nsize = 0LL;
-        v1 = this->scene->objects();
+        v1 = this->scene.objects();
         objSize = (*(__int64 (__fastcall **)(__int64)) (*(_QWORD *) v1 + 64LL))(v1);
         for (i = 0LL; i < objSize; ++i) {
-            v3 = this->scene->objects();
+            v3 = this->scene.objects();
             v4 = (*(__int64 (__fastcall **)(__int64, size_t)) (*(_QWORD *) v3 + 72LL))(v3, i);
             if (this->isObjectVisible(v4)) {
                 nsize_1 = std::vector<IGraphicsObject *>::size(&this->visObj);
@@ -128,7 +128,7 @@ namespace MyGL {
                     std::vector<IGraphicsObject *>::push_back(&this->visObj, &__x);
                 }
                 v6 = std::vector<IGraphicsObject *>::operator[](&this->visObj, nsize);
-                v7 = this->scene->objects();
+                v7 = this->scene.objects();
                 *v6 = (IGraphicsObject *) (*(__int64 (__fastcall **)(__int64, size_t)) (*(_QWORD *) v7 + 72LL))(v7, i);
                 ++nsize;
             }

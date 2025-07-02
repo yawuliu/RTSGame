@@ -1,5 +1,6 @@
 #include "LincPass.h"
 #include "IModel.h"
+#include "Filter.h"
 
 namespace MyGL {
     LincPass::LincPass(IScene &s, const Adapter &adapter, IModel *quad,
@@ -22,7 +23,7 @@ namespace MyGL {
 
     void LincPass::exec() {
         if (!this->validate()) {
-            this->scene()->render()->gl()->errorCtrl()->fail("Linc frame shader is not loaded");
+            this->scene().render()->gl()->errorCtrl()->fail("Linc frame shader is not loaded");
         } else {
             this->filter->exec();
         }
@@ -36,7 +37,7 @@ namespace MyGL {
             this->filter->setInput("glowPass", this->glow);
             this->filter->setInput("bloomPass", this->bloom);
         } else {
-            this->scene()->render()->gl()->errorCtrl()->warning(0LL, "Linc frame shader is not loaded");
+            this->scene().render()->gl()->errorCtrl()->warning(0LL, "Linc frame shader is not loaded");
         }
     }
 

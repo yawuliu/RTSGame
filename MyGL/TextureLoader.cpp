@@ -1,8 +1,8 @@
 #include "TextureLoader.h"
+#include "IErrorControl.h"
 
 namespace MyGL {
-    TextureLoader::TextureLoader(IRender &r) {
-        this->render = r;
+    TextureLoader::TextureLoader(IRender &r) : render(r) {
         this->flCall = 0LL;
         this->setLoadFileCallBack(0LL);
     }
@@ -12,17 +12,17 @@ namespace MyGL {
 
     }
 
-    ITexture2d *TextureLoader::load(const std::string &fileName, bool *ok) {
+    ITexture2d *TextureLoader::load(ITexture2d &taget, const std::string &fileName, bool *ok) {
         if (this->flCall) {
-            this->flCall->operator()(this, fileName, ok);
+            this->flCall->operator()(taget, fileName, ok);
         } else {
-            this->render->gl()->errorCtrl()->loadError(this, "[Error]:No texture load call back");
+            this->render.gl()->errorCtrl()->loadError(&taget, "[Error]:No texture load call back");
         }
-        return this;
+        return &taget;
     }
 
-    void TextureLoader::setLoadFileCallBack(TextureLoader::setLoadFileCallBack::loadFileCallBack c) {
-        this->setLoadAlgo(new TextureLoader::Loader(&c));
+    void TextureLoader::setLoadFileCallBack(MyGL::setLoadFileCallBack::loadFileCallBack c) {
+        this->setLoadAlgo(new Loader(c));
     }
 
     void TextureLoader::setLoadAlgo(ITextureLoader::ILoader *c) {
@@ -30,8 +30,5 @@ namespace MyGL {
             delete this->flCall;
         this->flCall = c;
     }
-
-    TextureLoader::Loader::Loader(void (*const *const t)(ITexture2d *, const std::string *, bool *)) {
-        this->load = *t;
-    }
+    
 }

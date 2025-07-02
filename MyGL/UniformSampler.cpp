@@ -1,6 +1,5 @@
 #include "UniformSampler.h"
 #include "IUniform.h"
-#include "privateGLSupportClass.h"
 #include "IShader.h"
 
 namespace MyGL {

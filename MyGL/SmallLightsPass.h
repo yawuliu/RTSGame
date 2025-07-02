@@ -8,7 +8,7 @@
 namespace MyGL {
     class SmallLightsPass : public AbstractPass {
     public:
-        SmallLightsPass(const IScene &s, const Adapter &a3);
+        SmallLightsPass(IScene &s, const Adapter &a3);
 
         virtual ~SmallLightsPass() = default;
 

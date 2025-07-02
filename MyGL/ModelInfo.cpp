@@ -18,18 +18,6 @@ namespace MyGL {
     }
 
     IModelInfo *ModelInfo::operator=(IModelInfo const &m) {
-        __m128d v2;
-        __m128d v3;
-        __m128d v4;
-        __m128d v5;
-        __m128d v6;
-        __m128d v7;
-        float y;
-        float z;
-        float X;
-        float Y;
-        float Z;
-
         v2.m128d_f64[0] = (*(double (__fastcall **)(const void *const)) (*(_QWORD *) m + 56LL))(m);
         v3 = (__m128d) _mm_cvtpd_ps(_mm_unpacklo_pd(v2, v2));
         Z = *(float *) v3.m128d_f64;
@@ -79,29 +67,17 @@ namespace MyGL {
     }
 
     void ModelInfo::updateFrom(IIOModel const &m) {
-        __int64 v2;
-        const double *v3;
-        double v4;
-        int v5;
-        double p;
-        double dVec[3];
-        int i_2;
-        int r;
-        int i_1;
-        int i_0;
-        int i;
-
-        for (i = 0; i <= 2; ++i) {
+        for (int i = 0; i <= 2; ++i) {
             this->minD[i] = 0.0;
             this->maxD[i] = 0.0;
         }
         this->r = 0.0;
-        if (m->size()) {
-            for (i_0 = 0; i_0 <= 2; ++i_0) {
+        if (m.size()) {
+            for (int i_0 = 0; i_0 <= 2; ++i_0) {
                 this->minD[i_0] = *(float *) (4LL * i_0 + m->points());
                 this->maxD[i_0] = *(float *) (4LL * i_0 + m->points());
             }
-            for (i_1 = 0;; i_1 += 3) {
+            for (int i_1 = 0;; i_1 += 3) {
                 v5 = m->size();
                 if (3 * v5 <= i_1)
                     break;
@@ -114,7 +90,7 @@ namespace MyGL {
                     this->maxD[r] = v4;
                 }
             }
-            for (i_2 = 0; i_2 <= 2; ++i_2)
+            for (int i_2 = 0; i_2 <= 2; ++i_2)
                 dVec[i_2] = this->maxD[i_2] - this->minD[i_2];
             this->r = sqrt(dVec[2] * dVec[2] + dVec[0] * dVec[0] + dVec[1] * dVec[1]) * 0.5;
         }

@@ -9,7 +9,7 @@ namespace MyGL {
 
     class VBO : public IVBO {
     public:
-        class Pointer {
+        class Pointer : public IVBO::IPointer {
         public:
             Pointer(VBO *buf);
 

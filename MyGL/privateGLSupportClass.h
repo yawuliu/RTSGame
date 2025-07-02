@@ -1,5 +1,6 @@
 #pragma once
 
+#include <cstdint>
 #include "DisableCopy.h"
 #include "ITexture.h"
 #include "CGL.h"
@@ -46,13 +47,15 @@ namespace MyGL {
         PFNGLFRAMEBUFFERTEXTURE2DEXTPROC glFramebufferTexture2DEXT;
         PFNGLFRAMEBUFFERTEXTURE3DEXTPROC glFramebufferTexture3DEXT;
         PFNGLFRAMEBUFFERRENDERBUFFEREXTPROC glFramebufferRenderbufferEXT;
-
+        static uint32_t inputFormat[5];
+        static uint32_t dxtFormat[4];
+        static uint32_t gpuFormat[22];
     public:
         privateGLSupportClass(CGL &glD);
 
-        static const void *toGlColorSystem(IRender &render, ITexture::Format::Type colorSystem);
+        static uint32_t toGlColorSystem(IRender *render, ITexture::Format::Type colorSystem);
 
-        static const void *toGlInputFormat(IRender &a1, ITexture::InputFormat::Type imgColorSystem);
+        static uint32_t toGlInputFormat(IRender *render, ITexture::InputFormat::Type imgColorSystem);
 
         bool initVBO_API();
 
@@ -64,7 +67,7 @@ namespace MyGL {
 
         bool initColorAPI();
 
-        template<class T>
+        template<typename T>
         bool initGlExtensionFuncPtr(T func, const char *name) {
             return initGlExtensionFuncPtr(this->gl, func, name);
         }

@@ -1,4 +1,5 @@
 #include "ShaderLoader.h"
+#include "IShaderEnvironment.h"
 
 namespace MyGL {
     ShaderLoader::ShaderLoader(IRender &r) : render(r) {
@@ -16,9 +17,9 @@ namespace MyGL {
                 __rhs = (const char *) this->shEnv->getPrecompileSource();
                 std::operator+<char>(&__lhs, __rhs);
                 v7 = std::string::data(&__lhs);
-                taget->loadFragmentSource(v7);
+                taget.loadFragmentSource(v7);
             } else {
-                taget->loadFragmentSource(src);
+                taget.loadFragmentSource(src);
             }
         }
         if (src)
@@ -29,9 +30,9 @@ namespace MyGL {
                 __rhs_1 = (const char *) this->shEnv->getPrecompileSource();
                 std::operator+<char>(&__lhs_, __rhs_1);
                 v10 = std::string::data(&__lhs_);
-                taget->loadVertexSource(v10);
+                taget.loadVertexSource(v10);
             } else {
-                taget->loadVertexSource(src);
+                taget.loadVertexSource(src);
             }
         }
         if (src)
@@ -39,7 +40,6 @@ namespace MyGL {
         if (ok)
             *ok = okVs && okFs;
         if (!okVs || !okFs) {
-            std::allocator<char>::allocator(&v24);
             std::string::string(&msg, "[Error]: Shader load error [", &v24);
             if (!okVs)
                 std::string::append(&msg, vs);
@@ -47,9 +47,9 @@ namespace MyGL {
                 std::string::append(&msg, fs_0);
             std::string::append(&msg, "]");
             v14 = std::string::data(&msg);
-            this->render->gl()->errorCtrl()->loadError(taget, v14);
+            this->render.gl()->errorCtrl()->loadError(taget, v14);
         }
-        return taget;
+        return &taget;
     }
 
     void ShaderLoader::setEnvironment(IShaderEnvironment *env) {
