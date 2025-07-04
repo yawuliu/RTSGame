@@ -1,4 +1,5 @@
 #include "ModelLoader.h"
+#include "IModel.h"
 
 namespace MyGL {
     ModelLoader::ModelLoader(IRender &r) : render(r) {

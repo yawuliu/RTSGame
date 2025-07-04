@@ -28,7 +28,7 @@ namespace MyGL {
 
             virtual ~pimpl() = default;
 
-            ShaderEnvironment::pimpl *operator=(const pimpl &a2);
+            ShaderEnvironment::pimpl &operator=(const pimpl &a2);
 
         public:
             std::string src;
@@ -40,19 +40,19 @@ namespace MyGL {
 
         ShaderEnvironment();
 
-        virtual ~ShaderEnvironment() override;
+        ~ShaderEnvironment() override;
 
-        virtual const std::string &getPrecompileSource() override;
+        const std::string &getPrecompileSource() override;
 
-        virtual IShaderEnvironment *operator<<(const std::string &def) override;
+        IShaderEnvironment *operator<<(const std::string &def) override;
 
-        virtual IShaderEnvironment *operator=(const IShaderEnvironment &other) override;
+        virtual ShaderEnvironment &operator=(const IShaderEnvironment &other);
 
-        IShaderEnvironment *operator>>(const std::string &def);
+        IShaderEnvironment *operator>>(std::string const &def) override;
 
-        virtual IShaderEnvironment *pop(const std::string &name) override;
+        IShaderEnvironment *pop(const std::string &name) override;
 
-        virtual IShaderEnvironment *push(const std::string &name, const std::string &def) override;
+        IShaderEnvironment *push(const std::string &name, const std::string &def) override;
 
     protected:
         bool needToUpdate;

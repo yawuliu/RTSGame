@@ -1,4 +1,5 @@
 #include "GraphicsObject.h"
+#include "ModelInfo.h"
 
 
 namespace MyGL {

@@ -34,53 +34,53 @@ namespace MyGL {
 
         bool isAlvaysVisible() override;
 
-        IMaterial *material();
+        IMaterial *material() override;
 
         virtual IModel *model() override;
 
         const IModelInfo *modelInfo() override;
 
-        const ObjectMatrix *objectMatrix();
+        const ObjectMatrix *objectMatrix() override;
 
-        void setAlvaysVisible(bool isAVisible);
+        void setAlvaysVisible(bool isAVisible) override;
 
-        void setMaterial(IMaterial *m);
+        void setMaterial(IMaterial *m) override;
 
-        void setMatrix(ObjectMatrix &m);
+        void setMatrix(ObjectMatrix &m) override;
 
-        void setModel(IModel *model);
+        void setModel(IModel *model) override;
 
-        void setPosition(Float x, Float y, Float z);
+        void setPosition(Float x, Float y, Float z) override;
 
         void setRotateY(Float angle);
 
-        void setRotateZ(Float angle);
+        void setRotateZ(Float angle) override;
 
-        void setSize(Float s);
+        void setSize(Float s) override;
 
-        void setSize(Float x, Float y, Float z);
+        void setSize(Float x, Float y, Float z) override;
 
-        void setVisible(bool isVisible);
+        void setVisible(bool isVisible) override;
 
         void updateModelInfo();
 
         void upsetMatrix();
 
-        bool visible();
+        bool visible() override;
 
-        Float x();
+        Float x() override;
 
         Float xSize();
 
-        Float y();
+        Float y() override;
 
         Float yRotation();
 
         Float ySize();
 
-        Float z();
+        Float z() override;
 
-        Float zRotation();
+        Float zRotation() override;
 
         Float zSize();
 

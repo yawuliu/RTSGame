@@ -5,11 +5,11 @@ namespace MyGL {
 		this->count = a2.count;
 	}
 
-	ShaderEnvironment::pimpl* ShaderEnvironment::pimpl::operator=(const pimpl& a2)
+	ShaderEnvironment::pimpl& ShaderEnvironment::pimpl::operator=(const pimpl& a2)
 	{
 		this->src = a2.src;
 		this->map = a2.map;
-		return this;
+		return *this;
 	}
 
 	ShaderEnvironment::ShaderEnvironment(const ShaderEnvironment& other)
@@ -64,11 +64,11 @@ namespace MyGL {
 		return this->push( def, unk_4D2E74);
 	}
 
-    IShaderEnvironment* ShaderEnvironment::operator=(const IShaderEnvironment& other)
+    ShaderEnvironment& ShaderEnvironment::operator=(const IShaderEnvironment& other)
 	{
         this->data =  other.data;
 		this->needToUpdate = 1;
-		return this;
+		return *this;
 	}
 
 	IShaderEnvironment* ShaderEnvironment::operator>>(const std::string& def)
@@ -78,10 +78,6 @@ namespace MyGL {
 
 	IShaderEnvironment* ShaderEnvironment::pop(const std::string& name)
 	{
-		std::_Rb_tree_iterator<std::pair<const std::string, ShaderEnvironment::pimpl::def> >::pointer v2;
-		std::map<std::string, ShaderEnvironment::pimpl::def>::iterator i;
-		std::_Rb_tree_iterator<std::pair<const std::string, ShaderEnvironment::pimpl::def> >::_Self __x;
-
 		if (name.size())
 		{
 			i._M_node = std::map<std::string, ShaderEnvironment::pimpl::def>::find(&this->data->map, name)._M_node;
@@ -100,12 +96,6 @@ namespace MyGL {
 
 	IShaderEnvironment* ShaderEnvironment::push(const std::string& name, const std::string& def)
 	{
-		ShaderEnvironment::pimpl::def* p_second;
-		std::_Rb_tree_iterator<std::pair<const std::string, ShaderEnvironment::pimpl::def> >::pointer v5;
-		std::map<std::string, ShaderEnvironment::pimpl::def>::mapped_type* v6;
-		std::map<std::string, ShaderEnvironment::pimpl::def>::iterator i;
-		std::_Rb_tree_iterator<std::pair<const std::string, ShaderEnvironment::pimpl::def> >::_Self __x;
-
 		if (name.size())
 		{
 			i = this->data->map.find(name);
@@ -119,8 +109,8 @@ namespace MyGL {
 			}
 			else
 			{
-                this->data->map[name]=def;
-                this->data->map[name]->count = 1;
+                this->data->map[name] = def;
+                this->data->map[name].count = 1;
 				this->needToUpdate = 1;
 			}
 		}

@@ -1,6 +1,8 @@
 #pragma once
 
 #include "DisableCopy.h"
+#include "IModel.h"
+#include "IShader.h"
 
 namespace MyGL {
     class IModelLoader;

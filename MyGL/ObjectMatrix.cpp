@@ -169,14 +169,14 @@ namespace MyGL {
         ya = y;
         za = z;
         glm::dvec3(&v, &xa, &ya, &za);
-        glm::gtc::matrix_transform::translate<double>(&m, &this->matrix->m, &v);
+        glm::translate<double>(&m, &this->matrix->m, &v);
         this->matrix->m = m;
     }
 
     void ObjectMatrix::transpose() {
         glm::dmat4 m;
 
-        glm::core::function::matrix::transpose<double>(&m, &this->matrix->m);
+        glm::transpose<double>(&m, &this->matrix->m);
         this->matrix->m = m;
     }
 

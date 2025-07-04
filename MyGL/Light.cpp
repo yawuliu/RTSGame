@@ -3,13 +3,13 @@
 
 namespace MyGL {
     Light::Data::Data(IScene &s) : object(s) {
-        object->setMaterial(new Light::Material(new Technicue(s)));
+        this->object.setMaterial(new Material(new Technicue(s)));
     }
 
     Light::Data::~Data() {
-        if (this->object->material())
-            delete this->object->material();
-        delete this->object;
+        if (this->object.material())
+            delete this->object.material();
+        // delete this->object;
     }
 
     Light::Material::Material(Light::Material *const m, IScene &s, ITechnique *t) : AbstractMaterial(s) {
@@ -174,10 +174,10 @@ namespace MyGL {
     }
 
     void Light::upset() {
-        v1 = this->collect->scene();
+        v1 = this->collect.scene();
         v2 = (*(__int64 (__fastcall **)(__int64)) (*(_QWORD *) v1 + 24LL))(v1);
         (*(void (__fastcall **)(__int64, ObjectMatrix *)) (*(_QWORD *) v2 + 320LL))(v2, &m);
-        for (i_0 = 0; i_0 <= 2; ++i_0) {
+        for (int i_0 = 0; i_0 <= 2; ++i_0) {
             v3 = m.data();
             this->tDir[i_0] = v3[4 * i_0 + 3];
             for (r = 0; r <= 2; ++r) {
@@ -187,7 +187,7 @@ namespace MyGL {
             }
         }
         l = sqrt(this->tDir[2] * this->tDir[2] + this->tDir[0] * this->tDir[0] + this->tDir[1] * this->tDir[1]);
-        for (i = 0; i <= 2; ++i)
+        for (int i = 0; i <= 2; ++i)
             this->tDir[i] = this->tDir[i] / -l;
     }
 

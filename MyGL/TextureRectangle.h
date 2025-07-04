@@ -20,7 +20,7 @@ namespace MyGL {
 
         virtual void free() override;
 
-        virtual const CGL::TextureHandle *getHandle() override;
+        virtual CGL::TextureHandle *getHandle() override;
 
         virtual void
         load(const void *pixels, ITexture::InputFormat::Type imgColorSystem, unsigned int pw, unsigned int ph,

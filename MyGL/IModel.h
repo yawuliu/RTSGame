@@ -2,10 +2,11 @@
 
 #include "IVBO.h"
 #include "IModelInfo.h"
+#include "IOModel.h"
 #include "IIOModel.h"
 
 namespace MyGL {
-    class IModel {
+    class IModel : public IOModel {
     public:
         IModel() = default;
 

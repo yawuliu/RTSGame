@@ -3,6 +3,7 @@
 #include "IUniformSampler.h"
 #include "IUniform4f.h"
 #include "ILightsCollection.h"
+#include "TransparentPass.h"
 
 namespace MyGL {
     StdTechnique::StdTechnique(IScene &s) : AbstractTechnique(s) {
@@ -14,7 +15,7 @@ namespace MyGL {
         this->rstate = new RenderState();
         this->pstate = new RenderState();
         this->rstate->setAlphaTestRef(0.5);
-        this->rstate->setAlphaTestMode(1LL);
+        this->rstate->setAlphaTestMode(IRenderState::AlphaTestMode::Greater); //  1LL
         this->rstate->setAlphaCoverage(1LL);
         this->useDepthPass(1);
         this->useGlow(1);
@@ -115,7 +116,7 @@ namespace MyGL {
             this->storeRenderState();
             this->rstate->setZTest(1LL);
             this->rstate->setZWriting(0LL);
-            this->rstate->setZTestMode(2LL);
+            this->rstate->setZTestMode(IRenderState::ZTestMode::Less);//2LL
         }
         return this->sh != 0LL;
     }
@@ -125,9 +126,9 @@ namespace MyGL {
         this->setCurrentShader(this->colorShader());
         this->renderState()->setZTest(1LL);
         if (this->useDepthPass()) {
-            this->renderState()->setZTestMode(6LL);
+            this->renderState()->setZTestMode(IRenderState::ZTestMode::Equal);// 6LL
         } else {
-            this->renderState()->setZTestMode(2LL);
+            this->renderState()->setZTestMode(IRenderState::ZTestMode::Less);//2LL
         }
         return this->currentShader() != 0;
     }
@@ -138,7 +139,7 @@ namespace MyGL {
         this->storeRenderState();
         this->sh = this->depth;
         this->rstate->setZTest(1LL);
-        this->rstate->setZTestMode(2LL);
+        this->rstate->setZTestMode(IRenderState::ZTestMode::Less);//2LL
         this->rstate->setColorMask(0LL, 0LL, 0LL, 0LL);
         return this->sh != 0LL;
     }
@@ -151,7 +152,7 @@ namespace MyGL {
         if (this->sh) {
             this->rstate->setBlend(0LL);
             this->rstate->setZTest(1LL);
-            this->rstate->setZTestMode(3LL);
+            this->rstate->setZTestMode(IRenderState::ZTestMode::LEqual);//3LL
             this->rstate->setZWriting(0LL);
         }
         return this->sh != 0LL;
@@ -163,13 +164,13 @@ namespace MyGL {
             this->storeRenderState();
             this->updateMat = 1;
             this->rstate->setZTest(1LL);
-            this->rstate->setZTestMode(2LL);
+            this->rstate->setZTestMode(IRenderState::ZTestMode::Less);//  2LL
             this->rstate->setColorMask(1LL, 1LL, 1LL, 1LL);
             this->rstate->setBlend(0LL);
             if (this->rstate->cullFaceMode() == 2) {
-                this->rstate->setCullFaceMode(1LL);
+                this->rstate->setCullFaceMode(IRenderState::CullMode::front);// 1LL
             } else if (this->rstate->cullFaceMode() == 1) {
-                this->rstate->setCullFaceMode(2LL);
+                this->rstate->setCullFaceMode(IRenderState::CullMode::back);// 2LL
             }
         }
         return this->sh != 0LL;
@@ -182,7 +183,7 @@ namespace MyGL {
             if (this->depth)
                 this->sh = this->depth;
             this->rstate->setZTest(1LL);
-            this->rstate->setZTestMode(2LL);
+            this->rstate->setZTestMode(IRenderState::ZTestMode::Less);// 2LL
 
             this->rstate->setColorMask(0LL, 0LL, 0LL, 0LL);
             this->rstate->setBlend(0LL);
@@ -190,7 +191,7 @@ namespace MyGL {
         if (pass->isColorPass()) {
             this->sh = this->mshader;
             this->rstate->setZTest(1LL);
-            this->rstate->setZTestMode(6LL);
+            this->rstate->setZTestMode(IRenderState::ZTestMode::Equal);//6LL
             this->rstate->setColorMask(1LL, 1LL, 1LL, 1LL);
             this->rstate->setBlend(1LL);
         }
@@ -266,7 +267,7 @@ namespace MyGL {
                 this->lMat->set(this->lMatrix.data());
             }
             if (this->lDir) {
-                if (this->scene().lights()->size()) {
+                if (this->scene().lights()->size() > 0) {
                     Float *l = this->scene().lights()->at(0LL)->dirTransform();
                     this->lDir->set(*l, l[1], l[2], 1.0);
                 }
@@ -301,9 +302,9 @@ namespace MyGL {
     void StdTechnique::useCullFace(bool use, IRenderState::CullMode::Type t) {
         this->useCull = use;
         if (!this->useCull)
-            this->rstate->setCullFaceMode(0LL);
+            this->rstate->setCullFaceMode(IRenderState::CullMode::noCull);//0LL
         else
-            this->rstate->setCullFaceMode((unsigned int) t);
+            this->rstate->setCullFaceMode(t);
     }
 
     void StdTechnique::useDepthPass(bool use) {

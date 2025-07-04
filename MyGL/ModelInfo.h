@@ -3,34 +3,33 @@
 #include "IModelInfo.h"
 #include "IIOModel.h"
 
-
 namespace MyGL {
 
     class ModelInfo : public IModelInfo {
     public:
         ModelInfo();
 
-        ModelInfo(IIOModel &m);
+        explicit ModelInfo(IIOModel &m);
 
-        virtual ~ModelInfo();
+        ~ModelInfo() override = default;
 
-        IModelInfo *operator=(IModelInfo const &m);
+        IModelInfo &operator=(IModelInfo const &m) override;
 
-        double minX();
+        double minX() override;
 
-        double minY();
+        double minY() override;
 
-        double minZ();
+        double minZ() override;
 
-        double maxX();
+        double maxX() override;
 
-        double maxY();
+        double maxY() override;
 
-        double maxZ();
+        double maxZ() override;
 
-        double radius();
+        double radius() override;
 
-        void updateFrom(IIOModel const &m);
+        void updateFrom(IIOModel &m) override;
 
         void setBox(float x, float y, float z, float X, float Y, float Z);
 

@@ -7,47 +7,50 @@
 #include "CGL.h"
 
 namespace MyGL {
+
     class IOModel : public IIOModel {
+    public:
+        typedef MyGL::IIOModel::Point Normal;
     public:
         IOModel();
 
-        virtual ~IOModel();
+        ~IOModel() override;
 
-        void allock(size_t vertexCount);
+        void allock(size_t vertexCount) override;
 
         void computeTBN();
 
-        void createExtra();
+        void createExtra() override;
 
-        void deleteExtra();
+        void deleteExtra() override;
 
-        IIOModel::Point4 *exPoint(int i);
+        IIOModel::Point4 *exPoint(int i) override;
 
-        const CGL::GLfloat *extraData();
+        const CGL::GLfloat *extraData() override;
 
-        void free();
+        void free() override;
 
-        bool load(const std::string &fname);
+        bool load(const std::string &fname) override;
 
-        bool loadBin_v0(const std::string &fname);
+        bool loadBin_v0(const std::string &fname) override;
 
-        IOModel::Normal *normal(int i);
+        IOModel::Normal *normal(int i) override;
 
-        const CGL::GLfloat *normals();
+        const CGL::GLfloat *normals() override;
 
-        IIOModel::Point *point(int i);
+        IIOModel::Point *point(int i) override;
 
-        const CGL::GLfloat *points();
+        const CGL::GLfloat *points() override;
 
-        bool save(const std::string &fname);
+        bool save(const std::string &fname) override;
 
-        bool saveBin(const std::string &fname);
+        bool saveBin(const std::string &fname) override;
 
-        int size();
+        int size() override;
 
-        IIOModel::TexCoord *texCoord(int i);
+        IIOModel::TexCoord *texCoord(int i) override;
 
-        const CGL::GLfloat *textureCoords();
+        const CGL::GLfloat *textureCoords() override;
 
     protected:
         CGL::GLfloat *vert;

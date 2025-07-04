@@ -8,53 +8,53 @@ namespace MyGL {
     public:
         RenderState();
 
-        virtual ~RenderState() = default;
+        ~RenderState() override = default;
 
-        AlphaTestMode::Type alphaTestMode();
+        AlphaTestMode::Type alphaTestMode() override;
 
-        Float alphaTestRef();
+        Float alphaTestRef() override;
 
         virtual IRenderState *copy(const IRenderState &r) override;
 
-        CullMode::Type cullFaceMode();
+        CullMode::Type cullFaceMode() override;
 
-        AlphaBlendMode::Type getBlendDFactor();
+        AlphaBlendMode::Type getBlendDFactor() override;
 
-        void getBlendMode(AlphaBlendMode::Type &out_sfactor, AlphaBlendMode::Type &out_dfactor);
+        void getBlendMode(AlphaBlendMode::Type &out_sfactor, AlphaBlendMode::Type &out_dfactor) override;
 
-        AlphaBlendMode::Type getBlendSFactor();
+        AlphaBlendMode::Type getBlendSFactor() override;
 
-        void getColorMask(bool &r, bool &g, bool &b, bool &a);
+        void getColorMask(bool &r, bool &g, bool &b, bool &a) override;
 
-        ZTestMode::Type getZTestMode();
+        ZTestMode::Type getZTestMode() override;
 
-        bool isAlphaCoverage();
+        bool isAlphaCoverage() override;
 
-        bool isBlend();
+        bool isBlend() override;
 
-        bool isZTest();
+        bool isZTest() override;
 
-        bool isZWriting();
+        bool isZWriting() override;
 
-        void setAlphaCoverage(bool use);
+        void setAlphaCoverage(bool use) override;
 
-        void setAlphaTestMode(AlphaTestMode::Type mode);
+        void setAlphaTestMode(AlphaTestMode::Type mode) override;
 
-        void setAlphaTestRef(Float atest);
+        void setAlphaTestRef(Float atest) override;
 
-        void setBlend(bool use);
+        void setBlend(bool use) override;
 
-        void setBlendMode(AlphaBlendMode::Type s, AlphaBlendMode::Type d);
+        void setBlendMode(AlphaBlendMode::Type s, AlphaBlendMode::Type d) override;
 
-        void setColorMask(bool r, bool g, bool b, bool a);
+        void setColorMask(bool r, bool g, bool b, bool a) override;
 
-        void setCullFaceMode(CullMode::Type use);
+        void setCullFaceMode(CullMode::Type use) override;
 
-        void setZTest(bool use);
+        void setZTest(bool use) override;
 
-        void setZTestMode(ZTestMode::Type use);
+        void setZTestMode(ZTestMode::Type use) override;
 
-        void setZWriting(bool w);
+        void setZWriting(bool w) override;
 
     protected:
         Float atest;

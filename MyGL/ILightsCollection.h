@@ -3,6 +3,8 @@
 #include "ILight.h"
 
 namespace MyGL {
+    class IScene;
+
     class ILightsCollection {
     public:
         ILightsCollection() = default;
@@ -12,8 +14,8 @@ namespace MyGL {
         virtual void add(ILight &) = 0;// 2
         virtual void del(ILight &) = 0;// 3
         virtual void remove(ILight &) = 0;// 4
-        virtual void size() = 0;// 5
+        virtual int size() = 0;// 5
         virtual ILight *at(uint) = 0;//  6
-        virtual void scene() = 0;// 7
+        virtual IScene *scene() = 0;// 7
     };
 }
