@@ -12,14 +12,14 @@ namespace MyGL {
 
     class LincPass : public AbstractPass {
     public:
-        LincPass(IScene &s, const gadapter &adapter, IModel *quad, ITextureRectangle &f, ITextureRectangle &g,
+        LincPass(IScene &s, const Adapter &adapter, IModel *quad, ITextureRectangle &f, ITextureRectangle &g,
                  ITextureRectangle &b, ITextureRectangle &d);
 
-        virtual ~LincPass();
+        ~LincPass() override;
 
-        virtual void exec() override;
+        void exec() override;
 
-        virtual IRenderPass::Pass::Type type() override;
+        IRenderPass::Pass::Type type() override;
 
         void setShader(IShader *shader);
 

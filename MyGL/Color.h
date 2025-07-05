@@ -6,7 +6,7 @@ namespace MyGL {
     public:
         typedef float ChanelType;
     public:
-        Color(ChanelType c);
+        explicit Color(ChanelType c);
 
         Color(ChanelType r, ChanelType g, ChanelType b, ChanelType a);
 
@@ -28,7 +28,7 @@ namespace MyGL {
 
         void operator-=(const Color &other);
 
-        void *operator=(const Color &other);
+        Color &operator=(const Color &other);
 
         ChanelType r();
 

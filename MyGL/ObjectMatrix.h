@@ -10,7 +10,7 @@ namespace MyGL {
         public:
             pimpl() = default;
 
-            ObjectMatrix::pimpl *operator=(const pimpl &a2);
+            pimpl &operator=(const pimpl &a2);
 
         public:
             glm::dmat4 m;
@@ -19,7 +19,7 @@ namespace MyGL {
     public:
         ObjectMatrix(const ObjectMatrix &other);
 
-        ObjectMatrix(const Float *data);
+        explicit ObjectMatrix(const Float *data);
 
         ObjectMatrix(
                 Float a11,
@@ -49,7 +49,7 @@ namespace MyGL {
 
         void mul(const ObjectMatrix &other);
 
-        void *operator=(const ObjectMatrix &other);
+        ObjectMatrix &operator=(const ObjectMatrix &other);
 
         void project(Float x,
                      Float y,

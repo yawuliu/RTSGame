@@ -41,22 +41,13 @@ namespace MyGL {
         this->matrix->m *= other
     }
 
-    void *ObjectMatrix::operator=(const ObjectMatrix &other) {
+    ObjectMatrix& ObjectMatrix::operator=(const ObjectMatrix &other) {
         this->matrix = other.matrix;
         return this;
     }
 
     void ObjectMatrix::project(Float x, Float y, Float z, Float w,
                                Float &ox, Float & oy, Float& oz, Float & ow) {
-        ObjectMatrix::pimpl *matrix;
-        Float wa;
-        Float za;
-        Float ya;
-        Float xa;
-        ObjectMatrix *thisa;
-        glm::dvec4 r;
-        glm::dvec4 v;
-
         xa = x;
         ya = y;
         za = z;
@@ -71,12 +62,6 @@ namespace MyGL {
     }
 
     void ObjectMatrix::rotate(Float angle, Float x, Float y, Float z) {
-        Float za;
-        Float ya;
-        Float xa;
-        Float anglea;
-        glm::dmat4 m;
-        glm::dvec3 v;
         anglea = angle;
         xa = x;
         ya = y;
@@ -95,12 +80,6 @@ namespace MyGL {
     }
 
     void ObjectMatrix::scale(Float x, Float y, Float z) {
-        Float za;
-        Float ya;
-        Float xa;
-        glm::dmat4 m;
-        glm::dvec3 v;
-
         xa = x;
         ya = y;
         za = z;
@@ -159,12 +138,6 @@ namespace MyGL {
     }
 
     void ObjectMatrix::translate(Float x, Float y, Float z) {
-        Float za;
-        Float ya;
-        Float xa;
-        glm::dmat4 m;
-        glm::dvec3 v;
-
         xa = x;
         ya = y;
         za = z;

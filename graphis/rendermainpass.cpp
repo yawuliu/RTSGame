@@ -6,7 +6,6 @@
 #include <MyGL/TransparentPass.h>
 #include <MyGL/ShadowPass.h>
 #include <MyGL/DepthPass.h>
-#include <MyGL/SSAO.h>
 #include <MyGL/SSAOpass.h>
 
 #include "graphis/virtualtexturingpass.h"
@@ -28,7 +27,7 @@ MyGL::ITextureRectangle *RenderMainPass::output() {
 }
 
 void RenderMainPass::makeAlgo(std::vector<MyGL::IRenderPass *> &passes,
-                              const MyGL::gadapter *adapter) {
+                              const MyGL::Adapter *adapter) {
 
     passes.push_back(new VirtualTexturingPass(scene(),
                                               this,
@@ -46,6 +45,6 @@ void RenderMainPass::makeAlgo(std::vector<MyGL::IRenderPass *> &passes,
 }
 
 
-void RenderMainPass::makeAlgo(const MyGL::gadapter *adapter) {
+void RenderMainPass::makeAlgo(const MyGL::Adapter *adapter) {
 
 }

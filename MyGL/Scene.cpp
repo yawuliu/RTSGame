@@ -16,9 +16,8 @@ namespace MyGL {
         this->init();
     }
 
-    Scene::Scene(IRender &r) {
+    Scene::Scene(IRender &r) : mrender(&r) {
         this->auto_render = 0;
-        this->mrender = r;
         this->init();
     }
 
@@ -65,7 +64,7 @@ namespace MyGL {
     }
 
     IRenderAlgo *Scene::allocRenderAlgo(Scene &s) {
-        gadapter adapter(s);
+        Adapter adapter(s);
         return new ForwardRenderAlgo(s, &adapter, 1);
     }
 
@@ -102,8 +101,6 @@ namespace MyGL {
     }
 
     void Scene::finitGL() {
-        __int64 v1;
-
         v1 = this->render();
         (*(void (__fastcall **)(__int64)) (*(_QWORD *) v1 + 64LL))(v1);
     }
@@ -125,20 +122,6 @@ namespace MyGL {
     }
 
     bool Scene::initGL() {
-        __int64 v1;
-        __int64 v2;
-        __int64 v3;
-        void (__fastcall *v4)(__int64, __int64);
-        __int64 v5;
-        __int64 v6;
-        __int64 v7;
-        void (__fastcall *v8)(__int64, __int64);
-        __int64 v9;
-        __int64 v10;
-        __int64 v11;
-        void (__fastcall *v12)(__int64, __int64);
-        __int64 v13;
-
         v1 = this->render();
         if (!(*(unsigned __int8 (__fastcall **)(__int64)) (*(_QWORD *) v1 + 48LL))(v1))
             return 0;
@@ -170,9 +153,7 @@ namespace MyGL {
         v2->setShadowCast(1LL);
     }
 
-    void Scene::insertObject(IGraphicsObject *const o) {
-        __int64 v2;
-
+    void Scene::insertObject(IGraphicsObject &o) {
         this->obj->addObject(o);
         v2 = this->graph();
         (*(void (__fastcall **)(__int64, IGraphicsObject *const)) (*(_QWORD *) v2 + 16LL))(v2, o);
@@ -183,8 +164,6 @@ namespace MyGL {
     }
 
     IDataLoader *Scene::loader() {
-        __int64 v1;
-
         v1 = this->dataControl();
         return (IDataLoader *) (*(__int64 (__fastcall **)(__int64)) (*(_QWORD *) v1 + 24LL))(v1);
     }
@@ -198,14 +177,11 @@ namespace MyGL {
     }
 
     void Scene::recreateRenderAlgo(Scene &s) {
-        void (__fastcall *v1)(IRenderAlgo *, gadapter *);
-        gadapter adapter(s);
+        Adapter adapter(s);
         s.renderAlgo->recreateAlgo(&adapter);
     }
 
     void Scene::removeObject(IGraphicsObject *const o) {
-        __int64 v2;
-
         this->obj->delObject(o);
         v2 = this->graph();
         (*(void (__fastcall **)(__int64, IGraphicsObject *const)) (*(_QWORD *) v2 + 24LL))(v2, o);
@@ -236,12 +212,7 @@ namespace MyGL {
     }
 
     void Scene::upsetLight() {
-        __int64 v1;
-        __int64 v2;
-        __int64 v3;
-        int i;
-
-        for (i = 0;; ++i) {
+        for (int i = 0;; ++i) {
             v3 = this->lights();
             if ((*(int (__fastcall **)(__int64)) (*(_QWORD *) v3 + 40LL))(v3) <= i)
                 break;

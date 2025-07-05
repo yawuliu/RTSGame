@@ -14,13 +14,13 @@ namespace MyGL {
 
         bool drawEvent(IGraphicsObject const &o) override;
 
-        bool operator<(IMaterial const &other) override;
+        bool operator<(IMaterial &other) override;
 
-        bool operator>(IMaterial const &other) override;
+        bool operator>(IMaterial &other) override;
 
         const ITexture *getTexture(uint32_t a2) override;
 
-        bool greater(ITechnique const &t, ITechnique const &t2);
+        static bool greater(ITechnique const &t, ITechnique const &t2);
 
         bool less(ITechnique const &t, ITechnique const &t2);
 

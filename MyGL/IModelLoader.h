@@ -10,8 +10,8 @@ namespace MyGL {
         virtual ~IModelLoader() = default;
 
         //1
-        IModel *load(const char *fileName, bool *ok); // 2
+        virtual IModel *load(const char *fileName, bool *ok) = 0; // 2
 
-        IModel *loadBin_v0(const char *fileName, bool *ok); // 3
+        virtual IModel *loadBin_v0(const char *fileName, bool *ok) = 0; // 3
     };
 }

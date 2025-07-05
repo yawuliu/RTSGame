@@ -27,7 +27,7 @@ namespace MyGL {
 
         virtual ITechnique *technique() override;
 
-        virtual const ITexture *getTexture(const unsigned int id) override;
+        virtual const ITexture *getTexture(uint32_t id) override;
 
         virtual const IRenderState *renderState() override;
 
@@ -37,7 +37,7 @@ namespace MyGL {
 
         bool checkSampler(IUniformSampler *s);
 
-        const std::string &name();
+        static const std::string &name();
 
         void setDepthShader(IShader *sh);
 
@@ -66,22 +66,13 @@ namespace MyGL {
         bool useMainTextures();
 
     protected:
-        IScene *curShader;
-        IShader *mShader;
-        IShader *mShadowShader;
-        IShader *mDepthShader;
-        IShader *mGlowShader;
-        ITexture2d *mTexture;
-        ITexture2d *shadowMap;
         ITexture2d *diff;
+        ITexture2d *shadowMap;
+        ITexture2d *glow;
         ITexture2d *spec;
         ITexture2d *normal;
-        ITexture2d *glow;
-        IRenderState *mState;
         StdTechnique *mtechnique;
-        bool mUseGlow;
-        bool mUseDepthPass;
-        bool mUseCullFace;
+        IShader *curShader;
     };
 
 

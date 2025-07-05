@@ -34,19 +34,10 @@ namespace MyGL {
 
 	void Uniform4f::set(Color color)
 	{
-		void(__fastcall * v2)(Uniform4f*, double, double, double, double);
-        double v3;
-		double v4;
-		double v5;
-		double v6;
 		Color colora;
 		*(_QWORD*)colora.cdata = *(_QWORD*)color.cdata;
 		*(_QWORD*)&colora.cdata[2] = *(_QWORD*)&color.cdata[2];
-		v6 = colora.data()[4];
-		v5 = colora.data()[2];
-		v4 = colora.data()[1];
-		v3 = colora.data()[0];
-		this->set(v3, v4, v5, v6);
+		this->set(colora.data()[0], colora.data()[1], colora.data()[2], colora.data()[4]);
 	}
 
 	void Uniform4f::set(const Float* data)
@@ -56,18 +47,11 @@ namespace MyGL {
 
 	void Uniform4f::set(Float x, Float y, Float z, Float w)
 	{
-		float x_1;
-		float y_1;
-		float z_1;
-
 		if (this->dat[0] != x || this->dat[1] != y || this->dat[2] != z || this->dat[3] != w)
 		{
-			x_1 = x;
-			this->dat[0] = x_1;
-			y_1 = y;
-			this->dat[1] = y_1;
-			z_1 = z;
-			this->dat[2] = z_1;
+			this->dat[0] = x;
+			this->dat[1] = y;
+			this->dat[2] = z;
 			this->dat[3] = w;
 			this->shader->updateUniform(
 				this);

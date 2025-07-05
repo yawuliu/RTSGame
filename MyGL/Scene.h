@@ -5,66 +5,66 @@
 namespace MyGL {
     class Scene : public IScene {
     public:
-        Scene(CGL *gl);
+        explicit Scene(CGL *gl);
 
-        Scene(IRender &r);
+        explicit Scene(IRender &r);
 
-        virtual ~Scene();
+        ~Scene() override;
 
-        virtual IData *dataControl() override;
+        IData *dataControl() override;
 
-        virtual const IRender *render() override;
+        IRender *render() override;
 
-        virtual ITextureLoader *textureLoader() override;
+        ITextureLoader *textureLoader() override;
 
-        virtual IShaderLoader *shaderLoader() override;
+        IShaderLoader *shaderLoader() override;
 
-        virtual IModelLoader *modelLoader() override;
+        IModelLoader *modelLoader() override;
 
-        virtual ISceneGraph *graph() override;
+        ISceneGraph *graph() override;
 
-        virtual IObjectCollection *objects() override;
+        IObjectCollection *objects() override;
 
-        virtual void insertObject(IGraphicsObject &o) override;
+        void insertObject(IGraphicsObject &o) override;
 
-        virtual void removeObject(IGraphicsObject &o) override;
+        void removeObject(IGraphicsObject &o) override;
 
-        virtual void changeObject(IGraphicsObject &o, IMaterial &m) override;
+        void changeObject(IGraphicsObject &o, IMaterial &m) override;
 
-        virtual IRenderAlgoSettings *settings() override;
+        IRenderAlgoSettings *settings() override;
 
-        virtual void draw() override;
+        void draw() override;
 
-        virtual bool initGL() override;
+        bool initGL() override;
 
-        virtual void finitGL() override;
+        void finitGL() override;
 
 
-        virtual void createRenderAlgo() override;
+        void createRenderAlgo() override;
 
-        virtual void recreateRenderAlgo() override;
+        void recreateRenderAlgo() override;
 
-        virtual IDataLoader *loader() override;
+        IDataLoader *loader() override;
 
-        virtual ILightsCollection *lights() override;
+        ILightsCollection *lights() override;
 
-        virtual void upsetCameraEvent(IRender &a2) override;
+        void upsetCameraEvent(IRender &a2) override;
 
-        virtual ITextureLoader *allocTextureLoader() override;
+        ITextureLoader *allocTextureLoader() override;
 
-        virtual IShaderLoader *allocShaderLoader() override;
+        IShaderLoader *allocShaderLoader() override;
 
-        virtual IModelLoader *allocModelLoader() override;
+        IModelLoader *allocModelLoader() override;
 
-        virtual IObjectCollection *allocObjectCollection() override;
+        IObjectCollection *allocObjectCollection() override;
 
-        virtual ILightsCollection *allocLightsCollection() override;
+        ILightsCollection *allocLightsCollection() override;
 
-        virtual ISceneGraph *allocSceneGraph() override;
+        ISceneGraph *allocSceneGraph() override;
 
-        virtual void initLightsCollection() override;
+        void initLightsCollection() override;
 
-        virtual IRenderAlgo *allocRenderAlgo() override;
+        IRenderAlgo *allocRenderAlgo() override;
 
         void allocLoaders();
 

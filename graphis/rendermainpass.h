@@ -12,7 +12,7 @@ public:
     RenderMainPass(MyGL::IScene *s, MyGL::IModel *quad,
                    const MyGL::gadapter *adapter);
 
-    MyGL::IScene *scene();
+    MyGL::IScene &scene() override;
 
     MyGL::ITextureRectangle *output();
 

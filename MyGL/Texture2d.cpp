@@ -66,9 +66,7 @@ namespace MyGL {
 		this->create();
 		glBindTexture(3553LL, this->handle);
 		this->isForwardFormat = 1;
-		v6 = *(_DWORD*)this->toGlInputFormat(imgColorSystem);
-		v9 = (unsigned int*)this->toGlColorSystem(colorSystem);
-		glTexImage2D(3553LL, 0LL, *v9, this->w, this->h, 0LL, v6, 5121, pixels);
+		glTexImage2D(3553LL, 0LL, this->toGlColorSystem(colorSystem), this->w, this->h, 0LL, this->toGlInputFormat(imgColorSystem), 5121, pixels);
 		if (this->filterMip == ITexture::FilterType::Type::Linear)
 			this->filterMip = ITexture::FilterType::Type::Count;
 	}
@@ -81,11 +79,9 @@ namespace MyGL {
 		this->create();
 		glBindTexture(3553LL, this->handle);
 		this->isForwardFormat = 1;
-		v6 = *(_DWORD*)this->toGlInputFormat( imgColorSystem);
 		h = this->h;
 		w = this->w;
-		v9 = (unsigned int*)this->toGlColorSystem(colorSystem);
-		gluBuild2DMipmaps(3553LL, *v9, w, h, v6, 5121LL, pixels);
+		gluBuild2DMipmaps(3553LL, this->toGlColorSystem(colorSystem), w, h, this->toGlInputFormat( imgColorSystem), 5121LL, pixels);
 		if (this->filterMip == ITexture::FilterType::Type::Count)
 			this->filterMip = ITexture::FilterType::Type::Linear;
 	}
@@ -141,9 +137,6 @@ namespace MyGL {
     static uint32_t filter[2] = {0x2600, 0x2601};
 	void Texture2d::updateSampler()
 	{
-		CGL* v1;
-		const Color::ChanelType* v2;
-
 		if (this->isForwardFormat)
 		{
 			glTexParameteri(3553LL, 10242LL, clampMode[this->clamp[0]]);
@@ -163,14 +156,12 @@ namespace MyGL {
 			{
 				glTexParameteri(3553LL, 10241LL, Texture2d::updateSampler(void)::filter_mipN[this->filterMin]);
 			}
-			v1 = this->render->gl();
-			if (v1->isAnisotropySupported())
+			if (this->render->gl()->isAnisotropySupported())
 				glTexParameterf(
 					3553LL,
 					34046LL,
 					_mm_unpacklo_pd((__m128d) * (unsigned __int64*)&this->anisLevel, (__m128d) * (unsigned __int64*)&this->anisLevel).m128d_f64[0]);
-			v2 = this->border_cl.data();
-			glTexParameterfv(3553LL, 4100LL, v2);
+			glTexParameterfv(3553LL, 4100LL, this->border_cl.data());
 			this->isForwardFormat = 0;
 		}
 	}

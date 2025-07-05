@@ -41,9 +41,7 @@ namespace MyGL {
     }
 
     void UniformMatrix4x4::set(const Float *data) {
-        int i;
-
-        for (i = 0; i <= 15; ++i)
+        for (int i = 0; i <= 15; ++i)
             this->dat[i] = _mm_unpacklo_pd((__m128d) *(unsigned __int64 *) &data[i],
                                            (__m128d) *(unsigned __int64 *) &data[i]).m128d_f64[0];
 

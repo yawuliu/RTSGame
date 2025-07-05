@@ -10,23 +10,23 @@
 namespace MyGL {
     class SceneGraph : public ISceneGraph {
     public:
-        SceneGraph(IScene &s);
+        explicit SceneGraph(IScene &s);
 
-        virtual ~SceneGraph() = default;
+        ~SceneGraph() override = default;
 
-        void addObjectEvent(IGraphicsObject &a2);
+        void addObjectEvent(IGraphicsObject &a2) override;
 
-        void beginFrame(IRenderPass &a2);
+        void beginFrame(IRenderPass &a2) override;
 
-        void beginFrame();
+        void beginFrame() override;
 
-        void delObjectEvent(IGraphicsObject &a2);
+        void delObjectEvent(IGraphicsObject &a2) override;
 
-        void endFrame();
+        void endFrame() override;
 
         void getGl();
 
-        virtual bool isObjectVisible(IGraphicsObject const &obj) override;
+        bool isObjectVisible(IGraphicsObject const &obj) override;
 
         void normalization(double &X, double &Y, double &Z, double &D);
 
@@ -34,11 +34,11 @@ namespace MyGL {
 
         void updateCull();
 
-        void updateVisible();
+        void updateVisible() override;
 
-        virtual IGraphicsObject *visible(int num) override;
+        IGraphicsObject *visible(int num) override;
 
-        virtual int visiblesCount() override;
+        int visiblesCount() override;
 
     protected:
         double model_proj[16];

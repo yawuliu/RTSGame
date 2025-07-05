@@ -70,7 +70,7 @@ namespace MyGL {
         // 1
         virtual Float alphaTestRef() = 0;//2
         virtual void setAlphaTestRef(double) = 0;//3
-        virtual IRenderState *copy(const IRenderState &) = 0;//4
+        virtual IRenderState *copy(IRenderState &) = 0;//4
         virtual void setAlphaTestMode(AlphaTestMode::Type) = 0;//5
         virtual AlphaTestMode::Type alphaTestMode() = 0;//6
         virtual void setColorMask(bool, bool, bool, bool) = 0;//7

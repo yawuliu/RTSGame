@@ -45,13 +45,7 @@ namespace MyGL {
     }
 
     bool ObjectCollection::less(IGraphicsObject *obj1, IGraphicsObject *obj2) {
-        __int64 v4; 
-        unsigned __int8 (__fastcall *v5)(__int64, __int64); 
-        __int64 v6; 
-        __int64 v7; 
-        unsigned __int8 (__fastcall *v8)(__int64, __int64); 
-        __int64 v9; 
-        unsigned __int64 v10; 
+
 
         if ( !(*((__int64 (__fastcall **)(IGraphicsObject *))obj1->_vptr_IGraphicsObject + 3))(obj1) )
             return 0;
@@ -72,22 +66,12 @@ namespace MyGL {
     }
 
     IObjectCollection::IIterator *ObjectCollection::end(ObjectCollection &c) {
-        ObjectCollection::Iterator *v1; 
-
-        v1 = (ObjectCollection::Iterator *)operator new(0x18uLL);
-        ObjectCollection::Iterator::Iterator(v1, c);
+        v1 = new Iterator(c);
         (*(void (__fastcall **)(ObjectCollection::Iterator *))(*(_QWORD *)&v1->IObjectCollection::IIterator + 80LL))(v1);
         return v1;
     }
 
     void ObjectCollection::delObject(IGraphicsObject &it) {
-        std::vector<IGraphicsObject*>::reference v2; 
-        std::vector<IGraphicsObject*>::reference v3; 
-        ObjectCollection::pimpl *data; 
-        ObjectCollection::pimpl *data_1; 
-        unsigned int i; 
-        bool mv; 
-
         if ( std::vector<IGraphicsObject *>::size((const std::vector<IGraphicsObject*>_0 *const)this->data) )
         {
             mv = 0;
@@ -128,24 +112,10 @@ namespace MyGL {
     }
 
     IObjectCollection::IIterator *ObjectCollection::begin(ObjectCollection &c) {
-        ObjectCollection::Iterator *v1; 
-
-        v1 = (ObjectCollection::Iterator *)operator new(0x18uLL);
-        ObjectCollection::Iterator::Iterator(v1, c);
-        return v1;
+        return new Iterator(c);
     }
 
     void ObjectCollection::addObject(IGraphicsObject &it) {
-        IGraphicsObject *obj2; 
-        IGraphicsObject *obj1; 
-        IGraphicsObject **__b; 
-        IGraphicsObject **__a; 
-        ObjectCollection::pimpl *data; 
-        ObjectCollection::pimpl *data_1; 
-        std::vector<IGraphicsObject*>::value_type __x; 
-        bool mv; 
-        int i; 
-
         if ( (*(__int64 (__fastcall **)(IGraphicsObject *const))(*(_QWORD *)it + 24LL))(it) )
         {
             __x = it;
@@ -184,9 +154,9 @@ namespace MyGL {
     }
 
     ObjectCollection::Iterator::Iterator(ObjectCollection::Iterator &c) {
-        ObjectCollection::Iterator::pimpl *data; 
+        ObjectCollection::Iterator::pimpl *data;
 
-        IObjectCollection::IIterator::IIterator(this);
+        this->IIterator();
         this->IObjectCollection::IIterator = (IObjectCollection::IIterator)((char *)&RTTI_ObjectCollection::Iterator::vftable
                                                                                         + 16);
         data = (ObjectCollection::Iterator::pimpl *)operator new(8uLL);

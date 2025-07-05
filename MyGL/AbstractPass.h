@@ -10,7 +10,7 @@ namespace MyGL {
     public:
         AbstractPass(IScene &s);
 
-        IScene &scene();
+        virtual IScene &scene();
 
         template<class T>
         bool drawObject(IGraphicsObject &obj) {

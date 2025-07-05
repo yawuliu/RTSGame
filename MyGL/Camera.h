@@ -5,76 +5,76 @@
 #include "ICamera.h"
 
 namespace MyGL {
-	class Camera : public ICamera {
-	public:
-		Camera();
+    class Camera : public ICamera {
+    public:
+        Camera();
 
-		virtual ~Camera() = default;
+        ~Camera() override = default;
 
-		Float distance();
+        Float distance() override;
 
-		bool isPrespective();
+        bool isPrespective() override;
 
-		CGL::GLdouble* modelProjectiveMatrix();
+        CGL::GLdouble *modelProjectiveMatrix();
 
-		void move(Float x, Float y);
+        void move(Float x, Float y) override;
 
-		void normalization(CGL::GLdouble& X, CGL::GLdouble& Y, CGL::GLdouble& Z, CGL::GLdouble& D);
+        void normalization(CGL::GLdouble &X, CGL::GLdouble &Y, CGL::GLdouble &Z, CGL::GLdouble &D);
 
-		Camera* operator=(const Camera& c);
+        Camera &operator=(const Camera &c);
 
-		CGL::GLdouble po(CGL::GLdouble x,
-			CGL::GLdouble y,
-			CGL::GLdouble z,
-			CGL::GLdouble X,
-			CGL::GLdouble Y,
-			CGL::GLdouble Z,
-			CGL::GLdouble D);
+        CGL::GLdouble po(CGL::GLdouble x,
+                         CGL::GLdouble y,
+                         CGL::GLdouble z,
+                         CGL::GLdouble X,
+                         CGL::GLdouble Y,
+                         CGL::GLdouble Z,
+                         CGL::GLdouble D);
 
-		Float rotXY();
+        Float rotXY() override;
 
-		Float rotXZ();
+        Float rotXZ() override;
 
-		void setAngles(Float rotXY, Float rotXZ, Float ani);
+        void setAngles(Float rotXY, Float rotXZ, Float ani) override;
 
-		void setDistance(Float d, Float ani);
+        void setDistance(Float d, Float ani) override;
 
-		void setPos(Float x1, Float y1, Float z1, Float ani);
+        void setPos(Float x1, Float y1, Float z1, Float ani) override;
 
-		void setPrespective(bool perspective);
+        void setPrespective(bool perspective) override;
 
-		void setZoom(Float zoom);
+        void setZoom(Float zoom) override;
 
-		void updateCull();
+        void updateCull();
 
-		void updateGL();
+        void updateGL();
 
-		Float x();
+        Float x() override;
 
-		Float y();
+        Float y() override;
 
-		Float z();
+        Float z() override;
 
-		Float zoom();
+        Float zoom() override;
 
-	protected:
-		Float px;
-		Float py;
-		Float pz;
-		Float vxy;
-		Float vxz;
-		Float zm;
-		Float dist;
-		bool usePrespective;
-		//00000041     // padding byte
-		//	00000042     // padding byte
-		//	00000043     // padding byte
-		//	00000044     // padding byte
-		//	00000045     // padding byte
-		//	00000046     // padding byte
-		//	00000047     // padding byte
-		CGL::GLdouble model_proj[16];
-		CGL::GLdouble cullM[6][4];
-	};
+    protected:
+        Float px;
+        Float py;
+        Float pz;
+        Float vxy;
+        Float vxz;
+        Float zm;
+        Float dist;
+        bool usePrespective;
+        //00000041     // padding byte
+        //	00000042     // padding byte
+        //	00000043     // padding byte
+        //	00000044     // padding byte
+        //	00000045     // padding byte
+        //	00000046     // padding byte
+        //	00000047     // padding byte
+        CGL::GLdouble model_proj[16];
+        CGL::GLdouble cullM[6][4];
+    };
 }
 

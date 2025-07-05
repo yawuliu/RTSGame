@@ -24,7 +24,7 @@ namespace MyGL {
         };
 
     public:
-        GlowPass(IScene &s, const gadapter &adapter, ITextureRectangle *depth);
+        GlowPass(IScene &s, const Adapter &adapter, ITextureRectangle *depth);
 
         virtual ~GlowPass();
 
@@ -38,7 +38,7 @@ namespace MyGL {
 
         void resizeFrame();
 
-        void initShaders(const gadapter &adapter);
+        void initShaders(const Adapter &adapter);
 
         void draw();
 

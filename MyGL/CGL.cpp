@@ -16,9 +16,17 @@ namespace MyGL {
         this->gLSupport = 0LL;
     }
 
-    void CGL::createExtObject(CGL *const glD) {
-        if (!glD->gLSupport) {
-            glD->gLSupport = new privateGLSupportClass::privateGLSupportClass(gLSupport, glD);;
+    CGL::~CGL() {
+        delete this->gLSupport;
+        if (this->autoECtrl) {
+            if (this->eCtrl)
+                delete this->eCtrl;
+        }
+    }
+
+    void CGL::createExtObject(CGL &glD) {
+        if (!glD.gLSupport) {
+            glD.gLSupport = new privateGLSupportClass(gLSupport, glD);;
         }
     }
 
@@ -47,14 +55,11 @@ namespace MyGL {
     }
 
     Bool CGL::initFBO_API() {
-        privateGLSupportClass *v2;
-
         if (this->isFBO_Init)
             return 1;
         if (!this->isExtensionSupported("GL_EXT_framebuffer_object"))
             return 0;
-        v2 = this->ext();
-        this->isFBO_Init = privateGLSupportClass::initFBO_API(v2);
+        this->isFBO_Init = this->ext()->initFBO_API();
         return this->isFBO_Init;
     }
 
@@ -69,8 +74,7 @@ namespace MyGL {
             || !this->isExtensionSupported("GL_ARB_fragment_shader")) {
             return 0;
         }
-        v3 = this->ext();
-        this->isShadingInit = privateGLSupportClass::initShadersAPI(v3);
+        this->isShadingInit = this->ext()->initShadersAPI();
         return this->isShadingInit;
     }
 
@@ -80,8 +84,7 @@ namespace MyGL {
         if (this->isTexturesInit)
             return 1;
         this->isDXT_supr = this->isExtensionSupported("GL_EXT_texture_compression_s3tc");
-        v2 = this->ext();
-        this->isTexturesInit = privateGLSupportClass::initTextureAPI(v2);
+        this->isTexturesInit = this->ext()->initTextureAPI();
         return this->isTexturesInit;
     }
 
@@ -92,8 +95,7 @@ namespace MyGL {
             return 1;
         if (!this->isExtensionSupported("GL_ARB_vertex_buffer_object"))
             return 0;
-        v2 = this->ext();
-        this->isVBOInit = privateGLSupportClass::initVBO_API(v2);
+        this->isVBOInit = this->ext()->initVBO_API();
         return this->isVBOInit;
     }
 

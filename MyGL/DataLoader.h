@@ -31,43 +31,43 @@ namespace MyGL {
         };
 
     public:
-        DataLoader(const IRender &r);
+        explicit DataLoader(IRender &r);
 
-        virtual ~DataLoader();
+        ~DataLoader() override;
 
-        IModel *loadModel(IModel *t, const char *file);
+        IModel *loadModel(IModel *t, const char *file) override;
 
-        IModel *loadModel(const char *file);
+        IModel *loadModel(const char *file) override;
 
-        IModel *loadModelBin_v0(IModel *t, const char *file);
+        IModel *loadModelBin_v0(IModel *t, const char *file) override;
 
-        IModel *loadModelBin_v0(const char *file);
+        IModel *loadModelBin_v0(const char *file) override;
 
-        IShader *loadShader(IShader *t, const char *vs, const char *fs_0);
+        IShader *loadShader(IShader *t, const char *vs, const char *fs_0) override;
 
-        IShader *loadShader(const char *vs, const char *fs_0);
+        IShader *loadShader(const char *vs, const char *fs_0) override;
 
-        ITexture2d *loadTexture(ITexture2d *t, const char *file);
+        ITexture2d *loadTexture(ITexture2d *t, const char *file) override;
 
-        ITexture2d *loadTexture(const char *file);
+        ITexture2d *loadTexture(const char *file) override;
 
-        IModelLoader *modelLoader();
+        IModelLoader *modelLoader() override;
 
-        void setModelAllocator(IDataLoader::IAllocator<IModel> *modelAllocator);
+        void setModelAllocator(IDataLoader::IAllocator<IModel> *modelAllocator) override;
 
-        void setModelLoader(IModelLoader *l);
+        void setModelLoader(IModelLoader *l) override;
 
-        void setShaderAllocator(IDataLoader::IAllocator<IShader> *shaderAllocator);
+        void setShaderAllocator(IDataLoader::IAllocator<IShader> *shaderAllocator) override;
 
-        void setShaderLoader(IShaderLoader *l);
+        void setShaderLoader(IShaderLoader *l) override;
 
-        void setTextureAllocator(IDataLoader::IAllocator<ITexture2d> *textureAllocator);
+        void setTextureAllocator(IDataLoader::IAllocator<ITexture2d> *textureAllocator) override;
 
-        void setTextureLoader(ITextureLoader *l);
+        void setTextureLoader(ITextureLoader *l) override;
 
-        IShaderLoader *shaderLoader();
+        IShaderLoader *shaderLoader() override;
 
-        ITextureLoader *textureLoader();
+        ITextureLoader *textureLoader() override;
 
     protected:
         IRender &render;

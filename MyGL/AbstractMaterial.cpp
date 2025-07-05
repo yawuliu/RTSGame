@@ -14,7 +14,7 @@ namespace MyGL {
     }
 
     const ITexture *AbstractMaterial::getTexture(uint32_t a2) {
-        return 0LL;
+        return nullptr;
     }
 
     bool AbstractMaterial::greater(ITechnique const &t, ITechnique const &t2) {
@@ -34,7 +34,7 @@ namespace MyGL {
         return this->mscene;
     }
 
-    bool AbstractMaterial::operator>(IMaterial const &other) {
+    bool AbstractMaterial::operator>(IMaterial &other) {
         if (!this->technique())
             return 0;
         if (other.technique())
@@ -42,15 +42,15 @@ namespace MyGL {
         return 1;
     }
 
-    bool AbstractMaterial::operator<(const IMaterial &other) {
+    bool AbstractMaterial::operator<(IMaterial &other) {
         if (!this->technique() && other.technique()) {
             return 1;
         }
         if (!other.technique())
             return 0;
-        if (this->technique()->less(other.technique()))
+        if (this->technique() < other.technique())
             return 1;
-        if (this->technique()->greater(other.technique()))
+        if (this->technique() > other.technique())
             return 0;
         for (int i = 0; i <= 3; ++i) {
             auto &&t1 = this->getTexture(i);

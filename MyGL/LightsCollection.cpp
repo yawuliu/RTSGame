@@ -1,20 +1,14 @@
 #include "LightsCollection.h"
 
 namespace MyGL {
-    LightsCollection::LightsCollection(IScene &s) {
-        this->mscene = s;
-        LightsCollection::pimpl *data = new pimpl();;
-        data->lights._M_impl._M_start = 0LL;
-        data->lights._M_impl._M_finish = 0LL;
-        data->lights._M_impl._M_end_of_storage = 0LL;
-        this->data = data;
+    LightsCollection::LightsCollection(IScene &s) : mscene(&s) {
+        this->data = new pimpl();
     }
 
     LightsCollection::~LightsCollection() {
         for (size_t i = 0LL; this->data->lights.size() > i; ++i) {
-            v1 = this->data->lights[i];
-            if (v1)
-                delete v1;
+            if (this->data->lights[i])
+                delete this->data->lights[i];
         }
         if (this->data) {
             delete this->data;
@@ -22,14 +16,13 @@ namespace MyGL {
     }
 
     void LightsCollection::add(ILight &l) {
-        this->data->lights.push_back(l);
+        this->data->lights.push_back(&l);
     }
 
     void LightsCollection::del(ILight &l) {
         for (size_t i = 0LL; this->data->lights.size() > i; ++i) {
-            if (this->data->lights[i] == l) {
-                v2 = this->data->lights[i];
-                *v2 = this->data->lights.back();
+            if (this->data->lights[i] == &l) {
+                this->data->lights[i] = this->data->lights.back();
                 this->data->lights.pop_back();
                 if (l)
                     delete l;
@@ -40,7 +33,7 @@ namespace MyGL {
 
     void LightsCollection::remove(ILight &l) {
         for (size_t i = 0LL; this->data->lights.size() > i; ++i) {
-            if (this->data->lights[i] == l) {
+            if (this->data->lights[i] == &l) {
                 v2 = this->data->lights[i];
                 *v2 = this->data->lights.back();
                 this->data->lights.pop_back();

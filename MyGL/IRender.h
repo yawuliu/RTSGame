@@ -35,9 +35,9 @@ namespace MyGL {
         virtual Color clearColor() = 0; //3
         virtual void clear(int) = 0;//4
         virtual void clear(Color, int) = 0;//5
-        virtual bool initGL();//6
+        virtual bool initGL() = 0;//6
         virtual bool wasInit() = 0;//7
-        virtual void finitGL();//8
+        virtual void finitGL() = 0;//8
         virtual CGL *gl() = 0; //9
         //10
         virtual void setViewport(int x, int y, int w, int h) = 0; // 11

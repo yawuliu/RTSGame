@@ -18,67 +18,73 @@ namespace MyGL {
 
     class Render : public IRender {
     public:
-        Render(CGL &glDevice);
+        class clear {
+        public:
+            typedef int ClearMode;
+        };
 
-        Render(CGL *glDevice);
+    public:
+        explicit Render(CGL &glDevice);
 
-        virtual ~Render();
+        explicit Render(CGL *glDevice);
 
-        unsigned int batchCount();
+        ~Render() override;
 
-        void begin();
+        unsigned int batchCount() override;
 
-        void bindCamera();
+        void begin() override;
 
-        void bindMaterial(IMaterial *material);
+        void bindCamera() override;
 
-        void bindModel(IModel *m);
+        void bindMaterial(IMaterial *material) override;
 
-        void bindTexture(IUniformSampler *sampler, ITexture *tex);
+        void bindModel(IModel *m) override;
 
-        void bindTexture(CGL::TextureUnitHandle tx_unit, ITexture *tex);
+        void bindTexture(IUniformSampler *sampler, ITexture *tex) override;
 
-        void bindVBO(IVBO *vbo, IVBO::BindMode::Type mode);
+        void bindTexture(CGL::TextureUnitHandle tx_unit, ITexture *tex) override;
 
-        ICamera *camera();
+        void bindVBO(IVBO *vbo, IVBO::BindMode::Type mode) override;
 
-        void clear(Color c, clear::ClearMode mode);
+        ICamera *camera() override;
 
-        void clear(clear::ClearMode mode);
+        void clear(Color c, Render::clear::ClearMode mode) override;
 
-        void clearColor(Color c);
+        void clear(Render::clear::ClearMode mode) override;
 
-        Color clearColor();
+        void clearColor(Color c) override;
 
-        unsigned int dipCount();
+        Color clearColor() override;
 
-        void draw(IGraphicsObject &obj);
+        unsigned int dipCount() override;
 
-        void drawModel(IModel *m);
+        void draw(IGraphicsObject &obj) override;
 
-        void drawModel(IModel *m, const ObjectMatrix &objMatrix);
+        void drawModel(IModel *m) override;
 
-        void drawVBO(IVBO::PrimitiveType::Type p, CGL::GLsizei size);
+        void drawModel(IModel *m, const ObjectMatrix &objMatrix) override;
 
-        void end();
+        void drawVBO(IVBO::PrimitiveType::Type p, CGL::GLsizei size) override;
 
-        void finitGL();
+        void end() override;
 
-        std::string getError();
+        void finitGL() override;
 
-        void getModeViewlMatrix(ObjectMatrix &out);
+        std::string getError() override;
 
-        void getModeViewlMatrix(Float *out);
+        void getModeViewlMatrix(ObjectMatrix &out) override;
 
-        void getProjectionMatrix(ObjectMatrix &out);
+        void getModeViewlMatrix(Float *out) override;
 
-        void getProjectionMatrix(Float *out);
+        void getProjectionMatrix(ObjectMatrix &out) override;
 
-        void getTransformMatrix(ObjectMatrix &out);
+        void getProjectionMatrix(Float *out) override;
 
-        void getViewport(int &x, int &y, int &w, int &h);
+        void getTransformMatrix(ObjectMatrix &out) override;
 
-        CGL *gl();
+        void getViewport(int &x, int &y, int &w, int &h) override;
+
+        CGL *gl() override;
 
         void glLoadMatrix(const double *x);
 
@@ -90,51 +96,51 @@ namespace MyGL {
 
         void init();
 
-        bool initGL();
+        bool initGL() override;
 
-        virtual bool isActive() override;
+        bool isActive() override;
 
-        bool isShaderCurrent(IShader *sh);
+        bool isShaderCurrent(IShader *sh) override;
 
-        unsigned int polyCount();
+        unsigned int polyCount() override;
 
-        IRenderState *renderState();
+        IRenderState *renderState() override;
 
-        void resetBatchCount();
+        void resetBatchCount() override;
 
-        void resetCounters();
+        void resetCounters() override;
 
-        void resetDipCount();
+        void resetDipCount() override;
 
-        void resetPolyCount();
+        void resetPolyCount() override;
 
-        void resetRenderState();
+        void resetRenderState() override;
 
-        void setCamera(ICamera &c);
+        void setCamera(ICamera &c) override;
 
-        void setRenderState(IRenderState *r);
+        void setRenderState(IRenderState *r) override;
 
-        void setScene(IScene &s);
+        void setScene(IScene &s) override;
 
-        void setViewport(int x, int y, int w, int h);
+        void setViewport(int x, int y, int w, int h) override;
 
-        void setZRange(double near, double far);
+        void setZRange(double near, double far) override;
 
-        void ubindMaterial();
+        void ubindMaterial() override;
 
-        void ubindModel();
+        void ubindModel() override;
 
-        void ubindTexture(IUniformSampler *sampler);
+        void ubindTexture(IUniformSampler *sampler) override;
 
-        void ubindTexture(CGL::TextureUnitHandle tx_unit);
+        void ubindTexture(CGL::TextureUnitHandle tx_unit) override;
 
-        void ubindVBO(IVBO *vbo);
+        void ubindVBO(IVBO *vbo) override;
 
         void upsetRState();
 
-        void useShader(IShader *sh);
+        void useShader(IShader *sh) override;
 
-        bool wasInit();
+        bool wasInit() override;
 
     protected:
         CGL *glDev;

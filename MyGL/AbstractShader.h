@@ -32,8 +32,7 @@ namespace MyGL {
         Uniform1f *uniform(int location) {
             if (location < 0)
                 return 0LL;
-            auto& u = new Uniform1f(this, location);
-            return this->registerUniform(u);
+            return this->registerUniform(new Uniform1f(this, location));
         }
 
         template<class T, class N>

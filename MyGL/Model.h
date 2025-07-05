@@ -21,37 +21,37 @@ namespace MyGL {
         };
 
     public:
-        Model(IRender &r);
+        explicit Model(IRender &r);
 
-        virtual ~Model();
+        ~Model() override;
 
         void allocate(size_t s);
 
-        void bind();
+        void bind() override;
 
         Model::DataContent::flags content();
 
-        const IModelInfo *cullInfo();
+        const IModelInfo *cullInfo() override;
 
-        void draw(bool binded);
+        void draw(bool binded) override;
 
-        void drawInstance(int Isize, CGL::GLint *fist, CGL::GLsizei *count, bool binded);
+        void drawInstance(int Isize, CGL::GLint *fist, CGL::GLsizei *count, bool binded) override;
 
         IVBO *extraBuffer();
 
-        void free();
+        void free() override;
 
-        void load(IIOModel &m);
+        void load(IIOModel &m) override;
 
         IVBO *normalBuffer();
 
-        IVBO::PrimitiveType::Type primitiveType();
+        IVBO::PrimitiveType::Type primitiveType() override;
 
-        void setPrimitivesType(IVBO::PrimitiveType::Type t);
+        void setPrimitivesType(IVBO::PrimitiveType::Type t) override;
 
         IVBO *textureBuffer();
 
-        void uBind();
+        void uBind() override;
 
         void unsetCullInfo();
 

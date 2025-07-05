@@ -16,7 +16,7 @@ namespace MyGL {
 
             virtual ~Data() = default;
 
-        protected:
+        public:
             Filter gausV;
             Filter gausH;
             Filter grab;
@@ -50,7 +50,7 @@ namespace MyGL {
 
         void incompleteEvent(const std::string &msg);
 
-        void initShaders(const gadapter &adapter);
+        void initShaders(Adapter &adapter);
 
         void downSample(FBO *frameBuffer, ITexture *input, ITextureRectangle *output, IModel *quad);
 

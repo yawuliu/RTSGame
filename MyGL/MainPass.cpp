@@ -1,8 +1,8 @@
 #include "MainPass.h"
 namespace MyGL {
-	MainPass::MainPass(IScene& s, const gadapter& adapter, IModel* q, bool autoMake) : AbstractPass(s) {
-		this->frame = new TextureRectangle(this->scene()->render());
-		this->depth =  new TextureRectangle(this->scene()->render());
+	MainPass::MainPass(IScene& s, const Adapter& adapter, IModel* q, bool autoMake) : AbstractPass(s) {
+		this->frame = new TextureRectangle(this->scene().render());
+		this->depth =  new TextureRectangle(this->scene().render());
 		this->m_frameBuffer = 0LL;
 		this->quad = q;
 		this->resizeFrame();
@@ -25,26 +25,8 @@ namespace MyGL {
 	}
 
 	void MainPass::buildQuad(int w, int h) {
-		float* p;
-		float* p_1;
-		float* p_2;
-		float* p_3;
-		float* p_4;
-		float* p_5;
-		float* p_6;
-		float* p_7;
 		IOModel m;
-		IIOModel::Point retstr_;
-		IIOModel::Point retstr__1;
-		IIOModel::Point retstr__2;
-		IIOModel::Point retstr__3;
-		IIOModel::TexCoord retstr__4;
-		IIOModel::TexCoord retstr__5;
-		IIOModel::TexCoord retstr__6;
-		IIOModel::TexCoord retstr__7;
-
-		IOModel::IOModel(&m);
-		IOModel::allock(&m, 4uLL);
+        m.allock(4uLL);
 		IOModel::point(&retstr_, &m, 0);
 		p = IIOModel::Point::data(&retstr_);
 		MainPass::setPoint(p, -1.0, -1.0);
@@ -79,45 +61,20 @@ namespace MyGL {
 	}
 
 	void MainPass::draw() {
-		IScene* v1;
-		__int64 v2;
-		IScene* v3;
-		__int64 v4;
-		std::vector<IRenderPass*>::reference v5;
-		IScene* v6;
-		__int64 v7;
-		unsigned int i;
-
-		v1 = this->scene();
-		v2 = v1->render();
+		v2 = this->scene().render();
 		(*(void(__fastcall**)(__int64)) (*(_QWORD*)v2 + 248LL))(v2);
-		v3 = this->scene();
-		v4 = v3->graph();
+		v4 = this->scene().graph();
 		(*(void(__fastcall**)(__int64, MainPass* const)) (*(_QWORD*)v4 + 40LL))(v4, this);
 		for (i = 0; i < std::vector<IRenderPass*>::size(&this->passes); ++i) {
 			v5 = std::vector<IRenderPass*>::operator[](&this->passes, i);
 			v5->exec();
 		}
-		v6 = this->scene();
-		v7 = v6->graph();
+		v7 = this->scene().graph();
 		(*(void(__fastcall**)(__int64)) (*(_QWORD*)v7 + 48LL))(v7);
 	}
 
 	void MainPass::exec() {
-		IScene* v1;
-		__int64 v2;
-		int v3;
-		int v4;
-		FBO* v6;
-		FBO* v7;
-		FBO* v8;
-		IScene* v9;
-		__int64 v10;
-		FBO* v11;
-		int v[8];
-
-		v1 = this->scene();
-		v2 = v1->render();
+		v2 = this->scene().render();
 		(*(void(__fastcall**)(__int64, int*, int*, int*, int*)) (*(_QWORD*)v2 + 96LL))(v2, v, &v[1], &v[2],
 			&v[3]);
 		v3 = v[2];
@@ -134,8 +91,7 @@ namespace MyGL {
 			0LL);
 		v8 = this->frameBuffer();
 		v8->attachDepthTexture( this->depth);
-		v9 = this->scene();
-		v10 = v9->render();
+		v10 = this->scene().render();
 		(*(void(__fastcall**)(__int64, __int64)) (*(_QWORD*)v10 + 32LL))(v10, 3LL);
         this->draw();
 		v11 = this->frameBuffer();
@@ -146,34 +102,14 @@ namespace MyGL {
 		return this->m_frameBuffer;
 	}
 
-	void MainPass::makeAlgo(const gadapter& adapter) {
+	void MainPass::makeAlgo(const Adapter& adapter) {
 		this->makeAlgo(&this->passes,adapter);
 	}
 
-	void MainPass::makeAlgo(MainPass& mp, std::vector<IRenderPass*>& passes,
-		const gadapter& adapter) {
-		IScene* s;
-		DepthPass* __x_1;
-		IScene* s_1;
-		ColorPass* __x__4;
-		IScene* s_2;
-		AddBlendPass* __x__5;
-		IScene* s_3;
-		TransparentPass* __x__6;
-		IScene* s_4;
-		SSAOpass* __x__7;
-		std::vector<IRenderPass*>::value_type __x;
-		std::vector<IRenderPass*>::value_type __x_;
-		std::vector<IRenderPass*>::value_type __x__1;
-		std::vector<IRenderPass*>::value_type __x__2;
-		std::vector<IRenderPass*>::value_type __x__3;
-
-		s = AbstractPass::scene(mp);
-		__x_1 = (DepthPass*) operator new(0x10uLL);
-		DepthPass::DepthPass(__x_1, s);
-		__x = __x_1;
+	void MainPass::makeAlgo(MainPass& mp, std::vector<IRenderPass*>& passes, const Adapter& adapter) {
+		__x = new DepthPass(mp.scene());
 		std::vector<IRenderPass*>::push_back(passes, &__x);
-		s_1 = AbstractPass::scene(mp);
+		s_1 = Amp.scene();
 		__x__4 = (ColorPass*) operator new(0x10uLL);
 		ColorPass::ColorPass(__x__4, s_1);
 		__x_ = __x__4;
@@ -204,17 +140,8 @@ namespace MyGL {
 	}
 
 	void MainPass::resizeFrame() {
-		IScene* v1;
-		__int64 v2;
-		IScene* v3;
-		IRender* r;
-		unsigned int theWidth;
-		unsigned int theHeight;
-		FBO* m_frameBuffer;
 		int v[12];
-
-		v1 = this->scene();
-		v2 = v1->render();
+		v2 = this->scene().render();
 		(*(void(__fastcall**)(__int64, int*, int*, int*, int*)) (*(_QWORD*)v2 + 96LL))(v2, v, &v[1], &v[2],
 			&v[3]);
 
@@ -232,11 +159,7 @@ namespace MyGL {
 				21LL);
 		if (this->m_frameBuffer)
             delete this->m_frameBuffer;
-		v3 = this->scene();
-		r = v3->render();
-		theWidth = this->frame->setClamping();
-		theHeight = this->frame->setClamping();
-		this->m_frameBuffer = new FBO(r, theWidth, theHeight, 4);;
+		this->m_frameBuffer = new FBO(this->scene().render(), this->frame->width(), this->frame->height(), 4);;
         this->buildQuad(v[2], v[3]);
 	}
 
@@ -246,6 +169,6 @@ namespace MyGL {
 	}
 
 	IRenderPass::Pass::Type MainPass::type() {
-		return 0;
+		return IRenderPass::Pass::None;
 	}
 }

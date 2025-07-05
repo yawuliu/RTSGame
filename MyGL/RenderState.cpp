@@ -23,7 +23,7 @@ namespace MyGL {
         return this->atest;
     }
 
-    IRenderState *RenderState::copy(const IRenderState &r) {
+    IRenderState *RenderState::copy(IRenderState &r) {
         this->atest = r.alphaTestRef();
         this->atestType = r.alphaTestMode();
         this->zWriting = r.isZWriting();
@@ -32,7 +32,7 @@ namespace MyGL {
         this->sfactor = r.getBlendSFactor();
         this->dfactor = r.getBlendDFactor();
         this->alphaCoverage = r.isAlphaCoverage();
-        r.getColorMask(this->clMask, &this->clMask[1], &this->clMask[2], &this->clMask[3]);
+        r.getColorMask(&this->clMask[0], &this->clMask[1], &this->clMask[2], &this->clMask[3]);
         this->zTestType = r.getZTestMode();
         this->cullMode = r.cullFaceMode();
         return this;

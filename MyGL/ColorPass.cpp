@@ -29,7 +29,7 @@ namespace MyGL {
         return obj.material()->renderState()->isBlend() == 0;
     }
 
-    IRenderPass::Pass::Type type() {
+    IRenderPass::Pass::Type ColorPass::type() {
         return IRenderPass::Pass::Color;
     }
 

@@ -14,7 +14,7 @@ namespace MyGL {
 
         Float alphaTestRef() override;
 
-        virtual IRenderState *copy(const IRenderState &r) override;
+        IRenderState *copy(IRenderState &r) override;
 
         CullMode::Type cullFaceMode() override;
 

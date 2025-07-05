@@ -1,4 +1,6 @@
 #include "DataStream.h"
+#include "IShaderEnvironment.h"
+#include "IData.h"
 
 namespace MyGL {
     DataStream::DataStream(IData &d, IShaderEnvironment *e) {
@@ -18,8 +20,8 @@ namespace MyGL {
     }
 
     DataStream::DataStream(IScene &s) {
-        this->data = s->dataControl();
-        v2 = s->shaderLoader();
+        this->data = s.dataControl();
+        v2 = s.shaderLoader();
         this->env = (IShaderEnvironment *) (*(__int64 (__fastcall **)(__int64)) (*(_QWORD *) v2 + 32LL))(v2);
     }
 

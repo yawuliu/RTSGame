@@ -14,7 +14,7 @@ namespace MyGL {
 
             virtual  ~pimpl() = default;
 
-        protected:
+        public:
             std::vector<ILight *> lights;
         };
 
