@@ -12,13 +12,13 @@ namespace MyGL {
 
         UniformMatrix4x4(IShader *sh, CGL::ShaderHandle h, CGL::GLfloat *dataPtr);
 
-        virtual ~UniformMatrix4x4() = default; // 0
+        ~UniformMatrix4x4() override = default; // 0
         //virtual ~UniformMatrix4x4() = default; // 1
-        virtual void sendDataToGPU(); // 2
-        virtual CGL::ShaderHandle *handlePtr(); // 3
-        virtual bool isEqual(IUniform *); // 4
-        virtual IShader *owner(); // 5
-        virtual void set(double const *); // 6
+        void sendDataToGPU() override; // 2
+        CGL::ShaderHandle *handlePtr() override; // 3
+        bool isEqual(IUniform *) override; // 4
+        IShader *owner() override; // 5
+        void set(double const *) override; // 6
 
     protected:
         CGL::ShaderHandle handle;

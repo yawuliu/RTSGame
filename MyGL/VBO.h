@@ -11,44 +11,44 @@ namespace MyGL {
     public:
         class Pointer : public IVBO::IPointer {
         public:
-            Pointer(VBO *buf);
+            explicit Pointer(VBO *buf);
 
             Pointer(const Pointer &p);
 
-            virtual ~Pointer();
+            ~Pointer() override;
 
-            virtual GLfloat *operator[](uint32_t id);
+            GLfloat *operator[](uint32_t id) override;
 
-            virtual size_t size();
+            size_t size() override;
 
         public:
             VBO *vbo;
         };
 
     public:
-        VBO(IRender &r);
+        explicit VBO(IRender &r);
 
-        virtual ~VBO();
+        ~VBO() override;
 
-        void free();
+        void free() override;
 
-        void subData(CGL::GLsizei offset, CGL::GLsizei size, void *data);
+        void subData(CGL::GLsizei offset, CGL::GLsizei size, void *data) override;
 
-        void allocate(CGL::GLsizei size);
+        void allocate(CGL::GLsizei size) override;
 
-        void loadData(const CGL::GLfloat *data, CGL::GLsizei s);
+        void loadData(const CGL::GLfloat *data, CGL::GLsizei s) override;
 
-        void bind(IVBO::BindMode::Type mode);
+        void bind(IVBO::BindMode::Type mode) override;
 
-        void draw(bool binded, IVBO::PrimitiveType::Type p);
+        void draw(bool binded, IVBO::PrimitiveType::Type p) override;
 
-        void uBind();
+        void uBind() override;
 
         CGL::GLuint size();
 
-        VBO::Pointer data();
+        VBO::Pointer *data();
 
-        IVBO::IPointer *pointerToData();
+        IVBO::IPointer *pointerToData() override;
 
         void addRef();
 

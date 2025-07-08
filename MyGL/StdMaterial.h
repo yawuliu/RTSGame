@@ -29,7 +29,7 @@ namespace MyGL {
 
         const ITexture *getTexture(uint32_t id) override;
 
-        const IRenderState *renderState() override;
+        IRenderState *renderState() override;
 
         bool drawEvent(IGraphicsObject const &obj) override;
 

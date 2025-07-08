@@ -15,7 +15,7 @@ namespace MyGL {
     class VolumetricLightScatteringPass : public AbstractPass {
     public:
         VolumetricLightScatteringPass(IScene &s, IModel *quad,
-                                      const Adapter &adapter, ITextureRectangle &d, ITextureRectangle &c);
+                                      Adapter &adapter, ITextureRectangle &d, ITextureRectangle &c);
 
         virtual ~VolumetricLightScatteringPass();
 

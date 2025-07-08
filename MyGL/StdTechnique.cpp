@@ -7,11 +7,11 @@
 
 namespace MyGL {
     StdTechnique::StdTechnique(IScene &s) : AbstractTechnique(s) {
-        this->setColorShader(0LL);
-        this->setShadowShader(0LL);
-        this->setDepthShader(0LL);
-        this->setGlowShader(0LL);
-        this->opacitySampler = 0LL;
+        this->setColorShader(nullptr);
+        this->setShadowShader(nullptr);
+        this->setDepthShader(nullptr);
+        this->setGlowShader(nullptr);
+        this->opacitySampler = nullptr;
         this->rstate = new RenderState();
         this->pstate = new RenderState();
         this->rstate->setAlphaTestRef(0.5);
@@ -80,9 +80,9 @@ namespace MyGL {
         return this->mdiffSampler;
     }
 
-    bool StdTechnique::drawEvent(const IGraphicsObject &obj, const IMaterial &a3) {
+    bool StdTechnique::drawEvent(IGraphicsObject &obj, IMaterial &a3) {
         if (!this->updateMat)
-            return 1;
+            return true;
         this->updateMat = 0;
         this->lMatrix.identity();
         ObjectMatrix m;
@@ -118,7 +118,7 @@ namespace MyGL {
             this->rstate->setZWriting(0LL);
             this->rstate->setZTestMode(IRenderState::ZTestMode::Less);//2LL
         }
-        return this->sh != 0LL;
+        return this->sh != nullptr;
     }
 
     bool StdTechnique::passEvent(const ColorPass *a2) {
@@ -130,7 +130,7 @@ namespace MyGL {
         } else {
             this->renderState()->setZTestMode(IRenderState::ZTestMode::Less);//2LL
         }
-        return this->currentShader() != 0;
+        return this->currentShader() != nullptr;
     }
 
     bool StdTechnique::passEvent(const DepthPass *a2) {
@@ -141,7 +141,7 @@ namespace MyGL {
         this->rstate->setZTest(1LL);
         this->rstate->setZTestMode(IRenderState::ZTestMode::Less);//2LL
         this->rstate->setColorMask(0LL, 0LL, 0LL, 0LL);
-        return this->sh != 0LL;
+        return this->sh != nullptr;
     }
 
     bool StdTechnique::passEvent(const GlowPass *a2) {
@@ -155,7 +155,7 @@ namespace MyGL {
             this->rstate->setZTestMode(IRenderState::ZTestMode::LEqual);//3LL
             this->rstate->setZWriting(0LL);
         }
-        return this->sh != 0LL;
+        return this->sh != nullptr;
     }
 
     bool StdTechnique::passEvent(const ShadowPass *a2) {
@@ -173,7 +173,7 @@ namespace MyGL {
                 this->rstate->setCullFaceMode(IRenderState::CullMode::back);// 2LL
             }
         }
-        return this->sh != 0LL;
+        return this->sh != nullptr;
     }
 
     bool StdTechnique::passEvent(const TransparentPass *pass) {
@@ -195,7 +195,7 @@ namespace MyGL {
             this->rstate->setColorMask(1LL, 1LL, 1LL, 1LL);
             this->rstate->setBlend(1LL);
         }
-        return this->sh != 0LL;
+        return this->sh != nullptr;
     }
 
     IRenderState *StdTechnique::renderState() {
@@ -203,7 +203,6 @@ namespace MyGL {
     }
 
     void StdTechnique::restoreRenderState() {
-
         this->rstate->copy(this->pstate);
     }
 
@@ -225,12 +224,12 @@ namespace MyGL {
             this->lMat = this->mshader->uniformMatrix4x4("lMatrix");
             this->lDir = this->mshader->uniform4f("lDirection");
         } else {
-            this->mdiffSampler = 0LL;
-            this->mshadowSampler = 0LL;
-            this->mspecSampler = 0LL;
-            this->normalSampler = 0LL;
-            this->lMat = 0LL;
-            this->lDir = 0LL;
+            this->mdiffSampler = nullptr;
+            this->mshadowSampler = nullptr;
+            this->mspecSampler = nullptr;
+            this->normalSampler = nullptr;
+            this->lMat = nullptr;
+            this->lDir = nullptr;
         }
     }
 
@@ -249,7 +248,7 @@ namespace MyGL {
             if (this->gglowSampler)
                 this->gglowSampler->set(0LL);
         } else {
-            this->gglowSampler = 0LL;
+            this->gglowSampler = nullptr;
         }
     }
 
@@ -258,7 +257,7 @@ namespace MyGL {
         if (this->shadow)
             this->opacitySampler = this->shadow->uniformSampler("opacity");
         else
-            this->opacitySampler = 0LL;
+            this->opacitySampler = nullptr;
     }
 
     void StdTechnique::setUniforms() {

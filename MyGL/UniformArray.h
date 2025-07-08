@@ -9,7 +9,6 @@
 #include "AbstractShader.h"
 #include "IUniformArray.h"
 
-
 namespace MyGL {
     template<typename T>
     class UniformArray : public IUniformArray<T> {
@@ -30,7 +29,7 @@ namespace MyGL {
     public:
         UniformArray(IShader *sh, CGL::ShaderHandle handle, int s) {
             this->shader = sh;
-            this->data = new Data::Data(sh, handle, s);
+            this->data = new Data(sh, handle, s);
             this->data->handle = handle;
         }
 
@@ -65,16 +64,8 @@ namespace MyGL {
         }
 
         void sendDataToGPU() {
-            CGL *v1;
-            PFNGLUNIFORMMATRIX4FVARBPROC glUniformMatrix4fv;
-            CGL::GLfloat *data;
-            GLsizei v4;
-
-            v1 = this->shader->gl();
-            glUniformMatrix4fv = v1->ext()->glUniformMatrix4fv;
-            data = this->data->data;
-            v4 = this->size();
-            glUniformMatrix4fv(this->data->handle, v4, 0LL, data);
+            auto glUniformMatrix4fv = this->shader->gl()->ext()->glUniformMatrix4fv;
+            glUniformMatrix4fv(this->data->handle, this->size(), 0LL, this->data->data);
         }
 
         int size() {
@@ -87,14 +78,14 @@ namespace MyGL {
     };
 
     template<class T>
-    UniformArray<T> *uniformArray(AbstractShader *const sh, int location, int s) {
+    UniformArray<T> *uniformArray(AbstractShader &sh, int location, int s) {
         UniformArray<T> *u;
 
         if (location < 0)
             return 0LL;
         u = (UniformArray<T> *) operator new(0x18uLL);
         UniformArray<T>::UniformArray(u, sh, location, s);
-        return (UniformArray<T> *) AbstractShader::registerUniform(sh, u);
+        return (UniformArray<T> *) sh.registerUniform(u);
     }
 
     template<typename T>

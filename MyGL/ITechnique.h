@@ -43,7 +43,7 @@ namespace MyGL {
 
         // virtual void renderState() = 0; // 8
 
-        virtual bool drawEvent(IGraphicsObject const &, IMaterial const &) = 0; // 9
+        virtual bool drawEvent(IGraphicsObject &, IMaterial &) = 0; // 9
 
         virtual bool passEvent(IRenderPass const *) = 0; // 10
 

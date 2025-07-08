@@ -1,5 +1,5 @@
 #include "ForwardRenderAlgo.h"
-#include "IRenderAlgoSettings.h"
+#include "RenderAlgoSettings.h"
 #include "IModel.h"
 #include "MainPass.h"
 #include "GlowPass.h"

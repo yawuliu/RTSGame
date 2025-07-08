@@ -5,13 +5,13 @@
 #include "Adapter.h"
 
 namespace MyGL {
-    VolumetricLightScatteringPass::VolumetricLightScatteringPass(IScene &s, IModel *quad, const Adapter &adapter,
+    VolumetricLightScatteringPass::VolumetricLightScatteringPass(IScene &s, IModel *quad, Adapter &adapter,
                                                                  ITextureRectangle &d, ITextureRectangle &c)
             : AbstractPass(s), depth(&d) {
         this->filter = new Filter(this->scene());
         this->frame = new TextureRectangle(this->scene().render());
         this->filter->setShader(adapter.getVolumetricLightScatteringShader());
-        this->filter->setInput("colorBuffer", c);
+        this->filter->setInput("colorBuffer", &c);
         this->filter->setInput("depthBuffer", this->depth);
         this->filter->setInput("shadowMap", adapter.getShadowMapTexture());
         this->filter->setQuadModel(quad);
@@ -29,8 +29,8 @@ namespace MyGL {
 
     void VolumetricLightScatteringPass::resizeFrame() {
         int v[12];
-        this->scene().render()->getViewport(&v[0], &v[1], &v[2], &v[3]);
-        this->frame->load(0LL, 1LL, v[2], v[3], 4LL);
+        this->scene().render().getViewport(v[0], v[1], v[2], v[3]);
+        this->frame->load(0LL, ITexture::InputFormat::RGB8, v[2], v[3], ITexture::Format::RGB);//1LL 4LL
         if (this->frameBuffer)
             delete this->frameBuffer;
         this->frameBuffer = new FBO(this->scene().render(), this->frame->width(), this->frame->height(), 8);
@@ -38,8 +38,8 @@ namespace MyGL {
 
     void VolumetricLightScatteringPass::exec() {
         int v[8];
-        this->scene().render()->getViewport(&v[0], &v[1], &v[2], &v[3]);
-        this->scene().render()->clearColor();
+        this->scene().render().getViewport(v[0], v[1], v[2], v[3]);
+        this->scene().render().clearColor();
         if (v[2] != this->frame->width() || v[3] != this->frame->height()) {
             this->resizeFrame();
         }

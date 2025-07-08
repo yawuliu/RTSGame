@@ -41,7 +41,7 @@ namespace MyGL {
 
         // virtual void renderState(); // 8
 
-        virtual bool drawEvent(IGraphicsObject const &, IMaterial const &) override; // 9
+        virtual bool drawEvent(IGraphicsObject &, IMaterial &) override; // 9
 
         virtual bool passEvent(IRenderPass const *) override; // 10
 

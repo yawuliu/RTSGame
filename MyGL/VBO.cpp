@@ -59,11 +59,6 @@ namespace MyGL {
     }
 
     void VBO::bind(IVBO::BindMode::Type mode) {
-        CGL *v2;
-        IErrorControl *v3;
-        CGL *v4;
-        privateGLSupportClass *v5;
-
         if (this->refCount) {
             this->render.gl()->errorCtrl()->fail(0LL, "[error]VBO::bind : buffer is already mapped!");
         }
@@ -102,7 +97,7 @@ namespace MyGL {
         return this->_size;
     }
 
-    VBO::Pointer VBO::data() {
+    VBO::Pointer *VBO::data() {
         return this;
     }
 

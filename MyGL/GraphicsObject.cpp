@@ -66,9 +66,9 @@ namespace MyGL {
         this->gmaterial = m;
         if (this->scene) {
             if (old)
-                this->scene->changeObject(this, old);
+                this->scene->changeObject(*this, *old);
             else
-                this->scene->insertObject(this);
+                this->scene->insertObject(*this);
         }
     }
 

@@ -27,9 +27,9 @@ namespace MyGL {
     bool UniformMatrix4x4::isEqual(IUniform *u) {
         if (u->owner() == this->owner()) {
             if (this->handle == *u->handlePtr())
-                return 1;
+                return true;
         }
-        return 0;
+        return false;
     }
 
     IShader *UniformMatrix4x4::owner() {

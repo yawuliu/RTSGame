@@ -12,20 +12,20 @@ namespace MyGL {
     public:
         UniformSampler(IShader *sh, CGL::ShaderHandle h);
 
-        virtual ~UniformSampler() = default;// 0
+        ~UniformSampler() override = default;// 0
 
         //virtual ~UniformSampler() = default;// 1
-        virtual void sendDataToGPU(); // 2
+        void sendDataToGPU() override; // 2
 
-        virtual CGL::ShaderHandle *handlePtr(); // 3
+        CGL::ShaderHandle *handlePtr() override; // 3
 
-        virtual bool isEqual(IUniform *); // 4
+        bool isEqual(IUniform *) override; // 4
 
-        virtual IShader *owner(); // 5
+        IShader *owner() override; // 5
 
-        virtual void set(int); // 6
+        void set(int) override; // 6
 
-        virtual int get(); // 7
+        int get() override; // 7
     protected:
         CGL::ShaderHandle handle;
         IShader *shader;

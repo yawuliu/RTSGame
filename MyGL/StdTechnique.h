@@ -41,7 +41,7 @@ namespace MyGL {
 
         void completeDraw(AddBlendPass const *a2);
 
-        void completeDraw(ColorPass const *a2);
+        void completeDraw(ColorPass const *a2) override;
 
         void completeDraw(DepthPass const *a2);
 
@@ -57,7 +57,7 @@ namespace MyGL {
 
         IUniformSampler *diffSampler();
 
-        bool drawEvent(const IGraphicsObject &obj, const IMaterial &a3);
+        bool drawEvent(IGraphicsObject &obj, IMaterial &a3);
 
         IUniformSampler *glowSampler();
 
