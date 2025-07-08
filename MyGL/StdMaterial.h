@@ -17,21 +17,21 @@ namespace MyGL {
     public:
         StdMaterial(IScene &s, StdTechnique *technique);
 
-        virtual ~StdMaterial();
+        ~StdMaterial() override;
 
-        virtual void bind() override;
+        void bind() override;
 
-        virtual void setUniforms() override;
+        void setUniforms() override;
 
-        virtual void uBind() override;
+        void uBind() override;
 
-        virtual ITechnique *technique() override;
+        ITechnique *technique() override;
 
-        virtual const ITexture *getTexture(uint32_t id) override;
+        const ITexture *getTexture(uint32_t id) override;
 
-        virtual const IRenderState *renderState() override;
+        const IRenderState *renderState() override;
 
-        virtual bool drawEvent(IGraphicsObject const &obj) override;
+        bool drawEvent(IGraphicsObject const &obj) override;
 
         void bindTextures();
 

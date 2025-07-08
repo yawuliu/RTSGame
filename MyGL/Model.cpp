@@ -4,12 +4,7 @@
 #include "IModelInfo.h"
 
 namespace MyGL {
-    Model::Model(IRender &r) {
-        this->render = r;
-        this->vert = VBO(r);
-        this->tex = VBO(r);
-        this->norm = VBO(r);
-        this->extra = VBO(r);
+    Model::Model(IRender &r) : render(r), vert(r), tex(r), norm(r), extra(r) {
         this->type = IVBO::PrimitiveType::Type::Triangles;
         this->size = 0;
         this->mCullInform = new ModelInfo();
@@ -31,27 +26,27 @@ namespace MyGL {
     void Model::bind() {
         if (this->extra.size()) {
             glEnableClientState(32886LL);
-            this->render > bindVBO(&this->extra, 3LL);
+            this->render.bindVBO(&this->extra, IVBO::BindMode::Color);// 3LL
         } else {
             glDisableClientState(32886LL);
         }
 
-        this->render->bindVBO(&this->norm, 2LL);
-        this->render->bindVBO(&this->tex, 1LL);
-        this->render->bindVBO(&this->vert, 0LL);
+        this->render.bindVBO(&this->norm, IVBO::BindMode::Normal);//2LL
+        this->render.bindVBO(&this->tex, IVBO::BindMode::TexCoord);//1LL
+        this->render.bindVBO(&this->vert, IVBO::BindMode::Vertex);//0LL
     }
 
     Model::DataContent::flags Model::content() {
-        Model::DataContent::flags c;
+        int c;
 
-        c = Model::DataContent::flags::vertex | Model::DataContent::flags::texture |
-            Model::DataContent::flags::normal;
+        c = Model::DataContent::flags::vertex | Model::DataContent::flags::texture | Model::DataContent::flags::normal;
         if (this->extra.size())
-            return 15;
-        return c;
+            c = Model::DataContent::flags::vertex | Model::DataContent::flags::texture |
+                Model::DataContent::flags::normal | Model::DataContent::flags::extraData;//15
+        return (Model::DataContent::flags) c;
     }
 
-    const IModelInfo *Model::cullInfo(const) {
+    const IModelInfo *Model::cullInfo() {
         return this->mCullInform;
     }
 
@@ -59,7 +54,7 @@ namespace MyGL {
         if (!binded)
             this->bind();
 
-        this->render->drawVBO((unsigned int) this->type, this->size);
+        this->render.drawVBO(this->type, this->size);
     }
 
     void Model::drawInstance(int Isize, CGL::GLint *fist, CGL::GLsizei *count, bool binded) {
@@ -69,7 +64,7 @@ namespace MyGL {
             if (Isize <= 1) {
                 glDrawArrays((unsigned int) this->type, (unsigned int) *fist, (unsigned int) *count);
             } else {
-                this->render->gl()->ext()->glMultiDrawArraysEXT(this->type, fist, count, Isize);
+                this->render.gl()->ext()->glMultiDrawArraysEXT(this->type, fist, count, Isize);
             }
         } else {
             this->draw(binded);
@@ -87,7 +82,7 @@ namespace MyGL {
         this->extra.free();
     }
 
-    void Model::load(IIOModel *const m) {
+    void Model::load(IIOModel &m) {
         CGL::GLsizei s;
         const CGL::GLfloat *data;
         CGL::GLsizei s_1;
@@ -97,23 +92,23 @@ namespace MyGL {
         CGL::GLsizei s_3;
         const CGL::GLfloat *data_3;
 
-        if (m->size()) {
-            s = 3 * m->size();
-            data = (const CGL::GLfloat *) m->points();
-            this->vert->loadData(data, s);
-            s_1 = 2 * m->size();
-            data_1 = (const CGL::GLfloat *) m->textureCoords();
-            this->tex->loadData(data_1, s_1);
-            s_2 = 3 * m->size();
-            data_2 = (const CGL::GLfloat *) m->normals();
-            this->norm->loadData(data_2, s_2);
-            if (m->extraData()) {
-                s_3 = 4 * m->size();
-                data_3 = (const CGL::GLfloat *) m->extraData();
-                this->extra->loadData(data_3, s_3);
+        if (m.size()) {
+            s = 3 * m.size();
+            data = (const CGL::GLfloat *) m.points();
+            this->vert.loadData(data, s);
+            s_1 = 2 * m.size();
+            data_1 = (const CGL::GLfloat *) m.textureCoords();
+            this->tex.loadData(data_1, s_1);
+            s_2 = 3 * m.size();
+            data_2 = (const CGL::GLfloat *) m.normals();
+            this->norm.loadData(data_2, s_2);
+            if (m.extraData()) {
+                s_3 = 4 * m.size();
+                data_3 = (const CGL::GLfloat *) m.extraData();
+                this->extra.loadData(data_3, s_3);
             }
             this->type = IVBO::PrimitiveType::Type::Triangles;
-            this->size = m->size();
+            this->size = m.size();
             this->mCullInform->updateFrom(m);
         }
     }
@@ -135,11 +130,11 @@ namespace MyGL {
     }
 
     void Model::uBind() {
-        if (VBO::size(&this->extra))
-            this->render->ubindVBO(&this->extra);
-        this->render->ubindVBO(&this->norm);
-        this->render->ubindVBO(&this->tex);
-        this->render->ubindVBO(&this->vert);
+        if (this->extra.size())
+            this->render.ubindVBO(&this->extra);
+        this->render.ubindVBO(&this->norm);
+        this->render.ubindVBO(&this->tex);
+        this->render.ubindVBO(&this->vert);
         glDisableClientState(32886LL);
     }
 
@@ -154,6 +149,6 @@ namespace MyGL {
     }
 
     IVBO *Model::vertexBuffer() {
-        return this->vert;
+        return &this->vert;
     }
 }
