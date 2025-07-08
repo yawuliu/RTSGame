@@ -2,6 +2,7 @@
 #include "Model.h"
 #include "IShader.h"
 #include "IErrorControl.h"
+#include "ITextureRectangle.h"
 
 namespace MyGL {
     BloomPass::Data::Data(IScene &s, IModel *quad) : gausV(s), gausH(s), grab(s) {
@@ -30,10 +31,10 @@ namespace MyGL {
         this->data = new Data(this->scene(), this->quad[2]);
         this->data->w = -1;
         this->data->h = -1;
-        this->data->gausH.renderState()->setBlend(1LL);
-        this->data->gausH.renderState()->setBlendMode(1LL, 1LL);
-        this->data->gausH.renderState()->setAlphaTestMode(1LL);
-        this->data->gausH.renderState()->setAlphaTestRef(0.0);
+        this->data->gausH.renderState().setBlend(1LL);
+        this->data->gausH.renderState().setBlendMode(1LL, 1LL);
+        this->data->gausH.renderState().setAlphaTestMode(1LL);
+        this->data->gausH.renderState().setAlphaTestRef(0.0);
         this->setDownSamplesCount(3);
         this->initShaders(adapter);
     }
@@ -145,7 +146,7 @@ namespace MyGL {
 
     void BloomPass::resizeFrame() {
         int v[6];
-        this->scene().render()->getViewport(&v[0], &v[1], &v[2], &v[3]);
+        this->scene().render().getViewport(v[0], v[1], v[2], v[3]);
         this->data->w = v[2];
         this->data->h = v[3];
         this->scale[0]->setFiltration(0LL, 1LL, (unsigned int) (v[2] / 2), (unsigned int) (v[3] / 2), 4LL);
@@ -164,7 +165,7 @@ namespace MyGL {
     }
 
     void BloomPass::incompleteEvent(const std::string &msg) {
-        this->scene().render()->gl()->errorCtrl()->warning(0LL, msg);
+        this->scene().render().gl()->errorCtrl()->warning(0LL, msg.c_str());
         this->m_isValid = 0;
     }
 
@@ -188,9 +189,9 @@ namespace MyGL {
     }
 
     void BloomPass::exec() {
-        unsigned int v[8];
-        this->scene().render()->getViewport(&v[0], &v[1], &v[2], &v[3]);
-        Color cl_0 = this->scene().render()->clearColor();
+        int v[8];
+        this->scene().render().getViewport(v[0], v[1], v[2], v[3]);
+        Color cl_0 = this->scene().render().clearColor();
         if (v[2] != this->data->w || v[3] != this->data->h)
             this->resizeFrame();
         if (this->downSamplesCount() > 1)
@@ -202,15 +203,15 @@ namespace MyGL {
         if (this->downSamplesCount() == 2)
             this->downSample(this->frameBuffer[1], this->scale[0], this->frame, this->quad[1]);
         this->postProcess((FBO *) (&this->subFrame)[this->downSamplesCount()]);
-        this->scene().render()->setViewport(v[0], v[1], v[2], v[3]);
-        this->scene().render()->clearColor(cl_0);
+        this->scene().render().setViewport(v[0], v[1], v[2], v[3]);
+        this->scene().render().clearColor(cl_0);
     }
 
     void BloomPass::downSample(FBO *frameBuffer, ITexture *input, ITextureRectangle *output, IModel *quad) {
         frameBuffer->bind();
-        this->scene().render()->setViewport(0LL, 0LL, output->width(), output->height());
+        this->scene().render().setViewport(0LL, 0LL, output->width(), output->height());
         frameBuffer->attachColorTexture(output, 0LL);
-        this->scene().render()->bindTexture(this->data->textureIn, input);
+        this->scene().render().bindTexture(this->data->textureIn, input);
         this->data->grab.setQuadModel(quad);
         this->data->grab.exec();
         frameBuffer->unbind();

@@ -8,12 +8,12 @@ namespace MyGL {
     public:
         IUniform1f() = default;
 
-        virtual ~IUniform1f() = default; // 0
+        ~IUniform1f() override = default; // 0
         // virtual ~IUniform1f(); // 1
-        virtual void sendDataToGPU() = 0; //2
-        virtual CGL::ShaderHandle *handlePtr() = 0; //3
-        virtual bool isEqual(IUniform *) = 0; // 4
-        virtual IShader *owner() = 0;// 5
-        virtual void set(double) = 0;// 6
+        void sendDataToGPU() override = 0; //2
+        CGL::ShaderHandle *handlePtr() override = 0; //3
+        bool isEqual(IUniform *) override = 0; // 4
+        IShader *owner() override = 0;// 5
+        void set(double) override = 0;// 6
     };
 }

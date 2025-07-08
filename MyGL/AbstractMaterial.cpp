@@ -26,7 +26,7 @@ namespace MyGL {
     }
 
 
-    IRender *AbstractMaterial::render() {
+    IRender &AbstractMaterial::render() {
         return this->mscene.render();
     }
 
@@ -36,7 +36,7 @@ namespace MyGL {
 
     bool AbstractMaterial::operator>(IMaterial &other) {
         if (!this->technique())
-            return 0;
+            return false;
         if (other.technique())
             return this > &other;
         return 1;

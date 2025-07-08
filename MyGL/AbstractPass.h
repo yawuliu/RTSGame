@@ -19,7 +19,7 @@ namespace MyGL {
             if (!obj.material()->technique()->passEvent(const_cast<const T *>(this)))
                 return false;
 
-            this->scene().render()->draw(obj);
+            this->scene().render().draw(obj);
             obj.material()->technique()->completeDraw(this);
             return true;
         }

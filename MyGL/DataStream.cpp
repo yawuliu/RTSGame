@@ -4,7 +4,7 @@
 
 namespace MyGL {
     DataStream::DataStream(IData &d, IShaderEnvironment *e) {
-        this->data = d;
+        this->data = &d;
         this->env = e;
     }
 

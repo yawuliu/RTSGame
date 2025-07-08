@@ -22,22 +22,22 @@ namespace MyGL {
 
     class AbstractTechnique : public ITechnique {
     public:
-        AbstractTechnique(IScene &s);
+        explicit AbstractTechnique(IScene &s);
 
-        virtual ~AbstractTechnique() = default; // 0
+        ~AbstractTechnique() override = default; // 0
 
         //virtual ~AbstractTechnique()= default; // 1
-        virtual void bind() override; // 2
+        virtual void bind() override = 0; // 2
 
-        virtual void setUniforms() override; // 3
+        virtual void setUniforms() override = 0; // 3
 
-        virtual void uBind() override; // 4
+        virtual void uBind() override = 0; // 4
 
-        virtual const IShader *currentShader() override; // 5
+        virtual const IShader *currentShader() override = 0; // 5
 
-        virtual const IShader *cmpShader() const override; // 6
+        virtual const IShader *cmpShader() const override = 0; // 6
 
-        virtual const IRenderState *renderState() override; // 7
+        virtual const IRenderState *renderState() override = 0; // 7
 
         // virtual void renderState(); // 8
 
@@ -47,29 +47,29 @@ namespace MyGL {
 
         virtual void completeDraw(IRenderPass const *) override;// 11
 
-        virtual bool passEvent(AddBlendPass const *) override;// 12
+        bool passEvent(AddBlendPass const *) override;// 12
 
-        virtual void completeDraw(AddBlendPass const *) override;// 13
+        void completeDraw(AddBlendPass const *) override;// 13
 
-        virtual bool passEvent(ColorPass const *) override;// 14
+        bool passEvent(ColorPass const *) override;// 14
 
-        virtual void completeDraw(ColorPass const *) override;// 15
+        void completeDraw(ColorPass const *) override;// 15
 
-        virtual bool passEvent(ShadowPass const *) override;// 16
+        bool passEvent(ShadowPass const *) override;// 16
 
-        virtual void completeDraw(ShadowPass const *) override;// 17
+        void completeDraw(ShadowPass const *) override;// 17
 
-        virtual bool passEvent(TransparentPass const *) override;// 18
+        bool passEvent(TransparentPass const *) override;// 18
 
-        virtual void completeDraw(TransparentPass const *) override;// 19
+        void completeDraw(TransparentPass const *) override;// 19
 
-        virtual bool passEvent(DepthPass const *) override;// 20
+        bool passEvent(DepthPass const *) override;// 20
 
-        virtual void completeDraw(DepthPass const *) override;// 21
+        void completeDraw(DepthPass const *) override;// 21
 
-        virtual bool passEvent(GlowPass const *) override;// 22
+        bool passEvent(GlowPass const *) override;// 22
 
-        virtual void completeDraw(GlowPass const *) override;// 23
+        void completeDraw(GlowPass const *) override;// 23
 
         IRender *render();
 

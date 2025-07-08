@@ -5,16 +5,16 @@
 #include "IGraphicsObject.h"
 
 namespace MyGL {
-	class DepthPass : public AbstractPass {
-	public:
-		DepthPass(IScene& s);
+    class DepthPass : public AbstractPass {
+    public:
+        explicit DepthPass(IScene &s);
 
-		virtual ~DepthPass() = default;
+        ~DepthPass() override = default;
 
-		virtual void exec() override;
+        void exec() override;
 
-		virtual IRenderPass::Pass::Type type() override;
+        IRenderPass::Pass::Type type() override;
 
-		bool isDrawable(IGraphicsObject& obj);
-	};
+        bool isDrawable(IGraphicsObject &obj);
+    };
 }

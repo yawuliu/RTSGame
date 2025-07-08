@@ -1,6 +1,7 @@
 #include "Adapter.h"
 #include "Texture2d.h"
 #include "IData.h"
+#include "IErrorControl.h"
 
 namespace MyGL {
     Adapter::Adapter(IScene &s) : _scene(s) {
@@ -33,7 +34,7 @@ namespace MyGL {
 
     ITexture2d *Adapter::getRandTexture() {
         ITexture2d *re = this->scene().dataControl()->texture("rand4x4");
-        this->scene().render()->gl()->errorCtrl()->warning(
+        this->scene().render().gl()->errorCtrl()->warning(
                 re != 0LL,
                 "rand4x4 not found");
         return re;
@@ -58,7 +59,7 @@ namespace MyGL {
 
     IShader *Adapter::returnShader(const std::string &d) {
         IShader *s = this->scene().dataControl()->shader(d);
-        this->scene().render()->gl()->errorCtrl()->warning(s != 0LL, "");
+        this->scene().render().gl()->errorCtrl()->warning(s != 0LL, "");
         return s;
     }
 

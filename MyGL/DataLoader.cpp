@@ -8,17 +8,17 @@
 namespace MyGL {
     DataLoader::DataLoader(IRender &r) : render(r) {
         this->textureAllocator = new Allocator<Texture2d, ITexture2d>();
-        this->textureLoad = 0LL;
+        this->textureLoad = nullptr;
         this->modelAllocator = new Allocator<Model, IModel>();;
-        this->modelLoad = 0LL;
-        this->shaderAllocator = 0LL;
-        this->shaderLoad = 0LL;
+        this->modelLoad = nullptr;
+        this->shaderAllocator = nullptr;
+        this->shaderLoad = nullptr;
     }
 
     DataLoader::~DataLoader() {
-        this->setTextureAllocator(0LL);
-        this->setModelAllocator(0LL);
-        this->setShaderAllocator(0LL);
+        this->setTextureAllocator(nullptr);
+        this->setModelAllocator(nullptr);
+        this->setShaderAllocator(nullptr);
 
     }
 

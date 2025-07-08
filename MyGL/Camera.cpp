@@ -46,14 +46,14 @@ namespace MyGL {
         D = D * (1.0 / v5);
     }
 
-    Camera *Camera::operator=(const Camera &c) {
+    Camera &Camera::operator=(const Camera &c) {
         this->setPos(c.x(), c.y(), c.z(), 1.0);
         this->setAngles(c.rotXY(), c.rotXZ(), 1.0);
         c.zoom();
         this->setZoom();
         this->setDistance(c.distance(), 1.0);
         this->setPrespective(c.isPrespective());
-        return this;
+        return *this;
     }
 
     CGL::GLdouble Camera::po(CGL::GLdouble x, CGL::GLdouble y, CGL::GLdouble z, CGL::GLdouble X,

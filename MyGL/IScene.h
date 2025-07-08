@@ -4,11 +4,10 @@
 #include "IGraphicsObject.h"
 #include "IMaterial.h"
 #include "IRender.h"
+#include "ISceneGraph.h"
 
 namespace MyGL {
     class IData;
-
-    class ISceneGraph;
 
     class IRenderAlgoSettings;
 
@@ -38,7 +37,7 @@ namespace MyGL {
         virtual ITextureLoader *textureLoader() = 0;//5
         virtual IShaderLoader *shaderLoader() = 0; //6
         virtual IModelLoader *modelLoader() = 0;//7
-        virtual ISceneGraph *graph() = 0;//8
+        virtual ISceneGraph &graph() = 0;//8
         virtual IObjectCollection *objects() = 0;//9
         virtual void insertObject(IGraphicsObject &) = 0;//10
         virtual void removeObject(IGraphicsObject &) = 0;//11

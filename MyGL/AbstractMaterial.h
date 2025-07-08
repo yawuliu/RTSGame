@@ -8,9 +8,9 @@ namespace MyGL {
 
     class AbstractMaterial : public IMaterial {
     public:
-        AbstractMaterial(IScene &r);
+        explicit AbstractMaterial(IScene &r);
 
-        virtual ~AbstractMaterial() = default;
+        ~AbstractMaterial() override = default;
 
         bool drawEvent(IGraphicsObject const &o) override;
 
@@ -24,7 +24,7 @@ namespace MyGL {
 
         bool less(ITechnique const &t, ITechnique const &t2);
 
-        IRender *render();
+        IRender &render();
 
         IScene &scene();
 

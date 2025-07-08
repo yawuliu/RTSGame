@@ -15,7 +15,7 @@ namespace MyGL {
         public:
             Visibles(ISceneGraph &);
 
-            IGraphicsObject *operator[](int i);
+            IGraphicsObject &operator[](int i);
 
             size_t size();
 

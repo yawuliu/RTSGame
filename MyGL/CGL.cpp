@@ -26,7 +26,7 @@ namespace MyGL {
 
     void CGL::createExtObject(CGL &glD) {
         if (!glD.gLSupport) {
-            glD.gLSupport = new privateGLSupportClass(gLSupport, glD);;
+            glD.gLSupport = new privateGLSupportClass(glD);;
         }
     }
 
@@ -140,8 +140,6 @@ namespace MyGL {
     }
 
     void CGL::setErrorCtrl(IErrorControl *e) {
-        ErrorControl *eCtrl;
-
         if (e) {
             if (this->eCtrl)
                 delete this->eCtrl;

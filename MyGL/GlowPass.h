@@ -16,7 +16,7 @@ namespace MyGL {
     public:
         class Data {
         public:
-            Data(IScene &a2) = default;
+            explicit Data(IScene &a2) = default;
 
         public:
             BloomPass *blur;
@@ -24,13 +24,13 @@ namespace MyGL {
         };
 
     public:
-        GlowPass(IScene &s, const Adapter &adapter, ITextureRectangle *depth);
+        GlowPass(IScene &s, Adapter &adapter, ITextureRectangle *depth);
 
-        virtual ~GlowPass();
+        ~GlowPass() override;
 
-        virtual void exec() override;
+        void exec() override;
 
-        virtual IRenderPass::Pass::Type type() override;
+        IRenderPass::Pass::Type type() override;
 
         bool validate();
 

@@ -21,10 +21,10 @@ namespace MyGL {
         virtual void uBind() = 0;// 4
         virtual ITechnique *technique() = 0;// 5
         // virtual ITechnique* technique() = 0;// 6
-        virtual bool operator<(IMaterial const &) = 0;// 7
-        virtual bool operator>(IMaterial const &) = 0;// 8
+        virtual bool operator<(IMaterial &) = 0;// 7
+        virtual bool operator>(IMaterial &) = 0;// 8
         virtual const ITexture *getTexture(uint32_t) = 0;// 9
-        virtual const IRenderState *renderState() = 0;// 10
+        virtual IRenderState *renderState() = 0;// 10
         //  virtual const IRenderState *  renderState() = 0;// 11
         virtual bool drawEvent(IGraphicsObject const &) = 0;// 12
     };

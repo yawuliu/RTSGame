@@ -26,7 +26,7 @@ namespace MyGL {
         };
 
     public:
-        BloomPass(IScene &s, const gadapter &adapter, ITextureRectangle *in);
+        BloomPass(IScene &s, const Adapter &adapter, ITextureRectangle *in);
 
         virtual ~BloomPass();
 

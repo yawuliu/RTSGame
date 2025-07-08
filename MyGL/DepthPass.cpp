@@ -8,8 +8,8 @@ namespace MyGL {
     }
 
     void DepthPass::exec() {
-        ISceneGraph::Visibles obj(this->scene()->graph());
-        this->scene().render()->begin();
+        ISceneGraph::Visibles obj(this->scene().graph());
+        this->scene().render().begin();
         for (int i = 0;; ++i) {
             if (obj.size() <= i)
                 break;
@@ -17,7 +17,7 @@ namespace MyGL {
                 this->drawObject(obj[i]);
             }
         }
-        this->scene().render()->end();
+        this->scene().render().end();
     }
 
     IRenderPass::Pass::Type DepthPass::type() {
