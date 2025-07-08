@@ -24,9 +24,31 @@ namespace MyGL {
         class Point {
         public:
             CGL::GLfloat *d;
-            CGL::GLfloat *const x;
-            CGL::GLfloat *const y;
-            CGL::GLfloat *const z;
+            CGL::GLfloat x;
+            CGL::GLfloat y;
+            CGL::GLfloat z;
+        public:
+            Point(MyGL::CGL::GLfloat *src) {
+                this->d = src;
+                this->x = this->d[0];
+                this->y = this->d[1];
+                this->z = this->d[2];
+            }
+
+            MyGL::CGL::GLfloat *data() {
+                return this->d;
+            }
+
+            Point &operator=(const Point &other) {
+                this->x = other.x;
+                this->y = other.y;
+                this->z = other.z;
+                return *this;
+            }
+
+            MyGL::CGL::GLfloat *operator[](int id) {
+                return &this->d[id];
+            }
         };
 
         typedef Point Normal;

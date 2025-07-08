@@ -23,7 +23,7 @@ namespace MyGL {
 
         IRenderPass::Pass::Type type() override;//3
         virtual ITextureRectangle *output();//4
-        virtual void makeAlgo(MainPass &mp, std::vector<IRenderPass *> &passes, const Adapter &adapter);//5
+        virtual void makeAlgo(std::vector<IRenderPass *> &passes, const Adapter &adapter);//5
 
         void buildQuad(int w, int h);
 

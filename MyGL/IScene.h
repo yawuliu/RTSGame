@@ -33,7 +33,7 @@ namespace MyGL {
         virtual ~IScene() = default; // 0
         // virtual void ~IScene() = 0; // 1
         virtual IData *dataControl() = 0; // 2
-        virtual IRender *render() = 0; // 3
+        virtual IRender &render() = 0; // 3
         // virtual void render() = 0; // 4
         virtual ITextureLoader *textureLoader() = 0;//5
         virtual IShaderLoader *shaderLoader() = 0; //6

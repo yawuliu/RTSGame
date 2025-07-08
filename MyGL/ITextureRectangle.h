@@ -17,7 +17,7 @@ namespace MyGL {
         virtual CGL::TextureHandle *getHandle() = 0;// 5
         virtual void setFiltration(ITexture::FilterType::Type, ITexture::FilterType::Type) = 0;// 6
         virtual void
-        load(void const *, ITexture::InputFormat::Type, uint32_t, uint32_t, ITexture::Format::Type) = 0;// 7
+        load(const void *pixels, ITexture::InputFormat::Type, uint32_t pw, uint32_t ph, ITexture::Format::Type) = 0;// 7
         virtual uint32_t width() = 0;// 8
         virtual uint32_t height() = 0;// 9
     };
