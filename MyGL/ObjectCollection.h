@@ -22,11 +22,12 @@ namespace MyGL {
             std::vector<IGraphicsObject *>::iterator beginI;
         };
 
-        class Iterator {
+        class Iterator : public IIterator {
         public:
             class pimpl {
             public:
                 pimpl() = default;
+
 
             public:
                 std::vector<IGraphicsObject *>::iterator it;
@@ -37,25 +38,45 @@ namespace MyGL {
 
             Iterator(ObjectCollection &i);
 
-            virtual ~Iterator();
+            ~Iterator() override = default; //0
+            // virtual ~Iterator() = default; // 1
+            void get() override; // 2
 
-            void dec();
+            void operator++() override; // 3
 
-            IGraphicsObject *get();
+            void operator--() override; // 4
 
-            bool hasNext();
+            void inc() override; // 5
 
-            bool hasPrevious();
+            void dec() override; // 6
 
-            void inc();
+            void hasNext() override; // 7
 
-            void operator++();
+            void hasPrevious() override; // 8
 
-            void operator--();
+            void setBegin() override; // 9
 
-            void setBegin();
+            void setEnd() override; // 10
 
-            void setEnd();
+//            virtual ~Iterator();
+//
+//            void dec();
+//
+//            IGraphicsObject *get();
+//
+//            bool hasNext();
+//
+//            bool hasPrevious();
+//
+//            void inc();
+//
+//            void operator++();
+//
+//            void operator--();
+//
+//            void setBegin();
+//
+//            void setEnd();
 
         public:
             ObjectCollection::Iterator::pimpl *data;

@@ -28,7 +28,7 @@ namespace MyGL {
         GLenum depthFormat;
 
         if (this->w > 0x84E7 || this->h > 0x84E7)
-            return 0;
+            return false;
         this->ext->glGenFramebuffersEXT(1LL, &this->frameBuffer);
         this->ext->glBindFramebufferEXT(36160LL, this->frameBuffer);
         depthFormat = 0;
@@ -110,16 +110,16 @@ namespace MyGL {
 
     bool FBO::bind() {
         if (!this->frameBuffer)
-            return 0;
+            return false;
         this->ext->glBindFramebufferEXT(36160LL, this->frameBuffer);
-        return 1;
+        return true;
     }
 
     bool FBO::unbind() {
         if (!this->frameBuffer)
-            return 0;
+            return false;
         this->ext->glBindFramebufferEXT(36160LL, 0LL);
-        return 1;
+        return true;
     }
 
     bool FBO::attachColorTexture(ITexture2d *target, int no) {
@@ -127,11 +127,11 @@ namespace MyGL {
         GLuint *v5;
 
         if (!this->frameBuffer)
-            return 0;
+            return false;
         glFramebufferTexture2DEXT = this->ext->glFramebufferTexture2DEXT;
         v5 = target->getHandle();
         glFramebufferTexture2DEXT(36160LL, no + 36064, 3553LL, *v5, 0LL);
-        return 1;
+        return true;
     }
 
     bool FBO::attachDepthTexture(ITexture2d *target) {
@@ -139,11 +139,11 @@ namespace MyGL {
         GLuint *v4;
 
         if (!this->frameBuffer)
-            return 0;
+            return false;
         glFramebufferTexture2DEXT = this->ext->glFramebufferTexture2DEXT;
         v4 = target->getHandle();
         glFramebufferTexture2DEXT(36160LL, 36096LL, 3553LL, *v4, 0LL);
-        return 1;
+        return true;
     }
 
     bool FBO::attachColorTexture(ITextureRectangle *target, int no) {
@@ -151,11 +151,11 @@ namespace MyGL {
         GLuint *v5;
 
         if (!this->frameBuffer)
-            return 0;
+            return false;
         glFramebufferTexture2DEXT = this->ext->glFramebufferTexture2DEXT;
         v5 = target->getHandle();
         glFramebufferTexture2DEXT(36160LL, no + 36064, 34037LL, *v5, 0LL);
-        return 1;
+        return true;
     }
 
     bool FBO::attachDepthTexture(ITextureRectangle *target) {
@@ -163,11 +163,11 @@ namespace MyGL {
         GLuint *v4;
 
         if (!this->frameBuffer)
-            return 0;
+            return false;
         glFramebufferTexture2DEXT = this->ext->glFramebufferTexture2DEXT;
         v4 = target->getHandle();
         glFramebufferTexture2DEXT(36160LL, 36096LL, 34037LL, *v4, 0LL);
-        return 1;
+        return true;
     }
 
     int FBO::maxColorAttachemnts() {
@@ -195,15 +195,15 @@ namespace MyGL {
 
     bool FBO::detachColorTexture(int no) {
         if (!this->frameBuffer)
-            return 0;
+            return false;
         this->ext->glFramebufferTexture2DEXT(36160LL, no + 36064, 3553LL, 0LL, 0LL);
-        return 1;
+        return true;
     }
 
     bool FBO::detachDepthTexture() {
         if (!this->frameBuffer)
-            return 0;
+            return false;
         this->ext->glFramebufferTexture2DEXT(36160LL, 36096LL, 3553LL, 0LL, 0LL);
-        return 1;
+        return true;
     }
 }

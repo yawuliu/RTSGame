@@ -36,7 +36,7 @@ namespace MyGL {
 
         void set(ChanelType r, ChanelType g, ChanelType b, ChanelType a);
 
-    protected:
+    public:
         ChanelType cdata[4];
     };
 }

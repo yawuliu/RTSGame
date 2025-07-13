@@ -24,9 +24,9 @@ namespace MyGL {
 
     class GraphicsObject : public IGraphicsObject {
     public:
-        GraphicsObject(IScene &s);
+        explicit GraphicsObject(IScene &s);
 
-        GraphicsObject(IScene *s);
+        explicit GraphicsObject(IScene *s);
 
         ~GraphicsObject() override;
 
@@ -36,7 +36,7 @@ namespace MyGL {
 
         IMaterial *material() override;
 
-        virtual IModel *model() override;
+        IModel *model() override;
 
         const IModelInfo *modelInfo() override;
 

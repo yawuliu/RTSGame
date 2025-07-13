@@ -38,9 +38,9 @@ namespace MyGL {
         };
 
     public:
-        Filter(IScene &s);
+        explicit Filter(IScene &s);
 
-        virtual ~Filter();
+        ~Filter() override;
 
         virtual void exec() override;
 

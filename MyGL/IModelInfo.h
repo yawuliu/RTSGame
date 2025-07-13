@@ -17,7 +17,7 @@ namespace MyGL {
         virtual double maxZ() = 0; // 7
         virtual double radius() = 0; // 8
         virtual void updateFrom(IIOModel &) = 0; // 9
-        virtual IModelInfo &operator=(IModelInfo const &) = 0; // 10
+        virtual IModelInfo &operator=(IModelInfo &) = 0; // 10
     };
 }
 

@@ -13,7 +13,7 @@ namespace MyGL {
 
         ~ModelInfo() override = default;
 
-        IModelInfo &operator=(IModelInfo const &m) override;
+        IModelInfo &operator=(IModelInfo &m) override;
 
         double minX() override;
 

@@ -57,6 +57,6 @@ namespace MyGL {
         uint32_t frameBuffer;
         uint32_t depthBuffer;
         uint32_t stencilBuffer;
-        privateGLSupportClass &ext;
+        privateGLSupportClass *ext;
     };
 }

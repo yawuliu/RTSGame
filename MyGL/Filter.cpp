@@ -7,10 +7,10 @@ namespace MyGL {
 
     Filter::Filter(IScene &s) : AbstractPass(s) {
         this->data = new Data();
-        this->data->renderState.setZTest(0);
-        this->data->renderState.setZWriting(0);
-        this->data->quad = 0LL;
-        this->data->shader = 0LL;
+        this->data->renderState.setZTest(false);
+        this->data->renderState.setZWriting(false);
+        this->data->quad = nullptr;
+        this->data->shader = nullptr;
     }
 
     Filter::~Filter() {
@@ -30,34 +30,34 @@ namespace MyGL {
             }
             return sm;
         } else {
-            this->scene().render()->gl()->errorCtrl()->warning(0LL, "[Filter::addArgs]null shader");
-            return 0LL;
+            this->scene().render().gl()->errorCtrl()->warning(false, "[Filter::addArgs]null shader");
+            return nullptr;
         }
     }
 
     IUniformSampler *Filter::addArgs(const std::string &name, ITexture *u) {
         if (this->data->shader) {
-            return this->addArgs(this->data->shader->uniformSampler(name), u);
+            return this->addArgs(this->data->shader->uniformSampler(name.c_str()), u);
         } else {
-            this->scene().render()->gl()->errorCtrl()->warning(0LL, "[Filter::addArgs]null shader");
-            return 0LL;
+            this->scene().render().gl()->errorCtrl()->warning(false, "[Filter::addArgs]null shader");
+            return nullptr;
         }
     }
 
     void Filter::exec() {
         if (this->data->shader && this->data->quad && this->data->shader) {
-            this->scene().render()->setRenderState(this->data);
-            this->scene().render()->begin();
-            this->scene().render()->useShader(this->data->shader);
+            this->scene().render().setRenderState(this->data);
+            this->scene().render().begin();
+            this->scene().render().useShader(this->data->shader);
             for (auto &&i = this->data->args.begin();; i++) {
                 if (i == this->data->args.end())
                     break;
-                this->scene().render()->bindTexture(i->first, i->second);
+                this->scene().render().bindTexture(i->first, i->second);
             }
-            this->scene().render()->drawModel(this->data->quad);
-            this->scene().render()->end();
+            this->scene().render().drawModel(this->data->quad);
+            this->scene().render().end();
         } else {
-            this->scene().render()->gl()->errorCtrl()->warning(0LL, "Filter is incomplete");
+            this->scene().render().gl()->errorCtrl()->warning(false, "Filter is incomplete");
         }
     }
 

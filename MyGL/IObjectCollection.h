@@ -11,7 +11,25 @@ namespace MyGL {
         public:
             IIterator() = default;
 
-            virtual ~IIterator() = default;
+            virtual ~IIterator() = default; //0
+            // virtual ~IIterator() = default; // 1
+            virtual void get() = 0; // 2
+
+            virtual void operator++() = 0; // 3
+
+            virtual void operator--() = 0; // 4
+
+            virtual void inc() = 0; // 5
+
+            virtual void dec() = 0; // 6
+
+            virtual void hasNext() = 0; // 7
+
+            virtual void hasPrevious() = 0; // 8
+
+            virtual void setBegin() = 0; // 9
+
+            virtual void setEnd() = 0; // 10
         };
 
     public:
