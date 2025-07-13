@@ -40,7 +40,7 @@ namespace MyGL {
 
             virtual GLfloat *operator[](uint32_t) = 0; // 2
 
-            virtual size_t size();//3
+            virtual size_t size() = 0;//3
         };
 
     public:
@@ -63,7 +63,7 @@ namespace MyGL {
         virtual void free() = 0; // 8
 
         virtual IPointer *pointerToData() = 0; // 9
-        
+
 
     };
 }

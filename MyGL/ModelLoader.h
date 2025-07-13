@@ -10,9 +10,9 @@
 namespace MyGL {
     class ModelLoader : public IModelLoader {
     public:
-        ModelLoader(IRender &r);
+        explicit ModelLoader(IRender &r);
 
-        virtual ~ModelLoader() = default;//0
+        ~ModelLoader() override = default;//0
         //1
         IModel *load(IModel &taget, const char *fileName, bool *ok); // 2
 

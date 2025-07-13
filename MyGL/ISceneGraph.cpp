@@ -5,7 +5,7 @@ namespace MyGL {
         this->count = this->graph.visiblesCount();
     }
 
-    IGraphicsObject *ISceneGraph::Visibles::operator[](int id) {
+    IGraphicsObject &ISceneGraph::Visibles::operator[](int id) {
         return this->graph.visible(id);
     }
 

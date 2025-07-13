@@ -13,7 +13,7 @@ namespace MyGL {
         //1
         class Visibles {
         public:
-            Visibles(ISceneGraph &);
+            explicit Visibles(ISceneGraph &);
 
             IGraphicsObject &operator[](int i);
 
@@ -38,7 +38,7 @@ namespace MyGL {
 
         virtual void updateVisible() = 0;//8
 
-        virtual IGraphicsObject *visible(int) = 0;//9
+        virtual IGraphicsObject &visible(int) = 0;//9
 
         virtual int visiblesCount() = 0;//10
 

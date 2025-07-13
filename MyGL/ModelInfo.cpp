@@ -13,7 +13,7 @@ namespace MyGL {
         this->updateFrom(m);
     }
 
-    IModelInfo &ModelInfo::operator=(IModelInfo &m) {
+    ModelInfo &ModelInfo::operator=(IModelInfo &m) {
         // 直接使用浮点变量存储边界值
         float maxX = m.maxX();
         float maxY = m.maxY();
@@ -71,10 +71,10 @@ namespace MyGL {
             for (int i_1 = 0;; i_1 += 3) {
                 if (3 * m.size() <= i_1)
                     break;
-                for (int r = 0; r <= 2; ++r) {
-                    double p = *(float *) (4LL * (i_1 + r) + m.points());
-                    this->minD[r] = std::min<double>(this->minD[r], p);
-                    this->maxD[r] = std::max<double>(this->maxD[r], p);
+                for (int j = 0; j <= 2; ++j) {
+                    double p = *(float *) (4LL * (i_1 + j) + m.points());
+                    this->minD[j] = std::min<double>(this->minD[j], p);
+                    this->maxD[j] = std::max<double>(this->maxD[j], p);
                 }
             }
             for (int i_2 = 0; i_2 <= 2; ++i_2)

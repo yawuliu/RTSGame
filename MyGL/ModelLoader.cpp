@@ -11,10 +11,12 @@ namespace MyGL {
         if (!model.load(fileName)) {
             if (ok)
                 *ok = 0;
-            this->render.gl()->errorCtrl()->loadError(this, &model, "[Error]:IOModel load error: \n" + fileName);
+            this->render.gl()->errorCtrl()->loadError(this, &model, (std::string("[Error]:IOModel load error: \n") +
+                                                                     fileName).c_str());
         } else {
             if (!model.size()) {
-                this->render.gl()->errorCtrl()->loadError(this, &model, "[Warning]:IOModel is NULL: \n" + fileName);
+                this->render.gl()->errorCtrl()->loadError(this, &model, (std::string("[Warning]:IOModel is NULL: \n") +
+                                                                         fileName).c_str());
             }
             taget.load(model);
         }
@@ -26,12 +28,14 @@ namespace MyGL {
         if (!model.loadBin_v0(fileName)) {
             if (ok)
                 *ok = 0;
-            this->render.gl()->errorCtrl()->loadError(this, &model, "[Error]:IOModel load error: \n" + fileName);
+            this->render.gl()->errorCtrl()->loadError(this, &model, (std::string("[Error]:IOModel load error: \n") +
+                                                                     fileName).c_str());
         } else {
             if (ok)
                 *ok = 1;
             if (!model.size()) {
-                this->render.gl()->errorCtrl()->loadError(this, &model, "[Warning]:IOModel is NULL: \n" + fileName);
+                this->render.gl()->errorCtrl()->loadError(this, &model, (std::string("[Warning]:IOModel is NULL: \n") +
+                                                                         fileName).c_str());
             }
             taget.load(model);
         }

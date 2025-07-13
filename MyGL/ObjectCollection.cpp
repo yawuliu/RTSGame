@@ -6,7 +6,6 @@ namespace MyGL {
     }
 
     ObjectCollection::ObjectCollection(IScene &s) : scene(s) {
-        this->IObjectCollection = (IObjectCollection)((char *)&RTTI_ObjectCollection::vftable + 16);
         this->scene = s;
         this->data = new pimpl();
     }
@@ -24,33 +23,27 @@ namespace MyGL {
     }
 
     void ObjectCollection::onChangeMaterialObject(IGraphicsObject &obj, IMaterial &a3) {
-        (*((void (__fastcall **)(ObjectCollection *const, IGraphicsObject *const))this->_vptr_IObjectCollection + 3))(
-                this,
-                obj);
-        (*((void (__fastcall **)(ObjectCollection *const, IGraphicsObject *const))this->_vptr_IObjectCollection + 2))(
-                this,
-                obj);
+       this->delObject(obj);
+       this->addObject(obj);
     }
 
     bool ObjectCollection::less(IGraphicsObject *obj1, IGraphicsObject *obj2) {
-
-
-        if ( !(*((__int64 (__fastcall **)(IGraphicsObject *))obj1->_vptr_IGraphicsObject + 3))(obj1) )
+        if ( !obj1->delObject() )
             return 0;
-        if ( !(*((__int64 (__fastcall **)(IGraphicsObject *))obj2->_vptr_IGraphicsObject + 3))(obj2) )
+        if ( !obj2->delObject() )
             return 1;
-        v4 = (*((__int64 (__fastcall **)(IGraphicsObject *))obj1->_vptr_IGraphicsObject + 3))(obj1);
+        v4 = obj1->delObject();
         v5 = *(unsigned __int8 (__fastcall **)(__int64, __int64))(*(_QWORD *)v4 + 56LL);
-        v6 = (*((__int64 (__fastcall **)(IGraphicsObject *))obj2->_vptr_IGraphicsObject + 3))(obj2);
+        v6 = obj2->delObject();
         if ( v5(v4, v6) )
             return 1;
-        v7 = (*((__int64 (__fastcall **)(IGraphicsObject *))obj2->_vptr_IGraphicsObject + 3))(obj2);
+        v7 = obj2->delObject();
         v8 = *(unsigned __int8 (__fastcall **)(__int64, __int64))(*(_QWORD *)v7 + 56LL);
-        v9 = (*((__int64 (__fastcall **)(IGraphicsObject *))obj1->_vptr_IGraphicsObject + 3))(obj1);
+        v9 = obj1->delObject();
         if ( v8(v7, v9) )
             return 0;
-        v10 = (*((__int64 (__fastcall **)(IGraphicsObject *))obj1->_vptr_IGraphicsObject + 7))(obj1);
-        return v10 < (*((__int64 (__fastcall **)(IGraphicsObject *))obj2->_vptr_IGraphicsObject + 7))(obj2);
+        v10 = obj1->end();
+        return v10 < obj2->end();
     }
 
     IObjectCollection::IIterator *ObjectCollection::end(ObjectCollection &c) {
@@ -67,28 +60,18 @@ namespace MyGL {
             {
                 if ( mv )
                 {
-                    v2 = std::vector<IGraphicsObject *>::operator[](
-                            (std::vector<IGraphicsObject*>_0 *const)this->data,
-                            i);
-                    *v2 = *std::vector<IGraphicsObject *>::operator[](
-                            (std::vector<IGraphicsObject*>_0 *const)this->data,
-                            i + 1);
+                    v2 = this->data[i];
+                    *v2 =this->data[i + 1];
                 }
-                else if ( *std::vector<IGraphicsObject *>::operator[](
-                        (std::vector<IGraphicsObject*>_0 *const)this->data,
-                        i) == it )
+                else if ( this->data[i] == it )
                 {
                     mv = 1;
-                    v3 = std::vector<IGraphicsObject *>::operator[](
-                            (std::vector<IGraphicsObject*>_0 *const)this->data,
-                            i);
-                    *v3 = *std::vector<IGraphicsObject *>::operator[](
-                            (std::vector<IGraphicsObject*>_0 *const)this->data,
-                            i + 1);
+                    v3 = this->data,[i];
+                    *v3 = this->data[i + 1];
                 }
             }
-            if ( mv || *std::vector<IGraphicsObject *>::back(&this->data->items) == it )
-                std::vector<IGraphicsObject *>::pop_back(&this->data->items);
+            if ( mv || this->data->items.back() == it )
+                this->data->items.pop_back();
             data = this->data;
             data->endI._M_current = std::vector<IGraphicsObject *>::end((std::vector<IGraphicsObject*>_0 *const)data)._M_current;
             this->data->beginI._M_current = std::vector<IGraphicsObject *>::begin((std::vector<IGraphicsObject*>_0 *const)this->data)._M_current;
@@ -102,26 +85,17 @@ namespace MyGL {
     void ObjectCollection::addObject(IGraphicsObject &it) {
         if ( (*(__int64 (__fastcall **)(IGraphicsObject *const))(*(_QWORD *)it + 24LL))(it) )
         {
-            __x = it;
-            std::vector<IGraphicsObject *>::push_back((std::vector<IGraphicsObject*>_0 *const)this->data, &__x);
+            this->data.push_back(it);
             mv = 1;
             for (int i = this->data->size() - 1; i > 0; --i )
             {
-                obj2 = *std::vector<IGraphicsObject *>::operator[](
-                        (std::vector<IGraphicsObject*>_0 *const)this->data,
-                        i - 1);
-                obj1 = *std::vector<IGraphicsObject *>::operator[](
-                        (std::vector<IGraphicsObject*>_0 *const)this->data,
-                        i);
-                mv = ObjectCollection::less(this, obj1, obj2);
+                obj2 = this->data[i - 1];
+                obj1 = this->data[i];
+                mv = this->less(obj1, obj2);
                 if ( mv )
                 {
-                    __b = std::vector<IGraphicsObject *>::operator[](
-                            (std::vector<IGraphicsObject*>_0 *const)this->data,
-                            i - 1);
-                    __a = std::vector<IGraphicsObject *>::operator[](
-                            (std::vector<IGraphicsObject*>_0 *const)this->data,
-                            i);
+                    __b = this->data[i - 1];
+                    __a = this->data[i];
                     std::swap<IGraphicsObject *>(__a, __b);
                 }
             }
@@ -136,17 +110,12 @@ namespace MyGL {
     }
 
     ObjectCollection::Iterator::Iterator(ObjectCollection::Iterator &c) {
-        this->IIterator();
-        this->IObjectCollection::IIterator = (IObjectCollection::IIterator)((char *)&RTTI_ObjectCollection::Iterator::vftable
-                                                                                        + 16);
         this->data = new pimpl();
-        this->owner = (void *)*((_QWORD *)i + 2);
+        this->owner = c.owner;
         this->setBegin();
     }
 
-    ObjectCollection::Iterator::Iterator(ObjectCollection &i) {
-        this->IObjectCollection::IIterator = (IObjectCollection::IIterator)((char *)&RTTI_ObjectCollection::Iterator::vftable
-                                                                                        + 16);
+    ObjectCollection::Iterator::Iterator(ObjectCollection &c) {
         this->data = new pimpl();
         this->owner = c;
         this->setBegin();
@@ -162,14 +131,12 @@ namespace MyGL {
     }
 
     bool ObjectCollection::Iterator::hasNext() {
-        return __gnu_cxx::operator!=<IGraphicsObject **,std::vector<IGraphicsObject *>>(
-                (const __gnu_cxx::__normal_iterator<IGraphicsObject**,std::vector<IGraphicsObject*> > *const)this->data,
+        return this->data!=
                 (const __gnu_cxx::__normal_iterator<IGraphicsObject**,std::vector<IGraphicsObject*> > *const)(*((_QWORD *)this->owner + 2) + 24LL));
     }
 
     bool ObjectCollection::Iterator::hasPrevious() {
-        return __gnu_cxx::operator!=<IGraphicsObject **,std::vector<IGraphicsObject *>>(
-                (const __gnu_cxx::__normal_iterator<IGraphicsObject**,std::vector<IGraphicsObject*> > *const)this->data,
+        return this->data !=
                 (const __gnu_cxx::__normal_iterator<IGraphicsObject**,std::vector<IGraphicsObject*> > *const)(*((_QWORD *)this->owner + 2) + 32LL));
     }
 

@@ -36,7 +36,7 @@ namespace MyGL {
         public:
             Iterator(Iterator &c);
 
-            Iterator(ObjectCollection &i);
+            explicit Iterator(ObjectCollection &i);
 
             ~Iterator() override = default; //0
             // virtual ~Iterator() = default; // 1
@@ -84,29 +84,29 @@ namespace MyGL {
         };
 
     public:
-        ObjectCollection(IScene &s);
+        explicit ObjectCollection(IScene &s);
 
-        virtual ~ObjectCollection();
+        ~ObjectCollection() override;
 
         void begin() override;
 
-        void addObject(IGraphicsObject &it);
+        void addObject(IGraphicsObject &it) override;
 
         IObjectCollection::IIterator *begin(ObjectCollection &c);
 
-        void delObject(IGraphicsObject &it);
+        void delObject(IGraphicsObject &it) override;
 
         IObjectCollection::IIterator *end(ObjectCollection &c);
 
         bool less(IGraphicsObject *obj1, IGraphicsObject *obj2);
 
-        void onChangeMaterialObject(IGraphicsObject &obj, IMaterial &a3);
+        void onChangeMaterialObject(IGraphicsObject &obj, IMaterial &a3) override;
 
-        IGraphicsObject *operator[](size_t i);
+        IGraphicsObject *operator[](size_t i) override;
 
-        void refresh();
+        void refresh() override;
 
-        size_t size();
+        size_t size() override;
 
     protected:
         IScene &scene;
