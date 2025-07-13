@@ -9,7 +9,7 @@ namespace MyGL {
     GlowPass::GlowPass(IScene &s, Adapter &adapter, ITextureRectangle *depth) : AbstractPass(s) {
         this->frame = new TextureRectangle(this->scene().render());
         this->depthBuf = depth;
-        this->frame->setFiltration(1LL, 1LL);
+        this->frame->setFiltration(ITexture::FilterType::Type::Linear, ITexture::FilterType::Type::Linear); // 1LL 1LL
         this->frameBuffer = 0LL;
         this->fakeLv = 1;
         this->resizeFrame();

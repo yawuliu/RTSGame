@@ -3,6 +3,7 @@
 
 #include "IFBO.h"
 #include "IRender.h"
+#include "privateGLSupportClass.h"
 
 namespace MyGL {
     class FBO : public IFBO {
@@ -50,12 +51,12 @@ namespace MyGL {
         virtual bool detachDepthTexture() override;
 
     protected:
-        int frameBuffer;
-        int depthBuffer;
-        int stencilBuffer;
-        int ext;
-        int w;
-        int h;
         int flags;
+        uint32_t w;
+        uint32_t h;
+        uint32_t frameBuffer;
+        uint32_t depthBuffer;
+        uint32_t stencilBuffer;
+        privateGLSupportClass &ext;
     };
 }

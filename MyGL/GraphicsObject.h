@@ -28,7 +28,7 @@ namespace MyGL {
 
         GraphicsObject(IScene *s);
 
-        virtual ~GraphicsObject();
+        ~GraphicsObject() override;
 
         void init(IScene *s);
 

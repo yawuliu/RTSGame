@@ -1,14 +1,12 @@
 #pragma once
 
 #include <cstdint>
-
+#include "privateGLSupportClass.h"
 #include "DisableCopy.h"
 #include "Data.h"
 
 namespace MyGL {
     class IErrorControl;
-
-    class privateGLSupportClass;
 
     class CGL : public DisableCopy {
     public:

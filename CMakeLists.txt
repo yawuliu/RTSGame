@@ -161,6 +161,8 @@ qt_add_executable(Game WIN32 MACOSX_BUNDLE
         MyGL/LincPass.cpp
         MyGL/TextureLoader.cpp
         MyGL/TextureLoader.h
+        MyGL/RenderAlgoSettings.cpp
+        MyGL/RenderAlgoSettings.h
 )
 target_include_directories(Game PRIVATE
         .

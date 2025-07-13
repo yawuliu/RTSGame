@@ -20,7 +20,7 @@ namespace MyGL {
         virtual void drawInstance(int, int *, int *, bool) = 0;// 7
         virtual void load(IIOModel &) = 0;// 8
         virtual void free() = 0;// 9
-        virtual const IModelInfo *cullInfo() = 0;// 10
+        virtual IModelInfo *cullInfo() = 0;// 10
     };
 }
 

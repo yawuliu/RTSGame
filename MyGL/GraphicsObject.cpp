@@ -20,10 +20,10 @@ namespace MyGL {
 
     void GraphicsObject::init(IScene *s) {
         this->scene = s;
-        this->gmodel = 0LL;
-        this->gmaterial = 0LL;
-        this->isVisible = 1;
-        this->setAlvaysVisible(0LL);
+        this->gmodel = nullptr;
+        this->gmaterial = nullptr;
+        this->isVisible = true;
+        this->setAlvaysVisible(false);
         for (int i = 0; i <= 2; ++i) {
             this->pos[i] = 0.0;
             this->angles[i] = 0.0;
@@ -118,35 +118,17 @@ namespace MyGL {
 
     void GraphicsObject::updateModelInfo() {
         if (this->gmodel) {
-            m = this->gmodel->cullInfo();
-            v1 = m->maxZ();
-            v2 = (__m128d) *(unsigned __int64 *) &this->size[2];
-            v2.m128d_f64[0] = v2.m128d_f64[0] * v1;
-            *(float *) v2.m128d_f64 = _mm_unpacklo_pd(v2, v2).m128d_f64[0];
-            Z = *(float *) v2.m128d_f64;
-            v3 = m->maxY();
-            v4 = (__m128d) *(unsigned __int64 *) &this->size[1];
-            v4.m128d_f64[0] = v4.m128d_f64[0] * v3;
-            *(float *) v4.m128d_f64 = _mm_unpacklo_pd(v4, v4).m128d_f64[0];
-            Y = *(float *) v4.m128d_f64;
-            v5 = m->maxX();
-            v6 = (__m128d) *(unsigned __int64 *) &this->size[0];
-            v6.m128d_f64[0] = v6.m128d_f64[0] * v5;
-            *(float *) v6.m128d_f64 = _mm_unpacklo_pd(v6, v6).m128d_f64[0];
-            X = *(float *) v6.m128d_f64;
-            v7 = m->minZ();
-            v8 = (__m128d) *(unsigned __int64 *) &this->size[2];
-            v8.m128d_f64[0] = v8.m128d_f64[0] * v7;
-            *(float *) v8.m128d_f64 = _mm_unpacklo_pd(v8, v8).m128d_f64[0];
-            z = *(float *) v8.m128d_f64;
-            v9 = m->minY();
-            v10 = (__m128d) *(unsigned __int64 *) &this->size[1];
-            v10.m128d_f64[0] = v10.m128d_f64[0] * v9;
-            y = _mm_unpacklo_pd(v10, v10).m128d_f64[0];
-            v11 = m->minX();
-            v12 = (__m128d) *(unsigned __int64 *) &this->size[0];
-            v12.m128d_f64[0] = v12.m128d_f64[0] * v11;
-            this->actualInfo->setBox(_mm_unpacklo_pd(v12, v12).m128d_f64[0], y, z, X, Y, Z);
+            IModelInfo *m = this->gmodel->cullInfo();
+            // 计算缩放后的包围盒值（使用标准浮点运算）
+            float minX = this->size[0] * m->minX();
+            float minY = this->size[1] * m->minY();
+            float minZ = this->size[2] * m->minZ();
+            float maxX = this->size[0] * m->maxX();
+            float maxY = this->size[1] * m->maxY();
+            float maxZ = this->size[2] * m->maxZ();
+
+            // 设置实际包围盒信息
+            this->actualInfo->setBox(minX, minY, minZ, maxX, maxY, maxZ);
         }
     }
 

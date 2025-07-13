@@ -40,28 +40,20 @@ namespace MyGL {
 					break;
 				for (int r = 0; r <= 1; ++r)
 				{
-					v23= this->texCoord((unsigned int)(i + 1));
-					v18 = *IIOModel::TexCoord::operator[](&v23, r);
-                    v24 = this->texCoord((unsigned int)i);
-					v2 = v18 - *IIOModel::TexCoord::operator[](&v24, r);
+					v18 = this->texCoord((unsigned int)(i + 1))[r];
+					v2 = v18 - this->texCoord((unsigned int)i)[r];
 					tex1[r] = v2;
-                    v25 = this->texCoord((unsigned int)(i + 2));
-					v17 = *IIOModel::TexCoord::operator[](&v25, r);
-                    v26 = this->texCoord((unsigned int)i);
-					v3 = v17 - *IIOModel::TexCoord::operator[](&v26, r);
+					v17 = this->texCoord((unsigned int)(i + 2))[r];
+					v3 = v17 - this->texCoord((unsigned int)i)[r];
 					tex2[r] = v3;
 				}
 				for (int r_0 = 0; r_0 <= 2; ++r_0)
 				{
-					v27 = this->point((unsigned int)(i + 1));
-					v16 = *IIOModel::Point::operator[](&v27, r_0);
-					v28 = this->point((unsigned int)i);
-					v4 = v16 - *IIOModel::Point::operator[](&v28, r_0);
+					v16 = this->point((unsigned int)(i + 1))[r_0];
+					v4 = v16 - this->point((unsigned int)i)[r_0];
 					pos1[r_0] = v4;
-					v29= this->point((unsigned int)(i + 2));
-					v15 = *IIOModel::Point::operator[](&v29, r_0);
-					v30= this->point((unsigned int)i);
-					v5 = v15 - *IIOModel::Point::operator[](&v30, r_0);
+					v15 = this->point((unsigned int)(i + 2))[r_0];
+					v5 = v15 - this->point((unsigned int)i)[r_0];
 					pos2[r_0] = v5;
 				}
 				if (tex2[1] == 0.0)
@@ -70,16 +62,14 @@ namespace MyGL {
 					{
 						for (int r_3 = 0; r_3 <= 2; ++r_3)
 						{
-							v33 = this->exPoint((unsigned int)i);
-							*IIOModel::Point4::operator[](&v33, r_3) = 0.0;
+                            this->exPoint((unsigned int)i)[r_3] = 0.0;
 						}
 					}
 					else
 					{
 						for ( int r_2 = 0; r_2 <= 2; ++r_2)
 						{
-							v32 = this->exPoint((unsigned int)i);
-							v7 = IIOModel::Point4::operator[](&v32, r_2);
+							v7 = this->exPoint((unsigned int)i)[r_2];
 							*v7 = pos2[r_2] / tex2[0];
 						}
 					}
@@ -89,20 +79,16 @@ namespace MyGL {
 					k = tex1[1] / tex2[1];
 					for (int r_1 = 0; r_1 <= 2; ++r_1)
 					{
-						v31 = this->exPoint((unsigned int)i);
-						v6 = IIOModel::Point4::operator[](&v31, r_1);
+						v6 = this->exPoint((unsigned int)i)[r_1];
 						*v6 = (float)(pos1[r_1] - (float)(pos2[r_1] * k)) / (float)(tex1[0] - (float)(tex2[1] * k));
 					}
 				}
-				v34 = this->exPoint((unsigned int)i);
-				*IIOModel::Point4::operator[](&v34, 3) = 0.0;
+                this->exPoint((unsigned int)i)[3] = 0.0;
 				*(float*)&l = 0.0;
-				for ( intr_4 = 0; r_4 <= 2; ++r_4)
+				for ( int r_4 = 0; r_4 <= 2; ++r_4)
 				{
-					v35 = this->exPoint((unsigned int)i);
-					v14 = *IIOModel::Point4::operator[](&v35, r_4);
-					v36 = this->exPoint((unsigned int)i);
-					v8 = IIOModel::Point4::operator[](&v36, r_4);
+					v14 = this->exPoint((unsigned int)i)[r_4];
+					v8 = this->exPoint((unsigned int)i)[r_4];
 					*(float*)&l = (float)(*v8 * v14) + *(float*)&l;
 				}
 				v9 = _mm_cvtps_pd((__m128)l);
@@ -110,20 +96,15 @@ namespace MyGL {
 				*(float*)&l = _mm_unpacklo_pd(v9, v9).m128d_f64[0];
 				for (int r_5 = 0; r_5 <= 2; ++r_5)
 				{
-					v37 = this->exPoint((unsigned int)i);
-					v10 = IIOModel::Point4::operator[](&v37, r_5);
+					v10 = this->exPoint((unsigned int)i)[r_5];
 					*v10 = *v10 / *(float*)&l;
 				}
 				for (int r_6 = 0; r_6 <= 3; ++r_6)
 				{
-					v38 = this->exPoint((unsigned int)(i + 1));
-					v11 = IIOModel::Point4::operator[](&v38, r_6);
-					v39 = this->exPoint((unsigned int)i);
-					*v11 = *IIOModel::Point4::operator[](&v39, r_6);
-					v40 = this->exPoint((unsigned int)(i + 2));
-					v12 = IIOModel::Point4::operator[](&v40, r_6);
-					v41 = this->exPoint((unsigned int)i);
-					*v12 = *IIOModel::Point4::operator[](&v41, r_6);
+					v11 = this->exPoint((unsigned int)(i + 1))[r_6];
+					*v11 = this->exPoint((unsigned int)i)[r_6];
+					v12 = this->exPoint((unsigned int)(i + 2))[r_6];
+					*v12 = this->exPoint((unsigned int)i)r[r_6];
 				}
 			}
 		}
